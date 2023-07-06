@@ -66,3 +66,5 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 ## Clone this repo
+
+Para realizar la debida instalacion del repositorio, primeramente descargar el repo, posteriormente correr el comando "composer install" o "composer update", para que se installe el archivo autoload, posteriormente levantar el servidor. Si aparece el error 500, en el proyecto copiar en otra carpeta el archivo .env.example, y en el proyecto cambiar el nombre de este archivo a ".env" y para teminar ejecutar el comando "php artisan key:generate" 
