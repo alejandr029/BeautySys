@@ -67,4 +67,16 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ## Clone this repo
 
-Para realizar la debida instalacion del repositorio, primeramente descargar el repo, posteriormente correr el comando "composer install" o "composer update", para que se installe el archivo autoload, posteriormente levantar el servidor. Si aparece el error 500, en el proyecto copiar en otra carpeta el archivo .env.example, y en el proyecto cambiar el nombre de este archivo a ".env" y para teminar ejecutar el comando "php artisan key:generate" 
+Para realizar la debida instalacion del repositorio. 
+1.-primeramente clonamos el repo en nuestro equipo
+    1.1.1-si se desea clonar por medio de comando  desde git usamos el comando "Git clone "Url -repo" ".
+    1.2.1- si deseamos clonarlo por medio de una aplicacion usamos la interfaz grafica.
+    
+2.- posterior mente entramos a la terminal y la direccion en donde clonamos el repositorio.
+    2.1- con ello usamos el comando "composer install"
+    2.2- si no se instalaron las dependencias utilizamos el comando "composer update" para que se installe el archivo autoload.
+    
+3.-posteriormente levantar el servidor usando "php artisan server".
+    3.1Si aparece el error 500, en el proyecto copiar en otra carpeta el archivo .env.example, y en el proyecto cambiar el nombre de este archivo a ".env"
+    
+4.-para teminar ejecutar el comando "php artisan key:generate" 
