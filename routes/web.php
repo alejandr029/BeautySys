@@ -8,11 +8,24 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
 |
 */
 
-Route::get('/', function () {
-    return view('login');
-});
+
+// Main Page Route
+
+
+Route::view('/','sign-in')->name('sign-in');
+
+Route::view('/dashboard','dashboard')->name('dashboard');
+
+Route::view('/tables','tables')->name('tables');
+
+Route::view('/sign-up','sign-up')->name('sign-up');
+
+
+Route::view('/profile','profile')->name('profile');
+
+
