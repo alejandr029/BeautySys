@@ -16,15 +16,18 @@ use Illuminate\Support\Facades\Route;
 
 // Main Page Route
 
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
-Route::view('/','sign-in')->name('sign-in');
+Route::get('/', [AuthenticatedSessionController::class, 'create'])->middleware('guest')->name('login');
+Route::post('/', [AuthenticatedSessionController::class, 'store'])->middleware('guest');
+
+Route::get('/register', [RegisteredUserController::class, 'create'])->middleware('guest')->name('register');
+Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest');
 
 Route::view('/dashboard','dashboard')->name('dashboard');
 
 Route::view('/tables','tables')->name('tables');
-
-Route::view('/sign-up','sign-up')->name('sign-up');
-
 
 Route::view('/profile','profile')->name('profile');
 

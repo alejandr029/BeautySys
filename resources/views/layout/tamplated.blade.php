@@ -55,7 +55,7 @@
             <span class="nav-link-text ms-1">Tables</span>
           </a>
         </li>
-        
+
 
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
@@ -77,7 +77,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="/sign-up">
+          <a class="nav-link text-white " href="/register">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">assignment</i>
             </div>
@@ -85,10 +85,10 @@
           </a>
         </li>
       </ul>
-    </div>  
+    </div>
   </aside>
 
-  
+
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
       <div class="container-fluid py-1 px-3">
@@ -201,7 +201,7 @@
               </ul>
             </li>
             <li class="nav-item d-flex align-items-center">
-              <a href="../pages/sign-in.html" class="nav-link text-body font-weight-bold px-0">
+              <a href="../pages/login.html" class="nav-link text-body font-weight-bold px-0">
                 <i class="fa fa-user me-sm-1"></i>
                 <span class="d-sm-inline d-none">Sign In</span>
               </a>

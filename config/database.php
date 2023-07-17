@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'sqlsrv'),
 
     /*
     |--------------------------------------------------------------------------
@@ -80,12 +80,12 @@ return [
 
         'sqlsrv' => [
             'driver' => 'sqlsrv',
-            'url' => env('DATABASE_URL'),
+            'url' => env('127.0.0.1'), // la ip del servidor de bd
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '1433'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'database' => env('DB_DATABASE', 'beautysys'),
+            'username' => env('DB_USERNAME', 'sa'),    // el usuario sa - superadmin
+            'password' => env('DB_PASSWORD', 'Educetis58'),// El password
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
