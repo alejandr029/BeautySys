@@ -25,7 +25,9 @@ Route::post('/', [AuthenticatedSessionController::class, 'store'])->middleware('
 Route::get('/register', [RegisteredUserController::class, 'create'])->middleware('guest')->name('register');
 Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest');
 
+//Route::view('/dashboard', 'layout.tamplated')->name('dashboard');
 Route::view('/dashboard','dashboard')->name('dashboard');
+
 
 Route::view('/tables','tables')->name('tables');
 

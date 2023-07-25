@@ -77,15 +77,30 @@ return [
             'search_path' => 'public',
             'sslmode' => 'prefer',
         ],
-
+        //conexiones ruiz
+        // 'sqlsrv' => [
+        //     'driver' => 'sqlsrv',
+        //     'url' => env('127.0.0.1'), // la ip del servidor de bd
+        //     'host' => env('DB_HOST', 'localhost'),
+        //     'port' => env('DB_PORT', '1433'),
+        //     'database' => env('DB_DATABASE', 'beautysys'),
+        //     'username' => env('DB_USERNAME', 'sa'),    // el usuario sa - superadmin
+        //     'password' => env('DB_PASSWORD', 'Educetis58'),// El password
+        //     'charset' => 'utf8',
+        //     'prefix' => '',
+        //     'prefix_indexes' => true,
+        //     // 'encrypt' => env('DB_ENCRYPT', 'yes'),
+        //     // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
+        // ],
+        //Conexion Toledo
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('127.0.0.1'), // la ip del servidor de bd
             'host' => env('DB_HOST', 'localhost'),
             'port' => env('DB_PORT', '1433'),
             'database' => env('DB_DATABASE', 'beautysys'),
-            'username' => env('DB_USERNAME', 'sa'),    // el usuario sa - superadmin
-            'password' => env('DB_PASSWORD', 'Educetis58'),// El password
+            'username' => env('DB_USERNAME', 'Cristian'),    // el usuario sa - superadmin
+            'password' => env('DB_PASSWORD', 'G4T0P_22'),// El password
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
