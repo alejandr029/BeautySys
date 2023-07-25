@@ -85,7 +85,7 @@ return [
             'port' => env('DB_PORT', '1433'),
             'database' => env('DB_DATABASE', 'beautysys'),
             'username' => env('DB_USERNAME', 'sa'),    // el usuario sa - superadmin
-            'password' => env('DB_PASSWORD', 'Educetis58'),// El password
+            'password' => env('DB_PASSWORD', 'platano2812'),// El password
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
