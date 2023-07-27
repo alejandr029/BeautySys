@@ -16,8 +16,8 @@ class RolesTableSeeder extends Seeder
      */
     public function run()
     {
-        $this->createAdminUser();
         $this->createRoles();
+        $this->createAdminUser();
         $this->assignAdminRole();
     }
 
