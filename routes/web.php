@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\RoleAssignmentController; // Asegúrate de importar correctamente el controlador local
+use App\Http\Controllers\InventarioController;
+
 
 
 Route::get('/', [AuthenticatedSessionController::class, 'create'])->middleware('guest')->name('login');
@@ -33,6 +35,7 @@ Route::view('/dashboard','dashboard')->name('dashboard');
 
 Route::view('/tables','tables')->name('tables');
 Route::view('/Inventario','Inventario.inventario')->name('inventario');
+Route::get('/Inventario', [InventarioController::class,'index'])->name('Inventario.index');
 
 Route::view('/profile','profile')->name('profile');
 
