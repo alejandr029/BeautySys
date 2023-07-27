@@ -30,6 +30,7 @@ Route::view('/dashboard','dashboard')->name('dashboard');
 
 
 Route::view('/tables','tables')->name('tables');
+Route::view('/Inventario','Inventario.inventario')->name('inventario');
 
 Route::view('/profile','profile')->name('profile');
 
