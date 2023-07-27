@@ -12,7 +12,8 @@
         "laravel/jetstream": "^3.2",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
-        "livewire/livewire": "^2.11"
+        "livewire/livewire": "^2.11",
+        "nesbot/carbon": "^2.68"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -28,7 +29,10 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "classmap": [
+            "vendor/nesbot/carbon/src/Carbon"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
