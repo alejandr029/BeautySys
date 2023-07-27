@@ -80,3 +80,10 @@ Para realizar la debida instalacion del repositorio. <br>
     3.1Si aparece el error 500, en el proyecto copiar en otra carpeta el archivo .env.example, y en el proyecto cambiar el nombre de este archivo a ".env"<br>
     
 4.-para teminar ejecutar el comando "php artisan key:generate" <br>
+
+5.- Para la autentificacion de usuarios y roles se utilizaron las librerias:
+- Laravel Jetstream
+- spatie/laravel-permission
+
+6.- Una vez que inicies la app, para crear un usuario administrador corre en la terminal de laravel "php artisan db:seed --class=RolesTableSeeder".
+Correo: admin@gmail.com Contraseña: 12345678
