@@ -36,6 +36,8 @@ Route::view('/dashboard','dashboard')->name('dashboard');
 Route::view('/tables','tables')->name('tables');
 Route::view('/Inventario','Inventario.inventario')->name('inventario');
 Route::get('/Inventario', [InventarioController::class,'index'])->name('Inventario.index');
+Route::view('/CrearInsumos','Inventario.crearInsumo')->name('crearInsumo');
+
 
 Route::view('/profile','profile')->name('profile');
 

@@ -13,6 +13,26 @@ use Carbon\Carbon;
         height: 75px !important;
         font-size: 0.875rem;
     }
+    .crear {
+    border: 2px solid #24b4fb;
+    background-color: #24b4fb;
+    border-radius: 0.9em;
+    padding: 0.8em 1.2em 0.8em 1em;
+    transition: all ease-in-out 0.2s;
+    font-size: 14px;
+    }
+
+    .crear span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: 600;
+    }
+
+    .crear:hover {
+    background-color: #0071e2;
+    }
 
 </style>
 
@@ -24,8 +44,15 @@ use Carbon\Carbon;
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                        <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
                             <h6 class="text-white text-capitalize ps-3">Inventario de insumos</h6>
+                            <button class="crear" style="margin-right: 15px;">
+                                <a href="{{ route('crearInsumo') }}">
+                                    <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path fill="currentColor" d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"></path></svg> Create
+                                    </span>
+                                </a>
+                              </button>
                         </div>
                     </div>
                     <div class="card-body px-0 pb-2">
