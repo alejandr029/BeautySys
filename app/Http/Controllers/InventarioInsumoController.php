@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class InventarioController extends Controller
+class InventarioInsumoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,6 +22,24 @@ class InventarioController extends Controller
     
         return view('Inventario.inventario', ['InventarioInsumos' => $Insumos]);
 
+    }
+
+    public function crearInsumo()
+    {
+        $proveedores = DB::table('proveedor')
+            ->select('id_proveedor', 'nombre_empresarial')
+            ->orderBy('id_proveedor')
+            ->get();
+
+        $estatus = DB::table('estatus_insumos')
+            ->select('id_estatus_insumos', 'nombre')
+            ->orderBy('id_estatus_insumos')
+            ->get();
+
+        return view('Inventario.crearInsumo', [
+            'proveedores' => $proveedores,
+            'estatus' => $estatus,
+        ]);
     }
 
     /**

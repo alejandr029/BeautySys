@@ -74,6 +74,9 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .header svg {
@@ -118,7 +121,13 @@
   display: none;
 }
 
-
+.label-container {
+        display: inline-block;
+        width: 150px; /* Ajusta el ancho según lo que necesites */
+        height: 150px; /* Ajusta la altura según lo que necesites */
+        border: 1px solid #ccc; /* Agrega un borde para que sea visible */
+       
+    }
 
 </style>
 
@@ -162,46 +171,72 @@
                 </div>
                 <div class="col-md-4">
                     <div class="input-form">
-                      <select id="estatus" name="estatus" required>
-                        <option value="" disabled selected>Seleccionar Estatus</option>
-                        <option value="activo">Activo</option>
-                        <option value="inactivo">Inactivo</option>
-                      </select>
-                      <label for="estatus" class="textUser" style="visibility: hidden">Estatus de insumos</label>
+                        <select id="estatus" name="estatus" required>
+                            <option value="" disabled selected>Seleccionar Estatus</option>
+                            @foreach ($estatus as $item)
+                                <option value="{{ $item->id_estatus_insumos }}">{{ $item->nombre }}</option>
+                            @endforeach
+                        </select>
+                        <label for="estatus" class="textUser" style="visibility: hidden">Estatus de insumos</label>
                     </div>
-                  </div>
+                </div>
                   <div class="col-md-4">
                     <div class="input-form">
-                      <select id="proveedor" name="proveedor" required>
-                        <option value="" disabled selected>Seleccionar Proveedor</option>
-                        <option value="proveedor1">Proveedor 1</option>
-                        <option value="proveedor2">Proveedor 2</option>
-                        <!-- Agrega más opciones de proveedores según necesites -->
-                      </select>
-                      <label for="proveedor" class="textUser" style="visibility: hidden">Proveedor</label>
+                        <select id="proveedor" name="proveedor" required>
+                            <option value="" disabled selected>Seleccionar Proveedor</option>
+                            @foreach ($proveedores as $proveedor)
+                                <option value="{{ $proveedor->id_proveedor }}">{{ $proveedor->nombre_empresarial }}</option>
+                            @endforeach
+                        </select>
+                        <label for="proveedor" class="textUser" style="visibility: hidden">Proveedor</label>
                     </div>
-                  </div>
+                </div>
               </div>
               <div class="row mb-5">
-                    <div class="container2 col-md-4">
-                        <label for="file" class="header">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" fill="#000000" class="bi bi-cloud-upload" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"/>
-                                <path fill-rule="evenodd" d="M7.646 4.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V14.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3z"/>
-                              </svg>
-                          <p>Browse File to upload!</p>
-                        </label>
-                        <label for="file" class="footer">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
-                                <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"/>
-                                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
-                            </svg>
-                          <p>Not selected file</p>
-                        </label>
-                        <input id="file" type="file">
-                    </div>
-                      
-
+                <div class="container2 col-md-4">
+                    <label for="file" class="header" id="image_label">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> 
+                            <path d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 15.4806 20.1956 16.8084 19 17.5M7 10C4.79086 10 3 11.7909 3 14C3 15.4806 3.8044 16.8084 5 17.5M7 10C7.43285 10 7.84965 10.0688 8.24006 10.1959M12 12V21M12 12L15 15M12 12L9 15" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g></svg> 
+                        <strong id="subir">Sube una foto!</strong>
+                    </label>
+                    <input id="file" type="file" accept="image/*" capture>
+                    <input id="url" class="footer" type="text" placeholder="Coloca una URL">
+                </div>
+                
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script>
+                    // Función para mostrar la imagen seleccionada por el usuario
+                    function showImagePreview(input) {
+                        if (input.files && input.files[0]) {
+                            var reader = new FileReader();
+                
+                            reader.onload = function(e) {
+                                $('#image_label').css('background-image', 'url(' + e.target.result + ')');
+                                $('#svg, #subir').css('visibility', 'hidden');
+                                // Limpiar la URL del campo de texto cuando se selecciona una imagen local
+                                $('#url').val('');
+                            }
+                
+                            reader.readAsDataURL(input.files[0]);
+                        } else {
+                            $('#image_label').css('background-image', 'none');
+                            $('#svg, #subir').css('visibility', 'visible');
+                        }
+                    }
+                
+                    // Lógica para mostrar la imagen al seleccionar un archivo local
+                    $('#file').change(function() {
+                        showImagePreview(this);
+                    });
+                
+                    // Lógica para mostrar la imagen al ingresar una URL
+                    $('#url').on('input', function() {
+                        var imageUrl = $(this).val();
+                        $('#image_label').css('background-image', imageUrl ? 'url(' + imageUrl + ')' : 'none');
+                        $('#svg, #subir').css('visibility', imageUrl ? 'hidden' : 'visible');
+                    });
+                </script>
+                       
                     <div class="col-md-6">
                         <div class="input-form" style="height: 70%;">
                         <textarea id="descripcion" name="descripcion" required></textarea>
