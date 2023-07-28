@@ -38,6 +38,7 @@ Route::view('/Inventario','Inventario.inventario')->name('inventario');
 Route::get('/Inventario', [InventarioInsumoController::class,'index'])->name('Inventario.index');
 Route::view('/CrearInsumos','Inventario.crearInsumo')->name('crearInsumo');
 Route::get('/CrearInsumos', [InventarioInsumoController::class,'crearInsumo'])->name('Inventario.crearInsumo');
+Route::post('/CrearInsumos', [InventarioInsumoController::class, 'store'])->name('Inventario.store');
 
 
 

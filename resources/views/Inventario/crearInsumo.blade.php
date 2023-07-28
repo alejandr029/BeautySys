@@ -141,7 +141,8 @@
             <h4 class="card-title">Crear Insumo</h4>
           </div>
           <div class="card-body">
-            <form>
+            <form action="{{ route('Inventario.store') }}" method="post" enctype="multipart/form-data">
+                @csrf
               <div class="row mb-5">
                 <div class="col-md-4">
                   <div class="input-form">
@@ -171,7 +172,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="input-form">
-                        <select id="estatus" name="estatus" required>
+                        <select id="estatus" name="id_estatus_insumos" required>
                             <option value="" disabled selected>Seleccionar Estatus</option>
                             @foreach ($estatus as $item)
                                 <option value="{{ $item->id_estatus_insumos }}">{{ $item->nombre }}</option>
@@ -182,7 +183,7 @@
                 </div>
                   <div class="col-md-4">
                     <div class="input-form">
-                        <select id="proveedor" name="proveedor" required>
+                        <select id="proveedor" name="id_proveedor" required>
                             <option value="" disabled selected>Seleccionar Proveedor</option>
                             @foreach ($proveedores as $proveedor)
                                 <option value="{{ $proveedor->id_proveedor }}">{{ $proveedor->nombre_empresarial }}</option>
@@ -193,47 +194,30 @@
                 </div>
               </div>
               <div class="row mb-5">
+                <input type="hidden" id="imagen_url" name="imagen_url" value="{{ old('imagen_url') }}">
+
                 <div class="container2 col-md-4">
                     <label for="file" class="header" id="image_label">
-                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> 
+                        <svg id="svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> 
                             <path d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 15.4806 20.1956 16.8084 19 17.5M7 10C4.79086 10 3 11.7909 3 14C3 15.4806 3.8044 16.8084 5 17.5M7 10C7.43285 10 7.84965 10.0688 8.24006 10.1959M12 12V21M12 12L15 15M12 12L9 15" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g></svg> 
-                        <strong id="subir">Sube una foto!</strong>
+                        <strong id="subir">Sube una foto por URL!</strong>
+                        <img id="image_preview" src="{{ old('imagen_url') ? old('imagen_url') : '' }}">
                     </label>
-                    <input id="file" type="file" accept="image/*" capture>
                     <input id="url" class="footer" type="text" placeholder="Coloca una URL">
                 </div>
                 
+                
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script>
-                    // Función para mostrar la imagen seleccionada por el usuario
-                    function showImagePreview(input) {
-                        if (input.files && input.files[0]) {
-                            var reader = new FileReader();
-                
-                            reader.onload = function(e) {
-                                $('#image_label').css('background-image', 'url(' + e.target.result + ')');
-                                $('#svg, #subir').css('visibility', 'hidden');
-                                // Limpiar la URL del campo de texto cuando se selecciona una imagen local
-                                $('#url').val('');
-                            }
-                
-                            reader.readAsDataURL(input.files[0]);
-                        } else {
-                            $('#image_label').css('background-image', 'none');
-                            $('#svg, #subir').css('visibility', 'visible');
-                        }
-                    }
-                
-                    // Lógica para mostrar la imagen al seleccionar un archivo local
-                    $('#file').change(function() {
-                        showImagePreview(this);
-                    });
-                
-                    // Lógica para mostrar la imagen al ingresar una URL
+                    // Lógica para mostrar el preview de la imagen al ingresar una URL
                     $('#url').on('input', function() {
                         var imageUrl = $(this).val();
                         $('#image_label').css('background-image', imageUrl ? 'url(' + imageUrl + ')' : 'none');
-                        $('#svg, #subir').css('visibility', imageUrl ? 'hidden' : 'visible');
+                        $('#subir').css('visibility','hidden');
+                        $('#svg').css('visibility','hidden');
+                
+                        // Actualizar el campo oculto "imagen_url" con la URL de la imagen ingresada
+                        $('#imagen_url').val(imageUrl);
                     });
                 </script>
                        
