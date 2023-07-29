@@ -20,6 +20,8 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\RoleAssignmentController; // Asegúrate de importar correctamente el controlador local
 use App\Http\Controllers\InventarioInsumoController;
+use App\Http\Controllers\InventarioEquipoMedicoController;
+
 
 
 
@@ -34,11 +36,32 @@ Route::view('/dashboard','dashboard')->name('dashboard');
 
 
 Route::view('/tables','tables')->name('tables');
-Route::view('/Inventario','Inventario.inventario')->name('inventario');
+
+//INVENTARIO INSUMOS
 Route::get('/Inventario', [InventarioInsumoController::class,'index'])->name('Inventario.index');
-Route::view('/CrearInsumos','Inventario.crearInsumo')->name('crearInsumo');
 Route::get('/CrearInsumos', [InventarioInsumoController::class,'crearInsumo'])->name('Inventario.crearInsumo');
 Route::post('/CrearInsumos', [InventarioInsumoController::class, 'store'])->name('Inventario.store');
+Route::get('/Insumo/id={id}', [InventarioInsumoController::class, 'vistaInsumo'])->name('Inventario.vistaInsumo');
+Route::get('/ActualizarInsumo/id={id}', [InventarioInsumoController::class, 'show'])->name('Inventario.show');
+Route::put('/ActualizarInsumo/id={id}', [InventarioInsumoController::class, 'update'])->name('insumos.update');
+Route::delete('/insumosDelete/id={id}',  [InventarioInsumoController::class, 'destroy'])->name('insumos.delete');
+
+//INVENTARIO EQUIPO MEDICO
+Route::get('/EquipoMedico/id={id}', [InventarioEquipoMedicoController::class, 'vistaEquipo'])->name('Inventario.vistaequipo');
+Route::get('/ActualizarEquipoMedico/id={id}', [InventarioEquipoMedicoController::class, 'show'])->name('Inventario.showEquipo');
+Route::put('/ActualizarEquipoMedico/id={id}', [InventarioEquipoMedicoController::class, 'update'])->name('Inventario.updateEquipo');
+Route::get('/CrearEquipoMedico', [InventarioEquipoMedicoController::class,'crearEquipoMedico'])->name('Inventario.crearEquipo');
+Route::post('/CrearEquipoMedico', [InventarioEquipoMedicoController::class, 'store'])->name('Inventario.crear');
+Route::delete('/equipoMedicoDelete/id={id}',  [InventarioEquipoMedicoController::class, 'destroy'])->name('equipo.delete');
+
+
+
+
+
+
+
+
+
 
 
 
