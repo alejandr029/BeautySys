@@ -80,6 +80,18 @@
 
             @if(auth()->user()->hasRole(['admin']))
             <li class="nav-item">
+                <a class="nav-link text-white" href="/user/create">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
+                        <i class="material-icons">person_add</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Creacion de Cuentas</span>
+                </a>
+            </li>
+            @endif
+
+            @if(auth()->user()->hasRole(['admin']))
+            <li class="nav-item">
                 <a class="nav-link text-white" href="/assign-roles">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->

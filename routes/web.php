@@ -20,6 +20,7 @@ use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\RoleAssignmentController; // Asegúrate de importar correctamente el controlador local
 use App\Http\Controllers\InventarioInsumoController;
+use App\Http\Controllers\CreateNewUserController;
 
 
 
@@ -49,3 +50,7 @@ Route::get('/assign-roles', [RoleAssignmentController::class, 'index'])->name('a
 
 // Ruta para procesar el formulario de asignación de roles
 Route::post('/assign-roles', [RoleAssignmentController::class, 'assign'])->name('assign-roles.assign');
+
+// Rutas para crear usuarios y asignar roles
+Route::get('/user/create', [CreateNewUserController::class, 'create'])->name('user.create');
+Route::post('/user/store', [CreateNewUserController::class, 'store'])->name('user.store');
