@@ -22,7 +22,7 @@
                     <label for="rol_id" class="form-label">Seleccionar Rol:</label>
                     <select class="form-select" name="rol_id" id="rol_id">
                         @foreach($roles as $rol)
-                        <option value="{{ $rol->id }}">{{ $rol->name }}</option>
+                        <option value="{{ $rol->id }}" {{ $rol->name === 'user' ? 'selected' : '' }}>{{ $rol->name }}</option>
                         @endforeach
                     </select>
                 </div>
@@ -31,5 +31,11 @@
             </form>
         </div>
     </div>
+    <!-- Mensaje de éxito al asignar rol -->
+    @if (Session::has('success'))
+    <div class="alert alert-success mt-2">
+        {{ Session::get('success') }}
+    </div>
+    @endif
 </div>
 @endsection

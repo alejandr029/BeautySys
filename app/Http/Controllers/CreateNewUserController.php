@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Spatie\Permission\Models\Role;
 
 
@@ -25,14 +26,23 @@ class CreateNewUserController extends Controller
             'rol_id' => 'required|exists:roles,id'
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]);
 
-        $user->assignRole($request->rol_id);
+            $user->assignRole($request->rol_id);
 
-        return redirect()->route('user.create')->with('success', 'Usuario creado correctamente y rol asignado.');
+            // Mostrar mensaje de éxito
+            Session::flash('success', 'Usuario creado correctamente.');
+
+        } catch (\Exception $e) {
+            // Mostrar mensaje de error
+            Session::flash('error', 'No se pudo crear el usuario.');
+        }
+
+        return redirect()->route('user.create');
     }
 }

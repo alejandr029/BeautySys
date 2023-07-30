@@ -142,6 +142,12 @@
             <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
           </ol>
           <h6 class="font-weight-bolder mb-0">Dashboard</h6>
+          <button id="backButton" onclick="goBack()">Volver</button>
+          <script>
+            function goBack() {
+              window.history.back();
+            }
+          </script>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar" style="flex-direction: row-reverse;">
           {{-- <div class="ms-md-auto pe-md-3 d-flex align-items-center">
