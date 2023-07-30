@@ -87,7 +87,11 @@ class InventarioInsumoController extends Controller
             ->orderBy('id_estatus_insumos')
             ->get();
 
-            //dump($insumo);
+            // dump($id);
+            // dump($insumo);
+            // dump($proveedores);
+            // dump($estatus);
+
     
         return view('Inventario.vistaInsumo', compact('insumo', 'proveedores', 'estatus'));
     }
