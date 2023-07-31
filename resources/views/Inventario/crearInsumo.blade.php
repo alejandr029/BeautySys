@@ -126,12 +126,12 @@
         width: 150px; /* Ajusta el ancho según lo que necesites */
         height: 150px; /* Ajusta la altura según lo que necesites */
         border: 1px solid #ccc; /* Agrega un borde para que sea visible */
-       
+
     }
 
 </style>
 
-@extends('layout.tamplated')
+@extends('layout.template')
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
@@ -196,15 +196,15 @@
               <div class="row mb-5">
                 <div class="container2 col-md-4">
                     <label for="file" class="header" id="image_label">
-                        <svg id="svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> 
-                            <path d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 15.4806 20.1956 16.8084 19 17.5M7 10C4.79086 10 3 11.7909 3 14C3 15.4806 3.8044 16.8084 5 17.5M7 10C7.43285 10 7.84965 10.0688 8.24006 10.1959M12 12V21M12 12L15 15M12 12L9 15" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g></svg> 
+                        <svg id="svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier">
+                            <path d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 15.4806 20.1956 16.8084 19 17.5M7 10C4.79086 10 3 11.7909 3 14C3 15.4806 3.8044 16.8084 5 17.5M7 10C7.43285 10 7.84965 10.0688 8.24006 10.1959M12 12V21M12 12L15 15M12 12L9 15" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></g></svg>
                         <strong id="subir">Sube una foto por URL!</strong>
                         <img id="image_preview" src="{{ old('imagen_url') ? old('imagen_url') : '' }}" >
                     </label>
                     <input id="url" class="footer" type="text" placeholder="Coloca una URL" name="imagen_url" value="{{ old('imagen_url') }}">
                 </div>
-                
-                
+
+
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script>
                     // Lógica para mostrar el preview de la imagen al ingresar una URL
@@ -212,12 +212,12 @@
                         var imageUrl = $(this).val();
                         $('#image_label').css('background-image', imageUrl ? 'url(' + imageUrl + ')' : 'none');
                         $('#svg, #subir').css('visibility', imageUrl ? 'hidden' : 'visible');
-                
+
                         // Actualizar el campo oculto "imagen_url" con la URL de la imagen ingresada
                         $('#imagen_url').val(imageUrl);
                     });
                 </script>
-                       
+
                     <div class="col-md-6">
                         <div class="input-form" style="height: 70%;">
                         <textarea id="descripcion" name="descripcion" required></textarea>
@@ -234,8 +234,8 @@
       </div>
     </div>
   </div>
-  
-  
+
+
   @include('layout.footer')
 </main>
 @endsection
