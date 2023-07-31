@@ -95,6 +95,7 @@
 @extends('layout.template')
 
 @section('content')
+    {{-- NOTIFICAICON --}}
     @if(session('success'))
         <div id="notification" class="position-fixed top-0 end-0 p-3">
             <div class="alert alert-success text-white" role="alert">
@@ -102,23 +103,22 @@
             </div>
         </div>
         <script>
-            // Mostrar la notificación lentamente
-            setTimeout(function() {
+                setTimeout(function() {
                 var notification = document.getElementById('notification');
                 if (notification) {
                     notification.classList.add('show');
-                    // Ocultar y eliminar la notificación después de 2 segundos
-                    setTimeout(function() {
+                        setTimeout(function() {
                         notification.classList.remove('show');
                         setTimeout(function() {
                             notification.remove();
-                        }, 500); // Esperar el tiempo de la transición (0.5s)
+                        }, 500);
                     }, 2000);
                 }
-            }, 100); // Agregar un pequeño retraso antes de mostrar la notificación (opcional)
+            }, 100);
         </script>
     @endif
     <div class="container-fluid py-4">
+        {{-- TAB --}}
         <div class="radio-inputs">
             <label class="radio">
                 <input type="radio" name="tableSelect" id="insumosRadio" onclick="showInsumosTable()">
@@ -162,7 +162,7 @@
 
 
 
-
+        {{-- TABLA --}}
         <div id="insumosTable" class="row">
             <div class="col-12">
                 <div class="card my-4">
@@ -277,6 +277,7 @@
                 </ul>
             </div>
         </div>
+        {{-- TERMINA LA TABLA --}}
 
 
         <div id="equipoMedicoTable" class="row">
@@ -391,7 +392,7 @@
                 </ul>
             </div>
         </div>
-
+{{-- FINAL DE VISTA --}}
     </div>
     @include('layout.footer')
 </main>
