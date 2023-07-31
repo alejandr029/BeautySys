@@ -98,7 +98,7 @@ return [
             'driver' => 'sqlsrv',
             'url' => env('127.0.0.1'), // la ip del servidor de bd
             'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '1433'),
+            'port' => env('DB_PORT', '1533'),
             'database' => env('DB_DATABASE', 'beautysys'),
             'username' => env('DB_USERNAME', 'sa'),    // el usuario sa - superadmin
             'password' => env('DB_PASSWORD', 'platano2812'),// El password
