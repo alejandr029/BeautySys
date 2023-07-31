@@ -22,6 +22,7 @@ use App\Http\Controllers\RoleAssignmentController; // Asegúrate de importar cor
 use App\Http\Controllers\CreateNewUserController;
 use App\Http\Controllers\InventarioInsumoController;
 use App\Http\Controllers\InventarioEquipoMedicoController;
+use App\Http\Controllers\ProveedorController;
 
 
 
@@ -54,6 +55,12 @@ Route::put('/ActualizarEquipoMedico/id={id}', [InventarioEquipoMedicoController:
 Route::get('/CrearEquipoMedico', [InventarioEquipoMedicoController::class,'crearEquipoMedico'])->name('Inventario.crearEquipo');
 Route::post('/CrearEquipoMedico', [InventarioEquipoMedicoController::class, 'store'])->name('Inventario.crear');
 Route::delete('/equipoMedicoDelete/id={id}',  [InventarioEquipoMedicoController::class, 'destroy'])->name('equipo.delete');
+
+//PROVEEDORES
+Route::get('/Proveedores', [ProveedorController::class,'index'])->name('tablaProvedor');
+Route::get('/Proveedor/id={id}', [ProveedorController::class, 'vistaProveedor'])->name('vistaProveedor');
+
+
 
 
 Route::view('/profile','profile')->name('profile');
