@@ -1,4 +1,4 @@
-@extends('layout.tamplated')
+@extends('layout.template')
 
 @section('content')
     <div class="container-fluid px-2 px-md-4">

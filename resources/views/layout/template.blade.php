@@ -1,3 +1,7 @@
+@php
+    use Illuminate\Support\Facades\Auth;
+    $user = Auth::user();
+@endphp
 
 <!DOCTYPE html>
 <html lang="en">
@@ -21,38 +25,15 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
+
   <!-- Nepcha Analytics (nepcha.com) -->
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <!-- <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script> -->
 
-  @push('scripts')
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const navLinks = document.querySelectorAll('.nav-link');
+    <!-- Scripts -->
+    @vite(['resources/js/app.js'])
 
-            // Establecer el elemento activo al iniciar la app
-            @php
-                $activeTab = 'dashboard';
-            @endphp
-
-            // Agregar la clase "active" al elemento inicialmente activo
-            document.querySelector(`[href="/{{ $activeTab }}"]`).classList.add('active', 'bg-gradient-primary');
-
-            // Agregar el controlador de clic para cada elemento del nav
-            navLinks.forEach(link => {
-                link.addEventListener('click', function() {
-                    // Eliminar la clase activa de todos los elementos del nav
-                    navLinks.forEach(navLink => {
-                        navLink.classList.remove('active', 'bg-gradient-primary');
-                    });
-
-                    // Agregar la clase activa solo al elemento clicado
-                    this.classList.add('active', 'bg-gradient-primary');
-                });
-            });
-        });
-    </script>
-    @endpush
+    <?php $activeTab = 'dashboard';?>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -69,7 +50,7 @@
     <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activeTab === 'dashboard' ? 'bg-gradient-primary active' : '' }}" href="/dashboard">
+                <a class="nav-link text-white {{ $activeTab === 'dashboard' ? 'active bg-gradient-primary' : '' }}" href="/dashboard">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">dashboard</i>
                     </div>
@@ -77,7 +58,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activeTab === 'tables' ? 'active' : '' }}" href="/tables">
+                <a class="nav-link text-white {{ $activeTab === 'tables' ? 'active bg-gradient-primary' : '' }}" href="/tables">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">table_view</i>
                     </div>
@@ -87,7 +68,7 @@
             @if(auth()->user()->hasRole(['admin', 'staff']))
                 <!-- Solo se muestra el tab "Inventario" para los roles admin y staff -->
                 <li class="nav-item">
-                    <a class="nav-link text-white {{ $activeTab === 'inventario' ? 'active' : '' }}" href="{{ route('Inventario.index') }}">
+                    <a class="nav-link text-white" href="{{ route('Inventario.index') }}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-box-seam" viewBox="0 0 16 16">
                                 <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5l2.404.961L10.404 2l-2.218-.887zm3.564 1.426L5.596 5 8 5.961 14.154 3.5l-2.404-.961zm3.25 1.7-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"/>
@@ -100,7 +81,27 @@
 
             @if(auth()->user()->hasRole(['admin']))
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activeTab === 'asignacion_roles' ? 'active' : '' }}" href="/assign-roles">
+                <a class="nav-link text-white" href="/cuentas">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
+                        <i class="material-icons">person_add</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Cuentas</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/user/create">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
+                        <i class="material-icons">person_add</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Creacion de Cuentas</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/asignar-roles">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
                         <i class="material-icons">assignment_ind</i>
@@ -114,29 +115,29 @@
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activeTab === 'profile' ? 'active' : '' }}" href="/profile">
+                <a class="nav-link text-white" href="/profile">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">person</i>
                     </div>
                     <span class="nav-link-text ms-1">Profile</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ $activeTab === 'signin' ? 'active' : '' }}" href="/">
+            <!-- <li class="nav-item">
+                <a class="nav-link text-white" href="/logout">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">login</i>
                     </div>
                     <span class="nav-link-text ms-1">Sign In</span>
                 </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white {{ $activeTab === 'register' ? 'active' : '' }}" href="/register">
+            </li> -->
+            <!-- <li class="nav-item">
+                <a class="nav-link text-white" href="/registro">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">assignment</i>
                     </div>
                     <span class="nav-link-text ms-1">Sign Up</span>
                 </a>
-            </li>
+            </li> -->
         </ul>
     </div>
   </aside>
@@ -150,6 +151,12 @@
             <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
           </ol>
           <h6 class="font-weight-bolder mb-0">Dashboard</h6>
+          <button id="backButton" onclick="goBack()">Volver</button>
+          <script>
+            function goBack() {
+              window.history.back();
+            }
+          </script>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar" style="flex-direction: row-reverse;">
           {{-- <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -252,11 +259,11 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item d-flex align-items-center">
-              <a href="../pages/login.html" class="nav-link text-body font-weight-bold px-0">
+            <li class="nav-item px-1 d-flex align-items-center">
                 <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none">Sign In</span>
-              </a>
+            </li>
+            <li class="nav-item px-1 d-flex align-items-center">
+                @livewire('navigation-menu')
             </li>
           </ul>
         </div>
@@ -596,5 +603,4 @@
   <!-- ... Otros scripts ... -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
-
 </html>

@@ -1,4 +1,4 @@
-@extends('layout.tamplated')
+@extends('layout.template')
 
 @section('content')
 
