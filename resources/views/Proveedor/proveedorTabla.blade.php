@@ -91,7 +91,7 @@ use Carbon\Carbon;
 
 </style>
 
-@extends('layout.tamplated')
+@extends('layout.template')
 
 @section('content')
     @if(session('success'))

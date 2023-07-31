@@ -123,7 +123,7 @@
     
     </style>
     
-    @extends('layout.tamplated')
+    @extends('layout.template')
     @section('content')
     <div class="container">
         <div class="row justify-content-center">

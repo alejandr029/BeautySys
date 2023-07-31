@@ -41,11 +41,11 @@ Route::view('/tables','tables')->name('tables');
 Route::get('/cuentas', [CuentasController::class,'index'])->name('Cuentas.index');
 Route::get('/crear/cuenta', [CuentasController::class,'create'])->name('Cuentas.crear');
 Route::post('/crear/cuenta', [CuentasController::class, 'store'])->name('Cuentas.store');
-Route::get('/cuentas/id={id}/editar', [CuentasController::class, 'edit'])->name('Cuentas.edit');
-Route::put('/cuentas/id={id}/actualizar', [CuentasController::class, 'update'])->name('Cuentas.update');
-Route::get('/cuentas/{id}/eliminar', [CuentasController::class, 'destroyForm'])->name('Cuentas.eliminar');
+Route::get('/cuentasEditar/id={id}', [CuentasController::class, 'edit'])->name('Cuentas.edit');
+Route::put('/cuentasActualizar/id={id}', [CuentasController::class, 'update'])->name('Cuentas.update');
+Route::get('/cuentasEliminar/{id}', [CuentasController::class, 'destroyForm'])->name('Cuentas.eliminar');
 Route::post('/cuentas/{id}', [CuentasController::class, 'destroy'])->name('Cuentas.destroy');
-Route::get('/cuentas/id={id}/visualizar', [CuentasController::class, 'show'])->name('Cuentas.visualizar');
+Route::get('/cuentasVista/id={id}', [CuentasController::class, 'show'])->name('Cuentas.visualizar');
 
 //INVENTARIO INSUMOS
 Route::get('/Inventario', [InventarioInsumoController::class,'index'])->name('Inventario.index');
