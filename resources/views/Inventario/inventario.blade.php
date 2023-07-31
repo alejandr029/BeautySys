@@ -1,5 +1,5 @@
 @php
-use Carbon\Carbon;
+    use Carbon\Carbon;
 @endphp
 
 <style>
@@ -92,30 +92,30 @@ use Carbon\Carbon;
 
 </style>
 
-@extends('layout.tamplated')
+@extends('layout.template')
 
 @section('content')
     {{-- NOTIFICAICON --}}
     @if(session('success'))
-    <div id="notification" class="position-fixed top-0 end-0 p-3">
-        <div class="alert alert-success text-white" role="alert">
-            <strong>{{ session('success') }}</strong> 
+        <div id="notification" class="position-fixed top-0 end-0 p-3">
+            <div class="alert alert-success text-white" role="alert">
+                <strong>{{ session('success') }}</strong>
+            </div>
         </div>
-    </div>
-    <script>
-        setTimeout(function() {
-            var notification = document.getElementById('notification');
-            if (notification) {
-                notification.classList.add('show');
+        <script>
                 setTimeout(function() {
-                    notification.classList.remove('show');
-                    setTimeout(function() {
-                        notification.remove();
-                    }, 500); 
-                }, 2000);
-            }
-        }, 100);
-    </script>
+                var notification = document.getElementById('notification');
+                if (notification) {
+                    notification.classList.add('show');
+                        setTimeout(function() {
+                        notification.classList.remove('show');
+                        setTimeout(function() {
+                            notification.remove();
+                        }, 500);
+                    }, 2000);
+                }
+            }, 100);
+        </script>
     @endif
     <div class="container-fluid py-4">
         {{-- TAB --}}
@@ -136,7 +136,7 @@ use Carbon\Carbon;
                 // Guardar el estado seleccionado en el localStorage
                 localStorage.setItem('tableSelect', 'insumos');
             }
-        
+
             // Función para mostrar la tabla de equipo médico
             function showEquipoMedicoTable() {
                 document.getElementById('insumosTable').style.display = 'none';
@@ -144,7 +144,7 @@ use Carbon\Carbon;
                 // Guardar el estado seleccionado en el localStorage
                 localStorage.setItem('tableSelect', 'equipoMedico');
             }
-        
+
             // Mostrar la tabla guardada en el localStorage al cargar la página
             document.addEventListener('DOMContentLoaded', function() {
                 const tableSelect = localStorage.getItem('tableSelect');
@@ -159,9 +159,9 @@ use Carbon\Carbon;
                 }
             });
         </script>
-        
-        
-        
+
+
+
         {{-- TABLA --}}
         <div id="insumosTable" class="row">
             <div class="col-12">
@@ -244,7 +244,7 @@ use Carbon\Carbon;
                             </svg>
                         </a>
                     </li>
-            
+
                     <!-- Aquí puedes iterar sobre las páginas disponibles -->
                     @php
                         // Calcular el rango de páginas a mostrar
@@ -252,13 +252,13 @@ use Carbon\Carbon;
                         $startPage = max($currentPage - 1, 1);
                         $endPage = min($currentPage + 1, $Insumos->lastPage());
                     @endphp
-            
+
                     @for ($i = $startPage; $i <= $endPage; $i++)
                         <li class="page-item {{ $i == $Insumos->currentPage() ? 'active' : '' }}">
                             <a class="page-link" href="{{ $Insumos->url($i) }}">{{ $i }}</a>
                         </li>
                     @endfor
-            
+
                     <li class="page-item {{ $Insumos->nextPageUrl() ? '' : 'disabled' }}">
                         <a class="page-link" href="{{ $Insumos->nextPageUrl() }}" aria-label="Next">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
@@ -275,7 +275,7 @@ use Carbon\Carbon;
                         </a>
                     </li>
                 </ul>
-            </div>           
+            </div>
         </div>
         {{-- TERMINA LA TABLA --}}
 
@@ -359,7 +359,7 @@ use Carbon\Carbon;
                             </svg>
                         </a>
                     </li>
-            
+
                     <!-- Aquí puedes iterar sobre las páginas disponibles -->
                     @php
                         // Calcular el rango de páginas a mostrar
@@ -367,13 +367,13 @@ use Carbon\Carbon;
                         $startPage = max($currentPage - 1, 1);
                         $endPage = min($currentPage + 1, $equipoMedico->lastPage());
                     @endphp
-            
+
                     @for ($i = $startPage; $i <= $endPage; $i++)
                         <li class="page-item {{ $i == $equipoMedico->currentPage() ? 'active' : '' }}">
                             <a class="page-link" href="{{ $equipoMedico->url($i) }}">{{ $i }}</a>
                         </li>
                     @endfor
-            
+
                     <li class="page-item {{ $equipoMedico->nextPageUrl() ? '' : 'disabled' }}">
                         <a class="page-link" href="{{ $equipoMedico->nextPageUrl() }}" aria-label="Next">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
@@ -390,7 +390,7 @@ use Carbon\Carbon;
                         </a>
                     </li>
                 </ul>
-            </div>           
+            </div>
         </div>
 {{-- FINAL DE VISTA --}}
     </div>

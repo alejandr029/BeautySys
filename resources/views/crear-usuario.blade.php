@@ -59,7 +59,7 @@
     }
 </style>
 
-@extends('layout.tamplated')
+@extends('layout.template')
 
 @section('content')
     <div class="container-fluid py-4">
@@ -102,9 +102,27 @@
 
         <!-- Mensaje de éxito al crear usuario -->
         @if (Session::has('success'))
-            <div class="alert alert-success mt-2">
-                {{ Session::get('success') }}
+            <div id="notification" class="position-fixed top-0 end-0 p-3">
+                <div class="alert alert-success text-white" role="alert">
+                    <strong>{{ Session::get('success') }}</strong>
+                </div>
             </div>
+            <script>
+                // Mostrar la notificación lentamente
+                setTimeout(function() {
+                    var notification = document.getElementById('notification');
+                    if (notification) {
+                        notification.classList.add('show');
+                        // Ocultar y eliminar la notificación después de 2 segundos
+                        setTimeout(function() {
+                            notification.classList.remove('show');
+                            setTimeout(function() {
+                                notification.remove();
+                            }, 500); // Esperar el tiempo de la transición (0.5s)
+                        }, 2000);
+                    }
+                }, 100); // Agregar un pequeño retraso antes de mostrar la notificación (opcional)
+            </script>
         @endif
     </div>
 @endsection

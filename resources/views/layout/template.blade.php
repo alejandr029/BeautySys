@@ -25,9 +25,10 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
+
   <!-- Nepcha Analytics (nepcha.com) -->
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <!-- <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script> -->
 
     <!-- Scripts -->
     @vite(['resources/js/app.js'])
@@ -91,6 +92,16 @@
 
             @if(auth()->user()->hasRole(['admin']))
             <li class="nav-item">
+                <a class="nav-link text-white" href="/cuentas">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
+                        <i class="material-icons">person_add</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Cuentas</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link text-white" href="/user/create">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
@@ -99,11 +110,9 @@
                     <span class="nav-link-text ms-1">Creacion de Cuentas</span>
                 </a>
             </li>
-            @endif
 
-            @if(auth()->user()->hasRole(['admin']))
             <li class="nav-item">
-                <a class="nav-link text-white" href="/assign-roles">
+                <a class="nav-link text-white" href="/asignar-roles">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
                         <i class="material-icons">assignment_ind</i>
@@ -133,7 +142,7 @@
                 </a>
             </li> -->
             <!-- <li class="nav-item">
-                <a class="nav-link text-white" href="/register">
+                <a class="nav-link text-white" href="/registro">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">assignment</i>
                     </div>

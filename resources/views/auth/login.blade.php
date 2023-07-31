@@ -96,7 +96,7 @@
 
                                         <p class="mt-4 text-sm text-center">
                                             Don't have an account?
-                                            <a href="/register" class="text-primary text-gradient font-weight-bold">Sign
+                                            <a href="/registro" class="text-primary text-gradient font-weight-bold">Sign
                                                 up</a>
                                         </p>
                                     </div>

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Spatie\Permission\Models\Role;
 
-class RoleAssignmentController extends Controller
+class AsignarRolController extends Controller
 {
     public function index()
     {
@@ -18,7 +18,7 @@ class RoleAssignmentController extends Controller
         $usuariosConRoles = User::role(['staff', 'admin'])->get();
         $rolActual = null; // Variable para almacenar el rol actual del usuario seleccionado, inicialmente se establece como null
 
-        return view('assign-roles', compact('usuarios', 'roles', 'usuariosConRoles', 'rolActual'));
+        return view('asignar-roles', compact('usuarios', 'roles', 'usuariosConRoles', 'rolActual'));
     }
 
     public function assign(Request $request)
@@ -37,6 +37,6 @@ class RoleAssignmentController extends Controller
             Session::flash('error', 'No se pudo asignar el rol al usuario.');
         }
 
-        return redirect()->route('assign-roles.index');
+        return redirect()->route('asignar-roles.index');
     }
 }

@@ -18,8 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
-use App\Http\Controllers\RoleAssignmentController; // Asegúrate de importar correctamente el controlador local
-use App\Http\Controllers\CreateNewUserController;
+use App\Http\Controllers\AsignarRolController; // Asegúrate de importar correctamente el controlador local
+use App\Http\Controllers\CuentasController;
 use App\Http\Controllers\InventarioInsumoController;
 use App\Http\Controllers\InventarioEquipoMedicoController;
 use App\Http\Controllers\ProveedorController;
@@ -30,14 +30,22 @@ use App\Http\Controllers\ProveedorController;
 Route::get('/', [AuthenticatedSessionController::class, 'create'])->middleware('guest')->name('login');
 Route::post('/', [AuthenticatedSessionController::class, 'store'])->middleware('guest');
 
-Route::get('/register', [RegisteredUserController::class, 'create'])->middleware('guest')->name('register');
-Route::post('/register', [RegisteredUserController::class, 'store'])->middleware('guest');
+Route::get('/registro', [RegisteredUserController::class, 'create'])->middleware('guest')->name('register');
+Route::post('/registro', [RegisteredUserController::class, 'store'])->middleware('guest');
 
-//Route::view('/dashboard', 'layout.tamplated')->name('dashboard');
+//Route::view('/dashboard', 'layout.template')->name('dashboard');
 Route::view('/dashboard','dashboard')->name('dashboard');
-
-
 Route::view('/tables','tables')->name('tables');
+
+// CUENTAS
+Route::get('/cuentas', [CuentasController::class,'index'])->name('Cuentas.index');
+Route::get('/crear/cuenta', [CuentasController::class,'create'])->name('Cuentas.crear');
+Route::post('/crear/cuenta', [CuentasController::class, 'store'])->name('Cuentas.store');
+Route::get('/cuentas/id={id}/editar', [CuentasController::class, 'edit'])->name('Cuentas.edit');
+Route::put('/cuentas/id={id}/actualizar', [CuentasController::class, 'update'])->name('Cuentas.update');
+Route::get('/cuentas/{id}/eliminar', [CuentasController::class, 'destroyForm'])->name('Cuentas.eliminar');
+Route::post('/cuentas/{id}', [CuentasController::class, 'destroy'])->name('Cuentas.destroy');
+Route::get('/cuentas/id={id}/visualizar', [CuentasController::class, 'show'])->name('Cuentas.visualizar');
 
 //INVENTARIO INSUMOS
 Route::get('/Inventario', [InventarioInsumoController::class,'index'])->name('Inventario.index');
@@ -66,11 +74,11 @@ Route::get('/Proveedor/id={id}', [ProveedorController::class, 'vistaProveedor'])
 Route::view('/profile','profile')->name('profile');
 
 // Ruta para mostrar el formulario de asignación de roles
-Route::get('/assign-roles', [RoleAssignmentController::class, 'index'])->name('assign-roles.index');
+Route::get('/asignar-roles', [AsignarRolController::class, 'index'])->name('asignar-roles.index');
 
 // Ruta para procesar el formulario de asignación de roles
-Route::post('/assign-roles', [RoleAssignmentController::class, 'assign'])->name('assign-roles.assign');
+Route::post('/asignar-roles', [AsignarRolController::class, 'assign'])->name('asignar-roles.assign');
 
 // Rutas para crear usuarios y asignar roles
-Route::get('/user/create', [CreateNewUserController::class, 'create'])->name('user.create');
-Route::post('/user/store', [CreateNewUserController::class, 'store'])->name('user.store');
+Route::get('/user/create', [CuentasController::class, 'create'])->name('user.create');
+Route::post('/user/store', [CuentasController::class, 'store'])->name('user.store');
