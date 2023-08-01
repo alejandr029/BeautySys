@@ -67,6 +67,13 @@ Route::delete('/equipoMedicoDelete/id={id}',  [InventarioEquipoMedicoController:
 //PROVEEDORES
 Route::get('/Proveedores', [ProveedorController::class,'index'])->name('tablaProvedor');
 Route::get('/Proveedor/id={id}', [ProveedorController::class, 'vistaProveedor'])->name('vistaProveedor');
+Route::get('/ActualizarProveedor/id={id}', [ProveedorController::class, 'show'])->name('vistActualizarProveedor');
+Route::put('/ActualizarProveedor/id={id}', [ProveedorController::class, 'update'])->name('actualizarProveedor');
+Route::view('/crearProveedor', 'Proveedor.proveedorCrear')->name('vistaCrearProveedor');
+Route::post('/crearProveedor', [ProveedorController::class, 'store'])->name('crearProveedor');
+Route::delete('/eliminarProveedor/id={id}',  [ProveedorController::class, 'destroy'])->name('eliminarProveedor');
+
+
 
 
 
