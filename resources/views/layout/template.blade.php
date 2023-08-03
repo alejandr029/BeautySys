@@ -57,14 +57,14 @@
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link text-white {{ $activeTab === 'tables' ? 'active bg-gradient-primary' : '' }}" href="/tables">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">table_view</i>
                     </div>
                     <span class="nav-link-text ms-1">Tables</span>
                 </a>
-            </li>
+            </li> --}}
             @if(auth()->user()->hasRole(['admin', 'staff']))
                 <!-- Solo se muestra el tab "Inventario" para los roles admin y staff -->
                 <li class="nav-item">
@@ -78,7 +78,7 @@
                     </a>
                 </li>
             @endif
-            @if(auth()->user()->hasRole(['admin', 'staff']))
+            @if(auth()->user()->hasRole(['admin']))
             <!-- Solo se muestra el tab "Inventario" para los roles admin y staff -->
             <li class="nav-item">
                 <a class="nav-link text-white" href="{{ route('tablaProvedor') }}">
@@ -101,7 +101,7 @@
                 </a>
             </li>
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link text-white" href="/user/create">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
@@ -119,7 +119,7 @@
                     </div>
                     <span class="nav-link-text ms-1">Asignación de Roles</span>
                 </a>
-            </li>
+            </li> --}}
             @endif
 
             <li class="nav-item mt-3">
