@@ -34,8 +34,11 @@ Route::get('/registro', [RegisteredUserController::class, 'create'])->middleware
 Route::post('/registro', [RegisteredUserController::class, 'store'])->middleware('guest');
 
 //Route::view('/dashboard', 'layout.template')->name('dashboard');
-Route::view('/dashboard','dashboard')->name('dashboard');
-Route::view('/tables','tables')->name('tables');
+Route::get('/dashboard', function () {
+    session(['activeTab' => 'Dashboard']);
+    return view('dashboard');
+})->name('dashboard');
+// Route::view('/tables','tables')->name('tables');
 
 // CUENTAS
 Route::get('/cuentas', [CuentasController::class,'index'])->name('Cuentas.index');
@@ -78,13 +81,18 @@ Route::delete('/eliminarProveedor/id={id}',  [ProveedorController::class, 'destr
 
 
 
-Route::view('/profile','profile')->name('profile');
+Route::get('/profile', function () {
+    session(['activeTab' => 'Profile']);
+    return view('profile');
+})->name('profile');
+
+
 
 // Ruta para mostrar el formulario de asignación de roles
-Route::get('/asignar-roles', [AsignarRolController::class, 'index'])->name('asignar-roles.index');
+// Route::get('/asignar-roles', [AsignarRolController::class, 'index'])->name('asignar-roles.index');
 
 // Ruta para procesar el formulario de asignación de roles
-Route::post('/asignar-roles', [AsignarRolController::class, 'assign'])->name('asignar-roles.assign');
+// Route::post('/asignar-roles', [AsignarRolController::class, 'assign'])->name('asignar-roles.assign');
 
 // Rutas para crear usuarios y asignar roles
 Route::get('/user/create', [CuentasController::class, 'create'])->name('user.create');

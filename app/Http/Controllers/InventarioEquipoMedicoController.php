@@ -38,7 +38,9 @@ class InventarioEquipoMedicoController extends Controller
             ->get();
 
             //dump($insumo);
-    
+
+            session(['activeTab' => 'Inventario']);
+
         return view('Inventario.EquipoMedico.vistaEquipoMedico', compact('equipoMedico', 'proveedores', 'estatus'));
     }
 
@@ -56,6 +58,8 @@ class InventarioEquipoMedicoController extends Controller
             'id_proveedor' => $request->id_proveedor,
         ]);
     
+        session(['activeTab' => 'Inventario']);
+        
         return redirect()->route('Inventario.index')->with('success', 'Equipo medico creado correctamente.');;
     }
 
@@ -84,6 +88,8 @@ class InventarioEquipoMedicoController extends Controller
 
         //dump($insumo);
 
+        session(['activeTab' => 'Inventario']);
+
         return view('Inventario.EquipoMedico.actualizarEquipoMedico', compact('equipoMedico', 'proveedores', 'estatus'));
     }
 
@@ -106,6 +112,8 @@ class InventarioEquipoMedicoController extends Controller
             'id_proveedor' => $request->id_proveedor,
         ]);
 
+        session(['activeTab' => 'Inventario']);
+
         return redirect()->route('Inventario.index')->with('success', 'Equipo actualizado correctamente.');
     }
 
@@ -122,6 +130,8 @@ class InventarioEquipoMedicoController extends Controller
             ->orderBy('id_estatus_equipo')
             ->get();
 
+            session(['activeTab' => 'Inventario']);
+
         return view('Inventario.EquipoMedico.crearEquipoMedico', [
             'proveedores' => $proveedores,
             'estatus' => $estatus,
@@ -132,7 +142,7 @@ class InventarioEquipoMedicoController extends Controller
     public function destroy(string $id)
     {
         DB::table('inventario.equipo_medico')->where('id_equipo_medico', $id)->delete();
-
+        session(['activeTab' => 'Inventario']);
         return redirect()->route('Inventario.index')->with('success', 'Equipo eliminado correctamente.');
     }
 }

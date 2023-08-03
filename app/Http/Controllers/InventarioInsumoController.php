@@ -23,6 +23,8 @@ class InventarioInsumoController extends Controller
         ->join('inventario.proveedor as P', 'P.id_proveedor', '=', 'EM.id_proveedor')
         ->orderByDesc('EM.id_equipo_medico')
         ->Paginate(5); 
+
+         session(['activeTab' => 'Inventario']);
     
         return view('Inventario.inventario', compact('Insumos', 'equipoMedico'));
 
@@ -39,6 +41,8 @@ class InventarioInsumoController extends Controller
             ->select('id_estatus_insumos', 'nombre')
             ->orderBy('id_estatus_insumos')
             ->get();
+
+             session(['activeTab' => 'Inventario']);
 
         return view('Inventario.crearInsumo', [
             'proveedores' => $proveedores,
@@ -60,6 +64,8 @@ class InventarioInsumoController extends Controller
             'id_proveedor' => $request->id_proveedor,
             'cantidad' => $request->cantidad,
         ]);
+
+         session(['activeTab' => 'Inventario']);
     
         return redirect()->route('Inventario.index')->with('success', 'Insumo creado correctamente.');;
     }
@@ -92,6 +98,7 @@ class InventarioInsumoController extends Controller
             // dump($proveedores);
             // dump($estatus);
 
+             session(['activeTab' => 'Inventario']);
     
         return view('Inventario.vistaInsumo', compact('insumo', 'proveedores', 'estatus'));
     }
@@ -119,6 +126,8 @@ class InventarioInsumoController extends Controller
             ->get();
 
             //dump($insumo);
+
+             session(['activeTab' => 'Inventario']);
     
         return view('Inventario.actualizarInsumo', compact('insumo', 'proveedores', 'estatus'));
     }
@@ -141,6 +150,8 @@ class InventarioInsumoController extends Controller
             'cantidad' => $request->cantidad,
         ]);
 
+         session(['activeTab' => 'Inventario']);
+
         return redirect()->route('Inventario.index')->with('success', 'Insumo actualizado correctamente.');
     }
 
@@ -148,6 +159,8 @@ class InventarioInsumoController extends Controller
     public function destroy(string $id)
     {
         DB::table('inventario.insumos')->where('id_insumos', $id)->delete();
+
+        session(['activeTab' => 'Inventario']);
 
         return redirect()->route('Inventario.index')->with('success', 'Insumo eliminado correctamente.');
 

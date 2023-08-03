@@ -17,6 +17,8 @@ class ProveedorController extends Controller
         ->Paginate(5); 
 
         //dump($Proveedor);
+        session(['activeTab' => 'Proveedor']);
+
 
         return view('Proveedor.proveedorTabla', compact('Proveedor'));
 
@@ -28,7 +30,8 @@ class ProveedorController extends Controller
         ->select('P.id_proveedor','P.logo','P.nombre_empresarial','P.telefono', DB::raw('P.[nombre de contacto] as contacto'),'P.direccion')
         ->first();
 
-        
+        session(['activeTab' => 'Proveedor']);
+
 
         //dump($Proveedor);
 
@@ -45,6 +48,9 @@ class ProveedorController extends Controller
             'nombre de contacto' => $request->nombreContacto,
             'logo' => $request->imagen_url,
         ]);
+
+        session(['activeTab' => 'Proveedor']);
+
     
         return redirect()->route('tablaProvedor')->with('success', 'Proveedor creado correctamente.');;
     }
@@ -56,6 +62,8 @@ class ProveedorController extends Controller
         ->where('P.id_proveedor', $id)
         ->select('P.id_proveedor','P.logo','P.nombre_empresarial','P.telefono', DB::raw('P.[nombre de contacto] as contacto'),'P.direccion')
         ->first();
+
+        session(['activeTab' => 'Proveedor']);
 
         
         return view('Proveedor.proveedorActualizar', compact('Proveedor'));
@@ -75,6 +83,9 @@ class ProveedorController extends Controller
             'logo' => $request->imagen_url,
         ]);
 
+        session(['activeTab' => 'Proveedor']);
+
+
         return redirect()->route('tablaProvedor')->with('success', 'Proveedor actualizado correctamente.');
     }
 
@@ -82,6 +93,8 @@ class ProveedorController extends Controller
     public function destroy(string $id)
     {
         DB::table('inventario.proveedor')->where('id_proveedor', $id)->delete();
+
+        session(['activeTab' => 'Proveedor']);
 
         return redirect()->route('tablaProvedor')->with('success', 'Proveedor eliminado correctamente.');
     }

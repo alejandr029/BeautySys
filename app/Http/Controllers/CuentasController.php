@@ -13,12 +13,14 @@ class CuentasController extends Controller
     public function index()
     {
         $users = User::all(); //->Paginate(5);
+        session(['activeTab' => 'Cuentas']);
         return view('Cuentas.cuentas', compact('users'));
     }
 
     public function create()
     {
         $roles = Role::all();
+        session(['activeTab' => 'Cuentas']);
         return view('Cuentas.crearCuenta', compact('roles'));
     }
 
@@ -39,7 +41,7 @@ class CuentasController extends Controller
             ]);
 
             $user->assignRole($request->rol_id);
-
+            session(['activeTab' => 'Cuentas']);
             // Mostrar mensaje de éxito
             return redirect()->route('Cuentas.index')->with('success', 'Usuario creado correctamente.');
 
@@ -52,6 +54,7 @@ class CuentasController extends Controller
     public function show($id)
     {
         $user = User::findOrFail($id);
+        session(['activeTab' => 'Cuentas']);
         return view('Cuentas.vistaCuentas', compact('user'));
 
         // dump($user);
@@ -61,6 +64,7 @@ class CuentasController extends Controller
     {
         $user = User::findOrFail($id);
         $roles = Role::all();
+        session(['activeTab' => 'Cuentas']);
         return view('Cuentas.actualizarCuenta', compact('user', 'roles'));
     }
 
@@ -81,7 +85,7 @@ class CuentasController extends Controller
             ]);
 
             $user->syncRoles([$request->rol_id]);
-
+            session(['activeTab' => 'Cuentas']);
             // Mostrar mensaje de éxito
             return redirect()->route('Cuentas.index')->with('success', 'Usuario actualizado correctamente.');
 
@@ -94,6 +98,7 @@ class CuentasController extends Controller
     public function destroyForm($id)
     {
         $user = User::findOrFail($id);
+        session(['activeTab' => 'Cuentas']);
         return view('Cuentas.eliminarCuenta', compact('user'));
     }
 
@@ -109,7 +114,7 @@ class CuentasController extends Controller
 
         try {
             $user->delete();
-
+            session(['activeTab' => 'Cuentas']);
             // Mostrar mensaje de éxito
             return redirect()->route('Cuentas.index')->with('success', 'Usuario eliminado correctamente.');
 
