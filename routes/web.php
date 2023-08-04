@@ -23,6 +23,7 @@ use App\Http\Controllers\CuentasController;
 use App\Http\Controllers\InventarioInsumoController;
 use App\Http\Controllers\InventarioEquipoMedicoController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\RestauracionController;  
 
 
 
@@ -76,6 +77,10 @@ Route::view('/crearProveedor', 'Proveedor.proveedorCrear')->name('vistaCrearProv
 Route::post('/crearProveedor', [ProveedorController::class, 'store'])->name('crearProveedor');
 Route::delete('/eliminarProveedor/id={id}',  [ProveedorController::class, 'destroy'])->name('eliminarProveedor');
 
+//BASE DE DATOS
+Route::get('/restauracion', [RestauracionController::class,'index'])->name('restauracion.index');
+Route::get('/restaurar/guardar', [RestauracionController::class,'backup_diferencial'])->name('restaurar.guardar');
+Route::get('/restaurar/todo', [RestauracionController::class,'Restorage_principal'])->name('restaurar.todo');
 
 
 

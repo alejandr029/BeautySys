@@ -118,6 +118,16 @@
                     <span class="nav-link-text ms-1">Cuentas</span>
                 </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link text-white <?php echo session('activeTab') === 'restauracion' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('restauracion.index') }}">
+                  <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
+                      <i class="fas fa-database"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">base de datos</span>
+              </a>
+          </li>
+
 
             {{-- <li class="nav-item">
                 <a class="nav-link text-white" href="/user/create">
