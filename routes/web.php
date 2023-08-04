@@ -22,7 +22,7 @@ use App\Http\Controllers\AsignarRolController; // Asegúrate de importar correct
 use App\Http\Controllers\CuentasController;
 use App\Http\Controllers\InventarioInsumoController;
 use App\Http\Controllers\InventarioEquipoMedicoController;
-use App\Http\Controllers\RestauracionController;  
+use App\Http\Controllers\ProveedorController;
 
 
 
@@ -34,18 +34,21 @@ Route::get('/registro', [RegisteredUserController::class, 'create'])->middleware
 Route::post('/registro', [RegisteredUserController::class, 'store'])->middleware('guest');
 
 //Route::view('/dashboard', 'layout.template')->name('dashboard');
-Route::view('/dashboard','dashboard')->name('dashboard');
-Route::view('/tables','tables')->name('tables');
+Route::get('/dashboard', function () {
+    session(['activeTab' => 'Dashboard']);
+    return view('dashboard');
+})->name('dashboard');
+// Route::view('/tables','tables')->name('tables');
 
 // CUENTAS
 Route::get('/cuentas', [CuentasController::class,'index'])->name('Cuentas.index');
 Route::get('/crear/cuenta', [CuentasController::class,'create'])->name('Cuentas.crear');
 Route::post('/crear/cuenta', [CuentasController::class, 'store'])->name('Cuentas.store');
-Route::get('/cuentas/id={id}/editar', [CuentasController::class, 'edit'])->name('Cuentas.edit');
-Route::put('/cuentas/id={id}/actualizar', [CuentasController::class, 'update'])->name('Cuentas.update');
-Route::get('/cuentas/{id}/eliminar', [CuentasController::class, 'destroyForm'])->name('Cuentas.eliminar');
+Route::get('/cuentasEditar/id={id}', [CuentasController::class, 'edit'])->name('Cuentas.edit');
+Route::put('/cuentasActualizar/id={id}', [CuentasController::class, 'update'])->name('Cuentas.update');
+Route::get('/cuentasEliminar/{id}', [CuentasController::class, 'destroyForm'])->name('Cuentas.eliminar');
 Route::post('/cuentas/{id}', [CuentasController::class, 'destroy'])->name('Cuentas.destroy');
-Route::get('/id={id}/visualizar', [CuentasController::class, 'show'])->name('Cuentas.visualizar');
+Route::get('/cuentasVista/id={id}', [CuentasController::class, 'show'])->name('Cuentas.visualizar');
 
 //INVENTARIO INSUMOS
 Route::get('/Inventario', [InventarioInsumoController::class,'index'])->name('Inventario.index');
@@ -64,19 +67,32 @@ Route::get('/CrearEquipoMedico', [InventarioEquipoMedicoController::class,'crear
 Route::post('/CrearEquipoMedico', [InventarioEquipoMedicoController::class, 'store'])->name('Inventario.crear');
 Route::delete('/equipoMedicoDelete/id={id}',  [InventarioEquipoMedicoController::class, 'destroy'])->name('equipo.delete');
 
-//BASE DE DATOS
+//PROVEEDORES
+Route::get('/Proveedores', [ProveedorController::class,'index'])->name('tablaProvedor');
+Route::get('/Proveedor/id={id}', [ProveedorController::class, 'vistaProveedor'])->name('vistaProveedor');
+Route::get('/ActualizarProveedor/id={id}', [ProveedorController::class, 'show'])->name('vistActualizarProveedor');
+Route::put('/ActualizarProveedor/id={id}', [ProveedorController::class, 'update'])->name('actualizarProveedor');
+Route::view('/crearProveedor', 'Proveedor.proveedorCrear')->name('vistaCrearProveedor');
+Route::post('/crearProveedor', [ProveedorController::class, 'store'])->name('crearProveedor');
+Route::delete('/eliminarProveedor/id={id}',  [ProveedorController::class, 'destroy'])->name('eliminarProveedor');
 
-Route::get('/restauracion', [RestauracionController::class,'index'])->name('restauracion.index');
-Route::get('/restaurar/guardar', [RestauracionController::class,'backup_diferencial'])->name('restaurar.guardar');
-Route::get('/restaurar/todo', [RestauracionController::class,'Restorage_principal'])->name('restaurar.todo');
 
-// Route::get('/restauracion/Restorage_principal', [RestauracionController::class,'Restorage_principal'])->name('restauracion.Restorage_principal');
+
+
+
+
+Route::get('/profile', function () {
+    session(['activeTab' => 'Profile']);
+    return view('profile');
+})->name('profile');
+
+
 
 // Ruta para mostrar el formulario de asignación de roles
-Route::get('/asignar-roles', [AsignarRolController::class, 'index'])->name('asignar-roles.index');
+// Route::get('/asignar-roles', [AsignarRolController::class, 'index'])->name('asignar-roles.index');
 
 // Ruta para procesar el formulario de asignación de roles
-Route::post('/asignar-roles', [AsignarRolController::class, 'assign'])->name('asignar-roles.assign');
+// Route::post('/asignar-roles', [AsignarRolController::class, 'assign'])->name('asignar-roles.assign');
 
 // Rutas para crear usuarios y asignar roles
 Route::get('/user/create', [CuentasController::class, 'create'])->name('user.create');
