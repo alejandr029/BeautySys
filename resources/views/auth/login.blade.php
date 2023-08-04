@@ -99,6 +99,7 @@
                                             <a href="/registro" class="text-primary text-gradient font-weight-bold">Sign
                                                 up</a>
                                         </p>
+                        
                                     </div>
 
                                 </form>

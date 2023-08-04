@@ -93,7 +93,23 @@ return [
         //     // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         // ],
         
-       //la conexion mas chingoda del don chuy uwu
+       //conexion de exemplo no usar
+       'sqlsrv2' => [
+        'driver' => 'sqlsrv',
+        'url' => env('127.0.0.1'), // la ip del servidor de bd
+        'host' => env('DB_HOST_defaul', 'localhost'),
+        'port' => env('DB_PORT_defaul', '1533'),
+        'database' => env('DB_DATABASE_defaul', 'master'),
+        'username' => env('DB_USERNAME_defaul', 'sa'),    // el usuario sa - superadmin
+        'password' => env('DB_PASSWORD_defaul', 'platano2812'),// El passwords
+        'charset' => 'utf8',
+        'prefix' => '',
+        'prefix_indexes' => true,
+        // 'encrypt' => env('DB_ENCRYPT', 'yes'),
+        // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
+        ],
+        
+        //la conexion mas chingoda del don chuy uwu
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('127.0.0.1'), // la ip del servidor de bd
@@ -101,7 +117,7 @@ return [
             'port' => env('DB_PORT', '1533'),
             'database' => env('DB_DATABASE', 'beautysys'),
             'username' => env('DB_USERNAME', 'sa'),    // el usuario sa - superadmin
-            'password' => env('DB_PASSWORD', 'platano2812'),// El password
+            'password' => env('DB_PASSWORD', 'platano2812'),// El passwords
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,

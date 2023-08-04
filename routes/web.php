@@ -22,6 +22,7 @@ use App\Http\Controllers\AsignarRolController; // Asegúrate de importar correct
 use App\Http\Controllers\CuentasController;
 use App\Http\Controllers\InventarioInsumoController;
 use App\Http\Controllers\InventarioEquipoMedicoController;
+use App\Http\Controllers\RestauracionController;  
 
 
 
@@ -44,7 +45,7 @@ Route::get('/cuentas/id={id}/editar', [CuentasController::class, 'edit'])->name(
 Route::put('/cuentas/id={id}/actualizar', [CuentasController::class, 'update'])->name('Cuentas.update');
 Route::get('/cuentas/{id}/eliminar', [CuentasController::class, 'destroyForm'])->name('Cuentas.eliminar');
 Route::post('/cuentas/{id}', [CuentasController::class, 'destroy'])->name('Cuentas.destroy');
-Route::get('/cuentas/id={id}/visualizar', [CuentasController::class, 'show'])->name('Cuentas.visualizar');
+Route::get('/id={id}/visualizar', [CuentasController::class, 'show'])->name('Cuentas.visualizar');
 
 //INVENTARIO INSUMOS
 Route::get('/Inventario', [InventarioInsumoController::class,'index'])->name('Inventario.index');
@@ -63,8 +64,13 @@ Route::get('/CrearEquipoMedico', [InventarioEquipoMedicoController::class,'crear
 Route::post('/CrearEquipoMedico', [InventarioEquipoMedicoController::class, 'store'])->name('Inventario.crear');
 Route::delete('/equipoMedicoDelete/id={id}',  [InventarioEquipoMedicoController::class, 'destroy'])->name('equipo.delete');
 
+//BASE DE DATOS
 
-Route::view('/profile','profile')->name('profile');
+Route::get('/restauracion', [RestauracionController::class,'index'])->name('restauracion.index');
+Route::get('/restaurar/guardar', [RestauracionController::class,'backup_diferencial'])->name('restaurar.guardar');
+Route::get('/restaurar/todo', [RestauracionController::class,'Restorage_principal'])->name('restaurar.todo');
+
+// Route::get('/restauracion/Restorage_principal', [RestauracionController::class,'Restorage_principal'])->name('restauracion.Restorage_principal');
 
 // Ruta para mostrar el formulario de asignación de roles
 Route::get('/asignar-roles', [AsignarRolController::class, 'index'])->name('asignar-roles.index');
