@@ -24,6 +24,7 @@ use App\Http\Controllers\InventarioInsumoController;
 use App\Http\Controllers\InventarioEquipoMedicoController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\CitasController;
+use App\Http\Controllers\RestauracionController;
 
 
 
@@ -35,8 +36,11 @@ Route::get('/registro', [RegisteredUserController::class, 'create'])->middleware
 Route::post('/registro', [RegisteredUserController::class, 'store'])->middleware('guest');
 
 //Route::view('/dashboard', 'layout.template')->name('dashboard');
-Route::view('/dashboard','dashboard')->name('dashboard');
-Route::view('/tables','tables')->name('tables');
+Route::get('/dashboard', function () {
+    session(['activeTab' => 'Dashboard']);
+    return view('dashboard');
+})->name('dashboard');
+// Route::view('/tables','tables')->name('tables');
 
 // CUENTAS
 Route::get('/cuentas', [CuentasController::class,'index'])->name('Cuentas.index');
@@ -74,6 +78,10 @@ Route::view('/crearProveedor', 'Proveedor.proveedorCrear')->name('vistaCrearProv
 Route::post('/crearProveedor', [ProveedorController::class, 'store'])->name('crearProveedor');
 Route::delete('/eliminarProveedor/id={id}',  [ProveedorController::class, 'destroy'])->name('eliminarProveedor');
 
+//BASE DE DATOS
+Route::get('/restauracion', [RestauracionController::class,'index'])->name('restauracion.index');
+Route::get('/restaurar/guardar', [RestauracionController::class,'backup_diferencial'])->name('restaurar.guardar');
+Route::get('/restaurar/todo', [RestauracionController::class,'Restorage_principal'])->name('restaurar.todo');
 // CITAS
 Route::prefix('citas')->group(function () {
     Route::get('/', [CitasController::class,'index'])->name('Citas.index');
@@ -85,12 +93,17 @@ Route::prefix('citas')->group(function () {
     Route::delete('/eliminar/{id}', [CitasController::class,'destroy'])->name('Citas.destroy');
 });
 
-Route::view('/profile','profile')->name('profile');
+Route::get('/profile', function () {
+    session(['activeTab' => 'Profile']);
+    return view('profile');
+})->name('profile');
+
+
 
 // Ruta para mostrar el formulario de asignación de roles
-// Route::get('/asignar-roles', [AsignarRolController::class, 'index'])->name('asignar-roles.index');
+// // Route::get('/asignar-roles', [AsignarRolController::class, 'index'])->name('asignar-roles.index');
 // Ruta para procesar el formulario de asignación de roles
-// Route::post('/asignar-roles', [AsignarRolController::class, 'assign'])->name('asignar-roles.assign');
+// // Route::post('/asignar-roles', [AsignarRolController::class, 'assign'])->name('asignar-roles.assign');
 // Rutas para crear usuarios y asignar roles
 // Route::get('/user/create', [CuentasController::class, 'create'])->name('user.create');
 // Route::post('/user/store', [CuentasController::class, 'store'])->name('user.store');

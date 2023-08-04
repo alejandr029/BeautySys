@@ -17,12 +17,14 @@ class CitasController extends Controller
     public function index()
     {
         $citas = Cita::all();
+        session(['activeTab' => 'Citas']);
         return view('citas.citas', compact('citas'));
     }
 
     public function show($id)
     {
         $cita = Cita::findOrFail($id);
+        session(['activeTab' => 'Citas']);
         return view('citas.verCita', compact('cita'));
     }
 
@@ -38,6 +40,7 @@ class CitasController extends Controller
         $cita->id_tipo_cita = 4; // ID del tipo de cita (p. ej., consulta, procedimiento, seguimiento, etc.)
         $cita->save();
 
+        session(['activeTab' => 'Citas']);
         // Redireccionar a la vista de citas con un mensaje de éxito
         return redirect()->route('Citas.index')->with('success', 'Cita creada correctamente.');
         // $estadosCita = EstadoCita::all();
@@ -59,6 +62,7 @@ class CitasController extends Controller
 
         Cita::create($request->all());
 
+        session(['activeTab' => 'Citas']);
         return redirect()->route('citas.index')->with('success', 'Cita creada exitosamente.');
     }
 
@@ -69,6 +73,8 @@ class CitasController extends Controller
         $estadosCita = EstadoCita::all();
         $salas = Sala::all();
         $tiposCita = TipoCita::all();
+
+        session(['activeTab' => 'Citas']);
         return view('citas.edit', compact('cita', 'pacientes', 'personales', 'estadosCita', 'salas', 'tiposCita'));
     }
 
@@ -89,6 +95,7 @@ class CitasController extends Controller
 
         $cita->update($request->all());
 
+        session(['activeTab' => 'Citas']);
         return redirect()->route('citas.index')->with('success', 'Cita actualizada exitosamente.');
     }
 
@@ -97,6 +104,7 @@ class CitasController extends Controller
         $cita = Cita::findOrFail($id);
         $cita->delete();
 
+        session(['activeTab' => 'Citas']);
         return redirect()->route('citas.index')
             ->with('success', 'La cita ha sido eliminada exitosamente.');
     }

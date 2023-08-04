@@ -33,8 +33,26 @@
     <!-- Scripts -->
     @vite(['resources/js/app.js'])
 
-    <?php $activeTab = 'dashboard';?>
 </head>
+
+<style>
+  .backbutton{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #fff;
+    border: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.164);
+    cursor: pointer;
+    transition-duration: .3s;
+    overflow: hidden;
+    position: relative;
+  }
+</style>
 
 <body class="g-sidenav-show  bg-gray-200">
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
@@ -50,25 +68,26 @@
     <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link text-white {{ $activeTab === 'dashboard' ? 'active bg-gradient-primary' : '' }}" href="/dashboard">
+                <a class="nav-link text-white <?php echo session('activeTab') === 'Dashboard' ? 'active bg-gradient-primary' : ''; ?>" href="/dashboard">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">dashboard</i>
                     </div>
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link text-white {{ $activeTab === 'tables' ? 'active bg-gradient-primary' : '' }}" href="/tables">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">table_view</i>
                     </div>
-                    <span class="nav-link-text ms-1">Tables</span>
+                    <span class="nav-link-text ms-1">Tablas</span>
                 </a>
-            </li>
+            </li> --}}
             @if(auth()->user()->hasRole(['admin', 'staff']))
                 <!-- Solo se muestra el tab "Inventario" para los roles admin y staff -->
+
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('Citas.index') }}">
+                    <a class="nav-link text-white <?php echo session('activeTab') === 'Citas' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('Citas.index') }}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <!-- Icono de calendario -->
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
@@ -79,10 +98,8 @@
                     </a>
                 </li>
 
-
-
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('Inventario.index') }}">
+                    <a class="nav-link text-white <?php echo session('activeTab') === 'Inventario' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('Inventario.index') }}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-box-seam-fill" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M15.528 2.973a.75.75 0 0 1 .472.696v8.662a.75.75 0 0 1-.472.696l-7.25 2.9a.75.75 0 0 1-.557 0l-7.25-2.9A.75.75 0 0 1 0 12.331V3.669a.75.75 0 0 1 .471-.696L7.443.184l.01-.003.268-.108a.75.75 0 0 1 .558 0l.269.108.01.003 6.97 2.789ZM10.404 2 4.25 4.461 1.846 3.5 1 3.839v.4l6.5 2.6v7.922l.5.2.5-.2V6.84l6.5-2.6v-.4l-.846-.339L8 5.961 5.596 5l6.154-2.461L10.404 2Z"/>
@@ -91,59 +108,69 @@
                         <span class="nav-link-text ms-1">Inventario</span>
                     </a>
                 </li>
-
-                 <!-- Solo se muestra el tab "Inventario" para los roles admin y staff -->
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ route('tablaProvedor') }}">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons">local_shipping</i>
-                        </div>
-                        <span class="nav-link-text ms-1">Proveedores</span>
-                    </a>
-                </li>
-            @endif
+        @endif
 
             @if(auth()->user()->hasRole(['admin']))
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/cuentas">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                            <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
-                            <i class="material-icons">person_add</i>
-                        </div>
-                        <span class="nav-link-text ms-1">Cuentas</span>
-                    </a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link text-white <?php echo session('activeTab') === 'Proveedor' ? 'active bg-gradient-primary' : ''; ?>"  href="{{ route('tablaProvedor') }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <i class="material-icons">local_shipping</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Proveedores</span>
+                </a>
+            </li>
 
-                <!-- <li class="nav-item">
-                    <a class="nav-link text-white" href="/user/create">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link text-white <?php echo session('activeTab') === 'Cuentas' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('Cuentas.index') }}" >
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
+                        <i class="material-icons">person_add</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Cuentas</span>
+                </a>
+            </li>
 
-                            <i class="material-icons">person_add</i>
-                        </div>
-                        <span class="nav-link-text ms-1">Creacion de Cuentas</span>
-                    </a>
-                </li>
+            <li class="nav-item">
+              <a class="nav-link text-white <?php echo session('activeTab') === 'restauracion' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('restauracion.index') }}">
+                  <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
+                      <i class="fas fa-database"></i>
+                  </div>
+                  <span class="nav-link-text ms-1">Base de Datos</span>
+              </a>
+          </li>
 
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="/asignar-roles">
-                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
 
-                            <i class="material-icons">assignment_ind</i>
-                        </div>
-                        <span class="nav-link-text ms-1">Asignación de Roles</span>
-                    </a>
-                </li> -->
+            {{-- <li class="nav-item">
+                <a class="nav-link text-white" href="/user/create">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
+                        <i class="material-icons">person_add</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Creacion de Cuentas</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link text-white" href="/asignar-roles">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
+                        <i class="material-icons">assignment_ind</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Asignación de Roles</span>
+                </a>
+            </li> --}}
             @endif
 
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Account pages</h6>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="/profile">
+                <a class="nav-link text-white <?php echo session('activeTab') === 'Profile' ? 'active bg-gradient-primary' : ''; ?>" href="/profile">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">person</i>
                     </div>
-                    <span class="nav-link-text ms-1">Profile</span>
+                    <span class="nav-link-text ms-1">Perfil</span>
                 </a>
             </li>
             <!-- <li class="nav-item">
@@ -170,12 +197,16 @@
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
+          {{-- <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
             <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
-          </ol>
-          <h6 class="font-weight-bolder mb-0">Dashboard</h6>
-          <button id="backButton" onclick="goBack()">Volver</button>
+          </ol> --}}
+          <h3 class="font-weight-bolder mb-0"><?php echo session('activeTab')?></h3>
+          <button id="backButton" class="backbutton" onclick="goBack()" style="">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+            </svg>
+          </button>
           <script>
             function goBack() {
               window.history.back();
@@ -196,7 +227,7 @@
             <li class="mt-2">
               <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/material-dashboard on GitHub">Star</a>
             </li> --}}
-            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+            {{-- <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
               <a href="javascript:;" class="nav-link text-body p-0" id="iconNavbarSidenav">
                 <div class="sidenav-toggler-inner">
                   <i class="sidenav-toggler-line"></i>
@@ -285,7 +316,7 @@
             </li>
             <li class="nav-item px-1 d-flex align-items-center">
                 <i class="fa fa-user me-sm-1"></i>
-            </li>
+            </li> --}}
             <li class="nav-item px-1 d-flex align-items-center">
                 @livewire('navigation-menu')
             </li>
@@ -296,7 +327,7 @@
     @yield('content')
 
 
-  <div class="fixed-plugin">
+  {{-- <div class="fixed-plugin">
     <div class="card shadow-lg">
       <div class="card-header pb-0 pt-3">
         <div class="float-start">
@@ -355,7 +386,7 @@
         </div>
         </div>
       </div>
-    </div>
+    </div> --}}
   </div>
 
   <!--   Core JS Files   -->

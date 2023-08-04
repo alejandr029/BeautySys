@@ -1,4 +1,4 @@
-<style>
+di<style>
     .input-form {
       position: relative;
       font-family: Arial, Helvetica, sans-serif;
@@ -205,5 +205,4 @@
       @include('layout.footer')
     </main>
     @endsection
-    
     
