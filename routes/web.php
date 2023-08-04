@@ -23,6 +23,7 @@ use App\Http\Controllers\CuentasController;
 use App\Http\Controllers\InventarioInsumoController;
 use App\Http\Controllers\InventarioEquipoMedicoController;
 use App\Http\Controllers\ProveedorController;
+use App\Http\Controllers\CitasController;
 
 
 
@@ -73,19 +74,23 @@ Route::view('/crearProveedor', 'Proveedor.proveedorCrear')->name('vistaCrearProv
 Route::post('/crearProveedor', [ProveedorController::class, 'store'])->name('crearProveedor');
 Route::delete('/eliminarProveedor/id={id}',  [ProveedorController::class, 'destroy'])->name('eliminarProveedor');
 
-
-
-
-
+// CITAS
+Route::prefix('citas')->group(function () {
+    Route::get('/', [CitasController::class,'index'])->name('Citas.index');
+    Route::get('/ver/{id}', [CitasController::class,'show'])->name('Citas.show');
+    Route::get('/crear', [CitasController::class,'create'])->name('Citas.crear');
+    Route::post('/crear', [CitasController::class,'store'])->name('Citas.store');
+    Route::get('/actualizar/{id}', [CitasController::class,'edit'])->name('Citas.edit');
+    Route::put('/actualizar/{id}', [CitasController::class,'update'])->name('Citas.update');
+    Route::delete('/eliminar/{id}', [CitasController::class,'destroy'])->name('Citas.destroy');
+});
 
 Route::view('/profile','profile')->name('profile');
 
 // Ruta para mostrar el formulario de asignación de roles
-Route::get('/asignar-roles', [AsignarRolController::class, 'index'])->name('asignar-roles.index');
-
+// Route::get('/asignar-roles', [AsignarRolController::class, 'index'])->name('asignar-roles.index');
 // Ruta para procesar el formulario de asignación de roles
-Route::post('/asignar-roles', [AsignarRolController::class, 'assign'])->name('asignar-roles.assign');
-
+// Route::post('/asignar-roles', [AsignarRolController::class, 'assign'])->name('asignar-roles.assign');
 // Rutas para crear usuarios y asignar roles
-Route::get('/user/create', [CuentasController::class, 'create'])->name('user.create');
-Route::post('/user/store', [CuentasController::class, 'store'])->name('user.store');
+// Route::get('/user/create', [CuentasController::class, 'create'])->name('user.create');
+// Route::post('/user/store', [CuentasController::class, 'store'])->name('user.store');
