@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoCita extends Model
 {
-    protected $table = 'tipo_cita';
+    protected $table = 'estetico.tipo_cita';
 
     protected $primaryKey = 'id_tipo_cita';
 

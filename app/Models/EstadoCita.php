@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class EstadoCita extends Model
 {
-    protected $table = 'estado_cita';
+    protected $table = 'estetico.estado_cita';
 
     protected $primaryKey = 'id_estado_cita';
 
