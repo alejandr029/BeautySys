@@ -139,7 +139,7 @@
         <div class="col-lg-11">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Creación de Cuentas</h4>
+                    <h4 class="card-title">Creación de Citas</h4>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('Citas.store') }}" method="post" class="role-form">
@@ -147,16 +147,30 @@
                         <div class="row mb-5">
                             <div class="col-md-4">
                                 <div class="input-form">
-                                    <input type="text" id="name" name="name" required>
+                                    <select id="id_paciente" name="id_paciente" required>
+                                        @foreach ($citas as $cita)
+                                            <option value="{{ $cita->id_paciente }}">{{ $cita->id_paciente }}</option>
+                                        @endforeach
+                                    </select>
+                                    <label for="id_paciente" class="textUser">Seleccionar id de Usuario</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="input-form">
+                                    <input type="text" id="name" name="name" disabled>
                                     <label for="name" class="textUser">Nombre</label>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="input-form">
-                                    <input type="email" id="email" name="email" required>
-                                    <label for="email" class="textUser">Correo electrónico</label>
+                                    <input type="date" id="fechaCita" name="fechaCita" required>
+                                    <label for="fechaCita" class="textUser" style="visibility: hidden">Fecha de la Cita</label>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row mb-5">
                             <div class="col-md-4">
                                 <div class="input-form">
                                     <input type="password" id="password" name="password" required>
@@ -164,20 +178,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-5">
-                            <div class="col-md-4">
-                                <div class="input-form">
-                                    <select id="rol_id" name="rol_id" required>
-                                        @foreach ($Citas as $cita)
-                                            <option value="{{ $rol->id }}" {{ $rol->name === 'user' ? 'selected' : '' }}>{{ $cita->id_paciente }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="rol_id" class="textUser">Seleccionar id de Usuario</label>
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="text-center mt-3">
-                            <button type="submit" class="btn btn-primary">Crear Cuenta</button>
+                            <button type="submit" class="btn btn-primary">Crear cita</button>
                         </div>
                     </form>
                 </div>

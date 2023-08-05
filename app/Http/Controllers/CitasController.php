@@ -18,35 +18,37 @@ class CitasController extends Controller
     {
         $citas = Cita::all();
         session(['activeTab' => 'Citas']);
-        return view('citas.citas', compact('citas'));
+        return view('Citas.citas', compact('citas'));
     }
 
     public function show($id)
     {
         $cita = Cita::findOrFail($id);
         session(['activeTab' => 'Citas']);
-        return view('citas.verCita', compact('citas'));
+        return view('Citas.verCita', compact('citas'));
     }
 
     public function create()
     {
-        $cita = new Cita();
-        $cita->hora_cita = '14:30:00';
-        $cita->fecha_cita = '2023-07-22';
-        $cita->id_paciente = 1; // ID del paciente relacionado
-        $cita->id_personal = 1; // ID del personal relacionado (p. ej., el médico)
-        $cita->id_estado_cita = 1; // ID del estado de la cita (p. ej., pendiente, confirmada, cancelada, etc.)
-        $cita->id_sala = 3; // ID de la sala donde se llevará a cabo la cita
-        $cita->id_tipo_cita = 5; // ID del tipo de cita (p. ej., consulta, procedimiento, seguimiento, etc.)
-        $cita->save();
+        // $cita = new Cita();
+        // $cita->hora_cita = '14:30:00';
+        // $cita->fecha_cita = '2023-07-22';
+        // $cita->id_paciente = 2; // ID del paciente relacionado
+        // $cita->id_personal = 1; // ID del personal relacionado (p. ej., el médico)
+        // $cita->id_estado_cita = 1; // ID del estado de la cita (p. ej., pendiente, confirmada, cancelada, etc.)
+        // $cita->id_sala = 3; // ID de la sala donde se llevará a cabo la cita
+        // $cita->id_tipo_cita = 5; // ID del tipo de cita (p. ej., consulta, procedimiento, seguimiento, etc.)
+        // $cita->save();
 
+        $citas = Cita::all();
+        // dump($citas);
         session(['activeTab' => 'Citas']);
         // Redireccionar a la vista de citas con un mensaje de éxito
         // return redirect()->route('Citas.index')->with('success', 'Cita creada correctamente.');
 
         // $estadosCita = EstadoCita::all();
         // $tiposCita = TipoCita::all();
-        return view('citas.crearCita', compact('cita'));
+        return view('Citas.crearCita', compact('citas'));
     }
 
     public function store(Request $request)
@@ -64,11 +66,12 @@ class CitasController extends Controller
         Cita::create($request->all());
 
         session(['activeTab' => 'Citas']);
-        return redirect()->route('citas.index')->with('success', 'Cita creada exitosamente.');
+        return redirect()->route('Citas.index')->with('success', 'Cita creada exitosamente.');
     }
 
     public function edit($id)
     {
+        $cita = Cita::all();
         $pacientes = Paciente::all();
         $personales = Personal::all();
         $estadosCita = EstadoCita::all();
@@ -76,7 +79,7 @@ class CitasController extends Controller
         $tiposCita = TipoCita::all();
 
         session(['activeTab' => 'Citas']);
-        return view('citas.edit', compact('cita', 'pacientes', 'personales', 'estadosCita', 'salas', 'tiposCita'));
+        return view('Citas.actualizarCita', compact('cita', 'pacientes', 'personales', 'estadosCita', 'salas', 'tiposCita'));
     }
 
     public function update(Request $request, $id)
@@ -97,16 +100,30 @@ class CitasController extends Controller
         $cita->update($request->all());
 
         session(['activeTab' => 'Citas']);
-        return redirect()->route('citas.index')->with('success', 'Cita actualizada exitosamente.');
+        return redirect()->route('Citas.index')->with('success', 'Cita actualizada exitosamente.');
     }
 
-    public function destroy($id)
+    public function destroyForm($id)
     {
         $cita = Cita::findOrFail($id);
-        $cita->delete();
+        session(['activeTab' => 'Citas']);
+        // dump($cita);
+        return view('Citas.eliminarCita', compact('cita'));
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $cita = Cita::findOrFail($id);
 
         session(['activeTab' => 'Citas']);
-        return redirect()->route('citas.index')
-            ->with('success', 'La cita ha sido eliminada exitosamente.');
+
+        try {
+            $cita->delete();
+            return redirect()->route('Citas.index')->with('success', 'Cita eliminada correctamente.');
+
+        } catch (\Exception $e) {
+            // Mostrar mensaje de error
+            return redirect()->route('Citas.index')->with('error', 'No se pudo eliminar la cita.');
+        }
     }
 }

@@ -93,14 +93,14 @@
 @section('content')
 <div class="container">
     <div class="container-fluid py-4">
-        <h1 class="mb-4">Eliminar Cuenta</h1>
+        <h1 class="mb-4">Eliminar Cita</h1>
         <div class="row">
             <div class="col-lg-6">
-                <p>¿Estás seguro de que deseas eliminar la cuenta con email <b>{{$user->email}}</b>?</p>
-                <form action="{{ route('Cuentas.destroy', ['id' => $user->id]) }}" method="POST">
+                <p>¿Estás seguro de que deseas eliminar la cita con ID <b>{{$cita->id_cita}}</b> para el usuario <b>{{ $cita->paciente->primer_nombre }} {{ $cita->paciente->primer_apellido }}</b>?</p>
+                <form action="{{ route('Citas.destroy', ['id' => $cita->id_cita]) }}" method="POST">
                     @csrf
-                    @method('post') {{-- Agregar este campo para indicar el método DELETE --}}
-                    <button type="submit" class="btn btn-danger">Eliminar Cuenta</button>
+                    @method('DELETE') {{-- Agregar este campo para indicar el método DELETE --}}
+                    <button type="submit" class="btn btn-danger">Eliminar Cita</button>
                 </form>
             </div>
         </div>

@@ -164,30 +164,28 @@
                                 <tbody>
                                     @foreach ($citas as $cita)
                                         <tr>
-                                            <td class="text-center">{{ $cita->id }}</td>
+                                            <td class="text-center">{{ $cita->id_cita }}</td>
                                             <td class="text-center">{{ Carbon::parse($cita->fecha_cita)->format('Y-m-d') }}</td>
                                             <td class="text-center">{{ Carbon::parse($cita->hora_cita)->format('h:i A') }}</td>
-                                            <td class="text-center">{{ $cita->id_estado_cita }}</td>
+                                            <td class="text-center">{{ $cita->estadoCita->nombre }}</td>
                                             <td class="text-center">{{ $cita->id_sala }}</td>
                                             <!-- PARA MOSTRAR LOS DATOS, ES DE ESTA MANERA, LA VARIABLE DEL FOREACH, LUEGO SI ESTA EN LA TABLA PRINCIPAL SE COLOCA EL NOMBREM SINO SE USA EL NOMBRE DE LA FUNCION QUE TENGAS EN EL MODELO
                                             PARA ACCEDER A LA TABLA DE PACIENTE Y YA DENTRO DE ESTA COLOCAS EL NOMBRE QUE BUSCAS -->
                                             <td class="text-center">{{ $cita->paciente->primer_nombre }} {{ $cita->paciente->primer_apellido }}</td>
                                             <td class="text-center">{{ $cita->id_tipo_cita }}</td>
                                             <td class="text-center">{{ $cita->personal->primer_nombre }} {{ $cita->personal->primer_apellido }}</td>
-                                            <td class="td-actions text-center">
+                                            <td class="td-actions">
                                                 <div role="group">
-                                                    <a class="btn btn-info btn-sm">
+                                                    <button type="button" class="btn btn-info" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Citas.visualizar', $cita->id_cita ) }}'">
                                                         <i class="material-icons">visibility</i>
-                                                    </a>
-                                                    <a class="btn btn-warning btn-sm">
+                                                    </button>
+                                                    <button type="button" class="btn btn-warning" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Citas.editar', ['id' => $cita->id_cita]) }}'">
                                                         <i class="material-icons">edit</i>
-                                                    </a>
-                                                    <form method="POST">
+                                                    </button>
+                                                    <form action="{{ route('Citas.destroyForm', ['id' => $cita->id_cita]) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger btn-sm">
-                                                            <i class="material-icons">delete_outline</i>
-                                                        </button>
+                                                        <button type="submit" class="btn btn-danger">Eliminar Cita</button>
                                                     </form>
                                                 </div>
                                             </td>

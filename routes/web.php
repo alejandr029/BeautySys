@@ -45,7 +45,7 @@ Route::get('/dashboard', function () {
 // CUENTAS
 Route::get('/cuentas', [CuentasController::class, 'index'])->name('Cuentas.index');
 Route::get('/crear/cuenta', [CuentasController::class, 'create'])->name('Cuentas.crear');
-Route::post('/crear/cuenta', [CuentasController::class, 'store'])->name('Cuentas.store');
+Route::post('/crear/cuenta', [CuentasController::class, 'store'])->name('user.store');
 Route::get('/cuentasEditar/id={id}', [CuentasController::class, 'edit'])->name('Cuentas.edit');
 Route::put('/cuentasActualizar/id={id}', [CuentasController::class, 'update'])->name('Cuentas.update');
 Route::get('/cuentasEliminar/{id}', [CuentasController::class, 'destroyForm'])->name('Cuentas.eliminar');
@@ -85,12 +85,13 @@ Route::get('/restaurar/todo', [RestauracionController::class, 'Restorage_princip
 // CITAS
 
 Route::get('/citas', [CitasController::class, 'index'])->name('Citas.index');
-Route::get('/ver-citas/{id}', [CitasController::class, 'show'])->name('Citas.show');
-Route::get('/crear-citas', [CitasController::class, 'create'])->name('Citas.crear');
-Route::post('/crear-citas', [CitasController::class, 'store'])->name('Citas.store');
-Route::get('/actualizar-citas/{id}', [CitasController::class, 'edit'])->name('Citas.edit');
-Route::put('/actualizar-citas/{id}', [CitasController::class, 'update'])->name('Citas.update');
-Route::delete('/eliminar-citas/{id}', [CitasController::class, 'destroy'])->name('Citas.destroy');
+Route::get('/ver-cita/id={id}', [CitasController::class, 'show'])->name('Citas.visualizar');
+Route::get('/crear-cita', [CitasController::class, 'create'])->name('Citas.crear');
+Route::post('/crear-cita', [CitasController::class, 'store'])->name('Citas.store');
+Route::get('/actualizar-cita/id={id}', [CitasController::class, 'edit'])->name('Citas.editar');
+Route::put('/actualizar-cita/id={id}', [CitasController::class, 'update'])->name('Citas.actualizar');
+Route::delete('/eliminar-cita/id={id}', [CitasController::class, 'destroyForm'])->name('Citas.destroyForm');
+Route::delete('/eliminar/id={id}', [CitasController::class, 'destroy'])->name('Citas.destroy');
 
 Route::get('/profile', function () {
     session(['activeTab' => 'Profile']);
