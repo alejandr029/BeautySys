@@ -25,7 +25,7 @@ class CitasController extends Controller
     {
         $cita = Cita::findOrFail($id);
         session(['activeTab' => 'Citas']);
-        return view('citas.verCita', compact('cita'));
+        return view('citas.verCita', compact('citas'));
     }
 
     public function create()
@@ -42,10 +42,11 @@ class CitasController extends Controller
 
         session(['activeTab' => 'Citas']);
         // Redireccionar a la vista de citas con un mensaje de éxito
-        return redirect()->route('Citas.index')->with('success', 'Cita creada correctamente.');
+        // return redirect()->route('Citas.index')->with('success', 'Cita creada correctamente.');
+
         // $estadosCita = EstadoCita::all();
         // $tiposCita = TipoCita::all();
-        // return view('citas.crearCita', compact('estadosCita', 'tiposCita'));
+        return view('citas.crearCita', compact('cita'));
     }
 
     public function store(Request $request)

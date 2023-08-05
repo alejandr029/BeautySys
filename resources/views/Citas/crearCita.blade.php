@@ -142,7 +142,7 @@
                     <h4 class="card-title">Creación de Cuentas</h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('user.store') }}" method="post" class="role-form">
+                    <form action="{{ route('Citas.store') }}" method="post" class="role-form">
                         @csrf
                         <div class="row mb-5">
                             <div class="col-md-4">
@@ -168,11 +168,11 @@
                             <div class="col-md-4">
                                 <div class="input-form">
                                     <select id="rol_id" name="rol_id" required>
-                                        @foreach ($roles as $rol)
-                                            <option value="{{ $rol->id }}" {{ $rol->name === 'user' ? 'selected' : '' }}>{{ $rol->name }}</option>
+                                        @foreach ($Citas as $cita)
+                                            <option value="{{ $rol->id }}" {{ $rol->name === 'user' ? 'selected' : '' }}>{{ $cita->id_paciente }}</option>
                                         @endforeach
                                     </select>
-                                    <label for="rol_id" class="textUser">Seleccionar Rol</label>
+                                    <label for="rol_id" class="textUser">Seleccionar id de Usuario</label>
                                 </div>
                             </div>
                         </div>

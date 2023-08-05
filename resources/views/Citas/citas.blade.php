@@ -5,7 +5,7 @@
 <style>
     .table td,
     .table th {
-        white-space: normal!important;
+        white-space: normal !important;
     }
 
     .avatar-sm-new {
@@ -13,26 +13,28 @@
         height: 75px !important;
         font-size: 0.875rem;
     }
+
     .crear {
-    border: 2px solid #24b4fb;
-    background-color: #24b4fb;
-    border-radius: 0.9em;
-    padding: 0.8em 1.2em 0.8em 1em;
-    transition: all ease-in-out 0.2s;
-    font-size: 14px;
+        border: 2px solid #24b4fb;
+        background-color: #24b4fb;
+        border-radius: 0.9em;
+        padding: 0.8em 1.2em 0.8em 1em;
+        transition: all ease-in-out 0.2s;
+        font-size: 14px;
     }
 
     .crear span {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #fff;
-    font-weight: 600;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #fff;
+        font-weight: 600;
     }
 
     .crear:hover {
-    background-color: #0071e2;
+        background-color: #0071e2;
     }
+
     .notification {
         padding: 1rem;
         background-color: #28a745;
@@ -50,76 +52,93 @@
     }
 
     .radio-inputs {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  border-radius: 0.5rem;
-  background-color: #EC407A ;
-  box-sizing: border-box;
-  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
-  padding: 0.25rem;
-  width: 300px;
-  font-size: 14px;
-  margin-bottom: 20px;
-}
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        border-radius: 0.5rem;
+        background-color: #EC407A;
+        box-sizing: border-box;
+        box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+        padding: 0.25rem;
+        width: 300px;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
 
-.radio-inputs .radio {
-  flex: 1 1 auto;
-  text-align: center;
-}
+    .radio-inputs .radio {
+        flex: 1 1 auto;
+        text-align: center;
+    }
 
-.radio-inputs .radio input {
-  display: none;
-}
+    .radio-inputs .radio input {
+        display: none;
+    }
 
-.radio-inputs .radio .name {
-  display: flex;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.5rem;
-  border: none;
-  padding: .5rem 0;
-  color: #2d2d2d;
-  transition: all .15s ease-in-out;
-}
+    .radio-inputs .radio .name {
+        display: flex;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.5rem;
+        border: none;
+        padding: .5rem 0;
+        color: #2d2d2d;
+        transition: all .15s ease-in-out;
+    }
 
-.radio-inputs .radio input:checked + .name {
-  background-color: #fff;
-  font-weight: 600;
-}
-
-
+    .radio-inputs .radio input:checked+.name {
+        background-color: #fff;
+        font-weight: 600;
+    }
 </style>
 
 @extends('layout.template')
 
 @section('content')
-@if(session('success'))
-<div class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
-    <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
-        <strong>{{ session('success') }}</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-</div>
-@endif
+    @if (session('success'))
+        <div class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+            <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
+                <strong>{{ session('success') }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    @endif
 
-@if(session('error'))
-<div class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
-    <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
-        <strong>{{ session('error') }}</strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-</div>
-@endif
-<div class="container-fluid py-4">
-<div id="citasTable" class="row">
+    @if (session('error'))
+        <div class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+            <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                <strong>{{ session('error') }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    @endif
+
+    <script>
+        // Mostrar la notificación lentamente
+        setTimeout(function() {
+            var notification = document.getElementById('notification');
+            if (notification) {
+                notification.classList.add('show');
+                // Ocultar y eliminar la notificación después de 2 segundos
+                setTimeout(function() {
+                    notification.classList.remove('show');
+                    setTimeout(function() {
+                        notification.remove();
+                    }, 500); // Esperar el tiempo de la transición (0.5s)
+                }, 2000);
+            }
+        }, 100); // Agregar un pequeño retraso antes de mostrar la notificación (opcional)
+    </script>
+
+    <div class="container-fluid py-4">
+        <div id="citasTable" class="row">
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
-                            <h6 class="text-white text-capitalize ps-3">Lista de citas</h6>
-                            <button class="crear" style="margin-right: 15px;" onclick="window.location.href='{{ route('Citas.crear') }}'">
+                            <h6 class="text-white text-capitalize ps-3">Lista de Citas</h6>
+                            <button class="crear" style="margin-right: 15px;"
+                                onclick="window.location.href='{{ route('Citas.crear') }}'">
                                 <a>
                                     <span>Crear <i class="material-icons">add</i></span>
                                 </a>
@@ -134,39 +153,45 @@
                                         <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">ID</th>
                                         <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">Fecha</th>
                                         <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">Hora</th>
+                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">Estado</th>
+                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">Sala</th>
                                         <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">Paciente</th>
+                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">Tipo de Cita</th>
                                         <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">Doctor</th>
                                         <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($citas as $cita)
-                                    <tr>
-                                        <td class="text-center">{{ $cita->id }}</td>
-                                        <td class="text-center">{{ $cita->fecha }}</td>
-                                        <td class="text-center">{{ $cita->hora }}</td>
-                                        {{-- PARA MOSTRAR LOS DATOS, ES DE ESTA MANERA, LA VARIABLE DEL FOREACH, LUEGO SI ESTA EN LA TABLA PRINCIPAL SE COLOCA EL NOMBREM SINO SE USA EL NOMBRE DE LA FUNCION QUE TENGAS EN EL MODELO 
-                                            PARA ACCEDER A LA TABLA DE PACIENTE Y YA DENTRO DE ESTA COLOCAS EL NOMBRE QUE BUSCAS --}}
-                                        <td class="text-center">{{ $cita->paciente->primer_nombre }} {{ $cita->paciente->primer_apellido }}</td>
-                                        <td class="text-center">{{ $cita->doctor }}</td>
-                                        <td class="td-actions text-center">
-                                            <div role="group">
-                                                <a  class="btn btn-info btn-sm">
-                                                    <i class="material-icons">visibility</i>
-                                                </a>
-                                                <a  class="btn btn-warning btn-sm">
-                                                    <i class="material-icons">edit</i>
-                                                </a>
-                                                <form  method="POST">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm">
-                                                        <i class="material-icons">delete_outline</i>
-                                                    </button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td class="text-center">{{ $cita->id }}</td>
+                                            <td class="text-center">{{ Carbon::parse($cita->fecha_cita)->format('Y-m-d') }}</td>
+                                            <td class="text-center">{{ Carbon::parse($cita->hora_cita)->format('h:i A') }}</td>
+                                            <td class="text-center">{{ $cita->id_estado_cita }}</td>
+                                            <td class="text-center">{{ $cita->id_sala }}</td>
+                                            <!-- PARA MOSTRAR LOS DATOS, ES DE ESTA MANERA, LA VARIABLE DEL FOREACH, LUEGO SI ESTA EN LA TABLA PRINCIPAL SE COLOCA EL NOMBREM SINO SE USA EL NOMBRE DE LA FUNCION QUE TENGAS EN EL MODELO
+                                            PARA ACCEDER A LA TABLA DE PACIENTE Y YA DENTRO DE ESTA COLOCAS EL NOMBRE QUE BUSCAS -->
+                                            <td class="text-center">{{ $cita->paciente->primer_nombre }} {{ $cita->paciente->primer_apellido }}</td>
+                                            <td class="text-center">{{ $cita->id_tipo_cita }}</td>
+                                            <td class="text-center">{{ $cita->personal->primer_nombre }} {{ $cita->personal->primer_apellido }}</td>
+                                            <td class="td-actions text-center">
+                                                <div role="group">
+                                                    <a class="btn btn-info btn-sm">
+                                                        <i class="material-icons">visibility</i>
+                                                    </a>
+                                                    <a class="btn btn-warning btn-sm">
+                                                        <i class="material-icons">edit</i>
+                                                    </a>
+                                                    <form method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm">
+                                                            <i class="material-icons">delete_outline</i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -181,22 +206,5 @@
         </div>
         {{-- FIN DE TABLA DE CITAS --}}
     </div>
-
-<!-- Script para mostrar la notificación -->
-<script>
-    setTimeout(function() {
-        var notification = document.getElementById('notification');
-        if (notification) {
-            notification.classList.add('show');
-            setTimeout(function() {
-                notification.classList.remove('show');
-                setTimeout(function() {
-                    notification.remove();
-                }, 500);
-            }, 2000);
-        }
-    }, 100);
-</script>
-
     @include('layout.footer')
 @endsection

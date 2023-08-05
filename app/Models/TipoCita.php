@@ -14,7 +14,7 @@ class TipoCita extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
-        'id_cita',
+        // 'id_cita',
     ];
 
     public function citas()

@@ -42,4 +42,9 @@ class Cita extends Model
     {
         return $this->belongsTo(TipoCita::class, 'id_tipo_cita', 'id_tipo_cita');
     }
+
+    public function doctor()
+    {
+        return $this->belongsTo(TipoCita::class, 'id_tipo_cita', 'id_tipo_cita');
+    }
 }

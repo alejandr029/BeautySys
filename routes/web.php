@@ -43,8 +43,8 @@ Route::get('/dashboard', function () {
 // Route::view('/tables','tables')->name('tables');
 
 // CUENTAS
-Route::get('/cuentas', [CuentasController::class,'index'])->name('Cuentas.index');
-Route::get('/crear/cuenta', [CuentasController::class,'create'])->name('Cuentas.crear');
+Route::get('/cuentas', [CuentasController::class, 'index'])->name('Cuentas.index');
+Route::get('/crear/cuenta', [CuentasController::class, 'create'])->name('Cuentas.crear');
 Route::post('/crear/cuenta', [CuentasController::class, 'store'])->name('Cuentas.store');
 Route::get('/cuentasEditar/id={id}', [CuentasController::class, 'edit'])->name('Cuentas.edit');
 Route::put('/cuentasActualizar/id={id}', [CuentasController::class, 'update'])->name('Cuentas.update');
@@ -53,45 +53,44 @@ Route::post('/cuentas/{id}', [CuentasController::class, 'destroy'])->name('Cuent
 Route::get('/cuentasVista/id={id}', [CuentasController::class, 'show'])->name('Cuentas.visualizar');
 
 //INVENTARIO INSUMOS
-Route::get('/Inventario', [InventarioInsumoController::class,'index'])->name('Inventario.index');
-Route::get('/CrearInsumos', [InventarioInsumoController::class,'crearInsumo'])->name('Inventario.crearInsumo');
+Route::get('/Inventario', [InventarioInsumoController::class, 'index'])->name('Inventario.index');
+Route::get('/CrearInsumos', [InventarioInsumoController::class, 'crearInsumo'])->name('Inventario.crearInsumo');
 Route::post('/CrearInsumos', [InventarioInsumoController::class, 'store'])->name('Inventario.store');
 Route::get('/Insumo/id={id}', [InventarioInsumoController::class, 'vistaInsumo'])->name('Inventario.vistaInsumo');
 Route::get('/ActualizarInsumo/id={id}', [InventarioInsumoController::class, 'show'])->name('Inventario.show');
 Route::put('/ActualizarInsumo/id={id}', [InventarioInsumoController::class, 'update'])->name('insumos.update');
-Route::delete('/insumosDelete/id={id}',  [InventarioInsumoController::class, 'destroy'])->name('insumos.delete');
+Route::delete('/insumosDelete/id={id}', [InventarioInsumoController::class, 'destroy'])->name('insumos.delete');
 
 //INVENTARIO EQUIPO MEDICO
 Route::get('/EquipoMedico/id={id}', [InventarioEquipoMedicoController::class, 'vistaEquipo'])->name('Inventario.vistaequipo');
 Route::get('/ActualizarEquipoMedico/id={id}', [InventarioEquipoMedicoController::class, 'show'])->name('Inventario.showEquipo');
 Route::put('/ActualizarEquipoMedico/id={id}', [InventarioEquipoMedicoController::class, 'update'])->name('Inventario.updateEquipo');
-Route::get('/CrearEquipoMedico', [InventarioEquipoMedicoController::class,'crearEquipoMedico'])->name('Inventario.crearEquipo');
+Route::get('/CrearEquipoMedico', [InventarioEquipoMedicoController::class, 'crearEquipoMedico'])->name('Inventario.crearEquipo');
 Route::post('/CrearEquipoMedico', [InventarioEquipoMedicoController::class, 'store'])->name('Inventario.crear');
-Route::delete('/equipoMedicoDelete/id={id}',  [InventarioEquipoMedicoController::class, 'destroy'])->name('equipo.delete');
+Route::delete('/equipoMedicoDelete/id={id}', [InventarioEquipoMedicoController::class, 'destroy'])->name('equipo.delete');
 
 //PROVEEDORES
-Route::get('/Proveedores', [ProveedorController::class,'index'])->name('tablaProvedor');
+Route::get('/Proveedores', [ProveedorController::class, 'index'])->name('tablaProvedor');
 Route::get('/Proveedor/id={id}', [ProveedorController::class, 'vistaProveedor'])->name('vistaProveedor');
 Route::get('/ActualizarProveedor/id={id}', [ProveedorController::class, 'show'])->name('vistActualizarProveedor');
 Route::put('/ActualizarProveedor/id={id}', [ProveedorController::class, 'update'])->name('actualizarProveedor');
 Route::view('/crearProveedor', 'Proveedor.proveedorCrear')->name('vistaCrearProveedor');
 Route::post('/crearProveedor', [ProveedorController::class, 'store'])->name('crearProveedor');
-Route::delete('/eliminarProveedor/id={id}',  [ProveedorController::class, 'destroy'])->name('eliminarProveedor');
+Route::delete('/eliminarProveedor/id={id}', [ProveedorController::class, 'destroy'])->name('eliminarProveedor');
 
 //BASE DE DATOS
-Route::get('/restauracion', [RestauracionController::class,'index'])->name('restauracion.index');
-Route::get('/restaurar/guardar', [RestauracionController::class,'backup_diferencial'])->name('restaurar.guardar');
-Route::get('/restaurar/todo', [RestauracionController::class,'Restorage_principal'])->name('restaurar.todo');
+Route::get('/restauracion', [RestauracionController::class, 'index'])->name('restauracion.index');
+Route::get('/restaurar/guardar', [RestauracionController::class, 'backup_diferencial'])->name('restaurar.guardar');
+Route::get('/restaurar/todo', [RestauracionController::class, 'Restorage_principal'])->name('restaurar.todo');
 // CITAS
-Route::prefix('citas')->group(function () {
-    Route::get('/', [CitasController::class,'index'])->name('Citas.index');
-    Route::get('/ver/{id}', [CitasController::class,'show'])->name('Citas.show');
-    Route::get('/crear', [CitasController::class,'create'])->name('Citas.crear');
-    Route::post('/crear', [CitasController::class,'store'])->name('Citas.store');
-    Route::get('/actualizar/{id}', [CitasController::class,'edit'])->name('Citas.edit');
-    Route::put('/actualizar/{id}', [CitasController::class,'update'])->name('Citas.update');
-    Route::delete('/eliminar/{id}', [CitasController::class,'destroy'])->name('Citas.destroy');
-});
+
+Route::get('/citas', [CitasController::class, 'index'])->name('Citas.index');
+Route::get('/ver-citas/{id}', [CitasController::class, 'show'])->name('Citas.show');
+Route::get('/crear-citas', [CitasController::class, 'create'])->name('Citas.crear');
+Route::post('/crear-citas', [CitasController::class, 'store'])->name('Citas.store');
+Route::get('/actualizar-citas/{id}', [CitasController::class, 'edit'])->name('Citas.edit');
+Route::put('/actualizar-citas/{id}', [CitasController::class, 'update'])->name('Citas.update');
+Route::delete('/eliminar-citas/{id}', [CitasController::class, 'destroy'])->name('Citas.destroy');
 
 Route::get('/profile', function () {
     session(['activeTab' => 'Profile']);
