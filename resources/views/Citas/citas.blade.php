@@ -145,17 +145,19 @@
                                         <td class="text-center">{{ $cita->id }}</td>
                                         <td class="text-center">{{ $cita->fecha }}</td>
                                         <td class="text-center">{{ $cita->hora }}</td>
-                                        <td class="text-center">{{ $cita->paciente }}</td>
+                                        {{-- PARA MOSTRAR LOS DATOS, ES DE ESTA MANERA, LA VARIABLE DEL FOREACH, LUEGO SI ESTA EN LA TABLA PRINCIPAL SE COLOCA EL NOMBREM SINO SE USA EL NOMBRE DE LA FUNCION QUE TENGAS EN EL MODELO 
+                                            PARA ACCEDER A LA TABLA DE PACIENTE Y YA DENTRO DE ESTA COLOCAS EL NOMBRE QUE BUSCAS --}}
+                                        <td class="text-center">{{ $cita->paciente->primer_nombre }} {{ $cita->paciente->primer_apellido }}</td>
                                         <td class="text-center">{{ $cita->doctor }}</td>
                                         <td class="td-actions text-center">
                                             <div role="group">
-                                                <a href="{{ route('Citas.ver', ['id' => $cita->id]) }}" class="btn btn-info btn-sm">
+                                                <a  class="btn btn-info btn-sm">
                                                     <i class="material-icons">visibility</i>
                                                 </a>
-                                                <a href="{{ route('Citas.editar', ['id' => $cita->id]) }}" class="btn btn-warning btn-sm">
+                                                <a  class="btn btn-warning btn-sm">
                                                     <i class="material-icons">edit</i>
                                                 </a>
-                                                <form action="{{ route('Citas.eliminar', ['id' => $cita->id]) }}" method="POST">
+                                                <form  method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm">

@@ -34,7 +34,7 @@ class CitasController extends Controller
         $cita->hora_cita = '14:30:00';
         $cita->fecha_cita = '2023-07-22';
         $cita->id_paciente = 1; // ID del paciente relacionado
-        $cita->id_personal = 2; // ID del personal relacionado (p. ej., el médico)
+        $cita->id_personal = 1; // ID del personal relacionado (p. ej., el médico)
         $cita->id_estado_cita = 1; // ID del estado de la cita (p. ej., pendiente, confirmada, cancelada, etc.)
         $cita->id_sala = 3; // ID de la sala donde se llevará a cabo la cita
         $cita->id_tipo_cita = 4; // ID del tipo de cita (p. ej., consulta, procedimiento, seguimiento, etc.)
