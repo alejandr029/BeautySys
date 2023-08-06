@@ -25,6 +25,7 @@ use App\Http\Controllers\InventarioEquipoMedicoController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\CitasController;
 use App\Http\Controllers\RestauracionController;
+use App\Http\Controllers\CirugiaController;
 
 
 
@@ -82,8 +83,8 @@ Route::delete('/eliminarProveedor/id={id}', [ProveedorController::class, 'destro
 Route::get('/restauracion', [RestauracionController::class, 'index'])->name('restauracion.index');
 Route::get('/restaurar/guardar', [RestauracionController::class, 'backup_diferencial'])->name('restaurar.guardar');
 Route::get('/restaurar/todo', [RestauracionController::class, 'Restorage_principal'])->name('restaurar.todo');
-// CITAS
 
+// CITAS
 Route::get('/citas', [CitasController::class, 'index'])->name('Citas.index');
 Route::get('/ver-cita/id={id}', [CitasController::class, 'show'])->name('Citas.visualizar');
 Route::get('/crear-cita', [CitasController::class, 'create'])->name('Citas.crear');
