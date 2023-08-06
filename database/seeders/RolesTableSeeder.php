@@ -50,7 +50,7 @@ class RolesTableSeeder extends Seeder
         // Asignar roles a usuarios
         // Asigna el rol "admin" al usuario con nombre "laloquera" (reemplaza 'laloquera' por el nombre real del usuario)
         // Obtener el usuario al que deseas asignar el rol
-        $user = User::find(1); // Reemplaza '1' por el identificador del usuario que desees
+        $user = User::find(5); // Reemplaza '1' por el identificador del usuario que desees
 
         // Obtener el rol que deseas asignar al usuario
         $role = Role::findByName('admin'); // Reemplaza 'admin' por el nombre del rol que desees

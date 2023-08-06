@@ -80,11 +80,24 @@
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">table_view</i>
                     </div>
-                    <span class="nav-link-text ms-1">Tables</span>
+                    <span class="nav-link-text ms-1">Tablas</span>
                 </a>
             </li> --}}
             @if(auth()->user()->hasRole(['admin', 'staff']))
                 <!-- Solo se muestra el tab "Inventario" para los roles admin y staff -->
+
+                <li class="nav-item">
+                    <a class="nav-link text-white <?php echo session('activeTab') === 'Citas' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('Citas.index') }}">
+                        <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <!-- Icono de calendario -->
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2V5H0V2zm14 2h1v1h-1V4zm-3 0h1v1h-1V4zM5 4h1v1H5V4zM2 4h1v1H2V4zM0 6h16v9H0V6zm2 1v2h3V7H2zm5 0v2h3V7H7zm5 0v2h3V7h-3z"/>
+                            </svg>
+                        </div>
+                        <span class="nav-link-text ms-1">Citas</span>
+                    </a>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link text-white <?php echo session('activeTab') === 'Inventario' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('Inventario.index') }}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -95,9 +108,9 @@
                         <span class="nav-link-text ms-1">Inventario</span>
                     </a>
                 </li>
-            @endif
+        @endif
+
             @if(auth()->user()->hasRole(['admin']))
-            <!-- Solo se muestra el tab "Inventario" para los roles admin y staff -->
             <li class="nav-item">
                 <a class="nav-link text-white <?php echo session('activeTab') === 'Proveedor' ? 'active bg-gradient-primary' : ''; ?>"  href="{{ route('tablaProvedor') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -106,9 +119,7 @@
                     <span class="nav-link-text ms-1">Proveedores</span>
                 </a>
             </li>
-        @endif
 
-            @if(auth()->user()->hasRole(['admin']))
             <li class="nav-item">
                 <a class="nav-link text-white <?php echo session('activeTab') === 'Cuentas' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('Cuentas.index') }}" >
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -118,13 +129,14 @@
                     <span class="nav-link-text ms-1">Cuentas</span>
                 </a>
             </li>
+
             <li class="nav-item">
               <a class="nav-link text-white <?php echo session('activeTab') === 'restauracion' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('restauracion.index') }}">
                   <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                       <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
                       <i class="fas fa-database"></i>
                   </div>
-                  <span class="nav-link-text ms-1">base de datos</span>
+                  <span class="nav-link-text ms-1">Base de Datos</span>
               </a>
           </li>
 
@@ -158,7 +170,7 @@
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">person</i>
                     </div>
-                    <span class="nav-link-text ms-1">Profile</span>
+                    <span class="nav-link-text ms-1">Perfil</span>
                 </a>
             </li>
             <!-- <li class="nav-item">
