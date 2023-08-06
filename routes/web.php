@@ -28,6 +28,11 @@ use App\Http\Controllers\RestauracionController;
 
 
 
+use App\Http\Controllers\ConsultasController;
+
+
+
+
 
 Route::get('/', [AuthenticatedSessionController::class, 'create'])->middleware('guest')->name('login');
 Route::post('/', [AuthenticatedSessionController::class, 'store'])->middleware('guest');
@@ -92,6 +97,9 @@ Route::get('/actualizar-cita/id={id}', [CitasController::class, 'edit'])->name('
 Route::put('/actualizar-cita/id={id}', [CitasController::class, 'update'])->name('Citas.actualizar');
 Route::delete('/eliminar-cita/id={id}', [CitasController::class, 'destroyForm'])->name('Citas.destroyForm');
 Route::delete('/eliminar/id={id}', [CitasController::class, 'destroy'])->name('Citas.destroy');
+
+//SECCION DE CONSULTAS
+Route::get('/consultas', [ConsultasController::class, 'index'])->name('consultas.index');
 
 Route::get('/profile', function () {
     session(['activeTab' => 'Profile']);
