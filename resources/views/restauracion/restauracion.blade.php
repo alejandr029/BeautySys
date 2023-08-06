@@ -40,7 +40,7 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     @foreach ($result as $results)
-                                        <li><a class="dropdown-item" href="/restauracion/Restorage_principal"><b>{{ $results->files }} </b> {{ $results->FechaDeCreacion}}</a></li>
+                                        <li><a class="dropdown-item" href='{{ route('restaurar_file', ['file' => $results->files]) }}'><b>{{ $results->files }} </b> {{ $results->FechaDeCreacion}}</a></li>
                                     @endforeach
                                 </ul>
                             </div>

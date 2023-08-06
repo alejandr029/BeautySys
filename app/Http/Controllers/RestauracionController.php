@@ -49,12 +49,8 @@ class RestauracionController extends Controller
      */
     public function backup_diferencial()
     {
-        $dbName = 'beautysys';
-        $backupPath ='C:/beautysys/';
-
         DB::setDefaultConnection('sqlsrv2');
-        $sql = "EXEC dbo.BackupDatabase @dbName = ?, @backupPath = ?";
-        $bindings = [$dbName, $backupPath];
+        $sql = "EXEC dbo.backup_diff";
 
         $query = DB::connection('sqlsrv2')->getPdo()->prepare($sql);
         
@@ -62,9 +58,10 @@ class RestauracionController extends Controller
         // $fullQuery = vsprintf(str_replace(['%', '?'], ['%%', "'%s'"], $sql), $bindings);
 
         try {
-            $query->execute($bindings);
             
-            $query->execute($bindings);
+            $query->execute();
+            sleep(10);
+            
             // DB::unprepared($fullQuery);
             
 
@@ -86,54 +83,60 @@ class RestauracionController extends Controller
      * \Laravel\Fortify\Contracts\LogoutResponse
      */
     public function Restorage_principal()
-    {
-       
+    {   
+
         DB::disconnect('sqlsrv');
         DB::setDefaultConnection('sqlsrv2');
-        $sql = "exec Restorage_principal";
-        
-        try {
-            DB::connection('sqlsrv2')->statement($sql);
-        
+        try{
             
-            
-        } catch (\Exception $e)
-        {
-            log::error('error en el sistema');
-
-        } finally {
-            
-            DB::setDefaultConnection('sqlsrv');
-            
-            session(['activeTab' => 'restauracion']);
-            return redirect()->route('restauracion.index')->with('succesfull', 'esta perron uwu');
-        }
-
-
-    }
-    public function Restorage_differencial()
-    {
-        try {
-            DB::disconnect('sqlsrv');
-            DB::setDefaultConnection('sqlsrv2');
             $sql = "exec Restorage_principal";
             $query = DB::connection('sqlsrv2')->getPdo()->prepare($sql);
             $query->execute();
-            $query->execute();
             
-            
+            sleep(60);
+            Log::info('Job ejecutado correctamente.');
+
         } catch (\Exception $e)
         {
-            log::error('error en el sistema');
-
-        } finally {
+            DB::connection('sqlsrv2')->rollback();
+            Log::error('error en el sistema'. $e);
+            DB::setDefaultConnection('sqlsrv');
+        }
+        finally {
             
             DB::setDefaultConnection('sqlsrv');
-            
             session(['activeTab' => 'restauracion']);
             return redirect()->route('restauracion.index')->with('succesfull', 'esta perron uwu');
         }
+    }
 
+    public function Restorage_differencial($file)
+    {
+        DB::disconnect('sqlsrv');
+        DB::setDefaultConnection('sqlsrv2');
+        
+        $sql = "exec Restorage_diferencial @file = ?";
+        $bindings = [$file];
+        try{
+            
+            $query = DB::connection('sqlsrv2')->getPdo()->prepare($sql);
+            $query->execute($bindings);
+            
+            sleep(60);
+            Log::info('Job ejecutado correctamente.');
+
+        } catch (\Exception $e)
+        {
+            DB::connection('sqlsrv2')->rollback();
+            Log::error('error en el sistema'. $e);
+            DB::setDefaultConnection('sqlsrv');
+        }
+        finally {
+            
+            DB::setDefaultConnection('sqlsrv');
+            session(['activeTab' => 'restauracion']);
+            return redirect()->route('restauracion.index')->with('succesfull', 'esta perron uwu');
+        }
 
     }
 

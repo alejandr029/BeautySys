@@ -81,6 +81,7 @@ Route::delete('/eliminarProveedor/id={id}',  [ProveedorController::class, 'destr
 Route::get('/restauracion', [RestauracionController::class,'index'])->name('restauracion.index');
 Route::get('/restaurar/guardar', [RestauracionController::class,'backup_diferencial'])->name('restaurar.guardar');
 Route::get('/restaurar/todo', [RestauracionController::class,'Restorage_principal'])->name('restaurar.todo');
+Route::get('/restaurar/file={file}', [RestauracionController::class,'Restorage_differencial'])->name('restaurar_file');
 
 
 

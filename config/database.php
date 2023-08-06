@@ -98,10 +98,10 @@ return [
         'driver' => 'sqlsrv',
         'url' => env('127.0.0.1'), // la ip del servidor de bd
         'host' => env('DB_HOST_defaul', 'localhost'),
-        'port' => env('DB_PORT_defaul', '1433'),
+        'port' => env('DB_PORT_defaul', '1533'),
         'database' => env('DB_DATABASE_defaul', 'master'),
-        'username' => env('DB_USERNAME_defaul', ' '),    // el usuario sa - superadmin
-        'password' => env('DB_PASSWORD_defaul', ' '),// El passwords
+        'username' => env('DB_USERNAME_defaul', 'sa'),    // el usuario sa - superadmin
+        'password' => env('DB_PASSWORD_defaul', 'platano2812'),// El passwords
         'charset' => 'utf8',
         'prefix' => '',
         'prefix_indexes' => true,
