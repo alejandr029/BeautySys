@@ -5,11 +5,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cita;
+use App\Models\EquipoMedico;
 use App\Models\EstadoCita;
+use App\Models\Insumos;
 use App\Models\Paciente;
 use App\Models\Personal;
 use App\Models\Sala;
 use App\Models\TipoCita;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CitasController extends Controller
@@ -25,7 +28,8 @@ class CitasController extends Controller
     {
         $cita = Cita::findOrFail($id);
         session(['activeTab' => 'Citas']);
-        return view('Citas.verCita', compact('citas'));
+        //dump($cita);
+        return view('Citas.vistaCita', compact('cita'));
     }
 
     public function create()
@@ -71,36 +75,63 @@ class CitasController extends Controller
 
     public function edit($id)
     {
-        $cita = Cita::all();
-        $pacientes = Paciente::all();
-        $personales = Personal::all();
-        $estadosCita = EstadoCita::all();
-        $salas = Sala::all();
-        $tiposCita = TipoCita::all();
+        $cita = Cita::findOrFail($id);
+        $cita->fecha_cita = Carbon::createFromFormat('Y-m-d H:i:s.u', $cita->fecha_cita)->format('Y-m-d');
+        $estadoCita = EstadoCita::all();
+        $sala = Sala::all();
+        $tipoCita = TipoCita::all();
+        $personal = Personal::all();
+        $insumos = Insumos::all();
+        $equipo = EquipoMedico::all();
 
         session(['activeTab' => 'Citas']);
-        return view('Citas.actualizarCita', compact('cita', 'pacientes', 'personales', 'estadosCita', 'salas', 'tiposCita'));
+        // dump($cita);
+        return view('Citas.actualizarCita', compact('cita', 'estadoCita', 'sala', 'tipoCita', 'personal', 'insumos', 'equipo'));
     }
 
     public function update(Request $request, $id)
     {
+        // dump($request->all());
+
+        $cita = Cita::findOrFail($id);
+
         $request->validate([
-            'hora_cita' => 'required',
+            'hora_cita' => 'required|max:50',
             'fecha_cita' => 'required|date',
-            'id_paciente' => 'required|integer',
-            'id_personal' => 'required|integer',
             'id_estado_cita' => 'required|integer',
             'id_sala' => 'required|integer',
             'id_tipo_cita' => 'required|integer',
+            'id_personal' => 'required|integer',
+            'id_insumos' => 'nullable|integer',
+            'id_equipo' => 'nullable|integer'
         ]);
 
-        $cita = Cita::findOrFail($id);
-        $cita->update($request->all());
+        try {
+            $fechaFormat = Carbon::createFromFormat('Y-m-d', $request->fecha_cita)->format('Y-m-d H:i:s.u');
+            $horaFormat = Carbon::parse($request->hora_cita)->format('H:i');
 
-        $cita->update($request->all());
+            $cita->update([
+                'hora_cita' => $horaFormat,
+                'fecha_cita' => $fechaFormat,
+                'id_estado_cita' => $request->id_estado_cita,
+                'id_sala' => $request->id_sala,
+                'id_tipo_cita' => $request->id_tipo_cita,
+                'id_personal' => $request->id_personal,
+                'id_insumo' => $request->id_insumo,
+                'id_equipo' => $request->id_equipo,
+            ]);
 
-        session(['activeTab' => 'Citas']);
-        return redirect()->route('Citas.index')->with('success', 'Cita actualizada exitosamente.');
+            // dump($horaFormat, $fechaFormat);
+
+            session(['activeTab' => 'Citas']);
+            // Mostrar mensaje de éxito
+            //dump($request);
+            return redirect()->route('Citas.index')->with('success', 'Cita actualizada exitosamente.');
+
+        } catch (\Exception $e) {
+            // Mostrar mensaje de error
+            return redirect()->route('Citas.index')->with('error', 'No se pudo actualizar la cita.');
+        }
     }
 
     public function destroyForm($id)
