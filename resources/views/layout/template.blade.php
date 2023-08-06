@@ -21,6 +21,7 @@
   <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
@@ -120,6 +121,15 @@
                         <span class="nav-link-text ms-1">Inventario</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                  <a class="nav-link text-white <?php echo session('activeTab') === 'Cirugias' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('tablaCirugia') }}">
+                      <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <img src="../assets/img/icons/Cirugia.png" style="width: 20px">
+                      </div>
+                      <span class="nav-link-text ms-1">Cirugia</span>
+                  </a>
+              </li>
         @endif
 
             @if(auth()->user()->hasRole(['admin']))
@@ -670,4 +680,5 @@
   <!-- ... Otros scripts ... -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
+<script src="{{ asset('js/your-custom-js-file.js') }}"></script>
 </html>
