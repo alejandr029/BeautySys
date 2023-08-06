@@ -93,6 +93,13 @@ Route::put('/actualizar-cita/id={id}', [CitasController::class, 'update'])->name
 Route::delete('/eliminar-cita/id={id}', [CitasController::class, 'destroyForm'])->name('Citas.destroyForm');
 Route::delete('/eliminar/id={id}', [CitasController::class, 'destroy'])->name('Citas.destroy');
 
+//CONSULTAS
+Route::get('/Cirugia', [CirugiaController::class, 'index'])->name('tablaCirugia');
+Route::get('/CirugiaCrear', [CirugiaController::class, 'selectConsultas'])->name('crearCirugia');
+Route::get('/CirugiadatosPaciente/{id}', [CirugiaController::class, 'pacienteCirugia'])->name('datosPaciente');
+Route::get('/Cirugiadatoscirugia/{id}', [CirugiaController::class, 'datosCirugia'])->name('datosCirugia');
+
+
 Route::get('/profile', function () {
     session(['activeTab' => 'Profile']);
     return view('profile');
