@@ -377,7 +377,7 @@ class CirugiaController extends Controller
             foreach ($insumosUsados as $idElemento) {
                 $devolver =  DB::table('inventario.insumos')
                 ->select('id_insumos','devolucion')
-                ->where('id_insumos',$idElemento->id_equipo_medico)
+                ->where('id_insumos',$idElemento->id_insumos)
                 ->first();
                 if($devolver->devolucion == true){
                     DB::table('inventario.insumos')

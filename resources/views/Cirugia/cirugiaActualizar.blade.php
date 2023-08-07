@@ -484,113 +484,119 @@
       </div>
 
       
-      <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="height: 95%;">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h3 class="modal-title" id="exampleModalLabel">Agregar insumos y equipo medico</h2>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-right: 25px">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
-                  </svg>
-                </button>
-              </div>
-              <div class="row">
-                <form action="{{ route('añadirInsumoEquipo') }}" method="post">
-                  @csrf 
-                  <input type="hidden" name="IdCirugia" value="{{ $DatosCirugia->id_cirugia }}">
-                  <div class="col-md-12">
-                    <div style="text-align: center">
-                    <h5 class="modal-title" id="exampleModalLabel">Insumos</h5>
-                  </div>
-                  <div class="modal-body table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col" style="text-align: center">Nombre Insumo</th>
-                                <th scope="col" style="text-align: center">Imagen</th>
-                                <th scope="col" style="text-align: center">Cantidad</th>
-                                <th scope="col" style="text-align: center">Seleccionar</th>
-                                <th scope="col" style="text-align: center">Cantidad a usar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($insumos as $insumo)
-                            <tr>
-                                <td style="text-align: center">{{ $insumo->nombre }}</td>
-                                <td><img src="{{ $insumo->imagen }}" class="avatar avatar-sm-new me-3 border-radius-lg" alt="{{ $insumo->nombre }}" style="display: block; margin: auto;"></td>
-                                <td style="text-align: center">{{ $insumo->cantidad }}</td>
-                                <td style="text-align: center">
-                                    <!-- Agrega el campo oculto con el tipo y el ID -->
-                                    <input type="hidden" name="elementos[insumo_{{ $insumo->id_insumos }}][Tipo]" value="insumo">
-                                    <input type="hidden" name="elementos[insumo_{{ $insumo->id_insumos }}][id]" value="{{ $insumo->id_insumos }}">
-                                    <input type="checkbox" name="elementos[insumo_{{ $insumo->id_insumos }}][seleccionado]" value="1" onclick="mostrarCantidadInput(this)">
-                                </td>
-                                <td style="text-align: center">
-                                    <!-- Input de cantidad que estará oculto hasta que se seleccione el checkbox -->
-                                    <input type="number" name="elementos[insumo_{{ $insumo->id_insumos }}][cantidad]" min="0" max="{{ $insumo->cantidad }}" class="cantidad-input" style="display: none;">
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                  </div>
-                  <div class="modal-body table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col" style="text-align: center">Equipo Médico</th>
-                                <th scope="col" style="text-align: center">Imagen</th>
-                                <th scope="col" style="text-align: center">Cantidad</th>
-                                <th scope="col" style="text-align: center">Seleccionar</th>
-                                <th scope="col" style="text-align: center">Cantidad a usar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($equiposMedicos as $equipoMedico)
-                            <tr>
-                              <td style="text-align: center; width:75%;text-wrap:wrap;">{{ $equipoMedico->nombre }}</td>
-                              <td><img src="{{ $equipoMedico->imagen }}" class="avatar avatar-sm-new me-3 border-radius-lg" alt="{{ $equipoMedico->nombre }}" style="display: block; margin: auto;"></td>
-                              <td style="text-align: center">{{ $equipoMedico->cantidad }}</td>
-                                <td style="text-align: center">
-                                    <!-- Agrega el campo oculto con el tipo y el ID -->
-                                    <input type="hidden" name="elementos[equipomedico_{{ $equipoMedico->id_equipo_medico }}][Tipo]" value="equipomedico">
-                                    <input type="hidden" name="elementos[equipomedico_{{ $equipoMedico->id_equipo_medico }}][id]" value="{{ $equipoMedico->id_equipo_medico }}">
-                                    <input type="checkbox" name="elementos[equipomedico_{{ $equipoMedico->id_equipo_medico }}][seleccionado]" value="1" onclick="mostrarCantidadInput(this)">
-                                </td>
-                                <td style="text-align: center">
-                                    <!-- Input de cantidad que estará oculto hasta que se seleccione el checkbox -->
-                                    <input type="number" name="elementos[equipomedico_{{ $equipoMedico->id_equipo_medico }}][cantidad]" min="0" max="{{ $equipoMedico->cantidad }}" class="cantidad-input" style="display: none;">
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>  
-              
-              <script>
-                // Función para mostrar u ocultar el input de cantidad cuando se selecciona un checkbox
-                function mostrarCantidadInput(checkbox) {
-                    var cantidadInput = checkbox.parentNode.parentNode.querySelector('.cantidad-input');
-                    cantidadInput.style.display = checkbox.checked ? 'inline-block' : 'none';
-                }
-            </script>
-            
-            
-            
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-              <button type="submit" class="btn btn-primary">Guardar cambios</button>
-            </div>
-          </form>
-          </div>
-        </div>
-    </div>
+
       
       
       @include('layout.footer')
     </main>
     @endsection
     
+    <div class="modal fade" id="miModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title" id="exampleModalLabel">Agregar insumos y equipo medico</h2>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-right: 25px">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                  <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                </svg>
+              </button>
+            </div>
+            <div class="row">
+              <div style="height: 30em;overflow-y: auto;">
+                <form action="{{ route('añadirInsumoEquipo') }}" method="post">
+                  @csrf 
+                <input type="hidden" name="IdCirugia" value="{{ $DatosCirugia->id_cirugia }}">
+                <div class="col-md-12">
+                  <div style="text-align: center">
+                  <h5 class="modal-title" id="exampleModalLabel">Insumos</h5>
+                </div>
+                <div class="modal-body table-responsive">
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th scope="col" style="text-align: center">Nombre Insumo</th>
+                              <th scope="col" style="text-align: center">Imagen</th>
+                              <th scope="col" style="text-align: center">Cantidad</th>
+                              <th scope="col" style="text-align: center">Seleccionar</th>
+                              <th scope="col" style="text-align: center">Cantidad a usar</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          @foreach($insumos as $insumo)
+                          <tr>
+                              <td style="text-align: center">{{ $insumo->nombre }}</td>
+                              <td><img src="{{ $insumo->imagen }}" class="avatar avatar-sm-new me-3 border-radius-lg" alt="{{ $insumo->nombre }}" style="display: block; margin: auto;"></td>
+                              <td style="text-align: center">{{ $insumo->cantidad }}</td>
+                              <td style="text-align: center">
+                                  <!-- Agrega el campo oculto con el tipo y el ID -->
+                                  <input type="hidden" name="elementos[insumo_{{ $insumo->id_insumos }}][Tipo]" value="insumo">
+                                  <input type="hidden" name="elementos[insumo_{{ $insumo->id_insumos }}][id]" value="{{ $insumo->id_insumos }}">
+                                  <input type="checkbox" name="elementos[insumo_{{ $insumo->id_insumos }}][seleccionado]" value="1" onclick="mostrarCantidadInput(this)">
+                              </td>
+                              <td style="text-align: center">
+                                  <!-- Input de cantidad que estará oculto hasta que se seleccione el checkbox -->
+                                  <input type="number" name="elementos[insumo_{{ $insumo->id_insumos }}][cantidad]" min="0" max="{{ $insumo->cantidad }}" class="cantidad-input" style="display: none;">
+                              </td>
+                          </tr>
+                          @endforeach
+                      </tbody>
+                  </table>
+                </div>
+                <div style="text-align: center">
+                  <h5 class="modal-title" id="exampleModalLabel">Equipo Medico</h5>
+                </div>
+                <div class="modal-body table-responsive">
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th scope="col" style="text-align: center">Equipo Médico</th>
+                              <th scope="col" style="text-align: center">Imagen</th>
+                              <th scope="col" style="text-align: center">Cantidad</th>
+                              <th scope="col" style="text-align: center">Seleccionar</th>
+                              <th scope="col" style="text-align: center">Cantidad a usar</th>
+                            </tr>
+                      </thead>
+                      <tbody>
+                          @foreach($equiposMedicos as $equipoMedico)
+                          <tr>
+                            <td style="text-align: center; width:75%;text-wrap:wrap;">{{ $equipoMedico->nombre }}</td>
+                            <td><img src="{{ $equipoMedico->imagen }}" class="avatar avatar-sm-new me-3 border-radius-lg" alt="{{ $equipoMedico->nombre }}" style="display: block; margin: auto;"></td>
+                            <td style="text-align: center">{{ $equipoMedico->cantidad }}</td>
+                              <td style="text-align: center">
+                                  <!-- Agrega el campo oculto con el tipo y el ID -->
+                                  <input type="hidden" name="elementos[equipomedico_{{ $equipoMedico->id_equipo_medico }}][Tipo]" value="equipomedico">
+                                  <input type="hidden" name="elementos[equipomedico_{{ $equipoMedico->id_equipo_medico }}][id]" value="{{ $equipoMedico->id_equipo_medico }}">
+                                  <input type="checkbox" name="elementos[equipomedico_{{ $equipoMedico->id_equipo_medico }}][seleccionado]" value="1" onclick="mostrarCantidadInput(this)">
+                              </td>
+                              <td style="text-align: center">
+                                  <!-- Input de cantidad que estará oculto hasta que se seleccione el checkbox -->
+                                  <input type="number" name="elementos[equipomedico_{{ $equipoMedico->id_equipo_medico }}][cantidad]" min="0" max="{{ $equipoMedico->cantidad }}" class="cantidad-input" style="display: none;">
+                              </td>
+                            </tr>
+                            @endforeach
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+            </div>  
+            
+            <script>
+              // Función para mostrar u ocultar el input de cantidad cuando se selecciona un checkbox
+              function mostrarCantidadInput(checkbox) {
+                  var cantidadInput = checkbox.parentNode.parentNode.querySelector('.cantidad-input');
+                  cantidadInput.style.display = checkbox.checked ? 'inline-block' : 'none';
+              }
+          </script>
+          
+          
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+          </div>
+        </form>
+        </div>
+      </div>
+  </div>
