@@ -96,11 +96,18 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/eliminar-cita/id={id}', [CitasController::class, 'destroyForm'])->name('Citas.destroyForm');
     Route::delete('/eliminar/id={id}', [CitasController::class, 'destroy'])->name('Citas.destroy');
 
-    //CONSULTAS
+    //CIRUGIA
     Route::get('/Cirugia', [CirugiaController::class, 'index'])->name('tablaCirugia');
-    Route::get('/CirugiaCrear', [CirugiaController::class, 'selectConsultas'])->name('crearCirugia');
+    Route::get('/CirugiaCrear', [CirugiaController::class, 'selectConsultas'])->name('vistacrearCirugia');
     Route::get('/CirugiadatosPaciente/{id}', [CirugiaController::class, 'pacienteCirugia'])->name('datosPaciente');
     Route::get('/Cirugiadatoscirugia/{id}', [CirugiaController::class, 'datosCirugia'])->name('datosCirugia');
+    Route::get('/CirugiaObtenerAlergiasEnfermedades/{id}', [CirugiaController::class, 'datosAlergiaEnfermedades'])->name('datosAlergiaEnfermedades');
+    Route::post('/CirugiaCrear', [CirugiaController::class, 'store'])->name('crearCirugia');
+    Route::get('/CirugiaActualizar/id={id}', [CirugiaController::class, 'show'])->name('vistaActualizarCirugia');
+    Route::post('/CirugiaAñadirInsumoEquipo', [CirugiaController::class, 'añadirInsumoEquipo'])->name('añadirInsumoEquipo');
+    Route::put('/CirugiaActualizar/id={id}', [CirugiaController::class, 'update'])->name('ActualizarCirugia');
+    Route::get('/CirugiaVista/id={id}', [CirugiaController::class, 'vistaCirugia'])->name('vistaCirugia');
+    Route::put('/CirugiaCancelar/id={id}', [CirugiaController::class, 'cancelar'])->name('CancelarCirugia');
 
 
     Route::get('/profile', function () {
