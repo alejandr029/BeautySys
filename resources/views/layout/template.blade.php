@@ -100,6 +100,15 @@
                 </li>
 
                 <li class="nav-item">
+                  <a class="nav-link text-white <?php echo session('activeTab') === 'Cirugias' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('tablaCirugia') }}">
+                      <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <img src="../assets/img/icons/Cirugia.png" style="width: 20px">
+                      </div>
+                      <span class="nav-link-text ms-1">Cirugia</span>
+                  </a>
+              </li>
+
+                <li class="nav-item">
                     <a class="nav-link text-white <?php echo session('activeTab') === 'Inventario' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('Inventario.index') }}">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-box-seam-fill" viewBox="0 0 16 16">
@@ -109,15 +118,6 @@
                         <span class="nav-link-text ms-1">Inventario</span>
                     </a>
                 </li>
-
-                <li class="nav-item">
-                  <a class="nav-link text-white <?php echo session('activeTab') === 'Cirugias' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('tablaCirugia') }}">
-                      <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <img src="../assets/img/icons/Cirugia.png" style="width: 20px">
-                      </div>
-                      <span class="nav-link-text ms-1">Cirugia</span>
-                  </a>
-              </li>
         @endif
 
             @if(auth()->user()->hasRole(['admin']))

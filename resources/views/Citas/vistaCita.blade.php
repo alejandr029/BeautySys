@@ -1,3 +1,7 @@
+@php
+    use Carbon\Carbon;
+@endphp
+
 <style>
     .input-form {
       position: relative;
@@ -131,26 +135,55 @@
         <div class="col-lg-6">
             <div class="card shadow">
                 <div class="card-header">
-                    <h4 class="card-title">Detalles de la Cuenta</h4>
+                    <h4 class="card-title">Detalles de la Cita con ID: {{ $cita->id_cita }}</h4>
                 </div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nombre:</label>
-                        <input type="text" class="form-control input-form" id="name" value="{{ $user->name }}" disabled>
-                    </div>
+                    <div class="row mb-5">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nombre del paciente:</label>
+                            <input type="text" class="form-control input-form" id="name" value="{{ $cita->paciente->primer_nombre }} {{ $cita->paciente->primer_apellido }}" disabled>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Correo Electrónico:</label>
-                        <input type="email" class="form-control input-form" id="email" value="{{ $user->email }}" disabled>
-                    </div>
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Fecha y hora de la cita:</label>
+                            <input type="text" class="form-control input-form" id="date" value="{{ Carbon::parse($cita->hora_cita)->format('h:i A') }} el d&iacute;a {{ Carbon::parse($cita->fecha_cita)->format('d-m-Y') }}" disabled>
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="rol" class="form-label">Rol:</label>
-                        <input type="text" class="form-control input-form" id="rol" value="{{ $user->roles->pluck('name')->implode(', ') }}" disabled>
-                    </div>
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Estado de la cita:</label>
+                            <input type="text" class="form-control input-form" id="status" value="{{ $cita->estadoCita->nombre }}" disabled>
+                        </div>
 
-                    <div class="text-center mt-4">
-                        <a href="{{ route('Cuentas.index') }}" class="btn btn-primary">Volver</a>
+                        <div class="mb-3">
+                            <label for="sala" class="form-label">Sala:</label>
+                            <input type="text" class="form-control input-form" id="sala" value="{{ str_replace('_', ' ', $cita->sala->nombre) }}" disabled>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="tipoCirugia" class="form-label">Tipo de cita:</label>
+                            <input type="text" class="form-control input-form" id="tipoCirugia" value="{{ $cita->tipoCita->nombre }}" disabled>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="doctor" class="form-label">Doctor que antender&aacute;:</label>
+                            <input type="text" class="form-control input-form" id="doctor" value="{{ $cita->personal->primer_nombre }} {{ $cita->personal->primer_apellido }}" disabled>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="insumos" class="form-label">Insumos para la consulta:</label>
+                            <input type="text" class="form-control input-form" id="insumos" value="{{ $cita->insumos ? $cita->insumos->nombre : 'Sin insumos asignados' }}" disabled>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="equipoMedico" class="form-label">Equipo para la consulta:</label>
+                            <input type="text" class="form-control input-form" id="equipoMedico" value="{{ $cita->equipoMedico ? $cita->equipoMedico->nombre : 'Sin equipo asignado' }}" disabled>
+                        </div>
+
+
+
+                        <div class="text-center mt-4">
+                            <a href="{{ route('Citas.index') }}" class="btn btn-primary">Volver</a>
+                        </div>
                     </div>
                 </div>
             </div>

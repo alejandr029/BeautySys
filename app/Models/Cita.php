@@ -43,8 +43,14 @@ class Cita extends Model
         return $this->belongsTo(TipoCita::class, 'id_tipo_cita', 'id_tipo_cita');
     }
 
-    public function doctor()
+    public function insumos()
     {
-        return $this->belongsTo(TipoCita::class, 'id_tipo_cita', 'id_tipo_cita');
+        return $this->belongsTo(Insumos::class, 'id_insumos', 'id_insumos');
     }
+
+    public function equipoMedico()
+    {
+        return $this->belongsTo(EquipoMedico::class, 'id_equipo', 'id_equipo_medico');
+    }
+
 }
