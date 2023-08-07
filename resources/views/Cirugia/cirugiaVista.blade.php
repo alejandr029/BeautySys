@@ -149,32 +149,30 @@
           <div class="col-lg-11">
             <div class="card">
               <div class="card-header">
-                <h4 class="card-title">Crear Cirugia</h4>
+                <h4 class="card-title">Vista de la Cirugia con id: {{$DatosCirugia->id_cirugia}}</h4>
               </div>
               <div class="card-body">   
-                <form method="post" action="{{ route('crearCirugia') }}"  enctype="multipart/form-data">
-                    @csrf
                   <div class="row mb-5">
                     <div class="col-md-6">
                       <div class="input-form">
-                        <select id="consultas" name="consultas" required>
-                          <option value="" disabled selected>Seleccionar Consulta aprobada</option>
+                        <select id="consultas" name="consultas" required disabled>
+                          <option value="" selected>Seleccionar Consulta aprobada</option>
                           @foreach ($SelectConsultas as $item)
-                          <option value="{{ $item->id_consulta }}">Consulta ID: {{ $item->id_consulta }} - Paciente: {{ $item->nombrePaciente }}</option>
+                          <option value="{{ $item->id_consulta }}" {{ $DatosCirugia->id_consulta == $item->id_consulta ? 'selected' : '' }}>Consulta ID: {{ $item->id_consulta }} - Paciente: {{ $item->nombrePaciente }}</option>
                           @endforeach
                         </select>
-                        <label for="consultas" class="textUser" style="visibility: hidden">Consultas aprobadas</label>
+                        <label for="consultas" class="textUser fixed-label" style="visibility: hidden">Consultas aprobadas</label>
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="input-form">
-                        <select id="personal" name="personal" required>
-                          <option value="" selected>Seleccionar personal encargado</option>
+                        <select id="personal" name="personal" required disabled>
+                          <option value=""  selected>Seleccionar personal encargado</option>
                           @foreach ($SelectPersonal as $item)
-                          <option value="{{ $item->id_personal }}">Personal: {{ $item->nombrePersonalAcargo }} - Departamento: {{ $item->nombreDepartamento }}</option>
+                          <option value="{{ $item->id_personal }}" {{ $DatosCirugia->id_personal == $item->id_personal ? 'selected' : '' }}>Personal: {{ $item->nombrePersonalAcargo }} - Departamento: {{ $item->nombreDepartamento }}</option>
                           @endforeach
                         </select>
-                        <label for="personal" class="textUser" style="visibility: hidden">Personal encargago</label>
+                        <label for="personal" class="textUser fixed-label" style="visibility: hidden">Personal encargago</label>
                       </div>
                     </div>
                   </div>
@@ -232,35 +230,33 @@
                       </div>
                       <div class="col-md-4">
                         <div class="input-form">
-                          <select id="cirugia" name="cirugia" required>
+                          <select id="cirugia" name="cirugia" required disabled>
                             <option value="" selected>Seleccionar Tipo de cirugia</option>
                             @foreach ($SelectCirugias as $item)
-                            <option value="{{ $item->id_tipo_cirugia }}"> {{ $item->nombre }} </option>
+                            <option value="{{ $item->id_tipo_cirugia }}" {{ $DatosCirugia->id_tipo_cirugia == $item->id_tipo_cirugia ? 'selected' : '' }}> {{ $item->nombre }} </option>
                             @endforeach
                           </select>
-                          <label for="cirugia" class="textUser" style="visibility: hidden">Tipo de cirugia</label>
+                          <label for="cirugia" class="textUser fixed-label" style="visibility: hidden">Tipo de cirugia</label>
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="input-form">
-                          <select id="estatusCirugia" name="estatusCirugia" required>
+                          <select id="estatusCirugia" name="estatusCirugia" required disabled>
                             <option value="" selected>Seleccionar Estatus de cirugia</option>
                             @foreach ($SelectEstatusCirugia as $item)
-                            <option value="{{ $item->id_estatus_cirugia }}"> {{ $item->nombre }} </option>
+                            <option value="{{ $item->id_estatus_cirugia }}" {{ $DatosCirugia->id_estatus_cirugia == $item->id_estatus_cirugia ? 'selected' : '' }}> {{ $item->nombre }} </option>
                             @endforeach
                           </select>
-                          <label for="estatusCirugia" class="textUser" style="visibility: hidden">Estatus de cirugia</label>
+                          <label for="estatusCirugia" class="textUser fixed-label" style="visibility: hidden">Estatus de cirugia</label>
                         </div>
                       </div>
                       <div class="col-md-4">
                         <div class="input-form">
-                          <select id="sala" name="sala" required>
+                          <select id="sala" name="sala" required disabled>
                             <option value="" selected>Seleccionar sala a usar</option>
-                            @foreach ($SelectSalas as $item)
-                            <option value="{{ $item->id_sala }}"> {{ $item->nombre }} </option>
-                            @endforeach
+                            <option value="{{ $SelectSalas->id_sala }}" {{ $DatosCirugia->id_sala == $SelectSalas->id_sala ? 'selected' : '' }}> {{ $SelectSalas->nombre }} </option>
                           </select>
-                          <label for="sala" class="textUser" style="visibility: hidden">Seleccionar sala</label>
+                          <label for="sala" class="textUser fixed-label" style="visibility: hidden">Seleccionar sala</label>
                         </div>
                       </div>
                     </div>
@@ -268,14 +264,14 @@
                     <div class="row mb-5">
                       <div class="col-md-6">
                       <div class="input-form">
-                        <input type="date" id="fecha" name="fecha" required>
-                        <label for="fecha" class="textUser" style="visibility: hidden">Fecha de la Cirugia</label>
+                        <input type="date" id="fecha" name="fecha" required disabled value="{{ date('Y-m-d', strtotime($DatosCirugia->fecha_cirugia)) }}">
+                        <label for="fecha" class="textUser fixed-label" style="visibility: hidden">Fecha de la Cirugia</label>
                     </div>
                 </div>
                 <div class="col-md-6">
                   <div class="input-form">
-                    <input type="time" id="hora" name="hora" required>
-                    <label for="hora" class="textUser" style="visibility: hidden">Hora de la cirugia</label>
+                    <input type="time" id="hora" name="hora" disabled  value="{{ date('H:i', strtotime($DatosCirugia->fecha_cirugia)) }}">
+                    <label for="hora" class="textUser fixed-label" style="visibility: hidden">Hora de la cirugia</label>
                   </div>
                 </div>
               </div>
@@ -284,8 +280,54 @@
 
               <div class="container">
                 <div class="row">
+                  <div class="col-md-8">
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="table-responsive p-0">
+                          <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th style="width: 50%; text-wrap:wrap; text-align: center;">Nombre de insumo</th>
+                              <th style="width: 50%; text-wrap:wrap; text-align: center;">Cantidad Usada</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @foreach($InsumoUsado as $insumoU)
+                            <tr>
+                              <td style="text-align: center; width: 50%; text-wrap:wrap;">{{ $insumoU->nombre }}</td>
+                              <td style="text-align: center; width: 50%; text-wrap:wrap;">{{ $insumoU->cantidad }}</td>
+                            </tr>
+                            @endforeach
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                      <div class="col-md-6">
+                        <div class="table-responsive p-0">
+                          <table class="table table-striped">
+                            <thead>
+                              <tr>
+                                <th style="width: 50%; text-wrap:wrap; text-align: center;">Nombre de Equipo medico</th>
+                                <th style="width: 50%; text-wrap:wrap; text-align: center;">Cantidad Usada</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              @foreach($EquipoUsado as $equipoU)
+                              <tr>
+                                <td style="text-align: center; width: 50%; text-wrap:wrap;">{{ $equipoU->nombre }}</td>
+                                <td style="text-align: center; width: 50%; text-wrap:wrap;">{{ $equipoU->cantidad }}</td>
+                              </tr>
+                              @endforeach
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
 
-                    <div class="col-md-6">
+                    </div>
+                  </div>
+                    <div class="col-md-4">
+                      <div class="table-responsive p-0">
+
                         <table class="table table-striped">
                           <thead>
                             <tr>
@@ -295,50 +337,55 @@
                           </thead>
                           <tbody>
                             <tr>
-                              <th scope="row">Nombre cirugia:</th>
-                              <td id="nombreCirugia"></td>
+                              <th scope="row" style="width: 50%; text-wrap:wrap;">Nombre cirugia:</th>
+                              <td id="nombreCirugia"  style="width: 50%; text-wrap:wrap;"></td>
                             </tr>
                             <tr>
-                              <th scope="row">Precio unitario:</th>
-                              <td id="PrecioCirugia" ></td>
+                              <th scope="row" style="width: 50%; text-wrap:wrap;">Precio unitario:</th>
+                              <td id="PrecioCirugia"  style="width: 50%; text-wrap:wrap;"></td>
                             </tr>
                             <tr>
-                              <th scope="row">Tiempo estimado de la cirugia:</th>
-                              <td id="TiempoCirugia" ></td>
+                              <th scope="row" style="width: 50%; text-wrap:wrap;">Tiempo estimado de la cirugia:</th>
+                              <td id="TiempoCirugia"  style="width: 50%; text-wrap:wrap;"></td>
                             </tr>
                             <tr>
-                              <th scope="row">Tiempo estimado de la recuperacion:</th>
-                              <td id="TiempoRecuperacion" ></td>
+                              <th scope="row" style="width: 50%; text-wrap:wrap;">Tiempo estimado de la recuperacion:</th>
+                              <td id="TiempoRecuperacion"  style="width: 50%; text-wrap:wrap;"></td>
                             </tr>
                           </tbody>
                         </table>
+                      </div>
                     </div>
                 </div>
             </div>
                 
-                    <script>
-                      // Add this inside a script tag or in a separate JS file
-                      document.addEventListener("DOMContentLoaded", function () {
-                        const selectConsultas = document.getElementById("consultas");
-                        const idPacienteInput = document.getElementById("idPaciente");
-                        const nombrePacienteInput = document.getElementById("nombrePaciente");
-                        const correoPacienteInput = document.getElementById("correoPaciente");
-                        const telefonoPacienteInput = document.getElementById("telefonoPaciente");
-
-                        const SelectCirugias = document.getElementById("cirugia");
-                        const TablaNombreCirugia = document.getElementById("nombreCirugia");
-                        const TablaPrecioCirugia = document.getElementById("PrecioCirugia");
-                        const TablaTiempoCirugia = document.getElementById("TiempoCirugia");
-                        const TablaTiempoRecuperacion = document.getElementById("TiempoRecuperacion");
-
-                        const alergiasTableBody = document.getElementById("alergiasTableBody");
-                        const enfermedadesTableBody = document.getElementById("enfermedadesTableBody");
-
-
-                    
-                        selectConsultas.addEventListener("change", function () {
-                          const selectedConsultaId = this.value;
-                          if (selectedConsultaId) {
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    // Definir una función que realiza las operaciones AJAX para SelectCirugias
+                    function updateCirugiaData() {
+                        const selectedCirugiaId = SelectCirugias.value;
+                        if (selectedCirugiaId) {
+                            fetch(`/Cirugiadatoscirugia/${selectedCirugiaId}`)
+                                .then((response) => response.json())
+                                .then((data) => {
+                                    console.log(data)
+                                    TablaNombreCirugia.textContent = data.nombre;
+                                    TablaPrecioCirugia.textContent = "$ " + data.precio_unitario;
+                                    TablaTiempoCirugia.textContent = data.tiempo_estimado_cirugia;
+                                    TablaTiempoRecuperacion.textContent = data.tiempo_estimado_recuperacion;
+                                });
+                        } else {
+                            TablaNombreCirugia.textContent = "";
+                            TablaPrecioCirugia.textContent = "";
+                            TablaTiempoCirugia.textContent = "";
+                            TablaTiempoRecuperacion.textContent = "";
+                        }
+                    }
+            
+                    // Definir una función que realiza las operaciones AJAX para selectConsultas
+                    function updateConsultaData() {
+                        const selectedConsultaId = selectConsultas.value;
+                        if (selectedConsultaId) {
                             fetch(`/CirugiadatosPaciente/${selectedConsultaId}`)
                             .then((response) => response.json())
                             .then((data) => {
@@ -347,7 +394,7 @@
                                 nombrePacienteInput.value = data.nombrePaciente;
                                 correoPacienteInput.value = data.correoPaciente;
                                 telefonoPacienteInput.value = data.telefonoPaciente;
-
+            
                                 // Ahora que tenemos el id del paciente, obtenemos las alergias y enfermedades
                                 fetch(`/CirugiaObtenerAlergiasEnfermedades/${data.id_paciente}`)
                                     .then((response) => response.json())
@@ -355,7 +402,7 @@
                                         // Limpiar las tablas antes de agregar nuevas filas
                                         alergiasTableBody.innerHTML = '';
                                         enfermedadesTableBody.innerHTML = '';
-
+            
                                         // Agregar filas de alergias a la tabla
                                         data.alergias.forEach(alergia => {
                                             const newRow = document.createElement("tr");
@@ -364,7 +411,7 @@
                                             newRow.appendChild(newCell);
                                             alergiasTableBody.appendChild(newRow);
                                         });
-
+            
                                         // Agregar filas de enfermedades crónicas a la tabla
                                         data.enfermedades.forEach(enfermedad => {
                                             const newRow = document.createElement("tr");
@@ -375,51 +422,54 @@
                                         });
                                     });
                             });
-                          } else {
+                        } else {
                             idPacienteInput.value = "";
                             nombrePacienteInput.value = "";
                             correoPacienteInput.value = "";
                             telefonoPacienteInput.value = "";
                             alergiasTableBody.innerHTML = '';
                             enfermedadesTableBody.innerHTML = '';
-                          }
-                          
-                        });
-
-                        SelectCirugias.addEventListener("change", function () {
-                          const selectedCirugiaId = this.value;
-                          if (selectedCirugiaId) {
-                            fetch(`/Cirugiadatoscirugia/${selectedCirugiaId}`)
-                              .then((response) => response.json())
-                              .then((data) => {
-                                console.log(data)
-                                TablaNombreCirugia.textContent  = data.nombre;
-                                TablaPrecioCirugia.textContent  = "$ " + data.precio_unitario;
-                                TablaTiempoCirugia.textContent  = data.tiempo_estimado_cirugia;
-                                TablaTiempoRecuperacion.textContent  = data.tiempo_estimado_recuperacion;
-                              });
-                          } else {
-                            TablaNombreCirugia.textContent  = "";
-                            TablaPrecioCirugia.textContent  = "";
-                            TablaTiempoCirugia.textContent  = "";
-                            TablaTiempoRecuperacion.textContent  = "";
-                          }
-                        });
-
-                      });
-                    </script>
-                  </div>
-                  <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-primary">Crear Cirugia</button>
-              </div>
-            </form>
+                        }
+                    }
+            
+                    const selectConsultas = document.getElementById("consultas");
+                    const idPacienteInput = document.getElementById("idPaciente");
+                    const nombrePacienteInput = document.getElementById("nombrePaciente");
+                    const correoPacienteInput = document.getElementById("correoPaciente");
+                    const telefonoPacienteInput = document.getElementById("telefonoPaciente");
+            
+                    const SelectCirugias = document.getElementById("cirugia");
+                    const TablaNombreCirugia = document.getElementById("nombreCirugia");
+                    const TablaPrecioCirugia = document.getElementById("PrecioCirugia");
+                    const TablaTiempoCirugia = document.getElementById("TiempoCirugia");
+                    const TablaTiempoRecuperacion = document.getElementById("TiempoRecuperacion");
+            
+                    const alergiasTableBody = document.getElementById("alergiasTableBody");
+                    const enfermedadesTableBody = document.getElementById("enfermedadesTableBody");
+            
+                    // Llamar a las funciones al cargar la página
+                    updateConsultaData();
+                    updateCirugiaData();
+            
+                    selectConsultas.addEventListener("change", function () {
+                        // Llamar a la función en el evento "change"
+                        updateConsultaData();
+                    });
+            
+                    SelectCirugias.addEventListener("change", function () {
+                        // Llamar a la función en el evento "change"
+                        updateCirugiaData();
+                    });
+                });
+            </script>
+            
+            
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      
-      
+      </div>   
       @include('layout.footer')
     </main>
     @endsection

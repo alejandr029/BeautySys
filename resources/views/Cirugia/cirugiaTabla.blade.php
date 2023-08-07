@@ -123,7 +123,7 @@ use Carbon\Carbon;
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
                             <h6 class="text-white text-capitalize ps-3">Cirugias</h6>
-                            <button class="crear" onclick="window.location.href='{{ route('crearCirugia') }}'" style="margin-right: 15px;">
+                            <button class="crear" onclick="window.location.href='{{ route('vistacrearCirugia') }}'" style="margin-right: 15px;">
                                 <a>
                                     <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path fill="currentColor" d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"></path></svg> Create
@@ -164,14 +164,15 @@ use Carbon\Carbon;
                                         <td class="td-actions">
                                             <div role="group">
                                                 <button type="button" class="btn btn-info"
-                                               style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;"  ><i class="material-icons">visibility</i></button>
-                                              <button type="button" class="btn btn-warning"
-                                               style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" ><i class="material-icons">edit</i></button>
-                                               <form method="POST" >
+                                               style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('vistaCirugia', ['id'=> $Cirugia->id_cirugia]) }}'"><i class="material-icons">visibility</i></button>
+                                              
+                                               <button type="button" class="btn btn-warning" @if( $Cirugia->id_estatus_cirugia == '6' ||  $Cirugia->id_estatus_cirugia == '7') @style('display:none;') @endif
+                                               style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('vistaActualizarCirugia', ['id' => $Cirugia->id_cirugia ]) }}'"><i class="material-icons">edit</i></button>
+                                               <form method="POST" action="{{ route('CancelarCirugia', ['id' => $Cirugia->id_cirugia]) }}" @if( $Cirugia->id_estatus_cirugia == '6' ||  $Cirugia->id_estatus_cirugia == '7'||  $Cirugia->id_estatus_cirugia == '5') @style('display:none;') @endif>
                                                 @csrf
-                                                @method('DELETE')
+                                                @method('PUT')
                                                 <button type="submit" class="btn btn-danger" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">
-                                                    <i class="material-icons">delete_outline</i>
+                                                    <i class="material-icons">block</i>
                                                 </button>
                                             </form>
                                             </div>
