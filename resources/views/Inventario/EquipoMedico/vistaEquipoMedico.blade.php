@@ -163,7 +163,7 @@
                   <div class="col-md-4">
                       <div class="input-form">
                           <select id="estatus" name="id_estatus_equipo" required disabled>
-                              <option value="" disabled>Seleccionar Estatus</option>
+                              <option value="" >Seleccionar Estatus</option>
                               @foreach ($estatus as $item)
                                   <option value="{{ $item->id_estatus_equipo }}" {{ $equipoMedico->id_estatus_equipo == $item->id_estatus_equipo ? 'selected' : '' }}>
                                       {{ $item->nombre }}
@@ -176,7 +176,7 @@
                     <div class="col-md-4">
                       <div class="input-form">
                           <select id="proveedor" name="id_proveedor" required disabled>
-                              <option value="" disabled>Seleccionar Proveedor</option>
+                              <option value="" >Seleccionar Proveedor</option>
                               @foreach ($proveedores as $proveedor)
                                   <option value="{{ $proveedor->id_proveedor }}" {{ $equipoMedico->id_proveedor == $proveedor->id_proveedor ? 'selected' : '' }}>
                                       {{ $proveedor->nombre_empresarial }}

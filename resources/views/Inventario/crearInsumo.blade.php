@@ -173,7 +173,7 @@
                 <div class="col-md-4">
                     <div class="input-form">
                         <select id="estatus" name="id_estatus_insumos" required>
-                            <option value="" disabled selected>Seleccionar Estatus</option>
+                            <option value=""  selected>Seleccionar Estatus</option>
                             @foreach ($estatus as $item)
                                 <option value="{{ $item->id_estatus_insumos }}">{{ $item->nombre }}</option>
                             @endforeach
@@ -184,7 +184,7 @@
                   <div class="col-md-4">
                     <div class="input-form">
                         <select id="proveedor" name="id_proveedor" required>
-                            <option value="" disabled selected>Seleccionar Proveedor</option>
+                            <option value=""  selected>Seleccionar Proveedor</option>
                             @foreach ($proveedores as $proveedor)
                                 <option value="{{ $proveedor->id_proveedor }}">{{ $proveedor->nombre_empresarial }}</option>
                             @endforeach

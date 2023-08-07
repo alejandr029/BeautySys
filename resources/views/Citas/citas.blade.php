@@ -179,7 +179,7 @@
                                                     <button type="button" class="btn btn-info" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Citas.visualizar', $cita->id_cita ) }}'">
                                                         <i class="material-icons">visibility</i>
                                                     </button>
-                                                    <button type="button" class="btn btn-warning" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Citas.editar', ['id' => $cita->id_cita]) }}'">
+                                                    <button type="button" class="btn btn-warning" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Citas.editar', $cita->id_cita ) }}'">
                                                         <i class="material-icons">edit</i>
                                                     </button>
                                                     <form action="{{ route('Citas.destroyForm', ['id' => $cita->id_cita]) }}" method="POST">
