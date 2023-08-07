@@ -139,7 +139,7 @@
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
                             <h6 class="text-white text-capitalize ps-3">Lista Consultas</h6>
                             <button class="crear" style="margin-right: 15px;"
-                                onclick="window.location.href=">
+                                onclick="window.location.href='{{ route('crearConsulta')}}'">
                                 <a>
                                     <span>Crear <i class="material-icons">add</i></span>
                                 </a>
@@ -152,29 +152,26 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">ID</th>
-                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">Fecha</th>
-                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">Hora</th>
-                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">Estado</th>
-                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">Sala</th>
-                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">Paciente</th>
-                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">Tipo de Cita</th>
-                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">Doctor</th>
-                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">Acciones</th>
+                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">FECHA</th>
+                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">HORA</th>
+                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">PACIENTE</th>
+                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">PERSONAL ENCARGADO</th>
+                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">ESTATUS</th>
+                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7">NOMBRE DE LA SALA</th>
+                                        <th class="text-center text-secondary text-xs font-weight-bolder opacity-7"></th>
                                     </tr>
                                 </thead>
-                                {{-- <tbody>
-                                    @foreach ($citas as $cita)
+                                <tbody>
+                                    @foreach ($consultas as $consulta)
                                         <tr>
-                                            <td class="text-center">{{ $cita->id_cita }}</td>
-                                            <td class="text-center">{{ Carbon::parse($cita->fecha_cita)->format('Y-m-d') }}</td>
-                                            <td class="text-center">{{ Carbon::parse($cita->hora_cita)->format('h:i A') }}</td>
-                                            <td class="text-center">{{ $cita->estadoCita->nombre }}</td>
-                                            <td class="text-center">{{ $cita->id_sala }}</td>
-                                            <!-- PARA MOSTRAR LOS DATOS, ES DE ESTA MANERA, LA VARIABLE DEL FOREACH, LUEGO SI ESTA EN LA TABLA PRINCIPAL SE COLOCA EL NOMBREM SINO SE USA EL NOMBRE DE LA FUNCION QUE TENGAS EN EL MODELO
-                                            PARA ACCEDER A LA TABLA DE PACIENTE Y YA DENTRO DE ESTA COLOCAS EL NOMBRE QUE BUSCAS -->
-                                            <td class="text-center">{{ $cita->paciente->primer_nombre }} {{ $cita->paciente->primer_apellido }}</td>
-                                            <td class="text-center">{{ $cita->id_tipo_cita }}</td>
-                                            <td class="text-center">{{ $cita->personal->primer_nombre }} {{ $cita->personal->primer_apellido }}</td>
+                                            <td class="text-center">{{ $consulta->id }}</td>
+                                            <td class="text-center">{{ Carbon::parse($consulta->fecha)->format('Y-m-d') }}</td>
+                                            <td class="text-center">{{ Carbon::parse($consulta->fecha)->format('h:i A') }}</td>
+                                            <td class="text-center">{{ $consulta->nombre_ps}}</td>
+                                            <td class="text-center">{{ $consulta->nombre_pp }}</td>
+                                            <td class="text-center">{{ $consulta->estatus }}</td>
+                                            <td class="text-center">{{ $consulta->nombre_sala}}</td>
+
                                             <td class="td-actions">
                                                 <div role="group">
                                                     <button type="button" class="btn btn-info" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" >
@@ -192,7 +189,7 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                                </tbody> --}}
+                                </tbody>
                             </table>
                         </div>
                     </div>

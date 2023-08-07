@@ -25,9 +25,7 @@ use App\Http\Controllers\InventarioEquipoMedicoController;
 use App\Http\Controllers\ProveedorController;
 use App\Http\Controllers\CitasController;
 use App\Http\Controllers\RestauracionController;
-
-
-
+use App\Http\Controllers\CirugiaController;
 use App\Http\Controllers\ConsultasController;
 
 
@@ -106,6 +104,7 @@ Route::get('/Cirugiadatoscirugia/{id}', [CirugiaController::class, 'datosCirugia
 
 //SECCION DE CONSULTAS
 Route::get('/consultas', [ConsultasController::class, 'index'])->name('consultas.index');
+Route::get('/consultas/crear', [ConsultasController::class, 'crear'])->name('crearConsulta');
 
 Route::get('/profile', function () {
     session(['activeTab' => 'Profile']);

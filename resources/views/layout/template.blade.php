@@ -110,6 +110,15 @@
                   </a>
                 </li>
 
+                <li class="nav-item">
+                  <a class="nav-link text-white <?php echo session('activeTab') === 'Cirugias' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('tablaCirugia') }}">
+                      <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <img src="../assets/img/icons/Cirugia.png" style="width: 20px">
+                      </div>
+                      <span class="nav-link-text ms-1">Cirugia</span>
+                  </a>
+              </li>
+
 
                 <li class="nav-item">
                     <a class="nav-link text-white <?php echo session('activeTab') === 'Inventario' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('Inventario.index') }}">
@@ -122,14 +131,7 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
-                  <a class="nav-link text-white <?php echo session('activeTab') === 'Cirugias' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('tablaCirugia') }}">
-                      <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <img src="../assets/img/icons/Cirugia.png" style="width: 20px">
-                      </div>
-                      <span class="nav-link-text ms-1">Cirugia</span>
-                  </a>
-              </li>
+                
         @endif
 
             @if(auth()->user()->hasRole(['admin']))
