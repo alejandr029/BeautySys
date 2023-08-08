@@ -7,7 +7,7 @@
     <link rel="shortcut icon" sizes="76x76" href="../assets/img/logos/logoproyecto8b.png">
     <link rel="icon" type="image/png" href="../assets/img/logos/logoproyecto8b">
     <title>
-        BeautySys - login
+        BeautySys Login
     </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
@@ -99,7 +99,7 @@
                                             <a href="/registro" class="text-primary text-gradient font-weight-bold">Sign
                                                 up</a>
                                         </p>
-                        
+
                                     </div>
 
                                 </form>

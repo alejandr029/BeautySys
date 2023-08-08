@@ -176,7 +176,7 @@
                       </div>
                     </div>
                   </div>
-                  <hr style="border: 1px solid #000;">
+                  <hr class="dark horizontal">
                     <div class="row mb-5">
                       <div class="card-header" style="margin-bottom: 20px">
                         <h4 class="card-title">Datos del paciente</h4>
@@ -223,7 +223,7 @@
                     </table>
                   </div>
                     </div>
-                    <hr style="border: 1px solid #000;">
+                    <hr class="dark horizontal">
                     <div class="row mb-5">
                       <div class="card-header" style="margin-bottom: 20px">
                         <h4 class="card-title">Datos de la cirugia</h4>

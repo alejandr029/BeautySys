@@ -7,7 +7,7 @@
     <link rel="shortcut icon" sizes="76x76" href="../assets/img/logos/logoproyecto8b.png">
     <link rel="icon" type="image/png" href="../assets/img/logos/logoproyecto8b">
     <title>
-        Material Dashboard 2 by Creative Tim
+        BeautySys Registro
     </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
@@ -24,6 +24,12 @@
     <!-- Nepcha Analytics (nepcha.com) -->
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+<style>
+.fecha {
+    visibility: visible!important;
+}
+</style>
+
 </head>
 
 <body class="">
@@ -41,8 +47,8 @@
                         <div class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-5">
                             <div class="card card-plain">
                                 <div class="card-header">
-                                    <h4 class="font-weight-bolder">Sign Up</h4>
-                                    <p class="mb-0">Enter your email and password to register</p>
+                                    <h4 class="font-weight-bolder">Registro</h4>
+                                    <p class="mb-0">Ingresa tus datos para crear una cuenta de paciente.</p>
                                 </div>
                                 <div class="card-body">
                                     <x-validation-errors class="mb-4" />
@@ -63,6 +69,18 @@
                                         </div>
 
                                         <div class="input-group input-group-outline mb-3">
+                                            <x-label for="fecha_nacimiento" value="{{ __('Fecha de Nacimiento') }}" class="form-label" />
+                                            <x-input id="fecha_nacimiento" class="form-control fecha" type="date" name="fecha_nacimiento"
+                                            :value="old('fecha_nacimiento')" required autocomplete="fecha_nacimiento" style="visibility: hidden"/>
+                                        </div>
+
+                                        <div class="input-group input-group-outline mb-3">
+                                            <x-label for="telefono" value="{{ __('Numero de Telefono') }}" class="form-label" />
+                                            <x-input id="telefono" class="form-control" type="text" name="telefono"
+                                                :value="old('telefono')" required autocomplete="telefono" />
+                                        </div>
+
+                                        <div class="input-group input-group-outline mb-3">
                                             <x-label for="password" value="{{ __('Password') }}" class="form-label" />
                                             <x-input id="password" class="form-control" type="password" name="password"
                                                 required autocomplete="new-password" />
@@ -79,21 +97,21 @@
                                             <input class="form-check-input" type="checkbox" value=""
                                                 id="flexCheckDefault" checked required>
                                             <label class="form-label" for="flexCheckDefault">
-                                                I agree the <a href="javascript:;"
-                                                    class="text-dark font-weight-bolder">Terms and Conditions</a>
+                                                Acepto los <a href="javascript:;"
+                                                    class="text-dark font-weight-bolder">T&eacute;rminos y Condiciones.</a>
                                             </label>
                                         </div>
 
                                         <div class="text-center">
                                             <x-button class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">
-                                                {{ __('Register') }}
+                                                {{ __('Registrarse') }}
                                             </x-button>
                                         </div>
                                         <br>
                                         <div class="card-footer text-center pt-0 px-lg-2 px-1">
                                             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                                 href="{{ route('login') }}">
-                                                {{ __('Already registered?') }}
+                                                {{ __('Ya tienes una cuenta?') }}
                                             </a>
                                         </div>
                                     </form>
