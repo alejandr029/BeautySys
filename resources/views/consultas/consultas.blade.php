@@ -174,16 +174,20 @@
 
                                             <td class="td-actions">
                                                 <div role="group">
-                                                    <button type="button" class="btn btn-info" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" >
-                                                        <i class="material-icons">visibility</i>
+
+                                                    <button type="button" class="btn btn-info"
+                                                    style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('consultavista', ['id'=> $consulta->id]) }}'"><i class="material-icons">visibility</i></button>
+                                                    
+                                                    <button type="button" class="btn btn-warning" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('ConsultaActualizarVista', ['id'=> $consulta->id]) }}'">
+                                                        <i class="material-icons">edit</i> 
                                                     </button>
-                                                    <button type="button" class="btn btn-warning" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" >
-                                                        <i class="material-icons">edit</i>
-                                                    </button>
-                                                    <form action="" method="POST">
+                                                
+                                                    <form method="POST" action="{{ route('CancelarConsulta', ['id' => $consulta->id]) }}" @if($consulta->id_status_consulta == '3'||  $consulta->id_status_consulta == '4') @style('display:none;') @endif>
                                                         @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Eliminar cosulta</button>
+                                                        @method('PUT')
+                                                        <button type="submit" class="btn btn-danger" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">
+                                                            <i class="material-icons">block</i>
+                                                        </button>
                                                     </form>
                                                 </div>
                                             </td>

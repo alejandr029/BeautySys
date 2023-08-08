@@ -21,13 +21,16 @@ class ConsultasController extends Controller
             'ec.aprovacion_cirugia as aprovacion',
             'esc.nombre as estatus',
             'ls.nombre as nombre_sala',
-            'les.nombre as estado_sala'
+            'les.nombre as estado_sala',
+            'ec.id_status_consulta'
         )
         ->join('usuario.paciente as up', 'up.id_paciente', '=', 'ec.id_paciente')
         ->join('personal.personal as pp', 'pp.id_personal', '=', 'ec.id_personal')
         ->join('estetico.status_consulta as esc', 'esc.id_status_consulta', '=', 'ec.id_status_consulta')
         ->join('locacion.sala as ls', 'ls.id_sala', '=', 'ec.id_sala')
         ->join('locacion.estado_sala as les', 'les.id_estado_sala', '=', 'ls.id_estado_sala')
+        // ->where('ec.id_status_consulta','!=',3)
+        // ->where('ec.id_status_consulta','!=',4)
         ->orderByDesc('ec.id_consulta ')
 
         ->Paginate(5); 
@@ -36,7 +39,7 @@ class ConsultasController extends Controller
         return view('consultas.consultas',compact('consultas'));
     }
 
-    public function crear(){
+    public function crear_vista(){
 
         $SelectPersonal = DB::table('personal.personal as P')
         ->join('personal.departamento as D', 'P.id_departamento', '=', 'D.id_departamento')
@@ -60,12 +63,54 @@ class ConsultasController extends Controller
         return view('consultas.consultacrear',compact('SelectPersonal','sala','status'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function pacientesConsulta($id)
     {
-        //
+        
+        $datos_busqueda = json_decode(urldecode($id));
+
+        $nombre = $datos_busqueda[0];
+        $apellido = $datos_busqueda[1];
+
+        $pacientes = DB::table('usuario.paciente')
+        ->select('id_paciente', 'primer_nombre as paciente_nombre', 'primer_apellido as paciente_apellido')
+        ->where('primer_apellido', 'like','%'.$apellido.'%')
+        ->where('primer_nombre', 'like','%'.$nombre.'%')
+        ->get();
+        session(['activeTab' => 'Consultas']);
+
+        return response()->json($pacientes);
+
+    }
+    public function pacienteConsulta($id)
+    {
+        
+        $datlospaciente = DB::table('usuario.paciente')
+        ->select('id_paciente', DB::raw("CONCAT(primer_nombre, ' ', primer_apellido, ' ', segundo_nombre) as nombrePaciente"), 'correo as correoPaciente', 'telefono as telefonoPaciente')
+        ->where('id_paciente', $id)
+        ->first();
+
+        session(['activeTab' => 'Consultas']);
+
+        return response()->json($datlospaciente);
+
+    }
+
+    public function crear(Request $request){
+
+        DB::table('estetico.consulta')->insert([
+            'fecha_visita' => date('Y-m-d H:i:s', strtotime($request->fecha . ' ' . $request->hora)),
+            'id_paciente' => $request->id_Paciente,
+            'id_personal' => $request->personal,
+            'datos_consulta' => $request->datos_consultas,
+            'id_status_consulta' => $request->estatus_consultas,
+            'id_sala' => $request->consulta_sala,
+        ]);
+
+        session(['activeTab' => 'Consultas']);
+
+    
+        return redirect()->route('consultas.index')->with('success', 'consulta creado correctamente.');
+
     }
 
     /**
@@ -73,15 +118,163 @@ class ConsultasController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $consultas = DB::table('estetico.consulta as ec')
+        ->select(
+            'id_consulta',
+            'fecha_visita',
+            'id_paciente',
+            'id_personal',
+            'datos_consulta',
+            'aprovacion_cirugia',
+            'id_status_consulta',
+            'id_sala'
+            
+        )
+        ->where('ec.id_consulta' , $id )
+        ->first(); 
+        
+
+        $paciente = DB::table('usuario.paciente')
+        ->select(
+            'id_paciente',
+            DB::raw("CONCAT(primer_nombre, ' ', primer_apellido, ' ', segundo_nombre) as nombrePaciente"),
+            'fecha_nacimiento',
+            'telefono',
+            'correo'	
+        )
+        ->where('id_paciente',(int)$consultas->id_paciente)
+        ->first(); 
+        
+        $SelectPersonal = DB::table('personal.personal as P')
+        ->join('personal.departamento as D', 'P.id_departamento', '=', 'D.id_departamento')
+        ->select('P.id_personal', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_apellido) as nombrePersonalAcargo"), 'D.nombre as nombreDepartamento') 
+        ->where('P.id_personal', (int)$consultas->id_personal)   
+        ->get();
+
+        $sala = DB::table('locacion.sala as ls')
+        ->select('ls.id_sala', 'ls.nombre', 'ls.capacidad','les.nombre as status')
+        ->join('locacion.estado_sala as les','les.id_estado_sala', '=', 'ls.id_estado_sala')
+        ->where('ls.nombre', 'like',"%Consultoria%")
+        ->where('les.nombre', 'like',"%Disponible%")
+        ->get();
+
+        $status = DB::table('estetico.status_consulta')
+        ->select('id_status_consulta', 'nombre')
+        ->get();
+
+
+        
+        session(['activeTab' => 'Consultas']);
+        return view('consultas.consultavista',compact('consultas','SelectPersonal','sala','status','paciente'));
+    }
+
+    public function showActualizar(string $id)
+    {
+        $consultas = DB::table('estetico.consulta as ec')
+        ->select(
+            'id_consulta',
+            'fecha_visita',
+            'id_paciente',
+            'id_personal',
+            'datos_consulta',
+            'aprovacion_cirugia',
+            'id_status_consulta',
+            'id_sala'
+            
+        )
+        ->where('ec.id_consulta' , $id )
+        ->first(); 
+        
+
+        $paciente = DB::table('usuario.paciente')
+        ->select(
+            'id_paciente',
+            DB::raw("CONCAT(primer_nombre, ' ', primer_apellido, ' ', segundo_nombre) as nombrePaciente"),
+            'fecha_nacimiento',
+            'telefono',
+            'correo'	
+        )
+        ->where('id_paciente',(int)$consultas->id_paciente)
+        ->first(); 
+        
+        $SelectPersonal = DB::table('personal.personal as P')
+        ->join('personal.departamento as D', 'P.id_departamento', '=', 'D.id_departamento')
+        ->select('P.id_personal', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_apellido) as nombrePersonalAcargo"), 'D.nombre as nombreDepartamento') 
+        ->where('P.id_personal', (int)$consultas->id_personal)   
+        ->get();
+
+        $sala = DB::table('locacion.sala as ls')
+        ->select('ls.id_sala', 'ls.nombre', 'ls.capacidad','les.nombre as status')
+        ->join('locacion.estado_sala as les','les.id_estado_sala', '=', 'ls.id_estado_sala')
+        ->where('ls.nombre', 'like',"%Consultoria%")
+        ->where('les.nombre', 'like',"%Disponible%")
+        ->get();
+
+        $status = DB::table('estetico.status_consulta')
+        ->select('id_status_consulta', 'nombre')
+        ->get();
+
+        $analisis = DB::table('estetico.analisis')
+        ->select(
+            'id_analisis',
+            'nombre',
+            'resultados',
+            'notas',
+            'diagnostico',
+            'id_consulta',
+        )
+        ->where('id_consulta',(int)$consultas->id_consulta)
+        ->get(); 
+            
+
+        
+        session(['activeTab' => 'Consultas']);
+        return view('consultas.consultaactualizar',compact('consultas','SelectPersonal','sala','status','paciente','analisis'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function actualizarConsulta(Request $request, string $id)
     {
-        //
+        DB::table('estetico.consulta')
+        ->where('id_consulta', $id)
+        ->update([
+            'fecha_visita' => date('Y-m-d H:i:s', strtotime($request->fecha . ' ' . $request->hora)),
+            'id_personal' => $request->personal,
+            'datos_consulta' => $request->datos_consultas,
+            'id_status_consulta' => $request->estatus_consultas,
+            'id_sala' => $request->consulta_sala,
+            'aprovacion_cirugia' =>$request->Aprovacion_cirugia,
+        ]);
+        
+        session(['activeTab' => 'Consultas']);
+        return redirect()->route('consultas.index')->with('success', 'consulta Actualizada correctamente.');
+    }
+
+    public function crear_analisis(Request $request, string $id){
+        $analisis = DB::table('estetico.analisis')
+        ->select(
+            'id_analisis',
+            'nombre',
+            'resultados',
+            'notas',
+            'diagnostico',
+            'id_consulta',
+        )
+        ->where('id_consulta',(int)$consultas->id_consulta)
+        ->get(); 
+            
+
+    }
+
+    public function cancelar(string $id)
+    {
+        DB::table('estetico.consulta')
+        ->where('id_consulta', $id)
+        ->update([
+            'id_status_consulta' => 4,
+        ]);
     }
 
     /**

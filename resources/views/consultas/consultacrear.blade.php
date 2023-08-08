@@ -153,55 +153,241 @@
               </div>
               
                 <div class="card-body">  
-                    <form method="post"  enctype="multipart/form-data">
-                        @csrf
-                        
+                    <form method="post" action="{{ route('crearConsulta.crear') }}" enctype="multipart/form-data">
+                      @csrf
+                      
                         <div class="row mb-5">
-                            <div class="col-md-5">
-                                <div class="input-form">
-                                    <select id="personal" name="personal" required>
-                                    <option value="" disabled selected>Seleccionar personal encargado</option>
-                                    @foreach ($SelectPersonal as $item)
-                                    <option value="{{ $item->id_personal }}">Personal: {{ $item->nombrePersonalAcargo }} - Departamento: {{ $item->nombreDepartamento }}</option>
-                                    @endforeach
-                                    </select>
-                                    <label for="personal" class="textUser" style="visibility: hidden">Personal encargado</label>
-                                    
-                                </div>
+                          <div class="row mb-5">
+                            <div class="col-md-6">
+                              <div class="input-form">
+                                <input type="date" id="fecha" name="fecha" required>
+                                <label for="fecha" class="textUser" style="visibility: hidden">Fecha de la consulta</label>
+                              </div>
                             </div>
-
-                            
-                            <div class="col-md-3">
-                                <div class="input-form">
-                                    <select id="consultas" name="consultas" required>
-                                    <option value="" disabled selected>sala en disposicion </option>
-                                    @foreach ($sala as $item)
-                                    <option value="{{ $item->id_sala }}">nombre: {{ $item->nombre }} - status: {{ $item->status }}</option>
-                                    @endforeach
-                                    </select>
-                                    <label for="consultas" class="textUser" style="visibility: hidden">salas disponibles</label>
-                                </div>
+                          <div class="col-md-6">
+                            <div class="input-form">
+                              
+                              <input type="time" id="hora" name="hora" required>
+                              <label for="hora" class="textUser" style="visibility: hidden">Hora de la consulta</label>
                             </div>
-
-                            <div class="col-md-3">
-                                <div class="input-form">
-                                    <select id="consultas" name="consultas" required>
-                                    <option value="" disabled selected>Estatus de la consulta</option>
-                                    @foreach ($status as $item)
-                                    <option value="{{ $item->id_status_consulta}}"> {{ $item->nombre }}</option>
-                                    @endforeach
-                                    </select>
-                                    <label for="consultas" class="textUser" style="visibility: hidden">estado consultas</label>
-                                </div>
-                            </div>
-
-                           
+                          </div>
                         </div>
+                        <div class="row mb-5">
+                          <div class="col-md-5">
+                              <div class="input-form">
+                                  <select id="personal" name="personal" required>
+                                  <option value="" disabled selected>Seleccionar personal encargado</option>
+                                  @foreach ($SelectPersonal as $item)
+                                  <option value="{{ $item->id_personal }}">Personal: {{ $item->nombrePersonalAcargo }} - Departamento: {{ $item->nombreDepartamento }}</option>
+                                  @endforeach
+                                  </select>
+                                  <label for="personal" class="textUser" style="visibility: hidden">Personal encargado</label>
+                                  
+                              </div>
+                          </div>
+
+                          
+                          <div class="col-md-3">
+                              <div class="input-form">
+                                  <select id="consulta_sala" name="consulta_sala" required>
+                                  <option value="" disabled selected>sala en disposicion </option>
+                                  @foreach ($sala as $item)
+                                  <option value="{{ $item->id_sala }}"> {{ $item->nombre }} - status: {{ $item->status }}</option>
+                                  @endforeach
+                                  </select>
+                                  <label for="consulta_sala" class="textUser" style="visibility: hidden">salas disponibles</label>
+                              </div>
+                          </div>
+                          
+                          <div class="col-md-3">
+                              <div class="input-form">
+                                  <select id="estatus_consultas" name="estatus_consultas" required>
+                                  <option value="" disabled selected>Estatus de la consulta</option>
+                                  @foreach ($status as $item)
+                                  <option value="{{ $item->id_status_consulta}}"> {{ $item->nombre }}</option>
+                                  @endforeach
+                                  </select>
+                                  <label for="estatus_consultas" class="textUser" style="visibility: hidden">estado consultas</label>
+                              </div>
+                          </div>
+                        </div>
+
+                        <div class="row mb-5" >
+                          <div class="col-md-12" style="margin-inline: auto">
+                            <div class="input-form">
+                              <input type="text" id="datos_consultas" name="datos_consultas" required>
+                              <label for="nombrePaciente" class="textUser fixed-label">Concepto de la consulta</label>
+                            </div>
+                          </div>
+                        </div>
+                        
+
+                      <div class="row mb-5" > 
+                      <hr style="border: 1px solid #000;">
+                      <div class="row mb-5">
+                        <div class="card-header" style="margin-bottom: 20px">
+                          <h4 class="card-title">Datos del paciente</h4>
+                        </div>
+
+                          <div class="col-md-3">
+                            <div class="input-form">
+                              <input type="text" id="nombre_busqueda_paciente" name="nombre_busqueda_paciente">
+                              <label for="nombre_busqueda_paciente" class="textUser fixed-label">Nombre paciente</label>
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="input-form">
+                              <input type="text" id="apellido_busqueda_paciente" name="apellido_busqueda_paciente">
+                              <label for="apellido_busqueda_paciente" class="textUser fixed-label">apellido del paciente</label>
+                            </div>
+                          </div>
+                          <div class="col-md-5">
+                            <div class="input-form">
+                              <select id="busqueda_paciente" name="personal" required>
+                                <option value="" disabled selected>Seleccionar paciente</option>
+                              </select>
+                              <label for="personal" class="textUser" style="visibility: hidden">Personal encargado</label>
+                            </div>
+                          </div>
+
+                      </div>
+
+                        <div class="row mb-6" style="margin-top: 35px">                          
+                          <div class="col-md-4">
+                            <div class="input-form">
+                              
+                              <input type="hidden" id="id_Paciente" name="id_Paciente">
+                              <input type="text" id="Paciente_nombre" name="Paciente_nombre" required disabled>
+                              <label for="Paciente_nombre" class="textUser fixed-label">Nombre completo del paciente</label>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="input-form">
+                              <input type="email" id="correoPaciente" name="correoPaciente" required disabled>
+                              <label for="correoPaciente" class="textUser fixed-label">Correo del paciente</label>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="input-form">
+                              <input type="text" id="telefonoPaciente" name="telefonoPaciente"  required disabled>
+                              <label for="telefonoPaciente" class="textUser fixed-label">Telefono del paciente</label>
+                            </div>
+                          </div>
+                        </div>
+                      
+
+                      <script>
+                        // Add this inside a script tag or in a separate JS file
+                        document.addEventListener("DOMContentLoaded", function () {
+                          const busquedanombre = document.getElementById("nombre_busqueda_paciente");
+                          const busquedaapellido = document.getElementById("apellido_busqueda_paciente");
+                          const busqueda_paciente = document.getElementById("busqueda_paciente");
+
+
+                          const id_paciente = document.getElementById("id_Paciente");
+                          const nombre_paciente = document.getElementById("Paciente_nombre");
+                          const correo_paciente = document.getElementById("correoPaciente");
+                          const telefono_paciente = document.getElementById("telefonoPaciente");
+                      
+                          busquedanombre.addEventListener("blur", function () {
+                            const datos_busqueda = [];
+                            datos_busqueda.push(busquedanombre.value);
+                            datos_busqueda.push(busquedaapellido.value);
+
+                            const busqueda = JSON.stringify(datos_busqueda);
+
+                            if (busqueda) {
+                              fetch(`/consultaPacientes/${busqueda}`)
+                                .then((response) => response.json())
+                                .then((data) => {
+                                  console.log(data);
+
+                                  if (Array.isArray(data.busqueda_paciente)) {
+                                      data.busqueda_paciente.forEach((item) => {
+                                          const option = document.createElement('option');
+                                          option.value = item.id_paciente;
+                                          option.textContent = `paciente: ${item.primer_apellido} - ${item.primer_nombre}`;
+                                          busqueda_paciente.appendChild(option);
+                                      });
+                                  } else {
+                                    const paciente = data[0];
+
+                                    const option = document.createElement('option');
+                                    option.value = paciente.id_paciente;
+                                    option.textContent = `paciente: ${paciente.paciente_apellido} - ${paciente.paciente_nombre}`;
+                                    busqueda_paciente.appendChild(option);
+
+                                  }
+
+                                });
+                            } else {
+                              busqueda_paciente.innerHTML = '';
+                            }
+                          });
+
+                          busquedaapellido.addEventListener("blur", function () {
+                            const datos_busqueda = [];
+                            datos_busqueda.push(busquedanombre.value);
+                            datos_busqueda.push(busquedaapellido.value);
+
+                            const busqueda = JSON.stringify(datos_busqueda);
+
+                            if (busqueda) {
+                              fetch(`/consultaPacientes/${busqueda}`)
+                                .then((response) => response.json())
+                                .then((data) => {
+                                  console.log(data);
+
+                                  if (Array.isArray(data.busqueda_paciente)) {
+                                      data.busqueda_paciente.forEach((item) => {
+                                          const option = document.createElement('option');
+                                          option.value = item.id_paciente;
+                                          option.textContent = `paciente: ${item.primer_apellido} - ${item.primer_nombre}`;
+                                          busqueda_paciente.appendChild(option);
+                                      });
+                                  } else {
+                                    const paciente = data[0];
+
+                                    const option = document.createElement('option');
+                                    option.value = paciente.id_paciente;
+                                    option.textContent = `paciente: ${paciente.paciente_apellido} - ${paciente.paciente_nombre}`;
+                                    busqueda_paciente.appendChild(option);
+
+                                  }
+
+                                });
+                            } else {
+                              busqueda_paciente.innerHTML = '';
+                            }
+                          });
+  
+                          busqueda_paciente.addEventListener("change", function () {
+                            const selectedConsultaId = this.value;
+                            if (selectedConsultaId) {
+                              fetch(`/consultaPaciente/${selectedConsultaId}`)
+                                .then((response) => response.json())
+                                .then((data) => {
+                                  console.log(data)
+                                  id_paciente.value  = data.id_paciente;
+                                  nombre_paciente.value  = data.nombrePaciente;
+                                  correo_paciente.value  = data.correoPaciente;
+                                  telefono_paciente.value  = data.telefonoPaciente;
+                                });
+                            } else {
+                              id_paciente.value  = "";
+                              nombre_paciente.value  = "";
+                              correo_paciente.value  = "";
+                              telefono_paciente.value  = "";
+                            }
+                          });
+                        });
+                      </script>
+                      
                 
 
-                        <div class="text-center mt-3">
-                            <button type="submit" class="btn btn-primary">Crear consulta</button>
-                        </div>
+                      <div class="text-center mt-3">
+                          <button type="submit" class="btn btn-primary">Crear consulta</button>
+                      </div>
 
                     </form>
                 </div>
