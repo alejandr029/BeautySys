@@ -50,7 +50,8 @@ class RestauracionController extends Controller
     public function backup_diferencial()
     {
         DB::setDefaultConnection('sqlsrv2');
-        $sql = "EXEC dbo.backup_diff";
+
+        $sql = "EXEC backup_diff";
 
         $query = DB::connection('sqlsrv2')->getPdo()->prepare($sql);
         
@@ -60,7 +61,9 @@ class RestauracionController extends Controller
         try {
             
             $query->execute();
-            sleep(10);
+            
+            $query->execute();
+            sleep(15);
             
             // DB::unprepared($fullQuery);
             

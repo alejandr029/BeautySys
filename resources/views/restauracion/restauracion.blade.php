@@ -54,7 +54,7 @@
                               <div class="modal-content">
 
                                 <div class="modal-body">
-                                  <h3>Restarar los datos Actuales</h3>
+                                  <h3> los Datos Guardar los Actuales</h3>
                                   Estas Seguro de guardar los datos actuales en el sistema? <br>
                                   *la cuenta cerrara secion al momento que esto suceda*
                                 </div>

@@ -28,6 +28,8 @@ use App\Http\Controllers\RestauracionController;
 use App\Http\Controllers\CirugiaController;
 use App\Http\Controllers\ConsultasController;
 
+use App\Http\Controllers\DashboardController;
+
 
 
 
