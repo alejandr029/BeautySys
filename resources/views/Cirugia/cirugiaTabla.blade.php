@@ -166,7 +166,7 @@ use Carbon\Carbon;
                                                 <button type="button" class="btn btn-info"
                                                style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('vistaCirugia', ['id'=> $Cirugia->id_cirugia]) }}'"><i class="material-icons">visibility</i></button>
                                               
-                                               <button type="button" class="btn btn-warning" @if( $Cirugia->id_estatus_cirugia == '6' ||  $Cirugia->id_estatus_cirugia == '7') @style('display:none;') @endif
+                                               <button type="button" class="btn btn-warning" @if( $Cirugia->id_estatus_cirugia == '6' ||  $Cirugia->id_estatus_cirugia == '7' ||  $Cirugia->id_estatus_cirugia == '5') @style('display:none;') @endif
                                                style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('vistaActualizarCirugia', ['id' => $Cirugia->id_cirugia ]) }}'"><i class="material-icons">edit</i></button>
                                                <form method="POST" action="{{ route('CancelarCirugia', ['id' => $Cirugia->id_cirugia]) }}" @if( $Cirugia->id_estatus_cirugia == '6' ||  $Cirugia->id_estatus_cirugia == '7'||  $Cirugia->id_estatus_cirugia == '5') @style('display:none;') @endif>
                                                 @csrf
