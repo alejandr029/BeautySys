@@ -106,6 +106,22 @@ class ConsultasController extends Controller
             'id_sala' => $request->consulta_sala,
         ]);
 
+        if($request->estatus_consultas == 1 or 2){
+            DB::table('locacion.sala')
+            ->where('nombre', $request->consulta_sala)
+            ->update([
+                'id_estado_sala' => 3 
+            ]);
+        } 
+
+        if($request->estatus_consultas == 3 or 4 or 5){
+            DB::table('locacion.sala')
+            ->where('nombre', $request->consulta_sala)
+            ->update([
+                'id_estado_sala' => 1
+            ]);
+        } 
+
         session(['activeTab' => 'Consultas']);
 
     
@@ -247,29 +263,57 @@ class ConsultasController extends Controller
             'id_sala' => $request->consulta_sala,
             'aprovacion_cirugia' =>$request->Aprovacion_cirugia,
         ]);
+
+        if($request->estatus_consultas == 1 or 2){
+            DB::table('locacion.sala')
+            ->where('nombre', $request->consulta_sala)
+            ->update([
+                'id_estado_sala' => 3 
+            ]);
+        } 
+
+        if($request->estatus_consultas == 3 or 4 or 5){
+            DB::table('locacion.sala')
+            ->where('nombre', $request->consulta_sala)
+            ->update([
+                'id_estado_sala' => 1
+            ]);
+        } 
+
+
         
         session(['activeTab' => 'Consultas']);
         return redirect()->route('consultas.index')->with('success', 'consulta Actualizada correctamente.');
     }
 
     public function crear_analisis(Request $request, string $id){
-        $analisis = DB::table('estetico.analisis')
-        ->select(
-            'id_analisis',
-            'nombre',
-            'resultados',
-            'notas',
-            'diagnostico',
-            'id_consulta',
-        )
-        ->where('id_consulta',(int)$consultas->id_consulta)
-        ->get(); 
+
+        DB::table('estetico.analisis')->insert([
+            'nombre'=> $request->nombre_paciente_modal,
+            'resultados' => $request->estatus_analisis,
+            'notas' => $request->paciente_nota,
+            'diagnostico' => $request->paceinte_diagnostico,
+            'id_consulta' => $id,
+        ]);
+
+        
+        session(['activeTab' => 'Consultas']);
+        return redirect()->route('ConsultaActualizarVista', ['id'=> $id])->with('success', 'analisis creado correctamente.');
             
 
     }
 
     public function cancelar(string $id)
     {
+
+        if($request->estatus_consultas == 3){
+            DB::table('locacion.sala')
+            ->where('nombre', $request->consulta_sala)
+            ->update([
+                'id_estado_sala' => 3 
+            ]);
+        } 
+
         DB::table('estetico.consulta')
         ->where('id_consulta', $id)
         ->update([

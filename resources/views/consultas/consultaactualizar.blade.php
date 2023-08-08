@@ -235,7 +235,7 @@
                         
 
                         <div class="row mb-5" > 
-                            <hr style="border: 1px solid #000;">
+                          <hr class="dark horizontal">
                             <div class="row mb-5">
                                 <div class="card-header" style="margin-bottom: 20px">
                                     <h4 class="card-title">Datos del paciente</h4>
@@ -262,162 +262,24 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div class="row mb-6" style="margin-top: 20px">
-                                    <div class="col-md-4">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModal">
-                                        Agregar analisis del paciente
-                                    </button>
-                                    </div>
+                                <div class="mt-4 text-center">
+                                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModal">
+                                      Agregar analisis del paciente
+                                  </button>
                                 </div>
-
                             </div>
+                            
+                            <div class="text-center mt-2" >
+                              <button type="submit" class="btn btn-primary">Actualizar consulta</button>
+                          </div>
+                            
                         </div>
-                        
-                        
-
-                        <div class="text-center mt-3">
-                            <button type="submit" class="btn btn-primary">Actualizar consulta</button>
-                        </div>
+                          
 
                         
                     </form>
 
-                    <div class="modal fade" id="miModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="height: 95%; margin-left:7%">
-                        <div class="modal-dialog modal-dialog-centered modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h3 class="modal-title" id="exampleModalLabel">Analisis del paciente</h2>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-right: 25px">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
-                                        </svg>
-                                    </button>
-                                </div>
-
-                                <div class="modal-body">
-
-                                    <button type="button" id="btnNuevo" class="btn btn-primary">Nuevo</button>
-
-                                    <form id="formularioAnalisis" class="d-none" action="{{ route('analisis_paciente')}}" method="post">
-                                        @csrf 
-                                        
-                                        <div class="row mb-5" style="margin-top: 10px">
-                                            <div class="col-md-3">
-                                                <div class="input-form">
-                                                <input type="number" id="id_paciente_modal" name="id_paciente_modal" required  value="{{ $paciente->id_paciente }}" disabled>
-                                                <label for="id_paciente_modal" class="textUser fixed-label" >Id Paciente</label>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                <div class="input-form">
-                                                <input type="text" id="nombre_paciente_modal" name="nombre_paciente_modal" required  value="">
-                                                <label for="nombre_paciente_modal" class="textUser fixed-label" >Nombre del analisis</label>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-5" style="margin-inline: auto">
-                                                <div class="input-form">
-                                                    <select id="estatus_analisis" name="estatus_analisis" required  >
-                                                        <option value="" disabled selected>tipo estatus analisis </option>
-                                                        <option value="aprobado">aprobado</option>
-                                                        <option value="cancelado">cancelado</option>
-                                                        <option value="analisando">analisando</option>
-                                                    </select>
-                                                    <label for="estatus_analisis" class="textUser" style="visibility: hidden">estatus del analisis</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-5">
-                                            <div class="col-md-6">
-                                                <label for="paciente_nota" class="form-label">nota del analisis</label>
-                                                <textarea class="form-control" id="paciente_nota" rows="5" style="resize: none;
-                                                 border: 1px solid gray;"></textarea>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <label for="paceinte_diagnostico" class="form-label">diagnostico</label>
-                                                <textarea class="form-control" id="paceinte_diagnostico" rows="5" style="resize: none;
-                                                 border: 1px solid gray;"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="text-center mt-3">
-                                            <button type="submit" class="btn btn-primary">Generar analisis</button>
-                                        </div>
-                                    </form>
-                                    
-                                    <hr style="border: 1px solid #000;">
-
-                                    @if(count($analisis) > 0)
-                                        @foreach ($analisis as $item)
-                                            <div class="row mb-5" style="margin-top: 40px">
-                                                <div class="col-md-3">
-                                                    <div class="input-form">
-                                                    <input type="number" id="id_paciente_modal" name="id_paciente_modal" required  value="{{ $paciente->id_paciente }}" disabled >
-                                                    <label for="id_paciente_modal" class="textUser fixed-label" >Id Paciente</label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <div class="input-form">
-                                                    <input type="text" id="nombre_paciente_modal" name="nombre_paciente_modal" required  value="{{ $item->nombre }}" disabled>
-                                                    <label for="nombre_paciente_modal" class="textUser fixed-label" >Nombre del analisis</label>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-5" style="margin-inline: auto">
-                                                    <div class="input-form">
-                                                        <select id="estatus_analisis" name="estatus_analisis" required disabled >
-                                                            <option value="{{ $item->resultados }}" disabled selected>{{ $item->resultados }} </option>
-                                                            <option value="aprobado">aprobado</option>
-                                                            <option value="cancelado">cancelado</option>
-                                                            <option value="analisando">analisando</option>
-                                                        </select>
-                                                        <label for="estatus_analisis" class="textUser" style="visibility: hidden">estatus del analisis</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row mb-5">
-                                                <div class="col-md-6">
-                                                    <label for="paciente_nota" class="form-label">nota del analisis</label>
-                                                    <textarea class="form-control" id="paciente_nota" rows="5" style="resize: none;
-                                                    border: 1px solid gray;" disabled>{{ $item->notas }}</textarea>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <label for="paceinte_diagnostico" class="form-label">diagnostico</label>
-                                                    <textarea class="form-control" id="paceinte_diagnostico" rows="5" style="resize: none;
-                                                    border: 1px solid gray;" disabled>{{ $item->diagnostico }}</textarea>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                    
-
-                                </div>
-                                        
-                                <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                                </div>
-
-                                
-                          </div>
-                        </div>
-
-                        <script>
-                            document.addEventListener("DOMContentLoaded", function () {
-                            const btnNuevo = document.getElementById("btnNuevo");
-                            const formularioAnalisis = document.getElementById("formularioAnalisis");
-
-                            btnNuevo.addEventListener("click", function () {
-                                formularioAnalisis.classList.toggle("d-none");
-                            });
-                        });
-
-                        </script>
-                    </div>
+                    
 
                     
 
@@ -425,6 +287,7 @@
                       
 
                 </div>
+                
             </div>
           </div>
         </div>
@@ -434,4 +297,139 @@
       @include('layout.footer')
     </main>
     @endsection
-    
+    <div class="modal fade" id="miModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="height: 95%; margin-left:7%">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h3 class="modal-title" id="exampleModalLabel">Analisis del paciente</h2>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="margin-right: 25px">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#000" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
+                      <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293 5.354 4.646z"/>
+                      </svg>
+                  </button>
+              </div>
+
+              <div class="modal-body">
+
+                  <button type="button" id="btnNuevo" class="btn btn-primary">Nuevo</button>
+
+                  <form id="formularioAnalisis" class="d-none" action="{{ route('analisis_paciente', ['id'=> $consultas->id_consulta])}}" method="post">
+                      @csrf 
+                      
+                      <div class="row mb-5" style="margin-top: 10px"> 
+                          <div class="col-md-3">
+                              <div class="input-form">
+                              <input type="number" id="id_paciente_modal" name="id_paciente_modal" required  value="{{ $paciente->id_paciente }}" disabled>
+                              <label for="id_paciente_modal" class="textUser fixed-label" >Id Paciente</label>
+                              </div>
+                          </div>
+
+                          <div class="col-md-4">
+                              <div class="input-form">
+                              <input type="text" id="nombre_paciente_modal" name="nombre_paciente_modal" required  value="">
+                              <label for="nombre_paciente_modal" class="textUser fixed-label" >Nombre del analisis</label>
+                              </div>
+                          </div>
+
+                          <div class="col-md-5" style="margin-inline: auto">
+                              <div class="input-form">
+                                  <select id="estatus_analisis" name="estatus_analisis" required  >
+                                      <option value="" disabled selected>tipo estatus analisis </option>
+                                      <option value="aprobado">aprobado</option>
+                                      <option value="cancelado">cancelado</option>
+                                      <option value="analisando">analisando</option>
+                                  </select>
+                                  <label for="estatus_analisis" class="textUser" style="visibility: hidden">estatus del analisis</label>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row mb-5">
+                          <div class="col-md-6">
+                              <label for="paciente_nota" class="form-label">nota del analisis</label>
+                              <textarea class="form-control" id="paciente_nota" name="paciente_nota" rows="5" style="resize: none;
+                               border: 1px solid gray;"></textarea>
+                          </div>
+
+                          <div class="col-md-6">
+                              <label for="paceinte_diagnostico" class="form-label">diagnostico</label>
+                              <textarea class="form-control" id="paceinte_diagnostico"  name="paceinte_diagnostico" rows="5" style="resize: none;
+                               border: 1px solid gray;"></textarea>
+                          </div>
+                      </div>
+                      <div class="text-center mt-3">
+                          <button type="submit" class="btn btn-primary">Generar analisis</button>
+                      </div>
+                  </form>
+                  
+                  <hr class="dark horizontal">
+
+                  @if(count($analisis) > 0)
+                      @foreach ($analisis as $item)
+                          <div class="row mb-5" style="margin-top: 40px">
+                              <div class="col-md-3">
+                                  <div class="input-form">
+                                  <input type="number" id="id_paciente_modal" name="id_paciente_modal" required  value="{{ $paciente->id_paciente }}" disabled >
+                                  <label for="id_paciente_modal" class="textUser fixed-label" >Id Paciente</label>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-4">
+                                  <div class="input-form">
+                                  <input type="text" id="nombre_paciente_modal" name="nombre_paciente_modal" required  value="{{ $item->nombre }}" disabled>
+                                  <label for="nombre_paciente_modal" class="textUser fixed-label" >Nombre del analisis</label>
+                                  </div>
+                              </div>
+
+                              <div class="col-md-5" style="margin-inline: auto">
+                                  <div class="input-form">
+                                      <select id="estatus_analisis" name="estatus_analisis" required disabled >
+                                          <option value="{{ $item->resultados }}" disabled selected>{{ $item->resultados }} </option>
+                                          <option value="aprobado">aprobado</option>
+                                          <option value="cancelado">cancelado</option>
+                                          <option value="analisando">analisando</option>
+                                      </select>
+                                      <label for="estatus_analisis" class="textUser" style="visibility: hidden">estatus del analisis</label>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row mb-5">
+                              <div class="col-md-6">
+                                  <label for="paciente_nota" class="form-label">nota del analisis</label>
+                                  <textarea class="form-control" id="paciente_nota" rows="5" style="resize: none;
+                                  border: 1px solid gray;" disabled>{{ $item->notas }}</textarea>
+                              </div>
+
+                              <div class="col-md-6">
+                                  <label for="paceinte_diagnostico" class="form-label">diagnostico</label>
+                                  <textarea class="form-control" id="paceinte_diagnostico" rows="5" style="resize: none;
+                                  border: 1px solid gray;" disabled>{{ $item->diagnostico }}</textarea>
+                              </div>
+                          </div>
+                      @endforeach
+                  @endif
+                  
+
+              </div>
+                      
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+              </div>
+
+              
+        </div>
+      </div>
+
+      <script>
+          document.addEventListener("DOMContentLoaded", function () {
+          const btnNuevo = document.getElementById("btnNuevo");
+          const formularioAnalisis = document.getElementById("formularioAnalisis");
+
+          btnNuevo.addEventListener("click", function () {
+              formularioAnalisis.classList.toggle("d-none");
+          });
+      });
+
+      </script>
+  </div>
+

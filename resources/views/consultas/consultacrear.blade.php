@@ -223,16 +223,16 @@
                         
 
                       <div class="row mb-5" > 
-                      <hr style="border: 1px solid #000;">
+                        <hr class="dark horizontal">
                       <div class="row mb-5">
                         <div class="card-header" style="margin-bottom: 20px">
-                          <h4 class="card-title">Datos del paciente</h4>
+                          <h4 class="card-title">Buscador de pacientes</h4>
                         </div>
 
                           <div class="col-md-3">
                             <div class="input-form">
                               <input type="text" id="nombre_busqueda_paciente" name="nombre_busqueda_paciente">
-                              <label for="nombre_busqueda_paciente" class="textUser fixed-label">Nombre paciente</label>
+                              <label for="nombre_busqueda_paciente" class="textUser fixed-label">Nombre del paciente</label>
                             </div>
                           </div>
                           <div class="col-md-3">
@@ -246,13 +246,16 @@
                               <select id="busqueda_paciente" name="personal" required>
                                 <option value="" disabled selected>Seleccionar paciente</option>
                               </select>
-                              <label for="personal" class="textUser" style="visibility: hidden">Personal encargado</label>
+                              <label for="personal" class="textUser" style="visibility: hidden">personal</label>
                             </div>
                           </div>
 
                       </div>
 
-                        <div class="row mb-6" style="margin-top: 35px">                          
+                        <div class="row mb-6" style="margin-top: 35px">    
+                          <div class="card-header" style="margin-bottom: 20px">
+                            <h4 class="card-title">Datos del paciente</h4>
+                          </div>                      
                           <div class="col-md-4">
                             <div class="input-form">
                               

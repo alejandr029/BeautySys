@@ -117,11 +117,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/consultas/crear', [ConsultasController::class, 'crear'])->name('crearConsulta.crear');
     Route::get('/consultascrear/id={id}', [ConsultasController::class, 'show'])->name('consultavista');
     Route::get('/consultasactualizar/id={id}', [ConsultasController::class, 'showActualizar'])->name('ConsultaActualizarVista');
-    Route::put('/consultasactualizar/id={id}', [ConsultasController::class, 'actualizarConsulta'])->name('ConsultaActualizar');
+    Route::put('/consultasactualizar/{id}', [ConsultasController::class, 'actualizarConsulta'])->name('ConsultaActualizar');
     Route::get('/consultaPacientes/{busqueda}', [ConsultasController::class, 'pacientesConsulta'])->name('datosPacientes_consulta');
     Route::get('/consultaPaciente/{id}', [ConsultasController::class, 'pacienteConsulta'])->name('datosPaciente_consulta');
     Route::put('/ConsultaCancelar/{id}', [ConsultasController::class, 'cancelar'])->name('CancelarConsulta');
-    Route::post('/consultas/analisis/crear', [ConsultasController::class, 'crear_analisis'])->name('analisis_paciente');
+    Route::post('/analisiscrear/id={id}', [ConsultasController::class, 'crear_analisis'])->name('analisis_paciente');
 
     Route::get('/profile', function () {
         session(['activeTab' => 'Profile']);
