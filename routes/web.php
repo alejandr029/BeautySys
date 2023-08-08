@@ -32,6 +32,7 @@ use App\Http\Controllers\ConsultasController;
 
 
 
+
 Route::get('/', [AuthenticatedSessionController::class, 'create'])->middleware('guest')->name('login');
 Route::post('/', [AuthenticatedSessionController::class, 'store'])->middleware('guest');
 
@@ -40,12 +41,14 @@ Route::post('/registro', [RegisteredUserController::class, 'store'])->middleware
 
 Route::middleware(['auth'])->group(function () {
 
-    //Route::view('/dashboard', 'layout.template')->name('dashboard');
-    Route::get('/dashboard', function () {
-        session(['activeTab' => 'Dashboard']);
-        return view('dashboard');
-    })->name('dashboard');
-    // Route::view('/tables','tables')->name('tables');
+    // //Route::view('/dashboard', 'layout.template')->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     session(['activeTab' => 'Dashboard']);
+    //     return view('dashboard');
+    // })->name('dashboard');
+    // // Route::view('/tables','tables')->name('tables');
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // CUENTAS
     Route::get('/cuentas', [CuentasController::class, 'index'])->name('Cuentas.index');
