@@ -63,6 +63,7 @@ class InventarioInsumoController extends Controller
             'id_estatus_insumos' => $request->id_estatus_insumos,
             'id_proveedor' => $request->id_proveedor,
             'cantidad' => $request->cantidad,
+            'devolucion' => $request->devolucion === 'on' ? 1 : 0
         ]);
 
          session(['activeTab' => 'Inventario']);
@@ -77,7 +78,7 @@ class InventarioInsumoController extends Controller
             ->join('inventario.estatus_insumos as EI', 'EI.id_estatus_insumos', '=', 'I.id_estatus_insumos')
             ->join('inventario.proveedor as P', 'P.id_proveedor', '=', 'I.id_proveedor')
             ->where('I.id_insumos', $id)
-            ->select('I.id_insumos','I.nombre', 'I.fecha_adquisicion', 'I.fecha_vencimiento', 'I.cantidad', 'EI.id_estatus_insumos', 'P.id_proveedor', 'I.imagen', 'I.descripcion')
+            ->select('I.id_insumos','I.nombre', 'I.fecha_adquisicion', 'I.fecha_vencimiento', 'I.cantidad', 'EI.id_estatus_insumos', 'P.id_proveedor', 'I.imagen', 'I.descripcion','I.devolucion')
             ->first();
 
             $insumo->fecha_adquisicion = Carbon::createFromFormat('Y-m-d H:i:s.u', $insumo->fecha_adquisicion)->format('Y-m-d');
@@ -94,13 +95,13 @@ class InventarioInsumoController extends Controller
             ->get();
 
             // dump($id);
-            // dump($insumo);
+            //dump($insumo);
             // dump($proveedores);
             // dump($estatus);
 
              session(['activeTab' => 'Inventario']);
     
-        return view('Inventario.vistaInsumo', compact('insumo', 'proveedores', 'estatus'));
+         return view('Inventario.vistaInsumo', compact('insumo', 'proveedores', 'estatus'));
     }
 
     public function show($id)
@@ -109,7 +110,7 @@ class InventarioInsumoController extends Controller
             ->join('inventario.estatus_insumos as EI', 'EI.id_estatus_insumos', '=', 'I.id_estatus_insumos')
             ->join('inventario.proveedor as P', 'P.id_proveedor', '=', 'I.id_proveedor')
             ->where('I.id_insumos', $id)
-            ->select('I.id_insumos','I.nombre', 'I.fecha_adquisicion', 'I.fecha_vencimiento', 'I.cantidad', 'EI.id_estatus_insumos', 'P.id_proveedor', 'I.imagen', 'I.descripcion')
+            ->select('I.id_insumos','I.nombre', 'I.fecha_adquisicion', 'I.fecha_vencimiento', 'I.cantidad', 'EI.id_estatus_insumos', 'P.id_proveedor', 'I.imagen', 'I.descripcion','I.devolucion')
             ->first();
 
             $insumo->fecha_adquisicion = Carbon::createFromFormat('Y-m-d H:i:s.u', $insumo->fecha_adquisicion)->format('Y-m-d');
@@ -148,6 +149,7 @@ class InventarioInsumoController extends Controller
             'id_estatus_insumos' => $request->id_estatus_insumos,
             'id_proveedor' => $request->id_proveedor,
             'cantidad' => $request->cantidad,
+            'devolucion' => $request->devolucion === 'on' ? 1 : 0
         ]);
 
          session(['activeTab' => 'Inventario']);
