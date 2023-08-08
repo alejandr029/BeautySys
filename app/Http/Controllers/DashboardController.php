@@ -21,7 +21,7 @@ class DashboardController extends Controller
         ->join('locacion.sala as S','S.id_sala', '=', 'C.id_sala')
         ->orderByDesc('C.id_cita')
         ->Paginate(5);
-        
+
         
         session(['activeTab' => 'Dashboard']);
 

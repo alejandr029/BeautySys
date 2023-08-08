@@ -22,7 +22,7 @@ class InventarioEquipoMedicoController extends Controller
         ->join('inventario.estatus_equipo as EE', 'EE.id_estatus_equipo', '=', 'EM.id_estado_equipo')
         ->join('inventario.proveedor as P', 'P.id_proveedor', '=', 'EM.id_proveedor')
         ->where('EM.id_equipo_medico', $id) 
-        ->select('EM.id_equipo_medico', 'EM.imagen', 'EM.nombre', 'EM.modelo', 'EM.marca', 'EE.id_estatus_equipo', 'EM.cantidad', 'P.id_proveedor', 'EM.descripcion')
+        ->select('EM.id_equipo_medico', 'EM.imagen', 'EM.nombre', 'EM.modelo', 'EM.marca', 'EE.id_estatus_equipo', 'EM.cantidad', 'P.id_proveedor', 'EM.descripcion','EM.devolucion')
         ->first();
 
     
@@ -56,6 +56,7 @@ class InventarioEquipoMedicoController extends Controller
             'imagen' => $request->imagen_url,
             'id_estado_equipo' => $request->id_estatus_equipo,
             'id_proveedor' => $request->id_proveedor,
+            'devolucion' => $request->devolucion === 'on' ? 1 : 0
         ]);
     
         session(['activeTab' => 'Inventario']);
@@ -70,7 +71,7 @@ class InventarioEquipoMedicoController extends Controller
         ->join('inventario.estatus_equipo as EE', 'EE.id_estatus_equipo', '=', 'EM.id_estado_equipo')
         ->join('inventario.proveedor as P', 'P.id_proveedor', '=', 'EM.id_proveedor')
         ->where('EM.id_equipo_medico', $id) 
-        ->select('EM.id_equipo_medico', 'EM.imagen', 'EM.nombre', 'EM.modelo', 'EM.marca', 'EE.id_estatus_equipo', 'EM.cantidad', 'P.id_proveedor', 'EM.descripcion')
+        ->select('EM.id_equipo_medico', 'EM.imagen', 'EM.nombre', 'EM.modelo', 'EM.marca', 'EE.id_estatus_equipo', 'EM.cantidad', 'P.id_proveedor', 'EM.descripcion','EM.devolucion')
         ->first();
 
       
@@ -110,6 +111,7 @@ class InventarioEquipoMedicoController extends Controller
             'imagen' => $request->imagen_url,
             'id_estado_equipo' => $request->id_estatus_equipo,
             'id_proveedor' => $request->id_proveedor,
+            'devolucion' => $request->devolucion === 'on' ? 1 : 0
         ]);
 
         session(['activeTab' => 'Inventario']);
