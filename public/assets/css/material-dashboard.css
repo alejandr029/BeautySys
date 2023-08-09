@@ -22313,6 +22313,7 @@ body.dark-version {
 .input-group.input-group-static.is-focused.is-valid .form-control:focus {
   background-image: linear-gradient(0deg, #4CAF50 2px, rgba(156, 39, 176, 0) 0), linear-gradient(0deg, #d2d2d2 1px, rgba(209, 209, 209, 0) 0);
   border-radius: 0 !important;
+  visibility: visible!important;
 }
 
 .input-group.input-group-dynamic.is-focused.is-invalid label,
@@ -22426,6 +22427,7 @@ body.dark-version {
   color: #e91e63;
   display: flex;
   line-height: 1.25 !important;
+  visibility: visible!important;
 }
 
 .input-group.input-group-outline.is-focused .form-label:before,

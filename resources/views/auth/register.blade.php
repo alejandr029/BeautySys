@@ -25,7 +25,67 @@
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
 <style>
+.input-form {
+  position: relative;
+  font-family: Arial, Helvetica, sans-serif;
+}
 
+.input-form input, .input-form textarea, .input-form select {
+  border: solid 1.9px #9e9e9e;
+  border-radius: 1.3rem;
+  background: none;
+  padding: 1rem;
+  font-size: 1rem;
+  color: #000000;
+  transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+}
+
+.textUser {
+  position: absolute;
+  left: 15px;
+  color: #666666;
+  pointer-events: none;
+  transform: translateY(1rem);
+  transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.input-form input:focus, .input-form input:valid, .input-form textarea:focus, .input-form textarea:valid,
+.input-form select:focus, .input-form select:valid {
+  outline: none;
+  box-shadow: 1px 2px 5px rgba(133, 133, 133, 0.523);
+  background-image: linear-gradient(to top, rgba(182, 182, 182, 0.199), rgba(252, 252, 252, 0));
+  transition: background 4s ease-in-out;
+}
+
+.input-form input:focus ~ label, .input-form input:valid ~ label,
+.input-form textarea:focus ~ label, .input-form textarea:valid ~ label,
+.input-form select:focus ~ label, .input-form select:valid ~ label {
+  transform: translateY(-95%) scale(0.9);
+  padding: 0 .2em;
+  color: #000000be;
+  left: 10%;
+  font-size: 14pt;
+  visibility: visible!important;
+}
+
+.input-form input:hover, .input-form textarea:hover, .input-form select:hover {
+  border: solid 1.9px #000002;
+  transform: scale(1.03);
+  box-shadow: 1px 1px 5px rgba(133, 133, 133, 0.523);
+  transition: border-color 1s ease-in-out;
+}
+
+.input-group.input-group-outline.is-focused .form-label,
+.input-group.input-group-outline.is-filled .form-label {
+  width: 100%;
+  height: 100%;
+  font-size: 0.6875rem !important;
+  color: #e91e63;
+  display: flex;
+  line-height: 1.25 !important;
+  visibility: visible!important;
+}
 </style>
 
 </head>
@@ -55,22 +115,21 @@
                                         @csrf
 
                                         <div class="input-group input-group-outline mb-3">
-                                            <x-label for="name" value="{{ __('Name') }}" class="form-label" />
+                                            <x-label for="name" value="{{ __('Nombre') }}" class="form-label" />
                                             <x-input id="name" class="form-control" type="text" name="name"
                                                 :value="old('name')" required autofocus autocomplete="name" />
                                         </div>
 
                                         <div class="input-group input-group-outline mb-3">
-                                            <x-label for="email" value="{{ __('Email') }}" class="form-label" />
+                                            <x-label for="email" value="{{ __('Correo Electronico') }}" class="form-label" />
                                             <x-input id="email" class="form-control" type="email" name="email"
                                                 :value="old('email')" required autocomplete="username" />
                                         </div>
 
                                         <div class="input-group input-group-outline mb-3">
-                                            <x-input id="fecha_nacimiento" class="form-control fecha" type="date" name="fecha_nacimiento"
-                                            :value="old('fecha_nacimiento')" required autocomplete="fecha_nacimiento" />
-                                            <x-label for="fecha_nacimiento" value="{{ __('Fecha de Nacimiento') }}" class="form-label" style="visibility: hidden!important" />
-                                            
+                                            <x-label for="fecha_nacimiento" value="{{ __('Fecha de Nacimiento') }}" class="form-label" style="visibility: hidden" />
+                                            <x-input id="fecha_nacimiento" class="form-control" type="date" name="fecha_nacimiento"
+                                            :value="old('fecha_nacimiento')" required autocomplete="fecha_nacimiento"/>
                                         </div>
 
                                         <div class="input-group input-group-outline mb-3">
@@ -80,13 +139,13 @@
                                         </div>
 
                                         <div class="input-group input-group-outline mb-3">
-                                            <x-label for="password" value="{{ __('Password') }}" class="form-label" />
+                                            <x-label for="password" value="{{ __('Contraseña') }}" class="form-label" />
                                             <x-input id="password" class="form-control" type="password" name="password"
                                                 required autocomplete="new-password" />
                                         </div>
 
                                         <div class="input-group input-group-outline mb-3">
-                                            <x-label for="password_confirmation" value="{{ __('Confirm Password') }}"
+                                            <x-label for="password_confirmation" value="{{ __('Confirmar Contraseña') }}"
                                                 class="form-label" />
                                             <x-input id="password_confirmation" class="form-control" type="password"
                                                 name="password_confirmation" required autocomplete="new-password" />

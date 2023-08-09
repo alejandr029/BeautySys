@@ -2,23 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-
-// Main Page Route
-
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
-use App\Http\Controllers\AsignarRolController; // Asegúrate de importar correctamente el controlador local
+// use App\Http\Controllers\AsignarRolController;
 use App\Http\Controllers\CuentasController;
 use App\Http\Controllers\InventarioInsumoController;
 use App\Http\Controllers\InventarioEquipoMedicoController;
@@ -95,6 +81,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/restaurar/todo', [RestauracionController::class,'Restorage_principal'])->name('restaurar.todo');
     Route::get('/restaurar/file={file}', [RestauracionController::class,'Restorage_differencial'])->name('restaurar_file');
 
+    // CITAS
     Route::get('/citas', [CitasController::class, 'index'])->name('Citas.index');
     Route::get('/ver-cita/id={id}', [CitasController::class, 'show'])->name('Citas.visualizar');
     Route::get('/crear-cita', [CitasController::class, 'create'])->name('Citas.crear');

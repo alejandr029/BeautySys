@@ -13,6 +13,17 @@ class Cita extends Model
     protected $primaryKey = 'id_cita';
     public $timestamps = false;
 
+    protected $fillable = [
+        'hora_cita', // Agregado para permitir asignación masiva
+        'fecha_cita',
+        'id_estado_cita',
+        'id_sala',
+        'id_tipo_cita',
+        'id_personal',
+        'id_insumos',
+        'id_equipo',
+    ];
+
     // Relación con el modelo Paciente
     public function paciente()
     {

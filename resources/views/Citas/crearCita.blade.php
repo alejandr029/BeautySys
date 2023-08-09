@@ -1,3 +1,7 @@
+@php
+use Carbon\Carbon;
+@endphp
+
 <style>
 .input-form {
   position: relative;
@@ -134,61 +138,152 @@
 @extends('layout.template')
 
 @section('content')
-<div class="container">
+  <div class="container">
     <div class="row justify-content-center">
-        <div class="col-lg-11">
-            <div class="card">
-                <div class="card-header">
-                    <h4 class="card-title">Creación de Citas</h4>
+      <div class="col-lg-11">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Crear Nueva Cita</h2>
+          </div>
+
+          <div class="card-body">
+            <div class="col-lg-11">
+              <!-- Formulario para crear una nueva cita -->
+              <form action="{{ route('Citas.store') }}" method="post" class="role-form">
+                @csrf
+
+                <div class="row">
+                    <div class="col-md-6 mb-3 input-form">
+                        <label for="id_paciente" class="form-label">ID del paciente:</label>
+                        <select class="form-control" id="id_paciente" name="id_paciente" required>
+                            @foreach($pacientes as $paciente)
+                            <option value="{{ $paciente->id_paciente }}" data-paciente="{{ json_encode($paciente) }}">{{ $paciente->id_paciente }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3 input-form">
+                        <label for="nombre_paciente" class="form-label">Nombre del paciente:</label>
+                        <input type="text" class="form-control" id="nombre_paciente" name="nombre_paciente" value="" placeholder="Seleccione un ID" readonly>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <form action="{{ route('Citas.store') }}" method="post" class="role-form">
-                        @csrf
-                        <div class="row mb-5">
-                            <div class="col-md-4">
-                                <div class="input-form">
-                                    <select id="id_paciente" name="id_paciente" required>
-                                        @foreach ($citas as $cita)
-                                            <option value="{{ $cita->id_paciente }}">{{ $cita->id_paciente }}</option>
-                                        @endforeach
-                                    </select>
-                                    <label for="id_paciente" class="textUser">Seleccionar id de Usuario</label>
-                                </div>
-                            </div>
 
-                            <div class="col-md-4">
-                                <div class="input-form">
-                                    <input type="text" id="name" name="name" disabled>
-                                    <label for="name" class="textUser">Nombre</label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="input-form">
-                                    <input type="date" id="fechaCita" name="fechaCita" required>
-                                    <label for="fechaCita" class="textUser" style="visibility: hidden">Fecha de la Cita</label>
-                                </div>
-                            </div>
-                        </div>
+                <hr class="dark horizontal">
 
-                        <div class="row mb-5">
-                            <div class="col-md-4">
-                                <div class="input-form">
-                                    <input type="password" id="password" name="password" required>
-                                    <label for="password" class="textUser">Contraseña</label>
-                                </div>
-                            </div>
-                        </div>
+                <div class="row">
+                  <div class="col-md-6 mb-3 input-form">
+                    <label for="fecha_cita" class="form-label">Fecha de la cita:</label>
+                    <input type="date" class="form-control" id="fecha_cita" name="fecha_cita" required>
+                  </div>
 
-                        <div class="text-center mt-3">
-                            <button type="submit" class="btn btn-primary">Crear cita</button>
-                        </div>
-                    </form>
+                  <div class="col-md-6 mb-3 input-form">
+                    <label for="hora_cita" class="form-label">Hora de la cita:</label>
+                    <input type="time" class="form-control input-form" id="hora_cita" name="hora_cita"
+                        value="{{ Carbon::now()->format('H:i') }}" required min="09:00" max="17:00">
                 </div>
+
+                </div>
+
+                <hr class="dark horizontal">
+
+                <div class="mb-3 input-form">
+                  <label for="id_sala" class="form-label">Sala:</label>
+                  <select class="form-control" id="id_sala" name="id_sala" required>
+                    @foreach($sala as $s)
+                    <option value="{{ $s->id_sala }}">{{ str_replace('_', ' ', $s->nombre) }}</option>
+                    @endforeach
+                  </select>
+                </div>
+
+                <br>
+                <hr class="dark horizontal">
+
+                <div class="row">
+                    <div class="col-md-6 mb-3 input-form">
+                        <label for="id_estado_cita" class="form-label">Estado de la cita:</label>
+                        <select class="form-control" id="id_estado_cita" name="id_estado_cita" required>
+                            @foreach($estadoCita as $estado)
+                            <option value="{{ $estado->id_estado_cita }}">{{ $estado->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3 input-form">
+                        <label for="id_tipo_cita" class="form-label">Tipo de cita:</label>
+                        <select class="form-control" id="id_tipo_cita" name="id_tipo_cita" required>
+                            @foreach($tipoCita as $tipo)
+                            <option value="{{ $tipo->id_tipo_cita }}">{{ $tipo->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <hr class="dark horizontal">
+
+                <div class="mb-3 input-form">
+                  <label for="id_personal" class="form-label">Doctor que atenderá:</label>
+                  <select class="form-control" id="id_personal" name="id_personal" required>
+                    @foreach($personal as $p)
+                    <option value="{{ $p->id_personal }}">{{ $p->primer_nombre }} {{ $p->primer_apellido }}</option>
+                    @endforeach
+                  </select>
+                </div>
+                <br>
+                <hr class="dark horizontal">
+
+                <div class="row">
+                    <div class="col-md-6 mb-3 input-form">
+                        <label for="id_insumo" class="form-label">Insumos para la consulta:</label>
+                        <select class="form-control" id="id_insumo" name="id_insumo">
+                            <option value="">Sin insumos asignados</option>
+                            @foreach($insumos as $insumo)
+                            <option value="{{ $insumo->id_insumo }}">{{ $insumo->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3 input-form">
+                        <label for="id_equipo" class="form-label">Equipo para la consulta:</label>
+                        <select class="form-control" id="id_equipo" name="id_equipo">
+                            <option value="">Sin equipo asignado</option>
+                            @foreach($equipo as $eq)
+                            <option value="{{ $eq->id_equipo_medico }}">{{ $eq->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="row justify-content-center">
+                    <div class="col-md-6 text-center">
+                        <button type="submit" class="btn btn-primary">Crear Cita</button>
+                    </div>
+                </div>
+              </form>
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const idPacienteSelect = document.getElementById("id_paciente");
+        const nombrePacienteInput = document.getElementById("nombre_paciente");
 
+        idPacienteSelect.addEventListener("change", function() {
+            // Obtener el nombre del paciente asociado al ID seleccionado
+            const selectedOption = this.options[this.selectedIndex];
+            const pacienteData = JSON.parse(selectedOption.getAttribute('data-paciente'));
+            const nombrePaciente = pacienteData.primer_nombre + " " + pacienteData.primer_apellido;
 
-@include('layout.footer')
+            // Actualizar el valor del input de nombre del paciente
+            nombrePacienteInput.value = nombrePaciente;
+        });
+    });
+    </script>
+
+  @include('layout.footer')
+</main>
 @endsection

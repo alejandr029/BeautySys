@@ -7,7 +7,7 @@
     <link rel="shortcut icon" sizes="76x76" href="../assets/img/logos/logoproyecto8b.png">
     <link rel="icon" type="image/png" href="../assets/img/logos/logoproyecto8b">
     <title>
-        BeautySys Login
+        BeautySys Inicio de Sesion
     </title>
     <!--     Fonts and icons     -->
     <link rel="stylesheet" type="text/css"
@@ -37,7 +37,7 @@
                         <div class="card z-index-0 fadeIn3 fadeInBottom">
                             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                 <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                                    <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Sign in</h4>
+                                    <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">Inicio de Sesion</h4>
                                     <div class="row mt-3">
                                         <div class="col-2 text-center ms-auto">
                                             <a class="btn btn-link px-3" href="javascript:;">
@@ -70,34 +70,32 @@
                                 <form method="POST" action="{{ route('login') }}" class="text-start">
                                     @csrf
                                     <div class="input-group input-group-outline my-4">
-                                        <label class="form-label" for="email">Email</label>
+                                        <label class="form-label" for="email">Correo</label>
                                         <input type="email" id="email" name="email" class="form-control">
                                     </div>
                                     <div class="input-group input-group-outline mb-3">
-                                        <label class="form-label" for="password">Password</label>
+                                        <label class="form-label" for="password">Contraseña</label>
                                         <input type="password" id="password" name="password" class="form-control">
                                     </div>
                                     <div class="form-check form-switch d-flex align-items-center mb-3">
                                         <input class="form-check-input" type="checkbox" id="rememberMe"
                                             name="rememberMe" checked>
-                                        <label class="form-check-label mb-0 ms-3" for="rememberMe">Remember me</label>
+                                        <label class="form-check-label mb-0 ms-3" for="rememberMe">Recuerdame</label>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Sign
-                                            in</button>
+                                        <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Iniciar Sesion</button>
                                     </div>
                                     <div class="flex items-center justify-end mt-4">
                                         @if (Route::has('password.request'))
                                             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                                 href="{{ route('password.request') }}">
-                                                {{ __('Forgot your password?') }}
+                                                {{ __('Olvidaste tu constraseña?') }}
                                             </a>
                                         @endif
 
                                         <p class="mt-4 text-sm text-center">
-                                            Don't have an account?
-                                            <a href="/registro" class="text-primary text-gradient font-weight-bold">Sign
-                                                up</a>
+                                            No tienes una cuenta?
+                                            <a href="/registro" class="text-primary text-gradient font-weight-bold">Registrate!</a>
                                         </p>
 
                                     </div>
@@ -124,7 +122,7 @@
                             <ul class="nav nav-footer justify-content-center justify-content-lg-end">
                                 <li class="nav-item">
                                     <a href="" class="nav-link text-white"
-                                        target="_blank">About Us</a>
+                                        target="_blank">Acerca de Nosotros</a>
                                 </li>
                             </ul>
                         </div>

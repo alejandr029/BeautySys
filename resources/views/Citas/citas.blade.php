@@ -165,7 +165,7 @@
                                     @foreach ($citas as $cita)
                                         <tr>
                                             <td class="text-center">{{ $cita->id_cita }}</td>
-                                            <td class="text-center">{{ Carbon::parse($cita->fecha_cita)->format('Y-m-d') }}</td>
+                                            <td class="text-center">{{ Carbon::parse($cita->fecha_cita)->format('d-m-Y') }}</td>
                                             <td class="text-center">{{ Carbon::parse($cita->hora_cita)->format('h:i A') }}</td>
                                             <td class="text-center">{{ $cita->estadoCita->nombre }}</td>
                                             <td class="text-center">{{ $cita->id_sala }}</td>
