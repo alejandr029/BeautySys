@@ -398,6 +398,7 @@ class CirugiaController extends Controller
     session(['activeTab' => 'Cirugias']);
 
     return redirect()->route('tablaCirugia');
+    
     }
 
     public function vistaCirugia(string $id)

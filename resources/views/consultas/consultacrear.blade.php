@@ -229,22 +229,14 @@
                           <h4 class="card-title">Buscador de pacientes</h4>
                         </div>
 
-                          <div class="col-md-3">
-                            <div class="input-form">
-                              <input type="text" id="nombre_busqueda_paciente" name="nombre_busqueda_paciente">
-                              <label for="nombre_busqueda_paciente" class="textUser fixed-label">Nombre del paciente</label>
-                            </div>
-                          </div>
-                          <div class="col-md-3">
-                            <div class="input-form">
-                              <input type="text" id="apellido_busqueda_paciente" name="apellido_busqueda_paciente">
-                              <label for="apellido_busqueda_paciente" class="textUser fixed-label">apellido del paciente</label>
-                            </div>
-                          </div>
                           <div class="col-md-5">
                             <div class="input-form">
                               <select id="busqueda_paciente" name="personal" required>
                                 <option value="" disabled selected>Seleccionar paciente</option>
+                                @foreach ($paciente as $item)
+                                  <option value="{{ $item->id_paciente }}"> {{ $item->primer_nombre }} {{ $item->primer_apellido }}</option>
+                                @endforeach
+                                
                               </select>
                               <label for="personal" class="textUser" style="visibility: hidden">personal</label>
                             </div>
@@ -282,88 +274,13 @@
                       <script>
                         // Add this inside a script tag or in a separate JS file
                         document.addEventListener("DOMContentLoaded", function () {
-                          const busquedanombre = document.getElementById("nombre_busqueda_paciente");
-                          const busquedaapellido = document.getElementById("apellido_busqueda_paciente");
                           const busqueda_paciente = document.getElementById("busqueda_paciente");
-
 
                           const id_paciente = document.getElementById("id_Paciente");
                           const nombre_paciente = document.getElementById("Paciente_nombre");
                           const correo_paciente = document.getElementById("correoPaciente");
                           const telefono_paciente = document.getElementById("telefonoPaciente");
                       
-                          busquedanombre.addEventListener("blur", function () {
-                            const datos_busqueda = [];
-                            datos_busqueda.push(busquedanombre.value);
-                            datos_busqueda.push(busquedaapellido.value);
-
-                            const busqueda = JSON.stringify(datos_busqueda);
-
-                            if (busqueda) {
-                              fetch(`/consultaPacientes/${busqueda}`)
-                                .then((response) => response.json())
-                                .then((data) => {
-                                  console.log(data);
-
-                                  if (Array.isArray(data.busqueda_paciente)) {
-                                      data.busqueda_paciente.forEach((item) => {
-                                          const option = document.createElement('option');
-                                          option.value = item.id_paciente;
-                                          option.textContent = `paciente: ${item.primer_apellido} - ${item.primer_nombre}`;
-                                          busqueda_paciente.appendChild(option);
-                                      });
-                                  } else {
-                                    const paciente = data[0];
-
-                                    const option = document.createElement('option');
-                                    option.value = paciente.id_paciente;
-                                    option.textContent = `paciente: ${paciente.paciente_apellido} - ${paciente.paciente_nombre}`;
-                                    busqueda_paciente.appendChild(option);
-
-                                  }
-
-                                });
-                            } else {
-                              busqueda_paciente.innerHTML = '';
-                            }
-                          });
-
-                          busquedaapellido.addEventListener("blur", function () {
-                            const datos_busqueda = [];
-                            datos_busqueda.push(busquedanombre.value);
-                            datos_busqueda.push(busquedaapellido.value);
-
-                            const busqueda = JSON.stringify(datos_busqueda);
-
-                            if (busqueda) {
-                              fetch(`/consultaPacientes/${busqueda}`)
-                                .then((response) => response.json())
-                                .then((data) => {
-                                  console.log(data);
-
-                                  if (Array.isArray(data.busqueda_paciente)) {
-                                      data.busqueda_paciente.forEach((item) => {
-                                          const option = document.createElement('option');
-                                          option.value = item.id_paciente;
-                                          option.textContent = `paciente: ${item.primer_apellido} - ${item.primer_nombre}`;
-                                          busqueda_paciente.appendChild(option);
-                                      });
-                                  } else {
-                                    const paciente = data[0];
-
-                                    const option = document.createElement('option');
-                                    option.value = paciente.id_paciente;
-                                    option.textContent = `paciente: ${paciente.paciente_apellido} - ${paciente.paciente_nombre}`;
-                                    busqueda_paciente.appendChild(option);
-
-                                  }
-
-                                });
-                            } else {
-                              busqueda_paciente.innerHTML = '';
-                            }
-                          });
-  
                           busqueda_paciente.addEventListener("change", function () {
                             const selectedConsultaId = this.value;
                             if (selectedConsultaId) {

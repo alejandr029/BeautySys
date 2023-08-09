@@ -25,9 +25,7 @@
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
 <style>
-.fecha {
-    visibility: visible!important;
-}
+
 </style>
 
 </head>
@@ -69,9 +67,10 @@
                                         </div>
 
                                         <div class="input-group input-group-outline mb-3">
-                                            <x-label for="fecha_nacimiento" value="{{ __('Fecha de Nacimiento') }}" class="form-label" />
                                             <x-input id="fecha_nacimiento" class="form-control fecha" type="date" name="fecha_nacimiento"
-                                            :value="old('fecha_nacimiento')" required autocomplete="fecha_nacimiento" style="visibility: hidden"/>
+                                            :value="old('fecha_nacimiento')" required autocomplete="fecha_nacimiento" />
+                                            <x-label for="fecha_nacimiento" value="{{ __('Fecha de Nacimiento') }}" class="form-label" style="visibility: hidden!important" />
+                                            
                                         </div>
 
                                         <div class="input-group input-group-outline mb-3">

@@ -57,10 +57,13 @@ class ConsultasController extends Controller
         ->select('id_status_consulta', 'nombre')
         ->get();
 
+        $paciente = DB::table('usuario.paciente')
+        ->select('id_paciente','primer_nombre','segundo_nombre','primer_apellido','segundo_apellido')
+        ->orderBy('primer_nombre')
+        ->get();
 
-        
         session(['activeTab' => 'Consultas']);
-        return view('consultas.consultacrear',compact('SelectPersonal','sala','status'));
+        return view('consultas.consultacrear',compact('SelectPersonal','sala','status','paciente'));
     }
 
     public function pacientesConsulta($id)
@@ -300,6 +303,23 @@ class ConsultasController extends Controller
         session(['activeTab' => 'Consultas']);
         return redirect()->route('ConsultaActualizarVista', ['id'=> $id])->with('success', 'analisis creado correctamente.');
             
+
+    }
+    public function actualizarAnalisis(Request $request ,string $id){
+
+        DB::table('estetico.analisis')
+        ->where('id_analisis', $id)
+        ->update([
+
+            'nombre'=> $request->nombre_paciente_modal,
+            'resultados'=> $request->estatus_analisis,
+            'notas'=> $request->nota_analisis,
+            'diagnostico'=> $request->dianostico_analisis,
+        ]);
+
+
+        session(['activeTab' => 'Consultas']);
+        return redirect()->route('ConsultaActualizarVista', ['id'=> $id])->with('success', 'analisis creado correctamente.');
 
     }
 

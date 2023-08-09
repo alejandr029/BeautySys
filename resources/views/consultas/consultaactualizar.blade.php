@@ -1,6 +1,9 @@
 {{-- consultaactualizar --}}
 
 <style>
+  html ::-webkit-scrollbar{
+    display: none;
+  }
     .input-form {
       position: relative;
       font-family: Arial, Helvetica, sans-serif;
@@ -139,7 +142,73 @@
             border: 1px solid #ccc; /* Agrega un borde para que sea visible */
 
         }
+        .checkbox-wrapper-31:hover .check {
+  stroke-dashoffset: 0;
+}
 
+.checkbox-wrapper-31 {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+}
+
+.checkbox-wrapper-31 .background {
+  fill: rgb(199, 28, 28);
+  transition: ease all 0.6s;
+  -webkit-transition: ease all 0.6s;
+}
+
+.checkbox-wrapper-31 .stroke {
+  fill: none;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  stroke-width: 2px;
+  stroke-dashoffset: 100;
+  stroke-dasharray: 100;
+  transition: ease all 0.6s;
+  -webkit-transition: ease all 0.6s;
+}
+
+.checkbox-wrapper-31 .check {
+  fill: none;
+  stroke: #fff;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2px;
+  stroke-dashoffset: 22;
+  stroke-dasharray: 22;
+  transition: ease all 0.6s;
+  -webkit-transition: ease all 0.6s;
+}
+
+.checkbox-wrapper-31 input[type=checkbox] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  margin: 0;
+  opacity: 0;
+  -appearance: none;
+  -webkit-appearance: none;
+}
+
+.checkbox-wrapper-31 input[type=checkbox]:hover {
+  cursor: pointer;
+}
+
+.checkbox-wrapper-31 input[type=checkbox]:checked + svg .background {
+  fill: #6cbe45;
+}
+
+.checkbox-wrapper-31 input[type=checkbox]:checked + svg .stroke {
+  stroke-dashoffset: 0;
+}
+
+.checkbox-wrapper-31 input[type=checkbox]:checked + svg .check {
+  stroke-dashoffset: 0;
+}
         
 
 </style>
@@ -147,6 +216,7 @@
     @extends('layout.template')
     @section('content')
     <div class="container">
+      
         <div class="row justify-content-center">
           <div class="col-lg-11">
             <div class="card">
@@ -216,21 +286,23 @@
                         </div>
 
                         <div class="row mb-5" >
-                          <div class="col-md-9" style="margin-inline: auto">
+                          <div class="col-md-7" style="margin-inline: auto">
                             <div class="input-form">
                               <input type="text" id="datos_consultas" name="datos_consultas" required   value="{{ $consultas->datos_consulta}}" >
                               <label for="nombrePaciente" class="textUser fixed-label">Concepto de la consulta</label>
                             </div>
                           </div>
-
-                            <div class="col-md-3" style="margin-inline: auto">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="1" name="Aprovacion_cirugia" id="Aprovacion_cirugia" {{ $consultas->aprovacion_cirugia == 1 ? 'checked' : '' }} >
-                                    <label class="form-check-label" for="Aprovacion_cirugia">
-                                        Aprovacion cirugia
-                                    </label>
-                                </div>
+                          <div class="col-md-5">
+                            <div class="checkbox-wrapper-31">
+                              <input type="checkbox" value="1" name="Aprovacion_cirugia" {{ $consultas->aprovacion_cirugia == 1 ? 'checked' : '' }}>
+                              <svg viewBox="0 0 35.6 35.6">
+                                <circle class="background" cx="17.8" cy="17.8" r="17.8"></circle>
+                                <circle class="stroke" cx="17.8" cy="17.8" r="14.37"></circle>
+                                <polyline class="check" points="11.78 18.12 15.55 22.23 25.17 12.87"></polyline>
+                              </svg>
                             </div>
+                            <label>¿se aprueba la consulta para la cirugia?</label>
+                          </div>
                         </div>
                         
 
@@ -296,7 +368,6 @@
       
       @include('layout.footer')
     </main>
-    @endsection
     <div class="modal fade" id="miModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="height: 95%; margin-left:7%">
       <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-lg">
           <div class="modal-content">
@@ -365,6 +436,10 @@
 
                   @if(count($analisis) > 0)
                       @foreach ($analisis as $item)
+                        <form method="post" action="{{ route('analisis_paciente_actualizar', $item->id_analisis) }}"  enctype="multipart/form-data">
+                          @csrf 
+                          @method('PUT')
+
                           <div class="row mb-5" style="margin-top: 40px">
                               <div class="col-md-3">
                                   <div class="input-form">
@@ -375,15 +450,15 @@
 
                               <div class="col-md-4">
                                   <div class="input-form">
-                                  <input type="text" id="nombre_paciente_modal" name="nombre_paciente_modal" required  value="{{ $item->nombre }}" disabled>
+                                  <input type="text" id="nombre_paciente_modal" name="nombre_paciente_modal" required  value="{{ $item->nombre }}">
                                   <label for="nombre_paciente_modal" class="textUser fixed-label" >Nombre del analisis</label>
                                   </div>
                               </div>
 
                               <div class="col-md-5" style="margin-inline: auto">
                                   <div class="input-form">
-                                      <select id="estatus_analisis" name="estatus_analisis" required disabled >
-                                          <option value="{{ $item->resultados }}" disabled selected>{{ $item->resultados }} </option>
+                                      <select id="estatus_analisis" name="estatus_analisis" required >
+                                          <option value="{{ $item->resultados }}" selected>{{ $item->resultados }} </option>
                                           <option value="aprobado">aprobado</option>
                                           <option value="cancelado">cancelado</option>
                                           <option value="analisando">analisando</option>
@@ -395,16 +470,22 @@
                           <div class="row mb-5">
                               <div class="col-md-6">
                                   <label for="paciente_nota" class="form-label">nota del analisis</label>
-                                  <textarea class="form-control" id="paciente_nota" rows="5" style="resize: none;
-                                  border: 1px solid gray;" disabled>{{ $item->notas }}</textarea>
+                                  <textarea class="form-control" id="paciente_nota" rows="5"  name="nota_analisis" style="resize: none;
+                                  border: 1px solid gray;">{{ $item->notas }}</textarea>
                               </div>
 
                               <div class="col-md-6">
                                   <label for="paceinte_diagnostico" class="form-label">diagnostico</label>
-                                  <textarea class="form-control" id="paceinte_diagnostico" rows="5" style="resize: none;
-                                  border: 1px solid gray;" disabled>{{ $item->diagnostico }}</textarea>
+                                  <textarea class="form-control" id="paceinte_diagnostico" rows="5"  name="dianostico_analisis" style="resize: none;
+                                  border: 1px solid gray;">{{ $item->diagnostico }}</textarea>
                               </div>
                           </div>
+
+                          <button type="submit" class="btn btn-primary">Actualizar analisis</button>
+
+                        </form>
+                        
+                        <hr class="dark horizontal" style="margin-bottom: 50px">
                       @endforeach
                   @endif
                   
@@ -412,8 +493,7 @@
               </div>
                       
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
               </div>
 
               
@@ -432,4 +512,7 @@
 
       </script>
   </div>
+
+    @endsection
+    
 
