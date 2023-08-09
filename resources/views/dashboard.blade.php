@@ -1,5 +1,7 @@
 @php
 use Carbon\Carbon;
+Carbon::setLocale('es');
+
 @endphp
 
 @extends('layout.template')
@@ -24,21 +26,27 @@ use Carbon\Carbon;
                               Paciente
                             </th>
                             <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
-                              Tipo Cita
+                              Sala
                             </th>
                             <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
-                              Fecha
+                              Hora
                             </th>
                           </tr>
                         </thead>
                         <tbody>
+                          @if(count($Citas) > 0)
                           @forEach($Citas as $cita)
                           <tr>
                             <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ $cita->primer_apellido }}</td>
                             <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ str_replace('_', ' ', $cita->nombre) }}</td>
-                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ Carbon::parse($cita->fecha_cita)->format('Y-m-d') }}</td>
+                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ Carbon::parse($cita->hora_cita)->format('h:i A') }}</td>
                           </tr>
                           @endforeach
+                          @else
+                          <tr>
+                              <td colspan="3" style="text-align: center;">No hay citas disponibles</td>
+                          </tr>
+                          @endif
                         </tbody>
                       </table>
                     </div>
@@ -49,7 +57,11 @@ use Carbon\Carbon;
             </div>
             <div class="card-body">
               <h6 class="mb-0 ">Citas</h6>
-              <p class="text-sm ">Ultimas 5 citas</p>
+              @if(count($Citas) > 0)
+              <p class="text-sm ">Ultimas 5 citas del dia: {{ Carbon::parse($cita->fecha_cita)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
+              @else
+              <p class="text-sm ">Ultimas 5 citas del dia: {{ Carbon::parse($today)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
+              @endif
             </div>
           </div>
         </div>
@@ -67,7 +79,7 @@ use Carbon\Carbon;
                               Paciente
                             </th>
                             <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
-                              Tipo Cita
+                              Sala
                             </th>
                             <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
                               Fecha
@@ -75,13 +87,19 @@ use Carbon\Carbon;
                           </tr>
                         </thead>
                         <tbody>
-                          @forEach($Citas as $cita)
+                          @if(count($Consultas) > 0)
+                          @forEach($Consultas as $Consulta)
                           <tr>
-                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ $cita->primer_apellido }}</td>
-                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ str_replace('_', ' ', $cita->nombre) }}</td>
-                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ Carbon::parse($cita->fecha_cita)->format('Y-m-d') }}</td>
+                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ $Consulta->primer_apellido }}</td>
+                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ str_replace('_', ' ', $Consulta->nombre) }}</td>
+                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ Carbon::parse($Consulta->fecha_visita)->format('h:i A') }}</td>
                           </tr>
                           @endforeach
+                          @else
+                          <tr>
+                              <td colspan="3" style="text-align: center;">No hay citas disponibles</td>
+                          </tr>
+                          @endif
                         </tbody>
                       </table>
                     </div>
@@ -92,7 +110,11 @@ use Carbon\Carbon;
             </div>
             <div class="card-body">
               <h6 class="mb-0 "> Consultas </h6>
-              <p class="text-sm "> Ultimas 5 consultas </p>
+              @if(count($Consultas) > 0)
+              <p class="text-sm ">Ultimas 5 Consultas del dia: {{ Carbon::parse($Consulta->fecha_visita)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
+              @else
+              <p class="text-sm ">Ultimas 5 Consultas del dia: {{ Carbon::parse($today)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
+              @endif
             </div>
           </div>
         </div>
@@ -110,7 +132,7 @@ use Carbon\Carbon;
                               Paciente
                             </th>
                             <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
-                              Tipo Cita
+                              Sala
                             </th>
                             <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
                               Fecha
@@ -118,13 +140,19 @@ use Carbon\Carbon;
                           </tr>
                         </thead>
                         <tbody>
-                          @forEach($Citas as $cita)
+                          @if(count($Cirugias) > 0)
+                          @forEach($Cirugias as $Cirugia)
                           <tr>
-                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ $cita->primer_apellido }}</td>
-                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ str_replace('_', ' ', $cita->nombre) }}</td>
-                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ Carbon::parse($cita->fecha_cita)->format('Y-m-d') }}</td>
+                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ $Cirugia->primer_apellido }}</td>
+                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ str_replace('_', ' ', $Cirugia->nombre) }}</td>
+                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ Carbon::parse($Cirugia->fecha_cirugia)->format('h:i A') }}</td>
                           </tr>
                           @endforeach
+                          @else
+                          <tr>
+                              <td colspan="3" style="text-align: center;">No hay citas disponibles</td>
+                          </tr>
+                          @endif
                         </tbody>
                       </table>
                     </div>
@@ -135,7 +163,11 @@ use Carbon\Carbon;
             </div>
             <div class="card-body">
               <h6 class="mb-0 ">Cirugias</h6>
-              <p class="text-sm ">Ultimas 5 cirugias</p>
+              @if(count($Cirugias) > 0)
+              <p class="text-sm ">Ultimas 5 Cirugias del dia: {{ Carbon::parse($Cirugia->fecha_cirugia)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
+              @else
+              <p class="text-sm ">Ultimas 5 Cirugias del dia: {{ Carbon::parse($today)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
+              @endif
             </div>
           </div>
         </div>
