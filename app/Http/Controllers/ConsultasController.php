@@ -226,7 +226,6 @@ class ConsultasController extends Controller
         ->select('ls.id_sala', 'ls.nombre', 'ls.capacidad','les.nombre as status')
         ->join('locacion.estado_sala as les','les.id_estado_sala', '=', 'ls.id_estado_sala')
         ->where('ls.nombre', 'like',"%Consultoria%")
-        ->where('les.nombre', 'like',"%Disponible%")
         ->get();
 
         $status = DB::table('estetico.status_consulta')
@@ -267,21 +266,22 @@ class ConsultasController extends Controller
             'aprovacion_cirugia' =>$request->Aprovacion_cirugia,
         ]);
 
-        if($request->estatus_consultas == 1 or 2){
+        if( $request->estatus_consultas == 2){
             DB::table('locacion.sala')
-            ->where('nombre', $request->consulta_sala)
+            ->where('id_sala', $request->consulta_sala)
             ->update([
                 'id_estado_sala' => 3 
             ]);
-        } 
-
-        if($request->estatus_consultas == 3 or 4 or 5){
+        }
+        else{
+            
             DB::table('locacion.sala')
-            ->where('nombre', $request->consulta_sala)
+            ->where('id_sala', $request->consulta_sala)
             ->update([
                 'id_estado_sala' => 1
             ]);
-        } 
+
+        }
 
 
         
@@ -325,12 +325,20 @@ class ConsultasController extends Controller
 
     public function cancelar(string $id)
     {
+        $consultas = DB::table('estetico.consulta')
+        ->select(
+            'id_consulta',
+            'id_status_consulta',
+            'id_sala'
+        )
+        ->where('id_consulta' , $id )
+        ->first(); 
 
-        if($request->estatus_consultas == 3){
+        if( $consultas->id_status_consulta == 2){
             DB::table('locacion.sala')
-            ->where('nombre', $request->consulta_sala)
+            ->where('id_sala', $consultas->id_sala)
             ->update([
-                'id_estado_sala' => 3 
+                'id_estado_sala' => 1 
             ]);
         } 
 
@@ -339,13 +347,10 @@ class ConsultasController extends Controller
         ->update([
             'id_status_consulta' => 4,
         ]);
+
+        session(['activeTab' => 'Consultas']);
+        
+        return redirect()->route('consultas.index')->with('success', 'consulta cancelada');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

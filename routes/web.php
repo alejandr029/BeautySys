@@ -21,6 +21,7 @@ use App\Http\Controllers\DashboardController;
 
 
 
+Route::view('/example','layout.landing');
 
 Route::get('/', [AuthenticatedSessionController::class, 'create'])->middleware('guest')->name('login');
 Route::post('/', [AuthenticatedSessionController::class, 'store'])->middleware('guest');
