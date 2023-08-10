@@ -144,6 +144,17 @@
     
     @extends('layout.template')
     @section('content')
+    @if ($errors->any())
+    @foreach ($errors->all() as $error)
+      <div class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+        <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+            <strong>{{ $error }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    @endforeach
+@endif
+
     <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-11">

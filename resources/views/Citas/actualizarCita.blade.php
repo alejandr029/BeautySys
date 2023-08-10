@@ -151,6 +151,18 @@
     </style>
 
     @section('content')
+
+    @if ($errors->any())
+        @foreach ($errors->all() as $error)
+          <div class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+            <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                <strong>{{ $error }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        @endforeach
+    @endif
+    
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-11">
@@ -178,16 +190,18 @@
 
                                     <div class="row">
                                         <div class="col-md-6 mb-3 input-form">
+                                            <label for="fecha_cita" class="form-label">Fecha de la cita:</label>
+                                            <input type="date" class="form-control input-form"  min="{{ now()->toDateString() }}"  id="fecha_cita"
+                                                name="fecha_cita" value="{{ $cita->fecha_cita }}">
+                                        </div>
+
+                                        <div class="col-md-6 mb-3 input-form">
                                             <label for="hora_cita" class="form-label">Hora de la cita:</label>
                                             <input type="time" class="form-control input-form" id="hora_cita" name="hora_cita"
                                                 value="{{ $cita->hora_cita }}">
                                         </div>
 
-                                        <div class="col-md-6 mb-3 input-form">
-                                            <label for="fecha_cita" class="form-label">Fecha de la cita:</label>
-                                            <input type="date" class="form-control input-form" id="fecha_cita"
-                                                name="fecha_cita" value="{{ $cita->fecha_cita }}">
-                                        </div>
+                                        
                                     </div>
 
                                     <hr class="dark horizontal">

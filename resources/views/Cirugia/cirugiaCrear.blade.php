@@ -144,6 +144,7 @@
     
     @extends('layout.template')
     @section('content')
+   
     <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-11">
@@ -274,7 +275,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="input-form">
-                    <input type="time" id="hora" name="hora"  min="{{ now()->format('H:i') }}" required>
+                    <input type="time" id="hora" name="hora" required>
                     <label for="hora" class="textUser" style="visibility: hidden" >Hora de la cirugia</label>
                   </div>
                 </div>

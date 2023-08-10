@@ -128,7 +128,7 @@
 
                                         <div class="input-group input-group-outline mb-3">
                                             <x-label for="fecha_nacimiento" value="{{ __('Fecha de Nacimiento') }}" class="form-label" style="visibility: hidden" />
-                                            <x-input id="fecha_nacimiento" class="form-control" type="date" name="fecha_nacimiento"
+                                            <x-input id="fecha_nacimiento" class="form-control" type="date" name="fecha_nacimiento" max="{{ now()->toDateString() }}"
                                             :value="old('fecha_nacimiento')" required autocomplete="fecha_nacimiento"/>
                                         </div>
 

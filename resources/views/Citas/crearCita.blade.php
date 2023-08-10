@@ -138,6 +138,17 @@ use Carbon\Carbon;
 @extends('layout.template')
 
 @section('content')
+      @if ($errors->any())
+        @foreach ($errors->all() as $error)
+          <div class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+            <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                <strong>{{ $error }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        @endforeach
+    @endif
+
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-11">
@@ -156,6 +167,7 @@ use Carbon\Carbon;
                     <div class="col-md-6 mb-3 input-form">
                         <label for="id_paciente" class="form-label">ID del paciente:</label>
                         <select class="form-control" id="id_paciente" name="id_paciente" required>
+                            <option value="" disabled selected>Seleccion de paciente</option>
                             @foreach($pacientes as $paciente)
                             <option value="{{ $paciente->id_paciente }}" data-paciente="{{ json_encode($paciente) }}">{{ $paciente->id_paciente }} {{ $paciente->primer_apellido}} - {{ $paciente->primer_nombre}}  </option>
                             @endforeach
@@ -173,7 +185,7 @@ use Carbon\Carbon;
                 <div class="row">
                   <div class="col-md-6 mb-3 input-form">
                     <label for="fecha_cita" class="form-label">Fecha de la cita:</label>
-                    <input type="date" class="form-control" id="fecha_cita" name="fecha_cita" required>
+                    <input type="date" class="form-control" id="fecha_cita" name="fecha_cita" min="{{ now()->toDateString() }}" required>
                   </div>
 
                   <div class="col-md-6 mb-3 input-form">

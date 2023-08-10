@@ -215,6 +215,18 @@
     
     @extends('layout.template')
     @section('content')
+
+    @if ($errors->any())
+    @foreach ($errors->all() as $error)
+      <div class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+        <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+            <strong>{{ $error }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    @endforeach
+    @endif
+
     <div class="container">
       
         <div class="row justify-content-center">
@@ -239,9 +251,9 @@
                             </div>
                           <div class="col-md-6">
                             <div class="input-form">
-                              
                               <input type="time" id="hora" name="hora" required  value="{{ date('H:i', strtotime($consultas->fecha_visita)) }}">
                               <label for="hora" class="textUser" style="visibility: hidden" >Hora de la consulta</label>
+
                             </div>
                           </div>
                         </div>
@@ -351,6 +363,46 @@
                         
                     </form>
 
+                    <script>
+                      document.addEventListener("DOMContentLoaded", function (){
+                        const fechaInput = document.getElementById('fecha');
+                        const horaInput = document.getElementById('hora');
+
+                        horaInput.min = new Date().getHours() + ':' + new Date().getMinutes();
+
+                        // Mensaje de error en español para la hora
+                        horaInput.setCustomValidity('La hora seleccionada no es válida. Debe ser igual o posterior a la hora actual.');
+
+                        horaInput.addEventListener('input', function() {
+                          const fechaSeleccionada = fechaInput.value;
+
+                          const fechaActual = new Date();
+                          const formattedDate = `${fechaActual.getFullYear()}-${(fechaActual.getMonth() + 1).toString().padStart(2, '0')}-${fechaActual.getDate().toString().padStart(2, '0')}`;
+
+
+                        });
+
+                        // Validar la hora al cambiar directamente el valor del input de hora
+                        horaInput.addEventListener('input', function() {
+                          
+                          const horaSeleccionada = this.value;
+                          
+
+                          if (fechaSeleccionada === fechaActual) {
+                              const horaActual = fechaActual.getHours() + ':' + fechaActual.getMinutes();
+                              
+                              if (horaSeleccionada < horaActual) {
+                                  horaInput.setCustomValidity('La hora debe ser igual o posterior a la hora actual.');
+                              } else {
+                                  horaInput.setCustomValidity('');
+                              }
+                          } else {
+                              horaInput.setCustomValidity('');
+                          }
+                        });
+                      });
+                    </script>
+
                     
 
                     
@@ -443,6 +495,8 @@
                           <div class="row mb-5" style="margin-top: 40px">
                               <div class="col-md-3">
                                   <div class="input-form">
+                                    
+                                  <input type="hidden" id="consulta" name="consulta" value="{{ $item->id_consulta }}" >
                                   <input type="number" id="id_paciente_modal" name="id_paciente_modal" required  value="{{ $paciente->id_paciente }}" disabled >
                                   <label for="id_paciente_modal" class="textUser fixed-label" >Id Paciente</label>
                                   </div>
@@ -502,16 +556,8 @@
 
       <script>
           document.addEventListener("DOMContentLoaded", function () {
-            const fechaInput = document.getElementById('fecha');
-            const horaInput = document.getElementById('hora');
             
-            // Establecer el valor mínimo de la fecha al día actual
-            fechaInput.min = new Date().toISOString().split('T')[0];
-            
-            // Manejar cambios en la fecha para actualizar el valor mínimo de la hora
-            fechaInput.addEventListener('input', function() {
-                horaInput.min = this.value === new Date().toISOString().split('T')[0] ? '{{ now()->format("H:i") }}' : '00:00';
-            });
+                
 
           const btnNuevo = document.getElementById("btnNuevo");
           const formularioAnalisis = document.getElementById("formularioAnalisis");

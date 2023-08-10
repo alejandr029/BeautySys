@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Validator;
 
 class ConsultasController extends Controller
 {
@@ -99,6 +101,34 @@ class ConsultasController extends Controller
     }
 
     public function crear(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'fecha' => 'required|date',
+            'hora' => [
+                'required',
+                function ($attribute, $value, $fail) use ($request) {
+                    $today = Carbon::now()->format('Y-m-d');
+                    $selectedDate = Carbon::parse($request->input('fecha'))->format('Y-m-d');
+    
+                    if ($selectedDate === $today) {
+                        $hour = Carbon::now()->format('H:i');
+                        if (Carbon::parse($hour)->isAfter($value)) {
+                            $fail('No se permite la hora actual o las horas anteriores para la fecha de registro actual.');
+                        }
+                    }
+                },
+            ],
+        ]);
+
+
+        
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+        
 
         DB::table('estetico.consulta')->insert([
             'fecha_visita' => date('Y-m-d H:i:s', strtotime($request->fecha . ' ' . $request->hora)),
@@ -213,7 +243,7 @@ class ConsultasController extends Controller
             'telefono',
             'correo'	
         )
-        ->where('id_paciente',(int)$consultas->id_paciente)
+        ->where('id_paciente',$consultas->id_paciente)
         ->first(); 
         
         $SelectPersonal = DB::table('personal.personal as P')
@@ -255,6 +285,8 @@ class ConsultasController extends Controller
      */
     public function actualizarConsulta(Request $request, string $id)
     {
+        
+        
         DB::table('estetico.consulta')
         ->where('id_consulta', $id)
         ->update([
@@ -305,6 +337,7 @@ class ConsultasController extends Controller
             
 
     }
+
     public function actualizarAnalisis(Request $request ,string $id){
 
         DB::table('estetico.analisis')
@@ -319,7 +352,7 @@ class ConsultasController extends Controller
 
 
         session(['activeTab' => 'Consultas']);
-        return redirect()->route('ConsultaActualizarVista', ['id'=> $id])->with('success', 'analisis creado correctamente.');
+        return redirect()->route('ConsultaActualizarVista', ['id'=> $request->consulta])->with('success', 'analisis creado correctamente.');
 
     }
 
