@@ -138,10 +138,10 @@
 
         }
 
-        
+
 
     </style>
-    
+
     @extends('layout.template')
     @section('content')
    
@@ -152,7 +152,7 @@
               <div class="card-header">
                 <h4 class="card-title">Crear Cirugia</h4>
               </div>
-              <div class="card-body">   
+              <div class="card-body">
                 <form method="post" action="{{ route('crearCirugia') }}"  enctype="multipart/form-data">
                     @csrf
                   <div class="row mb-5">
@@ -258,7 +258,7 @@
                           <select id="sala" name="sala" required>
                             <option value="" selected>Seleccionar sala a usar</option>
                             @foreach ($SelectSalas as $item)
-                            <option value="{{ $item->id_sala }}"> {{ $item->nombre }} </option>
+                            <option value="{{ $item->id_sala }}"> {{ str_replace('_', ' ',  $item->nombre) }} </option>
                             @endforeach
                           </select>
                           <label for="sala" class="textUser" style="visibility: hidden">Seleccionar sala</label>
@@ -280,8 +280,8 @@
                   </div>
                 </div>
               </div>
-              
-              
+
+
 
               <div class="container">
                 <div class="row">
@@ -316,7 +316,7 @@
                     </div>
                 </div>
             </div>
-                
+
                     <script>
                       // Add this inside a script tag or in a separate JS file
                       document.addEventListener("DOMContentLoaded", function () {
@@ -347,7 +347,7 @@
                         const enfermedadesTableBody = document.getElementById("enfermedadesTableBody");
 
 
-                    
+
                         selectConsultas.addEventListener("change", function () {
                           const selectedConsultaId = this.value;
                           if (selectedConsultaId) {
@@ -395,7 +395,7 @@
                             alergiasTableBody.innerHTML = '';
                             enfermedadesTableBody.innerHTML = '';
                           }
-                          
+
                         });
 
                         SelectCirugias.addEventListener("change", function () {
@@ -430,9 +430,9 @@
           </div>
         </div>
       </div>
-      
-      
+
+
       @include('layout.footer')
     </main>
     @endsection
-    
+

@@ -72,8 +72,8 @@
                 @endif -->
 
                 <!-- Settings Dropdown -->
-                <div class="navbar navbar-main navbar-expand-md px-0 mx-4 shadow-none border-radius-xl">
-                    <x-dropdown align="right" width="48">
+                <div class="navbar navbar-main navbar-expand-md px-0 mx-4 shadow-none border-radius-xl" style="position: absolute; top: 3%;right: 0; z-index: 5;">
+                    <x-dropdown width="48">
                         <x-slot name="trigger">
                             <!-- @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                                 <button class="flex text-sm  focus:outline-none focus:border-gray-300 transition">

@@ -209,10 +209,10 @@
 .checkbox-wrapper-31 input[type=checkbox]:checked + svg .check {
   stroke-dashoffset: 0;
 }
-        
+
 
 </style>
-    
+
     @extends('layout.template')
     @section('content')
 
@@ -228,19 +228,19 @@
     @endif
 
     <div class="container">
-      
+
         <div class="row justify-content-center">
           <div class="col-lg-11">
             <div class="card">
-              <div class="card-header"> 
+              <div class="card-header">
                 <h4 class="card-title">Actualizar la Consulta con id: {{$consultas->id_consulta}}</h4>
               </div>
-              
-                <div class="card-body"> 
+
+                <div class="card-body">
                     <form method="POST" action="{{ route('ConsultaActualizar', $consultas->id_consulta) }}" enctype="multipart/form-data">
                       @csrf
                       @method('PUT')
-                      
+
                         <div class="row mb-5">
                           <div class="row mb-5">
                             <div class="col-md-6">
@@ -267,23 +267,23 @@
                                   @endforeach
                                   </select>
                                   <label for="personal" class="textUser" style="visibility: hidden">Personal encargado</label>
-                                  
+
                               </div>
                           </div>
 
-                          
+
                           <div class="col-md-3">
                               <div class="input-form">
                                   <select id="consulta_sala" name="consulta_sala" required >
                                   <option value="" disabled selected>sala en uso </option>
                                   @foreach ($sala as $item)
-                                  <option value="{{ $item->id_sala }}"  {{ $consultas->id_sala == $item->id_sala ? 'selected' : '' }}> {{ $item->nombre }} - status: {{ $item->status }}</option>
+                                  <option value="{{ $item->id_sala }}"  {{ $consultas->id_sala == $item->id_sala ? 'selected' : '' }}> {{ str_replace('_', ' ', $item->nombre) }} - status: {{ $item->status }}</option>
                                   @endforeach
                                   </select>
                                   <label for="consulta_sala" class="textUser" style="visibility: hidden">salas disponibles</label>
                               </div>
                           </div>
-                          
+
                           <div class="col-md-3">
                               <div class="input-form">
                                   <select id="estatus_consultas" name="estatus_consultas" required  >
@@ -316,16 +316,16 @@
                             <label>¿se aprueba la consulta para la cirugia?</label>
                           </div>
                         </div>
-                        
 
-                        <div class="row mb-5" > 
+
+                        <div class="row mb-5" >
                           <hr class="dark horizontal">
                             <div class="row mb-5">
                                 <div class="card-header" style="margin-bottom: 20px">
                                     <h4 class="card-title">Datos del paciente</h4>
                                 </div>
 
-                                <div class="row mb-6" style="margin-top: 35px">                          
+                                <div class="row mb-6" style="margin-top: 35px">
                                     <div class="col-md-4">
                                         <div class="input-form">
                                             <input type="text" id="Paciente_nombre" name="Paciente_nombre" disabled value="{{$paciente->nombrePaciente}}">
@@ -352,15 +352,15 @@
                                   </button>
                                 </div>
                             </div>
-                            
+
                             <div class="text-center mt-2" >
                               <button type="submit" class="btn btn-primary">Actualizar consulta</button>
                           </div>
-                            
-                        </div>
-                          
 
-                        
+                        </div>
+
+
+
                     </form>
 
                     <script>
@@ -405,19 +405,19 @@
 
                     
 
-                    
 
-                       
-                      
+
+
+
 
                 </div>
-                
+
             </div>
           </div>
         </div>
       </div>
-      
-      
+
+
       @include('layout.footer')
     </main>
     <div class="modal fade" id="miModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="height: 95%; margin-left:7%">
@@ -437,9 +437,9 @@
                   <button type="button" id="btnNuevo" class="btn btn-primary">Nuevo</button>
 
                   <form id="formularioAnalisis" class="d-none" action="{{ route('analisis_paciente', ['id'=> $consultas->id_consulta])}}" method="post">
-                      @csrf 
-                      
-                      <div class="row mb-5" style="margin-top: 10px"> 
+                      @csrf
+
+                      <div class="row mb-5" style="margin-top: 10px">
                           <div class="col-md-3">
                               <div class="input-form">
                               <input type="number" id="id_paciente_modal" name="id_paciente_modal" required  value="{{ $paciente->id_paciente }}" disabled>
@@ -457,24 +457,24 @@
                           <div class="col-md-5" style="margin-inline: auto">
                               <div class="input-form">
                                   <select id="estatus_analisis" name="estatus_analisis" required  >
-                                      <option value="" disabled selected>tipo estatus analisis </option>
-                                      <option value="aprobado">aprobado</option>
-                                      <option value="cancelado">cancelado</option>
-                                      <option value="analisando">analisando</option>
+                                      <option value="" disabled selected>Tipo estatus analisis </option>
+                                      <option value="aprobado">Aprobado</option>
+                                      <option value="cancelado">Cancelado</option>
+                                      <option value="analisando">Analizando</option>
                                   </select>
-                                  <label for="estatus_analisis" class="textUser" style="visibility: hidden">estatus del analisis</label>
+                                  <label for="estatus_analisis" class="textUser" style="visibility: hidden">Estatus del analisis</label>
                               </div>
                           </div>
                       </div>
                       <div class="row mb-5">
                           <div class="col-md-6">
-                              <label for="paciente_nota" class="form-label">nota del analisis</label>
+                              <label for="paciente_nota" class="form-label">Nota del analisis</label>
                               <textarea class="form-control" id="paciente_nota" name="paciente_nota" rows="5" style="resize: none;
                                border: 1px solid gray;"></textarea>
                           </div>
 
                           <div class="col-md-6">
-                              <label for="paceinte_diagnostico" class="form-label">diagnostico</label>
+                              <label for="paceinte_diagnostico" class="form-label">Diagnostico</label>
                               <textarea class="form-control" id="paceinte_diagnostico"  name="paceinte_diagnostico" rows="5" style="resize: none;
                                border: 1px solid gray;"></textarea>
                           </div>
@@ -483,13 +483,13 @@
                           <button type="submit" class="btn btn-primary">Generar analisis</button>
                       </div>
                   </form>
-                  
+
                   <hr class="dark horizontal">
 
                   @if(count($analisis) > 0)
                       @foreach ($analisis as $item)
                         <form method="post" action="{{ route('analisis_paciente_actualizar', $item->id_analisis) }}"  enctype="multipart/form-data">
-                          @csrf 
+                          @csrf
                           @method('PUT')
 
                           <div class="row mb-5" style="margin-top: 40px">
@@ -517,19 +517,19 @@
                                           <option value="cancelado">cancelado</option>
                                           <option value="analisando">analisando</option>
                                       </select>
-                                      <label for="estatus_analisis" class="textUser" style="visibility: hidden">estatus del analisis</label>
+                                      <label for="estatus_analisis" class="textUser" style="visibility: hidden">Estatus del analisis</label>
                                   </div>
                               </div>
                           </div>
                           <div class="row mb-5">
                               <div class="col-md-6">
-                                  <label for="paciente_nota" class="form-label">nota del analisis</label>
+                                  <label for="paciente_nota" class="form-label">Nota del analisis</label>
                                   <textarea class="form-control" id="paciente_nota" rows="5"  name="nota_analisis" style="resize: none;
                                   border: 1px solid gray;">{{ $item->notas }}</textarea>
                               </div>
 
                               <div class="col-md-6">
-                                  <label for="paceinte_diagnostico" class="form-label">diagnostico</label>
+                                  <label for="paceinte_diagnostico" class="form-label">Diagnostico</label>
                                   <textarea class="form-control" id="paceinte_diagnostico" rows="5"  name="dianostico_analisis" style="resize: none;
                                   border: 1px solid gray;">{{ $item->diagnostico }}</textarea>
                               </div>
@@ -538,19 +538,19 @@
                           <button type="submit" class="btn btn-primary">Actualizar analisis</button>
 
                         </form>
-                        
+
                         <hr class="dark horizontal" style="margin-bottom: 50px">
                       @endforeach
                   @endif
-                  
+
 
               </div>
-                      
+
               <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
               </div>
 
-              
+
         </div>
       </div>
 
@@ -571,5 +571,5 @@
   </div>
 
     @endsection
-    
+
 

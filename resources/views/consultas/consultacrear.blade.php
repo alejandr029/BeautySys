@@ -138,10 +138,10 @@
 
         }
 
-        
+
 
     </style>
-    
+
     @extends('layout.template')
     @section('content')
     @if ($errors->any())
@@ -162,11 +162,11 @@
               <div class="card-header">
                 <h4 class="card-title">Datos de la consulta</h4>
               </div>
-              
-                <div class="card-body">  
+
+                <div class="card-body">
                     <form method="post" action="{{ route('crearConsulta.crear') }}" enctype="multipart/form-data">
                       @csrf
-                      
+
                         <div class="row mb-5">
                           <div class="row mb-5">
                             <div class="col-md-6">
@@ -177,7 +177,7 @@
                             </div>
                           <div class="col-md-6">
                             <div class="input-form">
-                              
+
                               <input type="time" id="hora" name="hora" required>
                               <label for="hora" class="textUser" style="visibility: hidden">Hora de la consulta</label>
                             </div>
@@ -193,23 +193,23 @@
                                   @endforeach
                                   </select>
                                   <label for="personal" class="textUser" style="visibility: hidden">Personal encargado</label>
-                                  
+
                               </div>
                           </div>
 
-                          
+
                           <div class="col-md-3">
                               <div class="input-form">
                                   <select id="consulta_sala" name="consulta_sala" required>
-                                  <option value="" disabled selected>sala en disposicion </option>
+                                  <option value="" disabled selected>Sala en disposicion </option>
                                   @foreach ($sala as $item)
-                                  <option value="{{ $item->id_sala }}"> {{ $item->nombre }} - status: {{ $item->status }}</option>
+                                  <option value="{{ $item->id_sala }}"> {{ str_replace('_', ' ', $item->nombre) }} - status: {{ $item->status }}</option>
                                   @endforeach
                                   </select>
                                   <label for="consulta_sala" class="textUser" style="visibility: hidden">salas disponibles</label>
                               </div>
                           </div>
-                          
+
                           <div class="col-md-3">
                               <div class="input-form">
                                   <select id="estatus_consultas" name="estatus_consultas" required>
@@ -231,9 +231,9 @@
                             </div>
                           </div>
                         </div>
-                        
 
-                      <div class="row mb-5" > 
+
+                      <div class="row mb-5" >
                         <hr class="dark horizontal">
                       <div class="row mb-5">
                         <div class="card-header" style="margin-bottom: 20px">
@@ -247,7 +247,7 @@
                                 @foreach ($paciente as $item)
                                   <option value="{{ $item->id_paciente }}"> {{ $item->primer_nombre }} {{ $item->primer_apellido }}</option>
                                 @endforeach
-                                
+
                               </select>
                               <label for="personal" class="textUser" style="visibility: hidden">paciente</label>
                             </div>
@@ -255,13 +255,13 @@
 
                       </div>
 
-                        <div class="row mb-6" style="margin-top: 35px">    
+                        <div class="row mb-6" style="margin-top: 35px">
                           <div class="card-header" style="margin-bottom: 20px">
                             <h4 class="card-title">Datos del paciente</h4>
-                          </div>                      
+                          </div>
                           <div class="col-md-4">
                             <div class="input-form">
-                              
+
                               <input type="hidden" id="id_Paciente" name="id_Paciente">
                               <input type="text" id="Paciente_nombre" name="Paciente_nombre" required disabled>
                               <label for="Paciente_nombre" class="textUser fixed-label">Nombre completo del paciente</label>
@@ -280,7 +280,7 @@
                             </div>
                           </div>
                         </div>
-                      
+
 
                       <script>
                         // Add this inside a script tag or in a separate JS file
@@ -303,7 +303,7 @@
                           const nombre_paciente = document.getElementById("Paciente_nombre");
                           const correo_paciente = document.getElementById("correoPaciente");
                           const telefono_paciente = document.getElementById("telefonoPaciente");
-                      
+
                           busqueda_paciente.addEventListener("change", function () {
                             const selectedConsultaId = this.value;
                             if (selectedConsultaId) {
@@ -325,8 +325,8 @@
                           });
                         });
                       </script>
-                      
-                
+
+
 
                       <div class="text-center mt-3">
                           <button type="submit" class="btn btn-primary">Crear consulta</button>
@@ -338,9 +338,9 @@
           </div>
         </div>
       </div>
-      
-      
+
+
       @include('layout.footer')
     </main>
     @endsection
-    
+

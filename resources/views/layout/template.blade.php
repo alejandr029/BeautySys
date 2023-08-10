@@ -53,6 +53,11 @@
     overflow: hidden;
     position: relative;
   }
+
+  body{
+    background-image: url('../assets/img/logos/fondo.avif'); background-size: cover
+  }
+
 </style>
 
 <body class="g-sidenav-show  bg-gray-200">

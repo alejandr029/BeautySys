@@ -97,7 +97,7 @@ use Carbon\Carbon;
     @if(session('success'))
     <div id="notification" class="position-fixed top-0 end-0 p-3">
         <div class="alert alert-success text-white" role="alert">
-            <strong>{{ session('success') }}</strong> 
+            <strong>{{ session('success') }}</strong>
         </div>
     </div>
     <script>
@@ -115,8 +115,8 @@ use Carbon\Carbon;
         }, 100);
     </script>
     @endif
-    <div class="container-fluid py-4">      
-        
+    <div class="container-fluid py-4">
+
         <div id="CirugiaTable" class="row">
             <div class="col-12">
                 <div class="card my-4">
@@ -154,7 +154,7 @@ use Carbon\Carbon;
                                     <tr>
                                         <td style="text-align: center">{{ $Cirugia->id_cirugia }}</td>
                                         <td style="text-align: center">{{ $Cirugia->nombreCirugia }}</td>
-                                        <td style="text-align: center">{{ $Cirugia->nombresala }}</td>
+                                        <td style="text-align: center">{{ str_replace('_', ' ',  $Cirugia->nombresala) }}</td>
                                         <td class="text-center">{{ Carbon::parse($Cirugia->fecha_cirugia)->format('Y-m-d') }}</td>
                                         <td class="text-center">{{ Carbon::parse($Cirugia->fecha_cirugia)->format('h:i A') }}</td>
                                         <td style="text-align: center">{{ $Cirugia->nombrePaciente }}</td>
@@ -165,7 +165,7 @@ use Carbon\Carbon;
                                             <div role="group">
                                                 <button type="button" class="btn btn-info"
                                                style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('vistaCirugia', ['id'=> $Cirugia->id_cirugia]) }}'"><i class="material-icons">visibility</i></button>
-                                              
+
                                                <button type="button" class="btn btn-warning" @if( $Cirugia->id_estatus_cirugia == '6' ||  $Cirugia->id_estatus_cirugia == '7' ||  $Cirugia->id_estatus_cirugia == '5') @style('display:none;') @endif
                                                style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('vistaActualizarCirugia', ['id' => $Cirugia->id_cirugia ]) }}'"><i class="material-icons">edit</i></button>
                                                <form method="POST" action="{{ route('CancelarCirugia', ['id' => $Cirugia->id_cirugia]) }}" @if( $Cirugia->id_estatus_cirugia == '6' ||  $Cirugia->id_estatus_cirugia == '7'||  $Cirugia->id_estatus_cirugia == '5') @style('display:none;') @endif>
@@ -234,7 +234,7 @@ use Carbon\Carbon;
                         </a>
                     </li>
                 </ul>
-            </div>           
+            </div>
         </div>
 
     </div>

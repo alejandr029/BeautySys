@@ -61,10 +61,10 @@
                             </li>
                         </ul>
                     </li> --}}
-                    <li>    
+                    <li>
                         <a href="/IniciarSesion" class="btn btn-danger btn-fill" style="border: 2px solid #ffafb4;">Iniciar sesion</a>
                     </li>
-                    <li>    
+                    <li>
                         <a href="/Registro" class="btn btn-danger btn-fill" style="border: 2px solid #ffafb4;">Registrar</a>
                     </li>
                 </ul>
@@ -105,9 +105,9 @@
                 <div class="title-area">
                     <h2>Acerca del servicio</h2>
                     <div class="separator separator-danger">✻</div>
-                    <p class="description">La empresa TASKLAB se tomo como principal enfoque y objetivo el de 
-                        desarrollar un sistema integral para el monitoreo y gestión de registros de cirugías estéticas. Este sistema se 
-                        generara con el fin de obtener una mejor eficiencia de registros como también tener una mayor seguridad de datos 
+                    <p class="description">La empresa TASKLAB se tomo como principal enfoque y objetivo el de
+                        desarrollar un sistema integral para el monitoreo y gestión de registros de cirugías estéticas. Este sistema se
+                        generara con el fin de obtener una mejor eficiencia de registros como también tener una mayor seguridad de datos
                         y obtener así una mejor calidad de atención hacia el cliente</p>
                 </div>
             </div>
@@ -177,7 +177,7 @@
                                         <div class="card card-member">
                                             <div class="content" style="height: 40rem;">
                                                 <div class="description">
-                                                    <h3 class="title">Ruiz Alvzarez Jose Eduardo</h3>
+                                                    <h3 class="title">Ruiz Alvarez Jose Eduardo</h3>
                                                     <p class="small-text">Project Manager y Desarrollador web</p>
                                                     <p class="description">En nuestro equipo, contamos con un miembro que desempeña los roles de Project Manager y Desarrollador Web. Esta doble función implica liderar la planificación, coordinación y ejecución de proyectos, asegurando que se cumplan los plazos y objetivos. Además, se encarga del desarrollo web, creando y manteniendo las interfaces que dan vida a nuestro sistema de monitoreo y gestión de registros de cirugías estéticas. Su trabajo garantiza una implementación exitosa y una experiencia fluida para nuestros usuarios.</p>
                                                 </div>
