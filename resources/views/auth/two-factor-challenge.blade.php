@@ -48,8 +48,8 @@
                         {{ __('Use an authentication code') }}
                     </button>
 
-                    <x-button class="ml-4">
-                        {{ __('Log in') }}
+                    <x-button class="ml-4 bg-gradient-primary">
+                        {{ __('Iniciar seseion') }}
                     </x-button>
                 </div>
             </form>

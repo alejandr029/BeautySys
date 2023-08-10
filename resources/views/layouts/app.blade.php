@@ -17,6 +17,11 @@
         <!-- Styles -->
         @livewireStyles
     </head>
+    <style>
+        button[type=submit]{
+            background-image: linear-gradient(195deg, #EC407A 0%, #D81B60 100%)!important;
+        }
+    </style>
     <body class="font-sans antialiased">
         <x-banner />
 
