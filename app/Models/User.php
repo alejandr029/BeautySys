@@ -25,8 +25,15 @@ class User extends Authenticatable
     {
         parent::boot();
 
-        static::creating(function ($user) {
-            $user->assignRole("user"); // Establecer el rol en 'user' al crear un nuevo usuario
+        // static::creating(function ($user) {
+        //     $user->assignRole("user"); // Establecer el rol en 'user' al crear un nuevo usuario
+        // });
+
+        static::deleting(function ($user) {
+            // Eliminar el paciente relacionado
+            if ($user->paciente) {
+                $user->paciente->delete();
+            }
         });
     }
 

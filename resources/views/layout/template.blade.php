@@ -130,11 +130,13 @@
                         <span class="nav-link-text ms-1">Inventario</span>
                     </a>
                 </li>
-
-                
-        @endif
+            @endif
 
             @if(auth()->user()->hasRole(['admin']))
+            <li class="nav-item mt-3">
+                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Acciones de Administrador</h6>
+            </li>
+
             <li class="nav-item">
                 <a class="nav-link text-white <?php echo session('activeTab') === 'Proveedor' ? 'active bg-gradient-primary' : ''; ?>"  href="{{ route('tablaProvedor') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -197,6 +199,7 @@
                     <span class="nav-link-text ms-1">Perfil</span>
                 </a>
             </li> --}}
+
             <!-- <li class="nav-item">
                 <a class="nav-link text-white" href="/logout">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
