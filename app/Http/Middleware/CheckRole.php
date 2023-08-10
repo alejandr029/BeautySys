@@ -13,6 +13,6 @@ class CheckRole
             return $next($request);
         }
 
-        return redirect()->route('landing')->with('error', 'Acceso no autorizado.');
+        return redirect()->route('login')->with('error', 'Acceso no autorizado.');
     }
 }

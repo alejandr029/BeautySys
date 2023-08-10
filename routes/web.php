@@ -29,8 +29,8 @@ Route::post('/', [AuthenticatedSessionController::class, 'store'])->middleware('
 Route::get('/registro', [RegisteredUserController::class, 'create'])->middleware('guest')->name('register');
 Route::post('/registro', [RegisteredUserController::class, 'store'])->middleware('guest');
 
+// todo: agregar autentificacion para rol user
 Route::middleware(['auth'])->group(function () {
-
     // //Route::view('/dashboard', 'layout.template')->name('dashboard');
     // Route::get('/dashboard', function () {
     //     session(['activeTab' => 'Dashboard']);
@@ -40,6 +40,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    Route::get('/profile', function () {
+        session(['activeTab' => 'Profile']);
+        return view('profile');
+    })->name('profile');
+});
+
+// todo: agregar autentificacion para rol staff y admin
+Route::middleware(['auth'])->group(function () {
     // CUENTAS
     Route::get('/cuentas', [CuentasController::class, 'index'])->name('Cuentas.index');
     Route::get('/crear/cuenta', [CuentasController::class, 'create'])->name('Cuentas.crear');
@@ -117,13 +125,6 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/ConsultaCancelar/{id}', [ConsultasController::class, 'cancelar'])->name('CancelarConsulta');
     Route::put('/Consultaanalisis/{id}', [ConsultasController::class, 'actualizarAnalisis'])->name('analisis_paciente_actualizar');
     Route::post('/analisiscrear/id={id}', [ConsultasController::class, 'crear_analisis'])->name('analisis_paciente');
-    
-
-    Route::get('/profile', function () {
-        session(['activeTab' => 'Profile']);
-        return view('profile');
-    })->name('profile');
-
 });
 
 // Ruta para mostrar el formulario de asignación de roles
