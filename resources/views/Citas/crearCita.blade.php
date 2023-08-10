@@ -187,21 +187,14 @@ use Carbon\Carbon;
               <form action="{{ route('Citas.store') }}" method="post" class="role-form">
                 @csrf
 
-                <div class="row">
-                    <div class="col-md-6 mb-3 input-form">
-                        <label for="id_paciente" class="form-label">ID del paciente:</label>
+                    <div class="mb-3 input-form">
+                        <label for="id_paciente" class="form-label">Paciente:</label>
                         <select class="form-control" id="id_paciente" name="id_paciente" required>
                             @foreach($pacientes as $paciente)
-                            <option value="{{ $paciente->id_paciente }}" data-paciente="{{ json_encode($paciente) }}">{{ $paciente->id_paciente }} {{ $paciente->primer_apellido}} - {{ $paciente->primer_nombre}}  </option>
+                            <option value="{{ $paciente->id_paciente }}" data-paciente="{{ json_encode($paciente) }}">ID: {{ $paciente->id_paciente }} - Nombre: {{ $paciente->primer_nombre}} {{ $paciente->primer_apellido}} </option>
                             @endforeach
                         </select>
                     </div>
-
-                    <div class="col-md-6 mb-3 input-form">
-                        <label for="nombre_paciente" class="form-label">Nombre del paciente:</label>
-                        <input type="text" class="form-control" id="nombre_paciente" name="nombre_paciente" value="" placeholder="Seleccione un ID" readonly>
-                    </div>
-                </div>
 
                 <hr class="dark horizontal">
 
