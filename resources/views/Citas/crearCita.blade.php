@@ -157,7 +157,7 @@ use Carbon\Carbon;
                         <label for="id_paciente" class="form-label">ID del paciente:</label>
                         <select class="form-control" id="id_paciente" name="id_paciente" required>
                             @foreach($pacientes as $paciente)
-                            <option value="{{ $paciente->id_paciente }}" data-paciente="{{ json_encode($paciente) }}">{{ $paciente->id_paciente }}</option>
+                            <option value="{{ $paciente->id_paciente }}" data-paciente="{{ json_encode($paciente) }}">{{ $paciente->id_paciente }} {{ $paciente->primer_apellido}} - {{ $paciente->primer_nombre}}  </option>
                             @endforeach
                         </select>
                     </div>

@@ -174,7 +174,7 @@
                           <option value="{{ $item->id_personal }}">Personal: {{ $item->nombrePersonalAcargo }} - Departamento: {{ $item->nombreDepartamento }}</option>
                           @endforeach
                         </select>
-                        <label for="personal" class="textUser" style="visibility: hidden">Personal encargago</label>
+                        <label for="personal" class="textUser" style="visibility: hidden">Personal encargado</label>
                       </div>
                     </div>
                   </div>
@@ -268,14 +268,14 @@
                     <div class="row mb-5">
                       <div class="col-md-6">
                       <div class="input-form">
-                        <input type="date" id="fecha" name="fecha" required>
+                        <input type="date" id="fecha" name="fecha" min="{{ now()->toDateString() }}"required>
                         <label for="fecha" class="textUser" style="visibility: hidden">Fecha de la Cirugia</label>
                     </div>
                 </div>
                 <div class="col-md-6">
                   <div class="input-form">
-                    <input type="time" id="hora" name="hora" required>
-                    <label for="hora" class="textUser" style="visibility: hidden">Hora de la cirugia</label>
+                    <input type="time" id="hora" name="hora"  min="{{ now()->format('H:i') }}" required>
+                    <label for="hora" class="textUser" style="visibility: hidden" >Hora de la cirugia</label>
                   </div>
                 </div>
               </div>
@@ -319,6 +319,17 @@
                     <script>
                       // Add this inside a script tag or in a separate JS file
                       document.addEventListener("DOMContentLoaded", function () {
+                        const fechaInput = document.getElementById('fecha');
+                        const horaInput = document.getElementById('hora');
+                        
+                        // Establecer el valor mínimo de la fecha al día actual
+                        fechaInput.min = new Date().toISOString().split('T')[0];
+                        
+                        // Manejar cambios en la fecha para actualizar el valor mínimo de la hora
+                        fechaInput.addEventListener('input', function() {
+                            horaInput.min = this.value === new Date().toISOString().split('T')[0] ? '{{ now()->format("H:i") }}' : '00:00';
+                        });
+
                         const selectConsultas = document.getElementById("consultas");
                         const idPacienteInput = document.getElementById("idPaciente");
                         const nombrePacienteInput = document.getElementById("nombrePaciente");

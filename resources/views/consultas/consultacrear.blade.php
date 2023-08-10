@@ -160,7 +160,7 @@
                           <div class="row mb-5">
                             <div class="col-md-6">
                               <div class="input-form">
-                                <input type="date" id="fecha" name="fecha" required>
+                                <input type="date" id="fecha" name="fecha" min="{{ now()->toDateString() }}" required>
                                 <label for="fecha" class="textUser" style="visibility: hidden">Fecha de la consulta</label>
                               </div>
                             </div>
@@ -238,7 +238,7 @@
                                 @endforeach
                                 
                               </select>
-                              <label for="personal" class="textUser" style="visibility: hidden">personal</label>
+                              <label for="personal" class="textUser" style="visibility: hidden">paciente</label>
                             </div>
                           </div>
 
@@ -274,6 +274,18 @@
                       <script>
                         // Add this inside a script tag or in a separate JS file
                         document.addEventListener("DOMContentLoaded", function () {
+
+                          const fechaInput = document.getElementById('fecha');
+                          const horaInput = document.getElementById('hora');
+                          
+                          // Establecer el valor mínimo de la fecha al día actual
+                          fechaInput.min = new Date().toISOString().split('T')[0];
+                          
+                          // Manejar cambios en la fecha para actualizar el valor mínimo de la hora
+                          fechaInput.addEventListener('input', function() {
+                              horaInput.min = this.value === new Date().toISOString().split('T')[0] ? '{{ now()->format("H:i") }}' : '00:00';
+                          });
+
                           const busqueda_paciente = document.getElementById("busqueda_paciente");
 
                           const id_paciente = document.getElementById("id_Paciente");

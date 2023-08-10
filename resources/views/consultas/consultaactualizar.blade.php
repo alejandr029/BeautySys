@@ -233,7 +233,7 @@
                           <div class="row mb-5">
                             <div class="col-md-6">
                               <div class="input-form">
-                                <input type="date" id="fecha" name="fecha" required  value="{{ date('Y-m-d', strtotime($consultas->fecha_visita)) }}">
+                                <input type="date" id="fecha" name="fecha" required  value="{{ date('Y-m-d', strtotime($consultas->fecha_visita)) }}" min="{{ now()->toDateString() }}">
                                 <label for="fecha" class="textUser" style="visibility: hidden" >Fecha de la consulta</label>
                               </div>
                             </div>
@@ -502,6 +502,17 @@
 
       <script>
           document.addEventListener("DOMContentLoaded", function () {
+            const fechaInput = document.getElementById('fecha');
+            const horaInput = document.getElementById('hora');
+            
+            // Establecer el valor mínimo de la fecha al día actual
+            fechaInput.min = new Date().toISOString().split('T')[0];
+            
+            // Manejar cambios en la fecha para actualizar el valor mínimo de la hora
+            fechaInput.addEventListener('input', function() {
+                horaInput.min = this.value === new Date().toISOString().split('T')[0] ? '{{ now()->format("H:i") }}' : '00:00';
+            });
+
           const btnNuevo = document.getElementById("btnNuevo");
           const formularioAnalisis = document.getElementById("formularioAnalisis");
 
