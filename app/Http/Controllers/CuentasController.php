@@ -104,6 +104,8 @@ class CuentasController extends Controller
 
     public function destroy(Request $request, $id)
     {
+        //dump($request::all());
+
         $user = User::findOrFail($id);
 
         // Verificar si el usuario actual intenta eliminar su propia cuenta
