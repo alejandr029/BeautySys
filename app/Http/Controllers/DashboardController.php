@@ -27,7 +27,7 @@ class DashboardController extends Controller
             ->whereNotIn('C.id_estado_cita', [2, 4, 6, 7, 8, 10])
             ->whereDate('C.fecha_cita', $today)
             ->whereTime('C.hora_cita', '>',  $hour )
-            ->orderByDesc('C.hora_cita')
+            ->orderBy('C.hora_cita')
             ->paginate(5);
 
             $Consultas = DB::table('estetico.consulta as C')
@@ -37,7 +37,7 @@ class DashboardController extends Controller
             ->whereNotIn('C.id_status_consulta', [2, 3, 4])
             ->whereDate('C.fecha_visita', $today)
             ->whereTime('C.fecha_visita', '>',  $hour )
-            ->orderByDesc('C.fecha_visita')
+            ->orderBy('C.fecha_visita')
             ->paginate(5);
 
             $Cirugias = DB::table('estetico.Cirugia as C')
@@ -47,11 +47,13 @@ class DashboardController extends Controller
             ->whereNotIn('C.id_estatus_cirugia', [5,6,7,9,10])
             ->whereDate('C.fecha_cirugia', $today)
             ->whereTime('C.fecha_cirugia', '>',  $hour )
-            ->orderByDesc('C.fecha_cirugia')
+            ->orderBy('C.fecha_cirugia')
             ->paginate(5);
 
 
-          //dump($hour);  
+        //   dump($Citas);  
+        //   dump($today);  
+        //   dump($hour);  
             
             session(['activeTab' => 'Dashboard']);
             
