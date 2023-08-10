@@ -170,18 +170,18 @@
                                             <td class="text-center">{{ $consulta->nombre_ps}}</td>
                                             <td class="text-center">{{ $consulta->nombre_pp }}</td>
                                             <td class="text-center">{{ $consulta->estatus }}</td>
-                                            <td class="text-center">{{ $consulta->nombre_sala}}</td>
+                                            <td class="text-center">{{ str_replace('_', ' ', $consulta->nombre_sala) }}</td>
 
                                             <td class="td-actions">
                                                 <div role="group">
 
                                                     <button type="button" class="btn btn-info"
                                                     style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('consultavista', ['id'=> $consulta->id]) }}'"><i class="material-icons">visibility</i></button>
-                                                    
+
                                                     <button type="button" class="btn btn-warning" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('ConsultaActualizarVista', ['id'=> $consulta->id]) }}'">
-                                                        <i class="material-icons">edit</i> 
+                                                        <i class="material-icons">edit</i>
                                                     </button>
-                                                
+
                                                     <form method="POST" action="{{ route('CancelarConsulta', ['id' => $consulta->id]) }}" @if($consulta->id_status_consulta == '3'||  $consulta->id_status_consulta == '4') @style('display:none;') @endif>
                                                         @csrf
                                                         @method('PUT')

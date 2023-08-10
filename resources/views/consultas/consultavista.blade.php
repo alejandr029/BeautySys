@@ -138,22 +138,22 @@
 
         }
 
-        
+
 
     </style>
-    
+
     @extends('layout.template')
     @section('content')
     <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-11">
             <div class="card">
-              <div class="card-header"> 
+              <div class="card-header">
                 <h4 class="card-title">Vista de la Consulta con id: {{$consultas->id_consulta}}</h4>
               </div>
-              
-                <div class="card-body">  
-                      
+
+                <div class="card-body">
+
                         <div class="row mb-5">
                           <div class="row mb-5">
                             <div class="col-md-6">
@@ -164,7 +164,7 @@
                             </div>
                           <div class="col-md-6">
                             <div class="input-form">
-                              
+
                               <input type="time" id="hora" name="hora" required disabled value="{{ date('H:i', strtotime($consultas->fecha_visita)) }}">
                               <label for="hora" class="textUser" style="visibility: hidden" >Hora de la consulta</label>
                             </div>
@@ -180,23 +180,23 @@
                                   @endforeach
                                   </select>
                                   <label for="personal" class="textUser" style="visibility: hidden">Personal encargado</label>
-                                  
+
                               </div>
                           </div>
 
-                          
+
                           <div class="col-md-3">
                               <div class="input-form">
                                   <select id="consulta_sala" name="consulta_sala" required disabled>
                                   <option value="" disabled selected>sala en uso </option>
                                   @foreach ($sala as $item)
-                                  <option value="{{ $item->id_sala }}"  {{ $consultas->id_sala == $item->id_sala ? 'selected' : '' }}> {{ $item->nombre }} - status: {{ $item->status }}</option>
+                                  <option value="{{ $item->id_sala }}"  {{ $consultas->id_sala == $item->id_sala ? 'selected' : '' }}> {{ str_replace('_', ' ', $item->nombre) }} - status: {{ $item->status }}</option>
                                   @endforeach
                                   </select>
                                   <label for="consulta_sala" class="textUser" style="visibility: hidden">salas disponibles</label>
                               </div>
                           </div>
-                          
+
                           <div class="col-md-3">
                               <div class="input-form">
                                   <select id="estatus_consultas" name="estatus_consultas" required disabled >
@@ -226,18 +226,18 @@
                               </div>
                           </div>
                         </div>
-                        
 
-                      <div class="row mb-5" > 
+
+                      <div class="row mb-5" >
                       <hr style="border: 1px solid #000;">
                       <div class="row mb-5">
                         <div class="card-header" style="margin-bottom: 20px">
                           <h4 class="card-title">Datos del paciente</h4>
                         </div>
-                        <div class="row mb-6" style="margin-top: 35px">                          
+                        <div class="row mb-6" style="margin-top: 35px">
                             <div class="col-md-4">
                               <div class="input-form">
-                                
+
                                 <input type="text" id="Paciente_nombre" name="Paciente_nombre" disabled value="{{$paciente->nombrePaciente}}">
                                 <label for="Paciente_nombre" class="textUser fixed-label">Nombre completo del paciente</label>
                               </div>
@@ -258,17 +258,17 @@
 
                       </div>
 
-                       
-                      
+
+
 
                 </div>
             </div>
           </div>
         </div>
       </div>
-      
-      
+
+
       @include('layout.footer')
     </main>
     @endsection
-    
+

@@ -14,6 +14,7 @@ use App\Models\Sala;
 use App\Models\TipoCita;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CitasController extends Controller
 {
@@ -37,7 +38,13 @@ class CitasController extends Controller
         $citas = Cita::all();
         $pacientes = Paciente::all();
         $estadoCita = EstadoCita::all();
-        $sala = Sala::all();
+        // $sala = Sala::all();
+        $sala = DB::table('locacion.sala as ls')
+        ->select('ls.id_sala', 'ls.nombre', 'ls.capacidad','les.nombre as status')
+        ->join('locacion.estado_sala as les','les.id_estado_sala', '=', 'ls.id_estado_sala')
+        ->where('ls.nombre', 'like',"%Consultoria%")
+        // ->where('les.nombre', 'like',"%Disponible%")
+        ->get();
         $tipoCita = TipoCita::all();
         $personal = Personal::all();
         $insumos = Insumos::all();
@@ -50,6 +57,7 @@ class CitasController extends Controller
 
     public function store(Request $request)
     {
+        //  dump($request);
         $request->validate([
             'id_paciente' => 'required|integer',
             'hora_cita' => 'required|string|max:50',
@@ -62,20 +70,50 @@ class CitasController extends Controller
             'id_equipo' => 'nullable|integer'
         ]);
 
-        $cita = new Cita();
-        $cita->hora_cita = $request->hora_cita;
-        $cita->fecha_cita = $request->fecha_cita;
-        $cita->id_paciente = $request->id_paciente;
-        $cita->id_personal = $request->id_personal;
-        $cita->id_estado_cita = $request->id_estado_cita;
-        $cita->id_sala = $request->id_sala;
-        $cita->id_tipo_cita = $request->id_tipo_cita;
-        $cita->save();
+        try {
+            $cita = new Cita();
+            $cita->hora_cita = $request->hora_cita;
+            $cita->fecha_cita = $request->fecha_cita;
+            $cita->id_paciente = $request->id_paciente;
+            $cita->id_personal = $request->id_personal;
+            $cita->id_estado_cita = $request->id_estado_cita;
+            $cita->id_sala = $request->id_sala;
+            $cita->id_tipo_cita = $request->id_tipo_cita;
+            $cita->save();
 
-        //dump($cita);
+            $sala = Sala::findOrFail($request->id_sala);
+            // dump($sala);
 
-        session(['activeTab' => 'Citas']);
-        return redirect()->route('Citas.index')->with('success', 'Cita creada exitosamente.');
+            if ($sala->id_estado_sala != 1) {
+                return redirect()->route('Citas.crear')->with('salaNotAvailable', true);
+            }
+
+            if($request->id_estado_cita == 4){
+                $sala->id_estado_sala = '3';
+                $sala->save();
+            }
+
+            if($request->id_estado_cita == 9){
+                $sala->id_estado_sala = '2';
+                $sala->save();
+            }
+
+            // if($request->id_estado_cita == 1 or 3 or 5 or 8){
+            //     $sala->id_estado_sala = '10';
+            //     $sala->save();
+            // }
+
+            // if($request->id_estado_cita == 2 or 6 or 7 or 10){
+            //     $sala->update([
+            //         'id_estado_sala' => '1',
+            //     ]);
+            // }
+            session(['activeTab' => 'Citas']);
+            return redirect()->route('Citas.index')->with('success', 'Cita creada exitosamente.');
+        } catch (\Exception $e) {
+            // return $e;
+            return redirect()->route('Citas.index')->with('error', 'No se pudo crear la cita.');
+        }
     }
 
     public function edit($id)
@@ -128,8 +166,6 @@ class CitasController extends Controller
             //dump($request->all(),   $horaFormat, $fechaFormat);
 
             session(['activeTab' => 'Citas']);
-            // Mostrar mensaje de éxito
-            //dump($request);
             return redirect()->route('Citas.index')->with('success', 'Cita actualizada exitosamente.');
 
         } catch (\Exception $e) {
@@ -148,12 +184,18 @@ class CitasController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        $cita = Cita::findOrFail($id);
+        // dump($request);
 
+        $cita = Cita::findOrFail($id);
+        $sala = Sala::findOrFail($cita->id_sala);
         session(['activeTab' => 'Citas']);
 
         try {
             $cita->delete();
+
+            $sala->id_estado_sala = '1'; // si eliminas la cita regresa la sala a disponible
+            $sala->save();
+
             return redirect()->route('Citas.index')->with('success', 'Cita eliminada correctamente.');
 
         } catch (\Exception $e) {

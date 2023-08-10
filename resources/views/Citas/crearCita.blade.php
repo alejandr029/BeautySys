@@ -138,6 +138,41 @@ use Carbon\Carbon;
 @extends('layout.template')
 
 @section('content')
+@if (session('success'))
+        <div class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+            <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
+                <strong>{{ session('success') }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+            <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                <strong>{{ session('error') }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    @endif
+
+    <script>
+        // Mostrar la notificación lentamente
+        setTimeout(function() {
+            var notification = document.getElementById('notification');
+            if (notification) {
+                notification.classList.add('show');
+                // Ocultar y eliminar la notificación después de 2 segundos
+                setTimeout(function() {
+                    notification.classList.remove('show');
+                    setTimeout(function() {
+                        notification.remove();
+                    }, 500); // Esperar el tiempo de la transición (0.5s)
+                }, 2000);
+            }
+        }, 100); // Agregar un pequeño retraso antes de mostrar la notificación (opcional)
+    </script>
+
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-11">
@@ -171,29 +206,47 @@ use Carbon\Carbon;
                 <hr class="dark horizontal">
 
                 <div class="row">
+                    <div class="col-md-6 mb-3 input-form">
+                        <label for="hora_cita" class="form-label">Hora de la cita:</label>
+                        <input type="time" class="form-control input-form" id="hora_cita" name="hora_cita"
+                            required min="09:00" max="17:00">
+                    </div>
+
                   <div class="col-md-6 mb-3 input-form">
                     <label for="fecha_cita" class="form-label">Fecha de la cita:</label>
                     <input type="date" class="form-control" id="fecha_cita" name="fecha_cita" required>
                   </div>
-
-                  <div class="col-md-6 mb-3 input-form">
-                    <label for="hora_cita" class="form-label">Hora de la cita:</label>
-                    <input type="time" class="form-control input-form" id="hora_cita" name="hora_cita"
-                        value="{{ Carbon::now()->format('H:i') }}" required min="09:00" max="17:00">
-                </div>
-
                 </div>
 
                 <hr class="dark horizontal">
 
-                <div class="mb-3 input-form">
-                  <label for="id_sala" class="form-label">Sala:</label>
-                  <select class="form-control" id="id_sala" name="id_sala" required>
-                    @foreach($sala as $s)
-                    <option value="{{ $s->id_sala }}">{{ str_replace('_', ' ', $s->nombre) }}</option>
-                    @endforeach
-                  </select>
+                <div class="row">
+                    <div class="col-md-6 mb-3 input-form">
+                        <label for="id_sala" class="form-label">Sala:</label>
+                        <select class="form-control" id="id_sala" name="id_sala" onchange="updateEstadoSalaValue(this)" required>
+                            @foreach($sala as $item)
+                            <option value="{{ $item->id_sala }}" data-estado-sala="{{ $item->status }}">
+                                {{ str_replace('_', ' ', $item->nombre) }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="col-md-6 mb-3 input-form">
+                        <label for="estado_sala" class="form-label">Estado de la sala:</label>
+                        <input class="form-control" id="estado_sala" name="estado_sala" value="" placeholder="Seleccione una sala" readonly>
+                    </div>
                 </div>
+                <script>
+                    function updateEstadoSalaValue(selectElement) {
+                        var estadoSalaInput = document.getElementById('estado_sala');
+                        var selectedOption = selectElement.options[selectElement.selectedIndex];
+                        var estadoSalaValue = selectedOption.getAttribute('data-estado-sala');
+
+                        estadoSalaInput.value = estadoSalaValue;
+                    }
+                </script>
+
 
                 <br>
                 <hr class="dark horizontal">
