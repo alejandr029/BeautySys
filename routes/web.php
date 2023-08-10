@@ -21,13 +21,13 @@ use App\Http\Controllers\DashboardController;
 
 
 
-Route::view('/example','layout.landing');
+Route::view('/','layout.landing');
 
-Route::get('/', [AuthenticatedSessionController::class, 'create'])->middleware('guest')->name('login');
-Route::post('/', [AuthenticatedSessionController::class, 'store'])->middleware('guest');
+Route::get('/IniciarSesion', [AuthenticatedSessionController::class, 'create'])->middleware('guest')->name('login');
+Route::post('/IniciarSesion', [AuthenticatedSessionController::class, 'store'])->middleware('guest');
 
-Route::get('/registro', [RegisteredUserController::class, 'create'])->middleware('guest')->name('register');
-Route::post('/registro', [RegisteredUserController::class, 'store'])->middleware('guest');
+Route::get('/Registro', [RegisteredUserController::class, 'create'])->middleware('guest')->name('register');
+Route::post('/Registro', [RegisteredUserController::class, 'store'])->middleware('guest');
 
 Route::middleware(['auth'])->group(function () {
 
