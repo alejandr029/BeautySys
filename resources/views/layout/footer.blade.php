@@ -17,7 +17,7 @@
                     <li class="nav-item">
                         <a href="" class="nav-link text-muted" target="_blank">Universidad Tecnologica de Tijuana</a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="" class="nav-link text-muted"
                             target="_blank">About Us</a>
                     </li>
@@ -27,7 +27,7 @@
                     <li class="nav-item">
                         <a href="" class="nav-link pe-0 text-muted"
                             target="_blank">License</a>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </div>

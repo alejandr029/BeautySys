@@ -42,10 +42,10 @@
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right navbar-uppercase">
-                    <li>
+                    {{-- <li>
                         <a href="http://www.creative-tim.com/product/gaia-bootstrap-template-pro" target="_blank">Get PRO Version</a>
-                    </li>
-                    <li class="dropdown">
+                    </li> --}}
+                    {{-- <li class="dropdown">
                         <a href="#gaia" class="dropdown-toggle" data-toggle="dropdown">
                             <i class="fa fa-share-alt"></i> Share
                         </a>
@@ -60,9 +60,12 @@
                                 <a href="#"><i class="fa fa-instagram"></i> Instagram</a>
                             </li>
                         </ul>
+                    </li> --}}
+                    <li>    
+                        <a href="/IniciarSesion" class="btn btn-danger btn-fill" style="border: 2px solid #ffafb4;">Iniciar sesion</a>
                     </li>
-                    <li>
-                        <a class="btn btn-danger btn-fill"> <i class="fas fa-user"></i>Login</a>
+                    <li>    
+                        <a href="/Registro" class="btn btn-danger btn-fill" style="border: 2px solid #ffafb4;">Registrar</a>
                     </li>
                 </ul>
             </div>
@@ -74,21 +77,21 @@
     <div class="section section-header">
         <div class="parallax filter filter-color-red">
             <div class="image"
-                style="background-image: url('assets/img/header-1.jpeg')">
+                style="background-image: url('assets/img/logos/logoproecto.png'); background-size: contain; height: 160vh;">
             </div>
             <div class="container">
                 <div class="content">
                     <div class="title-area">
                         <h1 class="title-modern">BeautySys</h1>
-                        <h3>un proyecto creado por <b>TASKLAB</b> </h2>
+                        <h3>Un proyecto creado por <b>TASKLAB</b> </h2>
                         <div class="separator line-separator">♦</div>
                     </div>
 
-                    <div class="button-get-started">
+                    {{-- <div class="button-get-started">
                         <a href="http://www.creative-tim.com/product/gaia-bootstrap-template" target="_blank" class="btn btn-white btn-fill btn-lg ">
                             Download Demo
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
 
             </div>
@@ -100,9 +103,9 @@
         <div class="container">
             <div class="row">
                 <div class="title-area">
-                    <h2>Acerca del sercvicio</h2>
+                    <h2>Acerca del servicio</h2>
                     <div class="separator separator-danger">✻</div>
-                    <p class="description">la empresa TASKLAB se tomo como principal enfoque y objetivo el de 
+                    <p class="description">La empresa TASKLAB se tomo como principal enfoque y objetivo el de 
                         desarrollar un sistema integral para el monitoreo y gestión de registros de cirugías estéticas. Este sistema se 
                         generara con el fin de obtener una mejor eficiencia de registros como también tener una mayor seguridad de datos 
                         y obtener así una mejor calidad de atención hacia el cliente</p>
@@ -112,28 +115,28 @@
                 <div class="col-md-4">
                     <div class="info-icon">
                         <div class="icon text-danger">
-                            <i class="pe-7s-graph1"></i>
+                            <i class="pe-7s-display1"></i>
                         </div>
-                        <h3>Sales</h3>
-                        <p class="description">We make our design perfect for you. Our adjustment turn our clothes into your clothes.</p>
+                        <h3>Transformando la Gestión de Cirugías Estéticas </h3>
+                        <p class="description">En TASKLAB, nos enorgullece presentar nuestro compromiso con la excelencia en el ámbito de la cirugía estética. Nuestro objetivo primordial es desarrollar un sistema integral de monitoreo y gestión de registros de cirugías estéticas. Este sistema está diseñado para optimizar la eficiencia en la documentación, fortalecer la seguridad de los datos y elevar la calidad de atención al cliente.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="info-icon">
                         <div class="icon text-danger">
-                            <i class="pe-7s-note2"></i>
+                            <i class="pe-7s-look"></i>
                         </div>
-                        <h3>Content</h3>
-                        <p class="description">We create a persona regarding the multiple wardrobe accessories that we provide..</p>
+                        <h3>Vision <br><br> </h3>
+                        <p class="description">Nuestra visión abarca mucho más que solo registros precisos. Buscamos facilitar la gestión y seguimiento de los procedimientos quirúrgicos estéticos para clínicas y sucursales. Al emplear nuestro sistema, las instituciones podrán mantener registros exhaustivos y detallados de cada paciente, asegurando un historial completo y seguro.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="info-icon">
                         <div class="icon text-danger">
-                            <i class="pe-7s-music"></i>
+                            <i class="pe-7s-medal"></i>
                         </div>
-                        <h3>Music</h3>
-                        <p class="description">We like to present the world with our work, so we make sure we spread the word regarding our clothes.</p>
+                        <h3>Alcance <br><br></h3>
+                        <p class="description">Un futuro de atención al paciente más eficiente y personalizado está a tu alcance con TASKLAB. Únete a nosotros en este viaje hacia una gestión de cirugías estéticas más innovadora y confiable.</p>
                     </div>
                 </div>
             </div>
@@ -157,27 +160,26 @@
 
                     <div class="team">
                         <div class="row">
-                            <div class="col-md-10 col-md-offset-1">
+                            <div class="col-md-12 ">
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="card card-member">
-                                            <div class="content">
+                                            <div class="content" style="height: 40rem;">
                                                 <div class="description">
                                                     <h3 class="title">De La Mora Vazquez Victor Manuel</h3>
                                                     <p class="small-text">Tester y reparacion de bugs</p>
-                                                    <p class="description">I miss the old Kanye I gotta say at that time I’d like to meet Kanye And I promise the power is in the people and I will use the power given by the people to bring everything I have back to the people.</p>
+                                                    <p class="description">En nuestro equipo de desarrollo, el rol de Tester y Reparación de Bugs es esencial. Esta función implica llevar a cabo pruebas exhaustivas en el sistema de monitoreo y gestión de registros de cirugías estéticas, identificando y reportando problemas y errores. Además, se encarga de analizar y solucionar estos problemas para asegurar que el sistema funcione sin contratiempos y brinde una experiencia confiable a nuestros usuarios.</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="col-md-3">
                                         <div class="card card-member">
-                                            <div class="content">
+                                            <div class="content" style="height: 40rem;">
                                                 <div class="description">
                                                     <h3 class="title">Ruiz Alvzarez Jose Eduardo</h3>
                                                     <p class="small-text">Project Manager y Desarrollador web</p>
-                                                    <p class="description">I miss the old Kanye I gotta say at that time I’d like to meet Kanye And I promise the power is in the people and I will use the power given by the people to bring everything I have back to the people.</p>
+                                                    <p class="description">En nuestro equipo, contamos con un miembro que desempeña los roles de Project Manager y Desarrollador Web. Esta doble función implica liderar la planificación, coordinación y ejecución de proyectos, asegurando que se cumplan los plazos y objetivos. Además, se encarga del desarrollo web, creando y manteniendo las interfaces que dan vida a nuestro sistema de monitoreo y gestión de registros de cirugías estéticas. Su trabajo garantiza una implementación exitosa y una experiencia fluida para nuestros usuarios.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -185,11 +187,11 @@
 
                                     <div class="col-md-3">
                                         <div class="card card-member">
-                                            <div class="content">
+                                            <div class="content" style="height: 40rem;">
                                                 <div class="description">
                                                     <h3 class="title">Toledo Perez Crinstian Alejandro</h3>
                                                     <p class="small-text">Lider de desarrollo</p>
-                                                    <p class="description">I miss the old Kanye I gotta say at that time I’d like to meet Kanye And I promise the power is in the people and I will use the power given by the people to bring everything I have back to the people.</p>
+                                                    <p class="description">En nuestro equipo, contamos con un Líder de Desarrollo clave. Este rol desempeña una función crucial al dirigir y supervisar el equipo de desarrollo en la creación y mejora constante de nuestro sistema de monitoreo y gestión de registros de cirugías estéticas. El Líder de Desarrollo coordina las tareas, establece directrices y garantiza que se sigan las mejores prácticas de programación, lo que resulta en un sistema confiable y eficiente que cumple con las necesidades de nuestros usuarios.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -197,11 +199,11 @@
 
                                     <div class="col-md-3">
                                         <div class="card card-member">
-                                            <div class="content">
+                                            <div class="content" style="height: 40rem;">
                                                 <div class="description">
                                                     <h3 class="title">Velazquez Gonalez Jesus Alejandro</h3>
                                                     <p class="small-text">Desarrollador de base de datos</p>
-                                                    <p class="description">I miss the old Kanye I gotta say at that time I’d like to meet Kanye And I promise the power is in the people and I will use the power given by the people to bring everything I have back to the people.</p>
+                                                    <p class="description">Dentro de nuestro equipo, contamos con un Desarrollador de Base de Datos especializado. Este rol es esencial para diseñar, implementar y mantener la estructura de la base de datos que respalda nuestro sistema de monitoreo y gestión de registros de cirugías estéticas. El Desarrollador de Base de Datos trabaja en la optimización del rendimiento, la integridad de los datos y la seguridad de la información almacenada, asegurando que el sistema funcione de manera eficiente y confiable para satisfacer las necesidades de nuestros usuarios.</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -217,7 +219,7 @@
     </div>
 
 
-    <div class="section section-our-clients-freebie">
+    {{-- <div class="section section-our-clients-freebie">
         <div class="container">
             <div class="title-area">
                 <h5 class="subtitle text-gray">Here are some</h5>
@@ -288,13 +290,13 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
 
     <footer class="footer footer-big footer-color-black" data-color="black">
         <div class="container">
             <div class="row">
-                <div class="col-md-2 col-sm-3">
+                {{-- <div class="col-md-2 col-sm-3">
                     <div class="info">
                         <h5 class="title">Company</h5>
                         <nav>
@@ -389,11 +391,11 @@
                             </ul>
                         </nav>
                     </div>
-                </div>
+                </div> --}}
             </div>
             <hr>
             <div class="copyright">
-                 © <script> document.write(new Date().getFullYear()) </script> Creative Tim, made with love
+                 © <script> document.write(new Date().getFullYear()) </script> by BeautySys
             </div>
         </div>
     </footer>
