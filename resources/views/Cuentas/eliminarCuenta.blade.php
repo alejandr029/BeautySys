@@ -93,7 +93,7 @@
 @section('content')
 <div class="container">
     <div class="container-fluid py-4">
-        <h1 class="mb-4">Eliminar Cuenta</h1>
+        <h1 class="mb-4">Eliminar Cuenta con ID: <b>{{ $user->id }}</b></h1>
         <div class="row">
             <div class="col-lg-6">
                 <p>¿Estás seguro de que deseas eliminar la cuenta con email <b>{{$user->email}}</b>?</p>

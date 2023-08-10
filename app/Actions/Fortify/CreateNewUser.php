@@ -43,12 +43,12 @@ class CreateNewUser implements CreatesNewUsers
             'password' => Hash::make($input['password']),
         ]);
 
+        $user->assignRole("user");
+
         // separa el nombre completo en dos partes
         $nameParts = $this->separateFullName($input['name']);
         $input = array_merge($input, $nameParts);
 
-        // TODO: actualizar la vista de registro para que ingresen
-        // los datos reales de fecha_nac, y telefono
         $paciente = new Paciente();
         $paciente->primer_nombre = $input['primer_nombre'];
         $paciente->primer_apellido = $input['primer_apellido'];
