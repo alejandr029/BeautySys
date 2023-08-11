@@ -148,11 +148,12 @@
                           <div class="col-md-4">
                             <div class="input-form">
                                 <select id="rol_id" name="rol_id" required>
+                                  <option value=""  selected>Seleccionar rol</option>
                                     @foreach ($roles as $rol)
-                                        <option value="{{ $rol->id }}" {{ $rol->name === 'user' ? 'selected' : '' }}>{{ $rol->name }}</option>
+                                        <option value="{{ $rol->id }}">{{ $rol->name }}</option>
                                     @endforeach
                                 </select>
-                                <label for="rol_id" class="textUser">Seleccionar Rol</label>
+                                <label for="rol_id" class="textUser" style="visibility: hidden">Seleccionar Rol</label>
                             </div>
                         </div>
                             <div class="col-md-4">
@@ -349,6 +350,7 @@
             });
 
         }else if(selectedRoleId === '3'){
+          alert("entre")
           nameadminLabel.style.display = 'none';
           nameStaffLabel.style.display = 'none';
           nameUserLabel.style.display = 'block'

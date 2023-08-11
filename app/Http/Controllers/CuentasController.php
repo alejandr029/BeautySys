@@ -50,15 +50,15 @@ class CuentasController extends Controller
         ]);
 
         try {
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
-            ]);
+            // $user = User::create([
+            //     'name' => $request->name,
+            //     'email' => $request->email,
+            //     'password' => bcrypt($request->password),
+            // ]);
             
             $idUser = DB::getPdo()->lastInsertId();
 
-            $user->assignRole($request->rol_id);
+            // $user->assignRole($request->rol_id);
 
             // if($request->rol_id == "3"){
             //     DB::table('usuario.paciente')->insert([
@@ -76,16 +76,29 @@ class CuentasController extends Controller
             //     ]);              
             // }
             // if($request->rol_id == "2"){
-
+                // DB::table('personal.personal')->insert([
+                //     'primer_nombre' => $request->name,
+                //     'segundo_nombre' => $request->secondname,
+                //     'primer_apellido' => $request->lastname,
+                //     'segundo_apellido' => $request->secondlastname,
+                //     'genero' => $request->genero,
+                //     'fecha_nacmiento' => $request->fecha,
+                //     'telefono' => $request->numeroTelefono,
+                //     'correo' => $request->email,
+                //     'dirreccion' => $request->direccion,
+                //     'id_departamento' => $request->departamento,
+                //     'id_horario' => $request->horario,
+                //     'id_cuenta' => $idUser,
+                // ]);
             // }
 
             session(['activeTab' => 'Cuentas']);
             // Mostrar mensaje de éxito
-            return redirect()->route('Cuentas.index')->with('success', 'Usuario creado correctamente.');
+            // return redirect()->route('Cuentas.index')->with('success', 'Usuario creado correctamente.');
 
         } catch (\Exception $e) {
             // Mostrar mensaje de error
-            return redirect()->route('Cuentas.index')->with('error', 'No se pudo crear el usuario.');
+            // return redirect()->route('Cuentas.index')->with('error', 'No se pudo crear el usuario.');
         }
     }
 
