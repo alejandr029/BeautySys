@@ -62,7 +62,6 @@ class RestauracionController extends Controller
             
             $query->execute();
             
-            $query->execute();
             sleep(15);
             
             // DB::unprepared($fullQuery);
