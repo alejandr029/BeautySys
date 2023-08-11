@@ -97,21 +97,49 @@
 @section('content')
 
 @if (session('success'))
-        <div class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+        <div id="succes" class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
             <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
                 <strong>{{ session('success') }}</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </div>
+        <script>
+            setTimeout(function() {
+                var notification = document.getElementById('succes');
+                if (notification) {
+                    notification.classList.add('show');
+                    setTimeout(function() {
+                        notification.classList.remove('show');
+                        setTimeout(function() {
+                            notification.remove();
+                        }, 500);
+                    }, 2000);
+                }
+            }, 100);
+        </script>
     @endif
 
     @if (session('error'))
-        <div class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+        <div id="erro" class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
             <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
                 <strong>{{ session('error') }}</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </div>
+        <script>
+            setTimeout(function() {
+                var notification = document.getElementById('erro');
+                if (notification) {
+                    notification.classList.add('show');
+                    setTimeout(function() {
+                        notification.classList.remove('show');
+                        setTimeout(function() {
+                            notification.remove();
+                        }, 500);
+                    }, 2000);
+                }
+            }, 100);
+        </script>
     @endif
     
     <div class="container-fluid py-4">
