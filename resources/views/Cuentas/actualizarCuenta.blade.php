@@ -154,32 +154,146 @@
 
 
                                     <div class="row mb-5">
-                                      <div class="col-md-4">
+                                      <div class="col-md-6">
                                         <div class="input-form">
-                                          <input type="text" id="name" name="name" value="{{ $user->name }}" required>
-                                          <label for="nombre" class="textUser">Nombre</label>
-                                        </div>
-                                      </div>
-                                      <div class="col-md-4">
-                                        <div class="input-form">
-                                          <input type="text" id="email" name="email" value="{{ $user->email }}" required >
-                                          <label for="email" class="textUser ">Correo electrónico:</label>
-                                        </div>
-                                      </div>
-                                      <div class="col-md-4">
-                                        <div class="input-form">
-                                          <select id="rol_id" name="rol_id" required >
-                                            <option value="" >Seleccionar Rol</option>
+                                          <select id="rol_id" name="rol_id" required>
                                             @foreach ($roles as $rol)
                                             <option value="{{ $rol->id }}"
-                                              {{ $user->hasRole($rol->name) ? 'selected' : '' }}>
+                                              {{ $user->hasRole($rol->id) ? 'selected' : '' }} >
                                               {{ $rol->name }}</option>
                                               @endforeach
                                             </select>
                                             <label for="rol_id" class="textUser" style="visibility: hidden">Seleccionar Rol:</label>
                                           </div>
                                         </div>
+                                      <div class="col-md-6">
+                                        <div class="input-form">
+                                          <input type="text" id="email" name="email" value="{{ $user->email }}" required >
+                                          <label for="email" class="textUser ">Correo electrónico:</label>
+                                        </div>
+                                      </div>
                                     </div>
+
+                                    <div class="row mb-5"  id="nameadmin" style="display: none">
+                                      <div class="col-md-4">
+                                        <div class="input-form">
+                                            <input type="text" id="name" name="name" class="admin-fields" value="{{ $user->name }}" required="true">
+                                            <label for="name" class="textUser">Nombre</label>
+                                        </div>
+                                    </div>
+                                  </div>
+            
+                                  <div id="nameOthers" style="display: none">
+                                    <div class="row mb-5"  >
+                                      <div class="col-md-3">
+                                        <div class="input-form">
+                                          <input type="text" id="name" name="name" class="others-fields" 
+                                          value="{{ $paciente != null ? $paciente->primer_nombre : ($personal != null ? $personal->primer_nombre : '') }}" required="true">
+                                            <label for="name" class="textUser">Primer Nombre</label>
+                                        </div>
+                                    </div>
+                                      <div class="col-md-3">
+                                        <div class="input-form">
+                                          <input type="text" id="secondname" name="secondname" class="others-fields" 
+                                          value="{{  $paciente != null ? $paciente->segundo_nombre : ($personal != null ? $personal->segundo_nombre : '') }}"
+                                          required="true">
+                                            <label for="name" class="textUser">Segundo Nombre</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <div class="input-form">
+                                        <input type="text" id="lastname" name="lastname" class="others-fields"
+                                        value="{{  $paciente != null ? $paciente->primer_apellido : ($personal != null ? $personal->primer_apellido : '') }}"
+                                        required="true">
+                                          <label for="name" class="textUser">Apellido Paterno</label>
+                                      </div>
+                                  </div>
+                                    <div class="col-md-3">
+                                      <div class="input-form"> 
+                                        <input type="text" id="secondlastname" name="secondlastname" class="others-fields"
+                                        value="{{  $paciente != null ? $paciente->segundo_apellido : ($personal != null ? $personal->segundo_apellido : '') }}"
+                                        required="true">
+                                        
+                                          <label for="name" class="textUser">Apellido materno</label>
+                                      </div>
+                                    </div>
+                                    </div>
+                                    <div class="row mb-5">
+                                      <div class="col-md-3">
+                                        <div class="input-form">
+                                          <input type="date" id="fecha" name="fecha" class="others-fields"
+                                          value="{{  $paciente != null ? date('Y-m-d', strtotime($paciente->fecha_nacimiento)) : ($personal != null ? date('Y-m-d', strtotime($personal->fecha_nacmiento)) : '') }}"
+                                          required="true">
+                                          <label for="fecha" class="textUser" style="visibility: hidden">Fecha de nacimiento</label>
+                                      </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <div class="input-form">
+                                        <select id="genero" name="genero" class="others-fields" required="true">
+                                            <option value="">Seleccionar género</option>
+                                            <option value="masculino" {{ ($paciente != null ? $paciente->genero : ($personal != null ? $personal->genero : '')) === 'masculino' ? 'selected' : '' }}>Masculino</option>
+                                            <option value="femenino" {{ ($paciente != null ? $paciente->genero : ($personal != null ? $personal->genero : '')) === 'femenino' ? 'selected' : '' }}>Femenino</option>
+                                        </select>
+                                        <label for="genero" class="textUser" style="visibility: hidden">Género</label>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                      <div class="input-form">
+                                        <input type="tel" id="telefono" name="numeroTelefono" class="others-fields" 
+                                        value="{{  $paciente != null ? $paciente->telefono : ($personal != null ? $personal->telefono : '') }}"
+                                        required="true" >
+                                        
+                                        <label for="telefono" class="textUser fixed-label">Numero del telefono</label>
+                                      </div>                          
+                                    </div>
+                                    <div class="col-md-3">
+                                      <div class="input-form">
+                                        <input type="text" id="direccion" name="direccion" 
+                                        value="{{  $paciente != null ? $paciente->dirreccion : ($personal != null ? $personal->dirreccion : '') }}"
+                                         class="others-fields" required="true">
+                                        
+                                          <label for="direccion" class="textUser">Direccion</label>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  </div>
+                                  <div id="User" style="display: none">
+                                    <div class="row mb-5">
+                                      <div class="col-md-4">
+                                        <div class="input-form">
+                                            <input type="text" id="seguroMedico" name="seguroMedico" class="user-fields" value="{{ $paciente != null ? $paciente->seguro_medico : '' }}" required="true">
+                                            <label for="seguroMedico" class="textUser">Seguro medico</label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div id="Staff" style="display: none">
+                                    <div class="row mb-5">
+                                      <div class="col-md-4">
+                                        <div class="input-form">
+                                            <select id="departamento" name="departamento" class="staff-fields" required="true">
+                                              <option value=""  selected>Seleccionar departamento</option>
+                                                @foreach ($departamento as $depart)
+                                                    <option value="{{ $depart->id_departamento }}" {{ $personal != null && $personal->id_departamento == $depart->id_departamento ? 'selected' : '' }} >{{ $depart->nombre}}</option>
+                                                @endforeach
+                                            </select>
+                                            <label for="departamento" class="textUser" style="visibility: hidden">Seleccionar departamento</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                      <div class="input-form">
+                                          <select id="horario" name="horario" class="staff-fields" required="true">
+                                            <option value=""  selected>Seleccionar horario</option>
+                                              @foreach ($horario as $horarios)
+                                                  <option value="{{ $horarios->id_horario }}"  {{ $personal != null && $personal->id_horario == $horarios->id_horario ? 'selected' : '' }}>{{ $horarios->dias}} de: {{ $horarios->hora_inicio}} a: {{ $horarios->hora_final }}</option>
+                                              @endforeach
+                                          </select>
+                                          <label for="horario" class="textUser" style="visibility: hidden">Seleccionar horario</label>
+                                      </div>
+                                    </div>
+                                    </div>
+                                  </div>
+            
 
 
                                     <button type="submit" class="btn btn-primary">Actualizar Cuenta</button>
@@ -195,3 +309,99 @@
     @include('layout.footer')
 </main>
 @endsection
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Obtén referencias a los elementos de los campos y etiquetas correspondientes
+    const nameadminLabel = document.getElementById('nameadmin');
+    const nameOthersLabel = document.getElementById('nameOthers');
+    const nameUserLabel = document.getElementById('User');
+    const nameStaffLabel = document.getElementById('Staff');
+
+    const adminFields = document.querySelectorAll('.admin-fields');
+    const othersFields = document.querySelectorAll('.others-fields');
+    const userFields = document.querySelectorAll('.user-fields');
+    const staffFields = document.querySelectorAll('.staff-fields');
+  
+    // Obtén la referencia al elemento de selección de rol
+    const rolSelect = document.getElementById('rol_id');
+  
+    // Función para actualizar la visibilidad de los campos según el rol seleccionado
+    function updateFieldsVisibility(selectedRoleId) {
+        // Oculta todos los conjuntos de campos primero
+        nameadminLabel.style.display = 'none';
+        nameOthersLabel.style.display = 'none';
+        nameUserLabel.style.display = 'none'
+        nameStaffLabel.style.display = 'none';
+
+        // Establece la visibilidad de los conjuntos de campos según el rol seleccionado
+        if (selectedRoleId === '1') { 
+            nameadminLabel.style.display = 'block';
+            nameOthersLabel.style.display = 'none';
+            nameUserLabel.style.display = 'none'
+            nameStaffLabel.style.display = 'none';
+
+            adminFields.forEach(input => {
+                input.required = true;
+            });
+            othersFields.forEach(input => {
+                input.required = false;
+            });
+            userFields.forEach(input => {
+                input.required = false;
+            });
+            staffFields.forEach(input => {
+                input.required = false;
+            });
+
+
+          } else if(selectedRoleId === '2') {
+            nameadminLabel.style.display = 'none';
+            nameUserLabel.style.display = 'none'
+            nameOthersLabel.style.display = 'block';
+            nameStaffLabel.style.display = 'block';
+
+            adminFields.forEach(input => {
+                input.required = false;
+            });
+            othersFields.forEach(input => {
+                input.required = true;
+            });
+            userFields.forEach(input => {
+                input.required = false;
+            });
+            staffFields.forEach(input => {
+                input.required = true;
+            });
+
+        }else if(selectedRoleId === '3'){
+          nameadminLabel.style.display = 'none';
+          nameStaffLabel.style.display = 'none';
+          nameUserLabel.style.display = 'block'
+          nameOthersLabel.style.display = 'block';
+
+          adminFields.forEach(input => {
+                input.required = false;
+            });
+            othersFields.forEach(input => {
+                input.required = true;
+            });
+            userFields.forEach(input => {
+                input.required = true;
+            });
+            staffFields.forEach(input => {
+                input.required = false;
+            });
+        }
+    }
+
+    // Llama a la función para configurar la visibilidad inicial basada en el rol seleccionado
+    updateFieldsVisibility(rolSelect.value);
+
+    // Agrega un evento de cambio para actualizar la visibilidad cuando el rol cambie
+    rolSelect.addEventListener('change', function() {
+        updateFieldsVisibility(this.value);
+    });
+});
+
+</script>

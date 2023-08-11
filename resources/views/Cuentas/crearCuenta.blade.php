@@ -178,7 +178,7 @@
                         </div>
                       </div>
 
-                      <div id="nameOthers">
+                      <div id="nameOthers" style="display: none">
                         <div class="row mb-5"  >
                           <div class="col-md-3">
                             <div class="input-form">
@@ -236,7 +236,7 @@
                         </div>
                       </div>
                       </div>
-                      <div id="User">
+                      <div id="User" style="display: none">
                         <div class="row mb-5">
                           <div class="col-md-4">
                             <div class="input-form">
@@ -298,12 +298,6 @@
     const othersFields = document.querySelectorAll('.others-fields');
     const userFields = document.querySelectorAll('.user-fields');
     const staffFields = document.querySelectorAll('.staff-fields');
-
-    // const inputsEnDivadmin = document.querySelectorAll('#nameadmin input,#nameadmin select,#nameadmin textarea');
-    // const inputsEnDivothers = document.querySelectorAll('#nameOthers input,#nameOthers select,#nameOthers textarea');
-    // const inputsEnDivuser = document.querySelectorAll('#User input,#User select,#User textarea');
-    // const inputsEnDivstaff = document.querySelectorAll('#Staff input,#Staff select,#Staff textarea');
-
   
     const rolSelect = document.getElementById('rol_id');
   
@@ -350,7 +344,6 @@
             });
 
         }else if(selectedRoleId === '3'){
-          alert("entre")
           nameadminLabel.style.display = 'none';
           nameStaffLabel.style.display = 'none';
           nameUserLabel.style.display = 'block'
@@ -370,73 +363,7 @@
             });
         }
     });
-    // inputsEnDivadmin.forEach(input => {
-    //   if (selectedRoleId === '1') { 
-    //         input.required = true;
-    //     } else if (selectedRoleId === '2' || selectedRoleId === '3') {
-    //         input.required = false;
-    //     }
-    // });
-    // inputsEnDivothers.forEach(input => {
-    //   if (selectedRoleId !== '1') { 
-    //         input.required = true;
-    //     } else if (selectedRoleId === '1') {
-    //         input.required = false;
-    //     }
-    // });
-    // inputsEnDivuser.forEach(input => {
-    //   if (selectedRoleId === '3') { 
-    //         input.required = true;
-    //     } else if (selectedRoleId === '2' || selectedRoleId === '1') {
-    //         input.required = false;
-    //     }
-    // });
-    // inputsEnDivstaff.forEach(input => {
-    //   if (selectedRoleId === '2') { 
-    //         input.required = true;
-    //     } else if (selectedRoleId === '1' || selectedRoleId === '3') {
-    //         input.required = false;
-    //     }
-    // });
 });
-
-// const updateRequiredFields = function(selectedRoleId) {
-//         inputsEnDivadmin.forEach(input => {
-//             if (selectedRoleId === '1') { 
-//                 input.required = true;
-//             } else if (selectedRoleId === '2' || selectedRoleId === '3') {
-//                 input.required = false;
-//             }
-//         });
-
-//         inputsEnDivothers.forEach(input => {
-//             if (selectedRoleId !== '1') { 
-//                 input.required = true;
-//             } else {
-//                 input.required = false;
-//             }
-//         });
-
-//         inputsEnDivuser.forEach(input => {
-//             if (selectedRoleId === '3') { 
-//                 input.required = true;
-//             } else if (selectedRoleId === '2' || selectedRoleId === '1') {
-//                 input.required = false;
-//             }
-//         });
-
-//         inputsEnDivstaff.forEach(input => {
-//             if (selectedRoleId === '2') { 
-//                 input.required = true;
-//             } else if (selectedRoleId === '1' || selectedRoleId === '3') {
-//                 input.required = false;
-//             }
-//         });
-//     };
-    
-//     // Llama a la función al cargar la página
-//     updateRequiredFields(selectedRoleId);
-
 
 </script>
 
