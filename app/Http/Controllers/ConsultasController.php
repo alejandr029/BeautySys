@@ -100,38 +100,35 @@ class ConsultasController extends Controller
 
     public function crear(Request $request){
 
-        dump($request->all());
-        
+        DB::table('estetico.consulta')->insert([
+            'fecha_visita' => date('Y-m-d H:i:s', strtotime($request->fecha . ' ' . $request->hora)),
+            'id_paciente' => $request->id_Paciente,
+            'id_personal' => $request->personal,
+            'datos_consulta' => $request->datos_consultas,
+            'id_status_consulta' => $request->estatus_consultas,
+            'id_sala' => $request->consulta_sala,
+        ]);
 
-        // DB::table('estetico.consulta')->insert([
-        //     'fecha_visita' => date('Y-m-d H:i:s', strtotime($request->fecha . ' ' . $request->hora)),
-        //     'id_paciente' => $request->id_Paciente,
-        //     'id_personal' => $request->personal,
-        //     'datos_consulta' => $request->datos_consultas,
-        //     'id_status_consulta' => $request->estatus_consultas,
-        //     'id_sala' => $request->consulta_sala,
-        // ]);
+        if($request->estatus_consultas == 1 or 2){
+            DB::table('locacion.sala')
+            ->where('nombre', $request->consulta_sala)
+            ->update([
+                'id_estado_sala' => 3 
+            ]);
+        } 
 
-        // if($request->estatus_consultas == 1 or 2){
-        //     DB::table('locacion.sala')
-        //     ->where('nombre', $request->consulta_sala)
-        //     ->update([
-        //         'id_estado_sala' => 3 
-        //     ]);
-        // } 
-
-        // if($request->estatus_consultas == 3 or 4 or 5){
-        //     DB::table('locacion.sala')
-        //     ->where('nombre', $request->consulta_sala)
-        //     ->update([
-        //         'id_estado_sala' => 1
-        //     ]);
-        // } 
+        if($request->estatus_consultas == 3 or 4 or 5){
+            DB::table('locacion.sala')
+            ->where('nombre', $request->consulta_sala)
+            ->update([
+                'id_estado_sala' => 1
+            ]);
+        } 
 
         session(['activeTab' => 'Consultas']);
 
     
-        // return redirect()->route('consultas.index')->with('success', 'consulta creado correctamente.');
+        return redirect()->route('consultas.index')->with('success', 'consulta creado correctamente.');
 
     }
 
