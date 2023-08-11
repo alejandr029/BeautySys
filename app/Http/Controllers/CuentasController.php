@@ -41,7 +41,6 @@ class CuentasController extends Controller
 
     public function store(Request $request)
     {
-        dump($request->all());
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users|max:255',
@@ -50,52 +49,63 @@ class CuentasController extends Controller
         ]);
 
         try {
-            // $user = User::create([
-            //     'name' => $request->name,
-            //     'email' => $request->email,
-            //     'password' => bcrypt($request->password),
-            // ]);
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+            ]);
             
             $idUser = DB::getPdo()->lastInsertId();
 
-            // $user->assignRole($request->rol_id);
+            $user->assignRole($request->rol_id);
 
-            // if($request->rol_id == "3"){
-            //     DB::table('usuario.paciente')->insert([
-            //         'primer_nombre' => $request->name,
-            //         'segundo_nombre' => $request->secondname,
-            //         'primer_apellido' => $request->lastname,
-            //         'segundo_apellido' => $request->secondlastname,
-            //         'fecha_nacimiento' => $request->fecha, 
-            //         'genero' => $request->genero,
-            //         'telefono' => $request->numeroTelefono,
-            //         'seguro_medico' => $request->seguroMedico,
-            //         'dirreccion' => $request->direccion,
-            //         'correo' => $request->email,
-            //         'id_cuenta' => $idUser,
-            //     ]);              
-            // }
-            // if($request->rol_id == "2"){
-                // DB::table('personal.personal')->insert([
-                //     'primer_nombre' => $request->name,
-                //     'segundo_nombre' => $request->secondname,
-                //     'primer_apellido' => $request->lastname,
-                //     'segundo_apellido' => $request->secondlastname,
-                //     'genero' => $request->genero,
-                //     'fecha_nacmiento' => $request->fecha,
-                //     'telefono' => $request->numeroTelefono,
-                //     'correo' => $request->email,
-                //     'dirreccion' => $request->direccion,
-                //     'id_departamento' => $request->departamento,
-                //     'id_horario' => $request->horario,
-                //     'id_cuenta' => $idUser,
-                // ]);
-            // }
+            if($request->rol_id == "3"){
+                try{
+                    DB::table('usuario.paciente')->insert([
+                        'primer_nombre' => $request->name,
+                        'segundo_nombre' => $request->secondname,
+                        'primer_apellido' => $request->lastname,
+                        'segundo_apellido' => $request->secondlastname,
+                        'fecha_nacimiento' => $request->fecha, 
+                        'genero' => $request->genero,
+                        'telefono' => $request->numeroTelefono,
+                        'seguro_medico' => $request->seguroMedico,
+                        'dirreccion' => $request->direccion,
+                        'correo' => $request->email,
+                        'id_cuenta' => $idUser,
+                    ]);   
+                }catch(\Exception $e){
+                    
+                    return redirect()->route('Cuentas.crear')->with('error', 'No se pudo crear el usuario. Error: ' + $e->GetMessage());
+
+                }     
+            }
+            if($request->rol_id == "2"){
+                try{
+                    DB::table('personal.personal')->insert([
+                        'primer_nombre' => $request->name,
+                        'segundo_nombre' => $request->secondname,
+                        'primer_apellido' => $request->lastname,
+                        'segundo_apellido' => $request->secondlastname,
+                        'genero' => $request->genero,
+                        'fecha_nacmiento' => $request->fecha,
+                        'telefono' => $request->numeroTelefono,
+                        'correo' => $request->email,
+                        'dirreccion' => $request->direccion,
+                        'id_departamento' => $request->departamento,
+                        'id_horario' => $request->horario,
+                        'id_cuenta' => $idUser,
+                    ]);
+                }catch(\Exception $e){
+                    
+                    return redirect()->route('Cuentas.crear')->with('error', 'No se pudo crear el usuario. Error: ' + $e->GetMessage());
+
+                }
+            }
 
             session(['activeTab' => 'Cuentas']);
-            session()->flash('showModal', true);
             // Mostrar mensaje de éxito
-            // return redirect()->route('Cuentas.index')->with('success', 'Usuario creado correctamente.');
+            return redirect()->route('Cuentas.index')->with('success', 'Usuario creado correctamente.');
 
         } catch (\Exception $e) {
             session()->flash('showModal', true);
