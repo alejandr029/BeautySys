@@ -14,13 +14,14 @@ use App\Models\Sala;
 use App\Models\TipoCita;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\DB;
 
 class CitasController extends Controller
 {
     public function index()
     {
-        $citas = Cita::all();
+        $citas = Cita::orderByDesc('id_cita')->paginate(5);
         session(['activeTab' => 'Citas']);
         return view('Citas.citas', compact('citas'));
     }
@@ -57,7 +58,7 @@ class CitasController extends Controller
 
     public function store(Request $request)
     {
-        //  dump($request);
+
         $request->validate([
             'id_paciente' => 'required|integer',
             'hora_cita' => 'required|string|max:50',
@@ -135,6 +136,7 @@ class CitasController extends Controller
 
     public function update(Request $request, $id)
     {
+
         $cita = Cita::findOrFail($id);
 
         $request->validate([

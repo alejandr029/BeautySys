@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class ConsultasController extends Controller
 {
@@ -32,7 +33,6 @@ class ConsultasController extends Controller
         // ->where('ec.id_status_consulta','!=',3)
         // ->where('ec.id_status_consulta','!=',4)
         ->orderByDesc('ec.id_consulta ')
-
         ->Paginate(5); 
         
         session(['activeTab' => 'Consultas']);
@@ -213,7 +213,7 @@ class ConsultasController extends Controller
             'telefono',
             'correo'	
         )
-        ->where('id_paciente',(int)$consultas->id_paciente)
+        ->where('id_paciente',$consultas->id_paciente)
         ->first(); 
         
         $SelectPersonal = DB::table('personal.personal as P')
@@ -255,6 +255,8 @@ class ConsultasController extends Controller
      */
     public function actualizarConsulta(Request $request, string $id)
     {
+        
+        
         DB::table('estetico.consulta')
         ->where('id_consulta', $id)
         ->update([
@@ -305,6 +307,7 @@ class ConsultasController extends Controller
             
 
     }
+
     public function actualizarAnalisis(Request $request ,string $id){
 
         DB::table('estetico.analisis')
@@ -319,7 +322,7 @@ class ConsultasController extends Controller
 
 
         session(['activeTab' => 'Consultas']);
-        return redirect()->route('ConsultaActualizarVista', ['id'=> $id])->with('success', 'analisis creado correctamente.');
+        return redirect()->route('ConsultaActualizarVista', ['id'=> $request->consulta])->with('success', 'analisis creado correctamente.');
 
     }
 

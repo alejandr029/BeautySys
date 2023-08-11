@@ -144,6 +144,7 @@
 
     @extends('layout.template')
     @section('content')
+
     <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-11">
@@ -160,7 +161,7 @@
                           <div class="row mb-5">
                             <div class="col-md-6">
                               <div class="input-form">
-                                <input type="date" id="fecha" name="fecha" min="{{ now()->toDateString() }}" required>
+                                <input type="date" id="fecha" name="fecha" required>
                                 <label for="fecha" class="textUser" style="visibility: hidden">Fecha de la consulta</label>
                               </div>
                             </div>
@@ -231,14 +232,14 @@
 
                           <div class="col-md-5">
                             <div class="input-form">
-                              <select id="busqueda_paciente" name="personal" required>
+                              <select id="busqueda_paciente" name="id_Paciente" required>
                                 <option value="" disabled selected>Seleccionar paciente</option>
                                 @foreach ($paciente as $item)
                                   <option value="{{ $item->id_paciente }}"> {{ $item->primer_nombre }} {{ $item->primer_apellido }}</option>
                                 @endforeach
 
                               </select>
-                              <label for="personal" class="textUser" style="visibility: hidden">paciente</label>
+                              <label for="id_Paciente" class="textUser" style="visibility: hidden">paciente</label>
                             </div>
                           </div>
 
@@ -270,21 +271,34 @@
                           </div>
                         </div>
 
+                        <script>
+                          document.addEventListener("DOMContentLoaded", function (){
+                            const fechaInput = document.getElementById('fecha');
+                            const horaInput = document.getElementById('hora');
+                            
+                            const fechaHoraActual = new Date();
+                            const año = fechaHoraActual.getFullYear();
+                            const mes = fechaHoraActual.getMonth() + 1;
+                            const dia = fechaHoraActual.getDate();
+
+                            const fecha_actual = new Date(año, mes - 1, dia); // Creamos un objeto Date con la fecha actual
+                            console.log(fecha_actual);
+                            fechaInput.min = fecha_actual.toISOString().split('T')[0];
+
+                            const fecha = fechaInput.min;
+                             
+                            fechaInput.addEventListener('input', function() {
+                              
+                                horaInput.min = this.value === fechaInput.min ? '{{ now()->format("H:i") }}' : '00:00';
+                            });
+                            
+                          });
+                        </script>
+
 
                       <script>
                         // Add this inside a script tag or in a separate JS file
                         document.addEventListener("DOMContentLoaded", function () {
-
-                          const fechaInput = document.getElementById('fecha');
-                          const horaInput = document.getElementById('hora');
-                          
-                          // Establecer el valor mínimo de la fecha al día actual
-                          fechaInput.min = new Date().toISOString().split('T')[0];
-                          
-                          // Manejar cambios en la fecha para actualizar el valor mínimo de la hora
-                          fechaInput.addEventListener('input', function() {
-                              horaInput.min = this.value === new Date().toISOString().split('T')[0] ? '{{ now()->format("H:i") }}' : '00:00';
-                          });
 
                           const busqueda_paciente = document.getElementById("busqueda_paciente");
 

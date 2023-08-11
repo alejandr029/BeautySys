@@ -73,6 +73,7 @@
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
+          @if(auth()->user()->hasRole(['admin', 'staff']))
             <li class="nav-item">
                 <a class="nav-link text-white <?php echo session('activeTab') === 'Dashboard' ? 'active bg-gradient-primary' : ''; ?>" href="/dashboard">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -81,6 +82,19 @@
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
+          @endif
+
+          @if(auth()->user()->hasRole(['user']))
+            <li class="nav-item">
+                <a class="nav-link text-white <?php echo session('activeTab') === 'Dashboard' ? 'active bg-gradient-primary' : ''; ?>"
+                  href="{{ route('dashboard_user', Auth::user()->id) }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">dashboard</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Dashboard</span>
+                </a>
+            </li>
+          @endif
             {{-- <li class="nav-item">
                 <a class="nav-link text-white {{ $activeTab === 'tables' ? 'active bg-gradient-primary' : '' }}" href="/tables">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -191,6 +205,30 @@
                     <span class="nav-link-text ms-1">Asignación de Roles</span>
                 </a>
             </li> --}}
+            @endif
+
+            @if(auth()->user()->hasRole(['user']))
+              <li class="nav-item">
+                <a class="nav-link text-white <?php echo session('activeTab') === 'Alergias' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('alergiasTabla', Auth::user()->id) }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">   
+                        <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
+                        <img src="../assets/img/icons/alergias.png" style="width: 20px">
+                    </div>
+                    <span class="nav-link-text ms-1">Alergias</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white <?php echo session('activeTab') === 'Enfermedad Cronicas' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('enfermedadesCronicasTabla', Auth::user()->id) }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-pulse-fill" viewBox="0 0 16 16">
+                          <path d="M1.475 9C2.702 10.84 4.779 12.871 8 15c3.221-2.129 5.298-4.16 6.525-6H12a.5.5 0 0 1-.464-.314l-1.457-3.642-1.598 5.593a.5.5 0 0 1-.945.049L5.889 6.568l-1.473 2.21A.5.5 0 0 1 4 9H1.475Z"/>
+                          <path d="M.88 8C-2.427 1.68 4.41-2 7.823 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C11.59-2 18.426 1.68 15.12 8h-2.783l-1.874-4.686a.5.5 0 0 0-.945.049L7.921 8.956 6.464 5.314a.5.5 0 0 0-.88-.091L3.732 8H.88Z"/>
+                        </svg>                    
+                      </div>
+                    <span class="nav-link-text ms-1">Enfermedades Cronicas</span>
+                </a>
+              </li>
             @endif
 
             {{-- <li class="nav-item mt-3">

@@ -14,6 +14,9 @@ use App\Http\Controllers\RestauracionController;
 use App\Http\Controllers\CirugiaController;
 use App\Http\Controllers\ConsultasController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AlergiasController;
+use App\Http\Controllers\EnfermedadesCronicasController;
+
 
 
 
@@ -39,11 +42,21 @@ Route::middleware(['auth'])->group(function () {
     // // Route::view('/tables','tables')->name('tables');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    
+    Route::get('/dashboard/id={id}', [DashboardController::class, 'index_user'])->name('dashboard_user');
 
     Route::get('/profile', function () {
         session(['activeTab' => 'Profile']);
         return view('profile');
     })->name('profile');
+
+    Route::get('/Alergias/{id}', [AlergiasController::class, 'index'])->name('alergiasTabla');
+    Route::post('/Alergias/{id}', [AlergiasController::class, 'añadirAlergia'])->name('añadirAlergia');
+    
+    Route::get('/EnfermedadesCronicas/{id}', [EnfermedadesCronicasController::class, 'index'])->name('enfermedadesCronicasTabla');
+    Route::post('/EnfermedadesCronicas/{id}', [EnfermedadesCronicasController::class, 'añadirEnfermedadCronica'])->name('añadirEnfermedadCronica');
+
+    // Route::view('/Alergias','Alergia.alergiaTable')->name('Alergias');
 });
 
 // todo: agregar autentificacion para rol staff y admin

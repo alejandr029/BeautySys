@@ -190,6 +190,7 @@ use Carbon\Carbon;
                     <div class="mb-3 input-form">
                         <label for="id_paciente" class="form-label">Paciente:</label>
                         <select class="form-control" id="id_paciente" name="id_paciente" required>
+                            <option value="" disabled selected>Seleccion de paciente</option>
                             @foreach($pacientes as $paciente)
                             <option value="{{ $paciente->id_paciente }}" data-paciente="{{ json_encode($paciente) }}">ID: {{ $paciente->id_paciente }} - Nombre: {{ $paciente->primer_nombre}} {{ $paciente->primer_apellido}} </option>
                             @endforeach
@@ -199,17 +200,20 @@ use Carbon\Carbon;
                 <hr class="dark horizontal">
 
                 <div class="row">
+                  
+                      <div class="col-md-6 mb-3 input-form">
+                        <label for="fecha_cita" class="form-label">Fecha de la cita:</label>
+                        <input type="date" class="form-control" id="fecha_cita" name="fecha_cita" required>
+                      </div>
+
                     <div class="col-md-6 mb-3 input-form">
                         <label for="hora_cita" class="form-label">Hora de la cita:</label>
                         <input type="time" class="form-control input-form" id="hora_cita" name="hora_cita"
-                            required min="09:00" max="17:00">
+                            required>
                     </div>
-
-                  <div class="col-md-6 mb-3 input-form">
-                    <label for="fecha_cita" class="form-label">Fecha de la cita:</label>
-                    <input type="date" class="form-control" id="fecha_cita" name="fecha_cita" required>
+                  
                   </div>
-                </div>
+
 
                 <hr class="dark horizontal">
 
@@ -313,6 +317,29 @@ use Carbon\Carbon;
       </div>
     </div>
   </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function (){
+      const fechaInput = document.getElementById('fecha_cita');
+      const horaInput = document.getElementById('hora_cita');
+      
+
+      const fechaHoraActual = new Date();
+      const año = fechaHoraActual.getFullYear();
+      const mes = fechaHoraActual.getMonth() + 1;
+      const dia = fechaHoraActual.getDate();
+
+      const fecha_actual = new Date(año, mes - 1, dia); // Creamos un objeto Date con la fecha actual
+      fechaInput.min = fecha_actual.toISOString().split('T')[0];
+
+      const fecha = fechaInput.min;
+       
+      fechaInput.addEventListener('input', function() {
+          horaInput.min = this.value === fechaInput.min ? '{{ now()->format("H:i") }}' : '00:00';
+      });
+      
+    });
+  </script>
+
   <script>
     document.addEventListener("DOMContentLoaded", function() {
         const idPacienteSelect = document.getElementById("id_paciente");

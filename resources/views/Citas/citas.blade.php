@@ -137,10 +137,10 @@
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
                             <h6 class="text-white text-capitalize ps-3">Lista de Citas</h6>
-                            <button class="crear" style="margin-right: 15px;"
+                            <button class="crear" style="margin-right: 15px;background-color: #F2F2F2; border-color:#F2F2F2; "
                                 onclick="window.location.href='{{ route('Citas.crear') }}'">
                                 <a>
-                                    <span>Crear <i class="material-icons">add</i></span>
+                                    <span style="color: #0D0D0D;">Crear <i class="material-icons">add</i></span>
                                 </a>
                             </button>
                         </div>
@@ -179,13 +179,15 @@
                                                     <button type="button" class="btn btn-info" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Citas.visualizar', $cita->id_cita ) }}'">
                                                         <i class="material-icons">visibility</i>
                                                     </button>
-                                                    <button type="button" class="btn btn-warning" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Citas.editar', $cita->id_cita ) }}'">
+                                                    <button type="button" class="btn btn-warning" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;backgroud-color:#B14558" onclick="window.location.href='{{ route('Citas.editar', $cita->id_cita ) }}'">
                                                         <i class="material-icons">edit</i>
                                                     </button>
                                                     <form action="{{ route('Citas.destroyForm', ['id' => $cita->id_cita]) }}" method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Eliminar Cita</button>
+                                                        <button type="submit" class="btn btn-danger" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">
+                                                            <i class="material-icons">delete_outline</i>
+                                                        </button>
                                                     </form>
                                                 </div>
                                             </td>
@@ -198,8 +200,54 @@
                 </div>
             </div>
             <div class="my-custom-paginator" style="display: flex; justify-content: flex-end; margin-right: 25px;">
-                <!-- Aquí el paginador para las citas -->
-                <!-- Puedes usar el mismo paginador que se usó en la tabla de Insumos o Equipo Médico -->
+                <!-- Agrega aquí tus estilos personalizados para el paginador -->
+                <ul class="pagination">
+                    <li class="page-item {{ $citas->currentPage() === 1 ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $citas->url(1) }}" aria-label="First">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                                <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                              </svg>
+                        </a>
+                    </li>
+                    <li class="page-item {{ $citas->previousPageUrl() ? '' : 'disabled' }}">
+                        <a class="page-link" href="{{ $citas->previousPageUrl() }}" aria-label="Previous">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+                            </svg>
+                        </a>
+                    </li>
+
+                    <!-- Aquí puedes iterar sobre las páginas disponibles -->
+                    @php
+                        // Calcular el rango de páginas a mostrar
+                        $currentPage = $citas->currentPage();
+                        $startPage = max($currentPage - 1, 1);
+                        $endPage = min($currentPage + 1, $citas->lastPage());
+                    @endphp
+
+                    @for ($i = $startPage; $i <= $endPage; $i++)
+                        <li class="page-item {{ $i == $citas->currentPage() ? 'active' : '' }}">
+                            <a class="page-link" href="{{ $citas->url($i) }}">{{ $i }}</a>
+                        </li>
+                    @endfor
+
+                    <li class="page-item {{ $citas->nextPageUrl() ? '' : 'disabled' }}">
+                        <a class="page-link" href="{{ $citas->nextPageUrl() }}" aria-label="Next">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </a>
+                    </li>
+                    <li class="page-item {{ $citas->currentPage() === $citas->lastPage() ? 'disabled' : '' }}">
+                        <a class="page-link" href="{{ $citas->url($citas->lastPage()) }}" aria-label="Last">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+                                <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+                            </svg>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
         {{-- FIN DE TABLA DE CITAS --}}

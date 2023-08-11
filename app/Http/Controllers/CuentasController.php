@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 // use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 class CuentasController extends Controller
 {
     public function index()
     {
-        $users = User::all(); //->Paginate(5);
+        $users = User::orderByDesc('id')->paginate(5); //->Paginate(5);
         session(['activeTab' => 'Cuentas']);
         return view('Cuentas.cuentas', compact('users'));
     }
@@ -20,12 +21,27 @@ class CuentasController extends Controller
     public function create()
     {
         $roles = Role::all();
+
+        $departamento = DB::table('personal.departamento')
+        ->select('id_departamento','nombre')
+        ->orderByDesc('id_departamento')
+        ->get();
+
+        $horario = DB::table('personal.horario')
+        ->select('id_horario','dias','hora_inicio','hora_final')
+        ->orderByDesc('id_horario')
+        ->get();
+        
+
+
+
         session(['activeTab' => 'Cuentas']);
-        return view('Cuentas.crearCuenta', compact('roles'));
+        return view('Cuentas.crearCuenta', compact('roles','departamento','horario'));
     }
 
     public function store(Request $request)
     {
+        dump($request->all());
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users|max:255',
@@ -34,17 +50,52 @@ class CuentasController extends Controller
         ]);
 
         try {
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => bcrypt($request->password),
-            ]);
+            // $user = User::create([
+            //     'name' => $request->name,
+            //     'email' => $request->email,
+            //     'password' => bcrypt($request->password),
+            // ]);
+            
+            $idUser = DB::getPdo()->lastInsertId();
 
-            $user->assignRole($request->rol_id);
+            // $user->assignRole($request->rol_id);
+
+            // if($request->rol_id == "3"){
+            //     DB::table('usuario.paciente')->insert([
+            //         'primer_nombre' => $request->name,
+            //         'segundo_nombre' => $request->secondname,
+            //         'primer_apellido' => $request->lastname,
+            //         'segundo_apellido' => $request->secondlastname,
+            //         'fecha_nacimiento' => $request->fecha, 
+            //         'genero' => $request->genero,
+            //         'telefono' => $request->numeroTelefono,
+            //         'seguro_medico' => $request->seguroMedico,
+            //         'dirreccion' => $request->direccion,
+            //         'correo' => $request->email,
+            //         'id_cuenta' => $idUser,
+            //     ]);              
+            // }
+            // if($request->rol_id == "2"){
+                // DB::table('personal.personal')->insert([
+                //     'primer_nombre' => $request->name,
+                //     'segundo_nombre' => $request->secondname,
+                //     'primer_apellido' => $request->lastname,
+                //     'segundo_apellido' => $request->secondlastname,
+                //     'genero' => $request->genero,
+                //     'fecha_nacmiento' => $request->fecha,
+                //     'telefono' => $request->numeroTelefono,
+                //     'correo' => $request->email,
+                //     'dirreccion' => $request->direccion,
+                //     'id_departamento' => $request->departamento,
+                //     'id_horario' => $request->horario,
+                //     'id_cuenta' => $idUser,
+                // ]);
+            // }
+
             session(['activeTab' => 'Cuentas']);
             session()->flash('showModal', true);
             // Mostrar mensaje de éxito
-            return redirect()->route('Cuentas.index')->with('success', 'Usuario creado correctamente.');
+            // return redirect()->route('Cuentas.index')->with('success', 'Usuario creado correctamente.');
 
         } catch (\Exception $e) {
             session()->flash('showModal', true);
@@ -87,6 +138,7 @@ class CuentasController extends Controller
             ]);
 
             $user->syncRoles([$request->rol_id]);
+
             session(['activeTab' => 'Cuentas']);
             session()->flash('showModal', true);
             // Mostrar mensaje de éxito

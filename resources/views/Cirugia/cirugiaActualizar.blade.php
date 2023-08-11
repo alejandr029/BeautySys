@@ -144,6 +144,7 @@
     
     @extends('layout.template')
     @section('content')
+
     <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-11">
@@ -175,7 +176,7 @@
                           <option value="{{ $item->id_personal }}" {{ $DatosCirugia->id_personal == $item->id_personal ? 'selected' : '' }}>Personal: {{ $item->nombrePersonalAcargo }} - Departamento: {{ $item->nombreDepartamento }}</option>
                           @endforeach
                         </select>
-                        <label for="personal" class="textUser" style="visibility: hidden">Personal encargago</label>
+                        <label for="personal" class="textUser" style="visibility: hidden">Personal encargado</label>
                       </div>
                     </div>
                   </div>
@@ -366,6 +367,30 @@
                     </div>
                 </div>
             </div>
+
+            <script>
+              document.addEventListener("DOMContentLoaded", function (){
+                const fechaInput = document.getElementById('fecha');
+                const horaInput = document.getElementById('hora');
+                
+                const fechaHoraActual = new Date();
+                const año = fechaHoraActual.getFullYear();
+                const mes = fechaHoraActual.getMonth() + 1;
+                const dia = fechaHoraActual.getDate();
+
+                const fecha_actual = new Date(año, mes - 1, dia); // Creamos un objeto Date con la fecha actual
+                console.log(fecha_actual);
+                fechaInput.min = fecha_actual.toISOString().split('T')[0];
+
+                const fecha = fechaInput.min;
+                
+                fechaInput.addEventListener('input', function() {
+                  
+                    horaInput.min = this.value === fechaInput.min ? '{{ now()->format("H:i") }}' : '00:00';
+                });
+                
+              });
+            </script>
                 
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
@@ -535,7 +560,7 @@
                               </td>
                               <td style="text-align: center">
                                   <!-- Input de cantidad que estará oculto hasta que se seleccione el checkbox -->
-                                  <input type="number" name="elementos[insumo_{{ $insumo->id_insumos }}][cantidad]" min="0" max="{{ $insumo->cantidad }}" class="cantidad-input" style="display: none;">
+                                  <input type="number" name="elementos[insumo_{{ $insumo->id_insumos }}][cantidad]" min="0" max="{{ $insumo->cantidad }}" class="cantidad-input" style="display: none;" oninput="validarCantidad(this)">
                               </td>
                           </tr>
                           @endforeach
@@ -586,6 +611,17 @@
               function mostrarCantidadInput(checkbox) {
                   var cantidadInput = checkbox.parentNode.parentNode.querySelector('.cantidad-input');
                   cantidadInput.style.display = checkbox.checked ? 'inline-block' : 'none';
+              }
+
+              function validarCantidad(input) {
+                // Obtener el valor ingresado por el usuario
+                let valor = parseFloat(input.value);
+
+                // Verificar si el valor está fuera del rango permitido
+                if (isNaN(valor) || valor < parseFloat(input.min) || valor > parseFloat(input.max)) {
+                    // Si está fuera del rango, ajustar el valor al rango permitido
+                    input.value = parseFloat(input.min);
+                }
               }
           </script>
           

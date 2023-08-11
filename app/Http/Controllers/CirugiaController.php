@@ -298,9 +298,8 @@ class CirugiaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //echo"$request->estatusCirugia";
-        // dump($request->all());
-        // dump($id);
+
+
         DB::table('estetico.Cirugia')
         ->where('id_cirugia', $id)
         ->update([

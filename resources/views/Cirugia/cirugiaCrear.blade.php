@@ -144,6 +144,7 @@
 
     @extends('layout.template')
     @section('content')
+   
     <div class="container">
         <div class="row justify-content-center">
           <div class="col-lg-11">
@@ -274,7 +275,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="input-form">
-                    <input type="time" id="hora" name="hora"  min="{{ now()->format('H:i') }}" required>
+                    <input type="time" id="hora" name="hora" required>
                     <label for="hora" class="textUser" style="visibility: hidden" >Hora de la cirugia</label>
                   </div>
                 </div>
@@ -317,19 +318,33 @@
             </div>
 
                     <script>
-                      // Add this inside a script tag or in a separate JS file
-                      document.addEventListener("DOMContentLoaded", function () {
+                      document.addEventListener("DOMContentLoaded", function (){
                         const fechaInput = document.getElementById('fecha');
                         const horaInput = document.getElementById('hora');
                         
-                        // Establecer el valor mínimo de la fecha al día actual
-                        fechaInput.min = new Date().toISOString().split('T')[0];
-                        
-                        // Manejar cambios en la fecha para actualizar el valor mínimo de la hora
-                        fechaInput.addEventListener('input', function() {
-                            horaInput.min = this.value === new Date().toISOString().split('T')[0] ? '{{ now()->format("H:i") }}' : '00:00';
-                        });
+                        const fechaHoraActual = new Date();
+                        const año = fechaHoraActual.getFullYear();
+                        const mes = fechaHoraActual.getMonth() + 1;
+                        const dia = fechaHoraActual.getDate();
 
+                        const fecha_actual = new Date(año, mes - 1, dia); // Creamos un objeto Date con la fecha actual
+                        console.log(fecha_actual);
+                        fechaInput.min = fecha_actual.toISOString().split('T')[0];
+
+                        const fecha = fechaInput.min;
+                        
+                        fechaInput.addEventListener('input', function() {
+                          
+                            horaInput.min = this.value === fechaInput.min ? '{{ now()->format("H:i") }}' : '00:00';
+                        });
+                        
+                      });
+                    </script>
+                
+
+                    <script>
+                      // Add this inside a script tag or in a separate JS file
+                      document.addEventListener("DOMContentLoaded", function () {
                         const selectConsultas = document.getElementById("consultas");
                         const idPacienteInput = document.getElementById("idPaciente");
                         const nombrePacienteInput = document.getElementById("nombrePaciente");

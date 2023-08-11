@@ -49,7 +49,7 @@
                     </button>
 
                     <x-button class="ml-4 bg-gradient-primary">
-                        {{ __('Iniciar seseion') }}
+                        {{ __('Iniciar sesion') }}
                     </x-button>
                 </div>
             </form>
