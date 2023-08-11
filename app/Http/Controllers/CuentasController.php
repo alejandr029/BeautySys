@@ -85,6 +85,7 @@ class CuentasController extends Controller
             ]);
 
             $user->syncRoles([$request->rol_id]);
+
             session(['activeTab' => 'Cuentas']);
             // Mostrar mensaje de éxito
             return redirect()->route('Cuentas.index')->with('success', 'Usuario actualizado correctamente.');

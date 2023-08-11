@@ -17,6 +17,7 @@ class AlergiasController extends Controller
         ->Join('usuario.alergia as UA', 'UP.id_paciente', '=', 'UA.id_paciente')
         ->Join('usuario.tipo_alergia as UTA', 'UTA.id_tipo_alergia', '=', 'UA.id_tipo_alergia')
         ->where('UP.id_cuenta', $id)
+        ->orderByDesc('UTA.id_tipo_alergia')
         ->get();
 
         $AlergiasModal = DB::table('usuario.tipo_alergia')

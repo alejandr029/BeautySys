@@ -95,7 +95,7 @@ use Carbon\Carbon;
 
 @section('content')
     @if(session('success'))
-    <div id="notification" class="position-fixed top-0 end-0 p-3">
+    <div id="notification" class="position-fixed top-0 end-0 p-3" style="z-index: 5">
         <div class="alert alert-success text-white" role="alert">
             <strong>{{ session('success') }}</strong> 
         </div>
