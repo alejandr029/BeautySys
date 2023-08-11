@@ -73,6 +73,7 @@
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
+          @if(auth()->user()->hasRole(['admin', 'staff']))
             <li class="nav-item">
                 <a class="nav-link text-white <?php echo session('activeTab') === 'Dashboard' ? 'active bg-gradient-primary' : ''; ?>" href="/dashboard">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -81,6 +82,19 @@
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
             </li>
+          @endif
+
+          @if(auth()->user()->hasRole(['user']))
+            <li class="nav-item">
+                <a class="nav-link text-white <?php echo session('activeTab') === 'Dashboard' ? 'active bg-gradient-primary' : ''; ?>"
+                  href="{{ route('dashboard_user', Auth::user()->id) }}">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">dashboard</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Dashboard</span>
+                </a>
+            </li>
+          @endif
             {{-- <li class="nav-item">
                 <a class="nav-link text-white {{ $activeTab === 'tables' ? 'active bg-gradient-primary' : '' }}" href="/tables">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
