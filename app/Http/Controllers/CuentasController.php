@@ -32,15 +32,13 @@ class CuentasController extends Controller
         ->orderByDesc('id_horario')
         ->get();
         
-
-
-
         session(['activeTab' => 'Cuentas']);
         return view('Cuentas.crearCuenta', compact('roles','departamento','horario'));
     }
 
     public function store(Request $request)
     {
+        // dump($request->all());
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users|max:255',
@@ -60,47 +58,35 @@ class CuentasController extends Controller
             $user->assignRole($request->rol_id);
 
             if($request->rol_id == "3"){
-                try{
-                    DB::table('usuario.paciente')->insert([
-                        'primer_nombre' => $request->name,
-                        'segundo_nombre' => $request->secondname,
-                        'primer_apellido' => $request->lastname,
-                        'segundo_apellido' => $request->secondlastname,
-                        'fecha_nacimiento' => $request->fecha, 
-                        'genero' => $request->genero,
-                        'telefono' => $request->numeroTelefono,
-                        'seguro_medico' => $request->seguroMedico,
-                        'dirreccion' => $request->direccion,
-                        'correo' => $request->email,
-                        'id_cuenta' => $idUser,
-                    ]);   
-                }catch(\Exception $e){
-                    
-                    return redirect()->route('Cuentas.crear')->with('error', 'No se pudo crear el usuario. Error: ' + $e->GetMessage());
-
-                }     
+                DB::table('usuario.paciente')->insert([
+                    'primer_nombre' => $request->name,
+                    'segundo_nombre' => $request->secondname,
+                    'primer_apellido' => $request->lastname,
+                    'segundo_apellido' => $request->secondlastname,
+                    'fecha_nacimiento' => $request->fecha, 
+                    'genero' => $request->genero,
+                    'telefono' => $request->numeroTelefono,
+                    'seguro_medico' => $request->seguroMedico,
+                    'dirreccion' => $request->direccion,
+                    'correo' => $request->email,
+                    'id_cuenta' => $idUser,
+                ]);              
             }
             if($request->rol_id == "2"){
-                try{
-                    DB::table('personal.personal')->insert([
-                        'primer_nombre' => $request->name,
-                        'segundo_nombre' => $request->secondname,
-                        'primer_apellido' => $request->lastname,
-                        'segundo_apellido' => $request->secondlastname,
-                        'genero' => $request->genero,
-                        'fecha_nacmiento' => $request->fecha,
-                        'telefono' => $request->numeroTelefono,
-                        'correo' => $request->email,
-                        'dirreccion' => $request->direccion,
-                        'id_departamento' => $request->departamento,
-                        'id_horario' => $request->horario,
-                        'id_cuenta' => $idUser,
-                    ]);
-                }catch(\Exception $e){
-                    
-                    return redirect()->route('Cuentas.crear')->with('error', 'No se pudo crear el usuario. Error: ' + $e->GetMessage());
-
-                }
+                DB::table('personal.personal')->insert([
+                    'primer_nombre' => $request->name,
+                    'segundo_nombre' => $request->secondname,
+                    'primer_apellido' => $request->lastname,
+                    'segundo_apellido' => $request->secondlastname,
+                    'genero' => $request->genero,
+                    'fecha_nacmiento' => $request->fecha,
+                    'telefono' => $request->numeroTelefono,
+                    'correo' => $request->email,
+                    'dirreccion' => $request->direccion,
+                    'id_departamento' => $request->departamento,
+                    'id_horario' => $request->horario,
+                    'id_cuenta' => $idUser,
+                ]);
             }
 
             session(['activeTab' => 'Cuentas']);
@@ -108,17 +94,41 @@ class CuentasController extends Controller
             return redirect()->route('Cuentas.index')->with('success', 'Usuario creado correctamente.');
 
         } catch (\Exception $e) {
-            session()->flash('showModal', true);
             // Mostrar mensaje de error
-            return redirect()->route('Cuentas.crear')->with('error', 'No se pudo crear el usuario. Error: ' + $e->GetMessage());
+            return redirect()->route('Cuentas.index')->with('error', 'No se pudo crear el usuario.');
         }
     }
 
     public function show($id)
     {
         $user = User::findOrFail($id);
+        $roles = Role::all();
+
+
+        $paciente = DB::table('users as U')
+        ->select('UP.primer_nombre','UP.segundo_nombre','UP.primer_apellido','UP.segundo_apellido','UP.fecha_nacimiento','UP.genero','UP.telefono','UP.dirreccion','UP.seguro_medico')
+        ->join('usuario.paciente as UP', 'UP.id_cuenta', '=', 'U.id')
+        ->where('U.id',$id)
+        ->first();
+
+        $personal = DB::table('users as U')
+        ->select('PP.primer_nombre','PP.segundo_nombre','PP.primer_apellido','PP.segundo_apellido','PP.fecha_nacmiento','PP.genero','PP.telefono','PP.dirreccion','PP.id_departamento','PP.id_horario')
+        ->join('personal.personal as PP','PP.id_cuenta', '=','U.id')
+        ->where('U.id',$id)
+        ->first();
+
+        $departamento = DB::table('personal.departamento')
+        ->select('id_departamento','nombre')
+        ->orderByDesc('id_departamento')
+        ->get();
+
+        $horario = DB::table('personal.horario')
+        ->select('id_horario','dias','hora_inicio','hora_final')
+        ->orderByDesc('id_horario')
+        ->get();
+
         session(['activeTab' => 'Cuentas']);
-        return view('Cuentas.vistaCuentas', compact('user'));
+        return view('Cuentas.vistaCuentas', compact('user','roles','departamento','horario','paciente','personal'));
 
         // dump($user);
     }
@@ -127,12 +137,42 @@ class CuentasController extends Controller
     {
         $user = User::findOrFail($id);
         $roles = Role::all();
+
+
+        $paciente = DB::table('users as U')
+        ->select('UP.primer_nombre','UP.segundo_nombre','UP.primer_apellido','UP.segundo_apellido','UP.fecha_nacimiento','UP.genero','UP.telefono','UP.dirreccion','UP.seguro_medico')
+        ->join('usuario.paciente as UP', 'UP.id_cuenta', '=', 'U.id')
+        ->where('U.id',$id)
+        ->first();
+
+        $personal = DB::table('users as U')
+        ->select('PP.primer_nombre','PP.segundo_nombre','PP.primer_apellido','PP.segundo_apellido','PP.fecha_nacmiento','PP.genero','PP.telefono','PP.dirreccion','PP.id_departamento','PP.id_horario')
+        ->join('personal.personal as PP','PP.id_cuenta', '=','U.id')
+        ->where('U.id',$id)
+        ->first();
+
+        $departamento = DB::table('personal.departamento')
+        ->select('id_departamento','nombre')
+        ->orderByDesc('id_departamento')
+        ->get();
+
+        $horario = DB::table('personal.horario')
+        ->select('id_horario','dias','hora_inicio','hora_final')
+        ->orderByDesc('id_horario')
+        ->get();
+
+        // dump($paciente);
+        // dump($personal);
+
         session(['activeTab' => 'Cuentas']);
-        return view('Cuentas.actualizarCuenta', compact('user', 'roles'));
+        return view('Cuentas.actualizarCuenta', compact('user', 'roles','departamento','horario','paciente','personal'));
     }
 
     public function update(Request $request, $id)
     {
+        // dump($request->all());
+        // dump($request->rol_id);
+
         $user = User::findOrFail($id);
 
         $request->validate([
@@ -149,15 +189,60 @@ class CuentasController extends Controller
 
             $user->syncRoles([$request->rol_id]);
 
+        $paciente = DB::table('users as U')
+        ->select('UP.primer_nombre','UP.segundo_nombre','UP.primer_apellido','UP.segundo_apellido','UP.fecha_nacimiento','UP.genero','UP.telefono','UP.dirreccion','UP.seguro_medico')
+        ->join('usuario.paciente as UP', 'UP.id_cuenta', '=', 'U.id')
+        ->where('U.id',$id)
+        ->first();
+
+        $personal = DB::table('users as U')
+        ->select('PP.primer_nombre','PP.segundo_nombre','PP.primer_apellido','PP.segundo_apellido','PP.fecha_nacmiento','PP.genero','PP.telefono','PP.dirreccion','PP.id_departamento','PP.id_horario')
+        ->join('personal.personal as PP','PP.id_cuenta', '=','U.id')
+        ->where('U.id',$id)
+        ->first();
+
+        if($paciente != null){
+            DB::table('usuario.paciente')
+            ->where('id_cuenta',$id) 
+            ->update([
+                'primer_nombre' => $request->name,
+                'segundo_nombre' => $request->secondname,
+                'primer_apellido' => $request->lastname,
+                'segundo_apellido' => $request->secondlastname,
+                'fecha_nacimiento' => $request->fecha,
+                'genero' => $request->genero,
+                'telefono' => $request->numeroTelefono,
+                'seguro_medico' => $request->seguroMedico,
+                'dirreccion' => $request->direccion,
+                'correo' => $request->email,
+            ]);
+        }
+        if($personal != null){
+            DB::table('personal.personal')
+            ->where('id_cuenta',$id)
+            ->update([
+                'primer_nombre' => $request->name,
+                'segundo_nombre' => $request->secondname,
+                'primer_apellido' => $request->lastname,
+                'segundo_apellido' => $request->secondlastname,
+                'genero' => $request->genero,
+                'fecha_nacmiento' => $request->fecha,
+                'telefono' => $request->numeroTelefono,
+                'correo' => $request->email,
+                'dirreccion' => $request->direccion,
+                'id_departamento' => $request->departamento,
+                'id_horario' => $request->horario,
+            ]);
+        }
+
+
             session(['activeTab' => 'Cuentas']);
-            session()->flash('showModal', true);
             // Mostrar mensaje de éxito
             return redirect()->route('Cuentas.index')->with('success', 'Usuario actualizado correctamente.');
 
         } catch (\Exception $e) {
-            session()->flash('showModal', true);
             // Mostrar mensaje de error
-            return redirect()->route('Cuentas.edit')->with('error', 'No se pudo actualizar el usuario. Error: ' + $e);
+            return redirect()->route('Cuentas.index')->with('error', 'No se pudo actualizar el usuario.');
         }
     }
 
@@ -170,7 +255,6 @@ class CuentasController extends Controller
 
     public function destroy(Request $request, $id)
     {
-        //dump($request::all());
 
         $user = User::findOrFail($id);
 
@@ -181,7 +265,37 @@ class CuentasController extends Controller
         }
 
         try {
+            
+            $paciente = DB::table('users as U')
+            ->select('UP.primer_nombre','UP.segundo_nombre','UP.primer_apellido','UP.segundo_apellido','UP.fecha_nacimiento','UP.genero','UP.telefono','UP.dirreccion','UP.seguro_medico')
+            ->join('usuario.paciente as UP', 'UP.id_cuenta', '=', 'U.id')
+            ->where('U.id',$id)
+            ->first();
+            
+            $personal = DB::table('users as U')
+            ->select('PP.primer_nombre','PP.segundo_nombre','PP.primer_apellido','PP.segundo_apellido','PP.fecha_nacmiento','PP.genero','PP.telefono','PP.dirreccion','PP.id_departamento','PP.id_horario')
+            ->join('personal.personal as PP','PP.id_cuenta', '=','U.id')
+            ->where('U.id',$id)
+            ->first();
+
+            
+            dump($paciente);
+            dump($personal);
+            
+            
+            
+            if($paciente != null){
+                DB::table('usuario.paciente')
+                ->where('id_cuenta', $id)
+                ->delete();
+            }
+            if($personal != null){
+                DB::table('personal.personal')
+                ->where('id_cuenta', $id)
+                ->delete();
+            }
             $user->delete();
+            
             session(['activeTab' => 'Cuentas']);
             // Mostrar mensaje de éxito
             return redirect()->route('Cuentas.index')->with('success', 'Usuario eliminado correctamente.');
