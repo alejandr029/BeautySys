@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 // use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 
 class CuentasController extends Controller
@@ -20,12 +21,27 @@ class CuentasController extends Controller
     public function create()
     {
         $roles = Role::all();
+
+        $departamento = DB::table('personal.departamento')
+        ->select('id_departamento','nombre')
+        ->orderByDesc('id_departamento')
+        ->get();
+
+        $horario = DB::table('personal.horario')
+        ->select('id_horario','dias','hora_inicio','hora_final')
+        ->orderByDesc('id_horario')
+        ->get();
+        
+
+
+
         session(['activeTab' => 'Cuentas']);
-        return view('Cuentas.crearCuenta', compact('roles'));
+        return view('Cuentas.crearCuenta', compact('roles','departamento','horario'));
     }
 
     public function store(Request $request)
     {
+        dump($request->all());
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users|max:255',
@@ -39,8 +55,30 @@ class CuentasController extends Controller
                 'email' => $request->email,
                 'password' => bcrypt($request->password),
             ]);
+            
+            $idUser = DB::getPdo()->lastInsertId();
 
             $user->assignRole($request->rol_id);
+
+            // if($request->rol_id == "3"){
+            //     DB::table('usuario.paciente')->insert([
+            //         'primer_nombre' => $request->name,
+            //         'segundo_nombre' => $request->secondname,
+            //         'primer_apellido' => $request->lastname,
+            //         'segundo_apellido' => $request->secondlastname,
+            //         'fecha_nacimiento' => $request->fecha, 
+            //         'genero' => $request->genero,
+            //         'telefono' => $request->numeroTelefono,
+            //         'seguro_medico' => $request->seguroMedico,
+            //         'dirreccion' => $request->direccion,
+            //         'correo' => $request->email,
+            //         'id_cuenta' => $idUser,
+            //     ]);              
+            // }
+            // if($request->rol_id == "2"){
+
+            // }
+
             session(['activeTab' => 'Cuentas']);
             // Mostrar mensaje de éxito
             return redirect()->route('Cuentas.index')->with('success', 'Usuario creado correctamente.');
