@@ -134,6 +134,15 @@
 @extends('layout.template')
 
 @section('content')
+
+@if (session('error'))
+        <div class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+            <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                <strong>{{ session('error') }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+    @endif
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-lg-11">
@@ -188,7 +197,7 @@
                         </div>
                           <div class="col-md-3">
                             <div class="input-form">
-                                <input type="text" id="secondname" name="secondname" class="others-fields" required="true">
+                                <input type="text" id="secondname" name="secondname">
                                 <label for="name" class="textUser">Segundo Nombre</label>
                             </div>
                         </div>
@@ -200,7 +209,7 @@
                       </div>
                         <div class="col-md-3">
                           <div class="input-form">
-                              <input type="text" id="secondlastname" name="secondlastname" class="others-fields" required="true">
+                              <input type="text" id="secondlastname" name="secondlastname">
                               <label for="name" class="textUser">Apellido materno</label>
                           </div>
                         </div>
