@@ -31,7 +31,7 @@ class RestauracionController extends Controller
 
         $result = DB::select("exec select_diff");
         
-        session(['activeTab' => 'restauracion']);
+        session(['activeTab' => 'Restauracion']);
         return view('restauracion.restauracion', compact('result'));
 
     }
@@ -40,7 +40,7 @@ class RestauracionController extends Controller
     {
         $result = DB::select("exec backup_diferrencial");
         
-        session(['activeTab' => 'restauracion']);
+        session(['activeTab' => 'Restauracion']);
     }
 
      /**
@@ -75,7 +75,7 @@ class RestauracionController extends Controller
         } finally {
             DB::setDefaultConnection('sqlsrv');
             
-            session(['activeTab' => 'restauracion']);
+            session(['activeTab' => 'Restauracion']);
             return redirect()->route('restauracion.index')->with('succesfull', 'esta perron uwu');
         }
 
@@ -108,7 +108,7 @@ class RestauracionController extends Controller
         finally {
             
             DB::setDefaultConnection('sqlsrv');
-            session(['activeTab' => 'restauracion']);
+            session(['activeTab' => 'Restauracion']);
             return redirect()->route('restauracion.index')->with('succesfull', 'esta perron uwu');
         }
     }
@@ -137,7 +137,7 @@ class RestauracionController extends Controller
         finally {
             
             DB::setDefaultConnection('sqlsrv');
-            session(['activeTab' => 'restauracion']);
+            session(['activeTab' => 'Restauracion']);
             return redirect()->route('restauracion.index')->with('succesfull', 'esta perron uwu');
         }
 

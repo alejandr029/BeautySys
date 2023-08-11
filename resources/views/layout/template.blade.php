@@ -176,7 +176,7 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link text-white <?php echo session('activeTab') === 'restauracion' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('restauracion.index') }}">
+              <a class="nav-link text-white <?php echo session('activeTab') === 'Restauracion' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('restauracion.index') }}">
                   <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                       <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
                       <i class="fas fa-database"></i>
