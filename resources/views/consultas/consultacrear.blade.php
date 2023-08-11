@@ -232,14 +232,14 @@
 
                           <div class="col-md-5">
                             <div class="input-form">
-                              <select id="busqueda_paciente" name="paciente" required>
+                              <select id="busqueda_paciente" name="id_Paciente" required>
                                 <option value="" disabled selected>Seleccionar paciente</option>
                                 @foreach ($paciente as $item)
                                   <option value="{{ $item->id_paciente }}"> {{ $item->primer_nombre }} {{ $item->primer_apellido }}</option>
                                 @endforeach
 
                               </select>
-                              <label for="personal" class="textUser" style="visibility: hidden">paciente</label>
+                              <label for="id_Paciente" class="textUser" style="visibility: hidden">paciente</label>
                             </div>
                           </div>
 

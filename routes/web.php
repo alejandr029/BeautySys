@@ -14,6 +14,8 @@ use App\Http\Controllers\RestauracionController;
 use App\Http\Controllers\CirugiaController;
 use App\Http\Controllers\ConsultasController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AlergiasController;
+
 
 
 
@@ -44,6 +46,12 @@ Route::middleware(['auth'])->group(function () {
         session(['activeTab' => 'Profile']);
         return view('profile');
     })->name('profile');
+
+    Route::get('/Alergias/{id}', [AlergiasController::class, 'index'])->name('alergiasTabla');
+    Route::post('/Alergias/{id}', [AlergiasController::class, 'añadirAlergia'])->name('añadirAlergia');
+
+
+    // Route::view('/Alergias','Alergia.alergiaTable')->name('Alergias');
 });
 
 // todo: agregar autentificacion para rol staff y admin
