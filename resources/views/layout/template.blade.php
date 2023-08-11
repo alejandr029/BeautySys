@@ -218,7 +218,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white <?php echo session('activeTab') === 'enfermedadesCronicas' ? 'active bg-gradient-primary' : ''; ?>" >
+                <a class="nav-link text-white <?php echo session('activeTab') === 'Enfermedad Cronicas' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('enfermedadesCronicasTabla', Auth::user()->id) }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-pulse-fill" viewBox="0 0 16 16">

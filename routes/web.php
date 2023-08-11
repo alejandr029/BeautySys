@@ -15,6 +15,7 @@ use App\Http\Controllers\CirugiaController;
 use App\Http\Controllers\ConsultasController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AlergiasController;
+use App\Http\Controllers\EnfermedadesCronicasController;
 
 
 
@@ -51,7 +52,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/Alergias/{id}', [AlergiasController::class, 'index'])->name('alergiasTabla');
     Route::post('/Alergias/{id}', [AlergiasController::class, 'añadirAlergia'])->name('añadirAlergia');
-
+    
+    Route::get('/EnfermedadesCronicas/{id}', [EnfermedadesCronicasController::class, 'index'])->name('enfermedadesCronicasTabla');
+    Route::post('/EnfermedadesCronicas/{id}', [EnfermedadesCronicasController::class, 'añadirEnfermedadCronica'])->name('añadirEnfermedadCronica');
 
     // Route::view('/Alergias','Alergia.alergiaTable')->name('Alergias');
 });

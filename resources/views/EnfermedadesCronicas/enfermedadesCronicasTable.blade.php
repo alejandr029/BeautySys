@@ -122,12 +122,12 @@ use Carbon\Carbon;
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
-                            <h6 class="text-white text-capitalize ps-3">Alergias</h6>
+                            <h6 class="text-white text-capitalize ps-3">Enfermedades Cronicas</h6>
                             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#miModal" style="margin-right: 15px; background: #F2F2F2; color: #0D0D0D;">
                                 <a>
                                     <span>
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path fill="currentColor" d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"></path></svg> 
-                                    Agregar alergias
+                                    Agregar enfermedades cronicas
                                     </span>
                                 </a>
                               </button>
@@ -144,17 +144,17 @@ use Carbon\Carbon;
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if(count($Alergias) > 0)
-                                    @foreach ($Alergias as $Alergia)
+                                    @if(count($EnfermedadesCronicas) > 0)
+                                    @foreach ($EnfermedadesCronicas as $EnfermedadesCronica)
                                     <tr>
-                                        <td style="text-align: center">{{ $Alergia->id_tipo_alergia }}</td>
-                                        <td style="text-align: center;">{{ $Alergia->nombre }}</td>
-                                        <td style="text-align: center;">{{ $Alergia->descripcion }}</td>
+                                        <td style="text-align: center">{{ $EnfermedadesCronica->id_tipo_enfermedad_cronica }}</td>
+                                        <td style="text-align: center;">{{ $EnfermedadesCronica->nombre }}</td>
+                                        <td style="text-align: center;">{{ $EnfermedadesCronica->descripcion }}</td>
                                     </tr>
                                     @endforeach
                                     @else
                                     <tr>
-                                        <td colspan="3" style="text-align: center;">No tienes Alergias</td>
+                                        <td colspan="3" style="text-align: center;">No tienes enfermedades cronicas</td>
                                     </tr>
                                     @endif
                                 </tbody>
@@ -183,7 +183,7 @@ use Carbon\Carbon;
             </button>
           </div>
           <div class="row">
-            <form action="{{ route('añadirAlergia', Auth::user()->id) }}" method="post">
+            <form action="{{ route('añadirEnfermedadCronica', Auth::user()->id) }}" method="post">
             @csrf 
             <div style="height: 30em;overflow-y: auto;">
                 <div class="modal-body table-responsive">
@@ -197,16 +197,16 @@ use Carbon\Carbon;
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($AlergiasModal as $alergiasModal)
+                            @foreach($EnfermedadesCronicasModal as $EnfermedadesCronicasModal)
                             <tr>
-                                <td style="text-align: center">{{ $alergiasModal->id_tipo_alergia }}</td>
-                                <td style="text-align: center">{{ $alergiasModal->nombre }}</td>
-                                <td style="text-align: center">{{ $alergiasModal->descripcion }}</td>
+                                <td style="text-align: center">{{ $EnfermedadesCronicasModal->id_tipo_enfermedad_cronica }}</td>
+                                <td style="text-align: center">{{ $EnfermedadesCronicasModal->nombre }}</td>
+                                <td style="text-align: center">{{ $EnfermedadesCronicasModal->descripcion }}</td>
                                 <td style="text-align: center">
                                     <!-- Agrega el campo oculto con el tipo y el ID -->
-                                    <input type="hidden" name="elementos[alergias{{ $alergiasModal->id_tipo_alergia }}][id]" value="{{ $alergiasModal->id_tipo_alergia }}">
-                                    <input type="hidden" name="elementos[alergias{{ $alergiasModal->id_tipo_alergia }}][seleccionado]" value="0">
-                                    <input type="checkbox" name="elementos[alergias{{ $alergiasModal->id_tipo_alergia }}][seleccionado]" value="1">                                </td>
+                                    <input type="hidden" name="elementos[enfermedadesCronicas{{ $EnfermedadesCronicasModal->id_tipo_enfermedad_cronica }}][id]" value="{{ $EnfermedadesCronicasModal->id_tipo_enfermedad_cronica }}">
+                                    <input type="hidden" name="elementos[enfermedadesCronicas{{ $EnfermedadesCronicasModal->id_tipo_enfermedad_cronica }}][seleccionado]" value="0">
+                                    <input type="checkbox" name="elementos[enfermedadesCronicas{{ $EnfermedadesCronicasModal->id_tipo_enfermedad_cronica }}][seleccionado]" value="1"></td>
                             </tr>
                             @endforeach
                         </tbody>

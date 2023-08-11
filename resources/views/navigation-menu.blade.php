@@ -72,7 +72,7 @@
                 @endif -->
 
                 <!-- Settings Dropdown -->
-                <div class="navbar navbar-main navbar-expand-md px-0 mx-4 shadow-none border-radius-xl" style="position: absolute; top: 3%;right: 0; z-index: 5;">
+                <div class="navbar navbar-main navbar-expand-md px-0 mx-4 shadow-none border-radius-xl" style="position: absolute; top: 3%;right: 0; z-index: 3;">
                     <x-dropdown width="48">
                         <x-slot name="trigger">
                             <!-- @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
