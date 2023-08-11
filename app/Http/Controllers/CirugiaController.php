@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Validator;
 
 
 class CirugiaController extends Controller
@@ -299,32 +298,6 @@ class CirugiaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
-        $validator = Validator::make($request->all(), [
-            'fecha' => 'required|date',
-            'hora' => [
-                'required',
-                function ($attribute, $value, $fail) use ($request) {
-                    $today = Carbon::now()->format('Y-m-d');
-                    $selectedDate = Carbon::parse($request->input('fecha'))->format('Y-m-d');
-    
-                    if ($selectedDate === $today) {
-                        $hour = Carbon::now()->format('H:i');
-                        if (Carbon::parse($hour)->isAfter($value)) {
-                            $fail('No se permite la hora actual o las horas anteriores para la fecha de registro actual.');
-                        }
-                    }
-                },
-            ],
-        ]);
-
-        
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
 
 
         DB::table('estetico.Cirugia')

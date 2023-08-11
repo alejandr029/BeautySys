@@ -152,16 +152,6 @@
 
     @section('content')
 
-    @if ($errors->any())
-        @foreach ($errors->all() as $error)
-          <div class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
-            <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
-                <strong>{{ $error }}</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        </div>
-        @endforeach
-    @endif
     
         <div class="container">
             <div class="row justify-content-center">
@@ -191,16 +181,14 @@
                                     <div class="row">
                                         <div class="col-md-6 mb-3 input-form">
                                             <label for="fecha_cita" class="form-label">Fecha de la cita:</label>
-                                            <input type="date" class="form-control input-form"  min="{{ now()->toDateString() }}"  id="fecha_cita"
-                                                name="fecha_cita" value="{{ $cita->fecha_cita }}">
+                                            <input type="date" id="fecha" name="fecha" required  value="{{$cita->fecha_cita }}" >
+
                                         </div>
 
                                         <div class="col-md-6 mb-3 input-form">
                                             <label for="hora_cita" class="form-label">Hora de la cita:</label>
-                                            <input type="time" class="form-control input-form" id="hora_cita" name="hora_cita"
-                                                value="{{ $cita->hora_cita }}">
+                                            <input type="time" id="hora" name="hora" required  value="{{ $cita->hora_cita }}">
                                         </div>
-
                                         
                                     </div>
 
@@ -297,6 +285,29 @@
                                             <button type="submit" class="btn btn-primary">Actualizar Cita</button>
                                         </div>
                                     </div>
+
+                                    <script>
+                                        document.addEventListener("DOMContentLoaded", function (){
+                                          const fechaInput = document.getElementById('fecha');
+                                          const horaInput = document.getElementById('hora');
+                                          
+                                          const fechaHoraActual = new Date();
+                                          const año = fechaHoraActual.getFullYear();
+                                          const mes = fechaHoraActual.getMonth() + 1;
+                                          const dia = fechaHoraActual.getDate();
+                            
+                                          const fecha_actual = new Date(año, mes - 1, dia); // Creamos un objeto Date con la fecha actual
+                                          console.log(fecha_actual);
+                                          fechaInput.min = fecha_actual.toISOString().split('T')[0];
+                            
+                                          const fecha = fechaInput.min;
+                                           
+                                          fechaInput.addEventListener('input', function() {
+                                            
+                                              horaInput.min = this.value === fechaInput.min ? '{{ now()->format("H:i") }}' : '00:00';
+                                          });
+                                        });
+                                      </script>
                                 </form>
                             </div>
                         </div>

@@ -35,7 +35,7 @@
                         <div class="mb-3">
                             <label for="rol" class="form-label">Reseteo a en cierta version: </label>
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button style="background-color: #F2F2F2; border-color:#F2F2F2;color: #0D0D0D;" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                   Versiones
                                 </button>
                                 <ul class="dropdown-menu">

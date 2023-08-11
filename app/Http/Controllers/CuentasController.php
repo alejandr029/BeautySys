@@ -12,7 +12,7 @@ class CuentasController extends Controller
 {
     public function index()
     {
-        $users = User::all(); //->Paginate(5);
+        $users = User::orderByDesc('id')->paginate(5); //->Paginate(5);
         session(['activeTab' => 'Cuentas']);
         return view('Cuentas.cuentas', compact('users'));
     }

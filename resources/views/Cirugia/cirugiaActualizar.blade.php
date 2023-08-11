@@ -144,16 +144,6 @@
     
     @extends('layout.template')
     @section('content')
-      @if ($errors->any())
-        @foreach ($errors->all() as $error)
-          <div class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
-            <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
-                <strong>{{ $error }}</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        </div>
-        @endforeach
-    @endif
 
     <div class="container">
         <div class="row justify-content-center">
@@ -377,6 +367,30 @@
                     </div>
                 </div>
             </div>
+
+            <script>
+              document.addEventListener("DOMContentLoaded", function (){
+                const fechaInput = document.getElementById('fecha');
+                const horaInput = document.getElementById('hora');
+                
+                const fechaHoraActual = new Date();
+                const año = fechaHoraActual.getFullYear();
+                const mes = fechaHoraActual.getMonth() + 1;
+                const dia = fechaHoraActual.getDate();
+
+                const fecha_actual = new Date(año, mes - 1, dia); // Creamos un objeto Date con la fecha actual
+                console.log(fecha_actual);
+                fechaInput.min = fecha_actual.toISOString().split('T')[0];
+
+                const fecha = fechaInput.min;
+                
+                fechaInput.addEventListener('input', function() {
+                  
+                    horaInput.min = this.value === fechaInput.min ? '{{ now()->format("H:i") }}' : '00:00';
+                });
+                
+              });
+            </script>
                 
             <script>
                 document.addEventListener("DOMContentLoaded", function () {

@@ -14,7 +14,6 @@ use App\Models\Sala;
 use App\Models\TipoCita;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 use Illuminate\Support\Facades\DB;
 
@@ -22,7 +21,7 @@ class CitasController extends Controller
 {
     public function index()
     {
-        $citas = Cita::all();
+        $citas = Cita::orderByDesc('id_cita')->paginate(5);
         session(['activeTab' => 'Citas']);
         return view('Citas.citas', compact('citas'));
     }
@@ -59,31 +58,6 @@ class CitasController extends Controller
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'fecha_cita' => 'required|date',
-            'hora_cita' => [
-                'required',
-                function ($attribute, $value, $fail) use ($request) {
-                    $today = Carbon::now()->format('Y-m-d');
-                    $selectedDate = Carbon::parse($request->input('fecha_cita'))->format('Y-m-d');
-    
-                    if ($selectedDate === $today) {
-                        $hour = Carbon::now()->format('H:i');
-                        if (Carbon::parse($hour)->isAfter($value)) {
-                            
-                            return redirect()->back()->withErrors(['hora' => 'La hora debe ser igual o posterior a la hora actual.']);
-                            $fail('No se permite el uso de una hora antes de la hora actual');
-                        }
-                    }
-                },
-            ],
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
 
         $request->validate([
             'id_paciente' => 'required|integer',
@@ -162,30 +136,6 @@ class CitasController extends Controller
 
     public function update(Request $request, $id)
     {
-        $validator = Validator::make($request->all(), [
-            'fecha_cita' => 'required|date',
-            'hora_cita' => [
-                'required',
-                function ($attribute, $value, $fail) use ($request) {
-                    $today = Carbon::now()->format('Y-m-d');
-                    $selectedDate = Carbon::parse($request->input('fecha_cita'))->format('Y-m-d');
-    
-                    if ($selectedDate === $today) {
-                        $hour = Carbon::now()->format('H:i');
-                        if (Carbon::parse($hour)->isAfter($value)) {
-                            $fail('No se permite el uso de una hora antes de la hora actual');
-                        }
-                    }
-                },
-            ],
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-
 
         $cita = Cita::findOrFail($id);
 

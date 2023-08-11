@@ -123,9 +123,9 @@ use Carbon\Carbon;
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
                             <h6 class="text-white text-capitalize ps-3">Cirugias</h6>
-                            <button class="crear" onclick="window.location.href='{{ route('vistacrearCirugia') }}'" style="margin-right: 15px;">
+                            <button class="crear" onclick="window.location.href='{{ route('vistacrearCirugia') }}'" style="margin-right: 15px;background-color: #F2F2F2; border-color:#F2F2F2; ">
                                 <a>
-                                    <span>
+                                    <span style="color: #0D0D0D;">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path fill="currentColor" d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"></path></svg> Create
                                     </span>
                                 </a>
@@ -172,7 +172,7 @@ use Carbon\Carbon;
                                                 @csrf
                                                 @method('PUT')
                                                 <button type="submit" class="btn btn-danger" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">
-                                                    <i class="material-icons">block</i>
+                                                    <i class="material-icons">delete_outline</i>
                                                 </button>
                                             </form>
                                             </div>

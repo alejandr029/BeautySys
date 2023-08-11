@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Validator;
 
 class ConsultasController extends Controller
 {
@@ -34,7 +33,6 @@ class ConsultasController extends Controller
         // ->where('ec.id_status_consulta','!=',3)
         // ->where('ec.id_status_consulta','!=',4)
         ->orderByDesc('ec.id_consulta ')
-
         ->Paginate(5); 
         
         session(['activeTab' => 'Consultas']);
@@ -102,63 +100,38 @@ class ConsultasController extends Controller
 
     public function crear(Request $request){
 
-        $validator = Validator::make($request->all(), [
-            'fecha' => 'required|date',
-            'hora' => [
-                'required',
-                function ($attribute, $value, $fail) use ($request) {
-                    $today = Carbon::now()->format('Y-m-d');
-                    $selectedDate = Carbon::parse($request->input('fecha'))->format('Y-m-d');
-    
-                    if ($selectedDate === $today) {
-                        $hour = Carbon::now()->format('H:i');
-                        if (Carbon::parse($hour)->isAfter($value)) {
-                            $fail('No se permite la hora actual o las horas anteriores para la fecha de registro actual.');
-                        }
-                    }
-                },
-            ],
-        ]);
-
-
+        dump($request->all());
         
 
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
-        
+        // DB::table('estetico.consulta')->insert([
+        //     'fecha_visita' => date('Y-m-d H:i:s', strtotime($request->fecha . ' ' . $request->hora)),
+        //     'id_paciente' => $request->id_Paciente,
+        //     'id_personal' => $request->personal,
+        //     'datos_consulta' => $request->datos_consultas,
+        //     'id_status_consulta' => $request->estatus_consultas,
+        //     'id_sala' => $request->consulta_sala,
+        // ]);
 
-        DB::table('estetico.consulta')->insert([
-            'fecha_visita' => date('Y-m-d H:i:s', strtotime($request->fecha . ' ' . $request->hora)),
-            'id_paciente' => $request->id_Paciente,
-            'id_personal' => $request->personal,
-            'datos_consulta' => $request->datos_consultas,
-            'id_status_consulta' => $request->estatus_consultas,
-            'id_sala' => $request->consulta_sala,
-        ]);
+        // if($request->estatus_consultas == 1 or 2){
+        //     DB::table('locacion.sala')
+        //     ->where('nombre', $request->consulta_sala)
+        //     ->update([
+        //         'id_estado_sala' => 3 
+        //     ]);
+        // } 
 
-        if($request->estatus_consultas == 1 or 2){
-            DB::table('locacion.sala')
-            ->where('nombre', $request->consulta_sala)
-            ->update([
-                'id_estado_sala' => 3 
-            ]);
-        } 
-
-        if($request->estatus_consultas == 3 or 4 or 5){
-            DB::table('locacion.sala')
-            ->where('nombre', $request->consulta_sala)
-            ->update([
-                'id_estado_sala' => 1
-            ]);
-        } 
+        // if($request->estatus_consultas == 3 or 4 or 5){
+        //     DB::table('locacion.sala')
+        //     ->where('nombre', $request->consulta_sala)
+        //     ->update([
+        //         'id_estado_sala' => 1
+        //     ]);
+        // } 
 
         session(['activeTab' => 'Consultas']);
 
     
-        return redirect()->route('consultas.index')->with('success', 'consulta creado correctamente.');
+        // return redirect()->route('consultas.index')->with('success', 'consulta creado correctamente.');
 
     }
 
