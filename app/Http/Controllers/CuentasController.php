@@ -42,12 +42,14 @@ class CuentasController extends Controller
 
             $user->assignRole($request->rol_id);
             session(['activeTab' => 'Cuentas']);
+            session()->flash('showModal', true);
             // Mostrar mensaje de éxito
             return redirect()->route('Cuentas.index')->with('success', 'Usuario creado correctamente.');
 
         } catch (\Exception $e) {
+            session()->flash('showModal', true);
             // Mostrar mensaje de error
-            return redirect()->route('Cuentas.index')->with('error', 'No se pudo crear el usuario.');
+            return redirect()->route('Cuentas.crear')->with('error', 'No se pudo crear el usuario. Error: ' + $e->GetMessage());
         }
     }
 
@@ -86,12 +88,14 @@ class CuentasController extends Controller
 
             $user->syncRoles([$request->rol_id]);
             session(['activeTab' => 'Cuentas']);
+            session()->flash('showModal', true);
             // Mostrar mensaje de éxito
             return redirect()->route('Cuentas.index')->with('success', 'Usuario actualizado correctamente.');
 
         } catch (\Exception $e) {
+            session()->flash('showModal', true);
             // Mostrar mensaje de error
-            return redirect()->route('Cuentas.index')->with('error', 'No se pudo actualizar el usuario.');
+            return redirect()->route('Cuentas.edit')->with('error', 'No se pudo actualizar el usuario. Error: ' + $e);
         }
     }
 

@@ -50,44 +50,44 @@
     }
 
     .radio-inputs {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  border-radius: 0.5rem;
-  background-color: #EC407A ;
-  box-sizing: border-box;
-  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
-  padding: 0.25rem;
-  width: 300px;
-  font-size: 14px;
-  margin-bottom: 20px;
-}
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    border-radius: 0.5rem;
+    background-color: #EC407A ;
+    box-sizing: border-box;
+    box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+    padding: 0.25rem;
+    width: 300px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    }
 
-.radio-inputs .radio {
-  flex: 1 1 auto;
-  text-align: center;
-}
+    .radio-inputs .radio {
+    flex: 1 1 auto;
+    text-align: center;
+    }
 
-.radio-inputs .radio input {
-  display: none;
-}
+    .radio-inputs .radio input {
+    display: none;
+    }
 
-.radio-inputs .radio .name {
-  display: flex;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.5rem;
-  border: none;
-  padding: .5rem 0;
-  color: #2d2d2d;
-  transition: all .15s ease-in-out;
-}
+    .radio-inputs .radio .name {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: none;
+    padding: .5rem 0;
+    color: #2d2d2d;
+    transition: all .15s ease-in-out;
+    }
 
-.radio-inputs .radio input:checked + .name {
-  background-color: #fff;
-  font-weight: 600;
-}
+    .radio-inputs .radio input:checked + .name {
+    background-color: #fff;
+    font-weight: 600;
+    }
 
 
 </style>
@@ -95,36 +95,6 @@
 @extends('layout.template')
 
 @section('content')
-    @if(session('success'))
-    <div id="notification" class="position-fixed top-0 end-0 p-3">
-        <div class="alert alert-success text-white" role="alert">
-            <strong>{{ session('success') }}</strong>
-        </div>
-    </div>
-    @endif
-    @if(session('error'))
-    <div id="notification" class="position-fixed top-0 end-0 p-3">
-        <div class="alert alert-danger text-white" role="alert">
-            <strong>{{ session('error') }}</strong>
-        </div>
-    </div>
-    @endif
-    <script>
-        // Mostrar la notificación lentamente
-        setTimeout(function() {
-            var notification = document.getElementById('notification');
-            if (notification) {
-                notification.classList.add('show');
-                // Ocultar y eliminar la notificación después de 2 segundos
-                setTimeout(function() {
-                    notification.classList.remove('show');
-                    setTimeout(function() {
-                        notification.remove();
-                    }, 500); // Esperar el tiempo de la transición (0.5s)
-                }, 2000);
-            }
-        }, 100); // Agregar un pequeño retraso antes de mostrar la notificación (opcional)
-    </script>
     <div class="container-fluid py-4">
         <div id="cuentasTable" class="row">
             <div class="col-12">
@@ -190,6 +160,29 @@
 
         </div>
     </div>
-
+<!-- Modal -->
+<div class="modal fade" id="success" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Message</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{ session('success') }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+@if(session('showModal'))
+    <script>
+        $(document).ready(function() {
+            $('#success').modal('show');
+        });
+    </script>
+@endif
     @include('layout.footer')
 @endsection

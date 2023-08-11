@@ -94,29 +94,6 @@ use Carbon\Carbon;
 @extends('layout.template')
 
 @section('content')
-    @if(session('success'))
-    <div id="notification" class="position-fixed top-0 end-0 p-3">
-        <div class="alert alert-success text-white" role="alert">
-            <strong>{{ session('success') }}</strong> 
-        </div>
-    </div>
-    <script>
-        setTimeout(function() {
-            var notification = document.getElementById('notification');
-            if (notification) {
-                notification.classList.add('show');
-                setTimeout(function() {
-                    notification.classList.remove('show');
-                    setTimeout(function() {
-                        notification.remove();
-                    }, 500);
-                }, 2000);
-            }
-        }, 100);
-    </script>
-    @endif
-    <div class="container-fluid py-4">      
-        
         <div id="ProveedoresTable" class="row">
             <div class="col-12">
                 <div class="card my-4">
@@ -229,8 +206,31 @@ use Carbon\Carbon;
                 </ul>
             </div>           
         </div>
-
     </div>
     @include('layout.footer')
 </main>
+<!-- Modal -->
+<div class="modal fade" id="success" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Message</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {{ session('success') }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+@if(session('showModal'))
+    <script>
+        $(document).ready(function() {
+            $('#success').modal('show');
+        });
+    </script>
+@endif
 @endsection
