@@ -85,7 +85,7 @@ Para realizar la debida instalacion del repositorio. <br>
 - Laravel Jetstream
 - spatie/laravel-permission (composer require spatie/laravel-permission)
 
-6.- Una vez que inicies la app, para crear un usuario administrador corre en la terminal de laravel "php artisan db:seed --class=RolesTableSeeder".
+6.- Una vez que inicies la app, el usuario administrador de prueba será:
 Correo: admin@gmail.com Contraseña: 12345678
 
 
