@@ -180,13 +180,13 @@
 
                                     <div class="row">
                                         <div class="col-md-6 mb-3 input-form">
-                                            <label for="fecha_cita" class="form-label">Fecha de la cita:</label>
+                                            <label for="fecha" class="form-label">Fecha de la cita:</label>
                                             <input type="date" id="fecha" name="fecha" required  value="{{$cita->fecha_cita }}" >
 
                                         </div>
 
                                         <div class="col-md-6 mb-3 input-form">
-                                            <label for="hora_cita" class="form-label">Hora de la cita:</label>
+                                            <label for="hora" class="form-label">Hora de la cita:</label>
                                             <input type="time" id="hora" name="hora" required  value="{{ $cita->hora_cita }}">
                                         </div>
                                         

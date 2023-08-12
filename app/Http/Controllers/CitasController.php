@@ -136,12 +136,13 @@ class CitasController extends Controller
 
     public function update(Request $request, $id)
     {
+        // dump($request->all());
 
         $cita = Cita::findOrFail($id);
 
         $request->validate([
-            'hora_cita' => 'required|string|max:50',
-            'fecha_cita' => 'required|date',
+            'hora' => 'required|string|max:50',
+            'fecha' => 'required|date',
             'id_estado_cita' => 'required|integer',
             'id_sala' => 'required|integer',
             'id_tipo_cita' => 'required|integer',
@@ -152,11 +153,11 @@ class CitasController extends Controller
 
         try {
             // $fechaFormat = Carbon::createFromFormat('Y-m-d', $request->fecha_cita)->format('Y-m-d H:i:s.u');
-            $horaFormat = Carbon::parse($request->hora_cita)->format('H:i');
+            $horaFormat = Carbon::parse($request->hora)->format('H:i');
 
             $cita->update([
-                'hora_cita' => $horaFormat,
-                'fecha_cita' => $request->fecha_cita,
+                'hora' => $horaFormat,
+                'fecha' => $request->fecha,
                 'id_estado_cita' => $request->id_estado_cita,
                 'id_sala' => $request->id_sala,
                 'id_tipo_cita' => $request->id_tipo_cita,

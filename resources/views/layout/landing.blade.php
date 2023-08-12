@@ -189,7 +189,7 @@
                                         <div class="card card-member">
                                             <div class="content" style="height: 40rem;">
                                                 <div class="description">
-                                                    <h3 class="title">Toledo Perez Crinstian Alejandro</h3>
+                                                    <h3 class="title">Toledo Perez Cristian Alejandro</h3>
                                                     <p class="small-text">Lider de desarrollo</p>
                                                     <p class="description">En nuestro equipo, contamos con un Líder de Desarrollo clave. Este rol desempeña una función crucial al dirigir y supervisar el equipo de desarrollo en la creación y mejora constante de nuestro sistema de monitoreo y gestión de registros de cirugías estéticas. El Líder de Desarrollo coordina las tareas, establece directrices y garantiza que se sigan las mejores prácticas de programación, lo que resulta en un sistema confiable y eficiente que cumple con las necesidades de nuestros usuarios.</p>
                                                 </div>
@@ -201,7 +201,7 @@
                                         <div class="card card-member">
                                             <div class="content" style="height: 40rem;">
                                                 <div class="description">
-                                                    <h3 class="title">Velazquez Gonalez Jesus Alejandro</h3>
+                                                    <h3 class="title">Velazquez Gonzalez Jesus Alejandro</h3>
                                                     <p class="small-text">Desarrollador de base de datos</p>
                                                     <p class="description">Dentro de nuestro equipo, contamos con un Desarrollador de Base de Datos especializado. Este rol es esencial para diseñar, implementar y mantener la estructura de la base de datos que respalda nuestro sistema de monitoreo y gestión de registros de cirugías estéticas. El Desarrollador de Base de Datos trabaja en la optimización del rendimiento, la integridad de los datos y la seguridad de la información almacenada, asegurando que el sistema funcione de manera eficiente y confiable para satisfacer las necesidades de nuestros usuarios.</p>
                                                 </div>

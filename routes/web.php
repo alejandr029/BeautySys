@@ -40,8 +40,9 @@ Route::middleware(['auth'])->group(function () {
     //     return view('dashboard');
     // })->name('dashboard');
     // // Route::view('/tables','tables')->name('tables');
+    
+    // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     Route::get('/dashboard/id={id}', [DashboardController::class, 'index_user'])->name('dashboard_user');
 
@@ -62,6 +63,9 @@ Route::middleware(['auth'])->group(function () {
 // todo: agregar autentificacion para rol staff y admin
 Route::middleware(['auth'])->group(function () {
     // CUENTAS
+    
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
     Route::get('/cuentas', [CuentasController::class, 'index'])->name('Cuentas.index');
     Route::get('/crear/cuenta', [CuentasController::class, 'create'])->name('Cuentas.crear');
     Route::post('/crear/cuenta', [CuentasController::class, 'store'])->name('user.store');

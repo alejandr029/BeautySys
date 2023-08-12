@@ -73,7 +73,7 @@ class DashboardController extends Controller
         ->first();
 
 
-        $Citas = DB::table('estetico.cita as C')
+        $Citas_user = DB::table('estetico.cita as C')
             ->select('P.primer_apellido', 'S.nombre', 'C.fecha_cita', 'C.id_cita','C.hora_cita')
             ->join('usuario.paciente as P', 'P.id_paciente', '=', 'C.id_paciente')
             ->join('locacion.sala as S', 'S.id_sala', '=', 'C.id_sala')
@@ -84,7 +84,7 @@ class DashboardController extends Controller
             ->orderBy('C.hora_cita')
             ->paginate(5);
 
-            $Consultas = DB::table('estetico.consulta as C')
+            $Consultas_user = DB::table('estetico.consulta as C')
             ->select('P.primer_apellido','S.nombre','c.fecha_visita')
             ->join('usuario.paciente as P', 'P.id_paciente', '=', 'C.id_paciente')
             ->join('locacion.sala as S', 'S.id_sala', '=', 'C.id_sala')
@@ -95,7 +95,7 @@ class DashboardController extends Controller
             ->orderBy('C.fecha_visita')
             ->paginate(5);
 
-            $Cirugias = DB::table('estetico.Cirugia as C')
+            $Cirugias_user = DB::table('estetico.Cirugia as C')
             ->select('P.primer_apellido','S.nombre','C.fecha_cirugia')
             ->join('usuario.paciente as P', 'P.id_paciente', '=', 'C.id_paciente')
             ->join('locacion.sala as S', 'S.id_sala', '=', 'C.id_sala')
@@ -105,10 +105,15 @@ class DashboardController extends Controller
             ->where('C.id_paciente', $paciente->id_paciente)
             ->orderBy('C.fecha_cirugia')
             ->paginate(5);
-        
+            dump($Citas_user);
+            dump($Consultas_user);
+            
+            dump($Cirugias_user);
         session(['activeTab' => 'Dashboard']);
+
+        // return view('dashboarduser',compact('Citas_user','today','Consultas_user','Cirugias_user'));
         
-        return view('dashboard',['id'=> $id, 'paciente' => $paciente , 'Citas'=>$Citas,'Consultas'=>$Consultas,'Cirugias'=>$Cirugias, 'today' => $today]);
+        // return view('dashboard',['id'=> $id, 'paciente_user' => $paciente_user , 'Citas_user'=>$Citas_user,'Consultas_user'=>$Consultas_user,'Cirugias_user'=>$Cirugias_user, 'today' => $today]);
 
     }
 

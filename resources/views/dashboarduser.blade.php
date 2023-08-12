@@ -11,7 +11,9 @@ Carbon::setLocale('es');
     <!-- Navbar -->
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-      @if(auth()->user()->hasRole(['admin', 'staff']))
+
+
+      @if(auth()->user()->hasRole(['user']))
         <div class="row mt-4">
           <div class="col-lg-4 col-md-6 mt-4 mb-4">
             <div class="card z-index-2 ">
@@ -35,8 +37,8 @@ Carbon::setLocale('es');
                             </tr>
                           </thead>
                           <tbody>
-                            @if(count($Citas) > 0)
-                            @forEach($Citas as $cita)
+                            @if(count($Citas_user) > 0)
+                            @forEach($Citas_user as $cita)
                             <tr>
                               <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ $cita->primer_apellido }}</td>
                               <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ str_replace('_', ' ', $cita->nombre) }}</td>
@@ -52,13 +54,14 @@ Carbon::setLocale('es');
                         </table>
                       </div>
                     </div>
+                    {{-- <canvas id="chart-bars" class="chart-canvas" height="170"></canvas> --}}
                   </div>
                 </div>
               </div>
               <div class="card-body">
                 <h6 class="mb-0 ">Citas</h6>
-                @if(count($Citas) > 0)
-                <p class="text-sm ">Ultimas 5 citas del dia: {{ Carbon::parse($cita->fecha_cita)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
+                @if(count($Citas_user_user) > 0)
+                <p class="text-sm ">Ultimas 5 citas del dia: {{ Carbon::parse($cita_user_user->fecha_cita)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
                 @else
                 <p class="text-sm ">Ultimas 5 citas del dia: {{ Carbon::parse($today)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
                 @endif
@@ -87,8 +90,8 @@ Carbon::setLocale('es');
                             </tr>
                           </thead>
                           <tbody>
-                            @if(count($Consultas) > 0)
-                            @forEach($Consultas as $Consulta)
+                            @if(count($Consultas_user) > 0)
+                            @forEach($Consultas_user as $Consulta)
                             <tr>
                               <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ $Consulta->primer_apellido }}</td>
                               <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ str_replace('_', ' ', $Consulta->nombre) }}</td>
@@ -104,13 +107,14 @@ Carbon::setLocale('es');
                         </table>
                       </div>
                     </div>
+                    {{-- <canvas id="chart-line" class="chart-canvas" height="170"></canvas> --}}
                   </div>
                 </div>
               </div>
               <div class="card-body">
                 <h6 class="mb-0 "> Consultas </h6>
-                @if(count($Consultas) > 0)
-                <p class="text-sm ">Ultimas 5 Consultas del dia: {{ Carbon::parse($Consulta->fecha_visita)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
+                @if(count($Consultas_user) > 0)
+                <p class="text-sm ">Ultimas 5 Consultas del dia: {{ Carbon::parse($Consulta_user->fecha_visita)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
                 @else
                 <p class="text-sm ">Ultimas 5 Consultas del dia: {{ Carbon::parse($today)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
                 @endif
@@ -139,8 +143,8 @@ Carbon::setLocale('es');
                             </tr>
                           </thead>
                           <tbody>
-                            @if(count($Cirugias) > 0)
-                            @forEach($Cirugias as $Cirugia)
+                            @if(count($Cirugias_user) > 0)
+                            @forEach($Cirugias_user as $Cirugia)
                             <tr>
                               <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ $Cirugia->primer_apellido }}</td>
                               <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ str_replace('_', ' ', $Cirugia->nombre) }}</td>
@@ -156,13 +160,14 @@ Carbon::setLocale('es');
                         </table>
                       </div>
                     </div>
+                    {{-- <canvas id="chart-line-tasks" class="chart-canvas" height="170"></canvas> --}}
                   </div>
                 </div>
               </div>
               <div class="card-body">
                 <h6 class="mb-0 ">Cirugias</h6>
-                @if(count($Cirugias) > 0)
-                <p class="text-sm ">Ultimas 5 Cirugias del dia: {{ Carbon::parse($Cirugia->fecha_cirugia)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
+                @if(count($Cirugias_user) > 0)
+                <p class="text-sm ">Ultimas 5 Cirugias del dia: {{ Carbon::parse($Cirugia_user->fecha_cirugia)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
                 @else
                 <p class="text-sm ">Ultimas 5 Cirugias del dia: {{ Carbon::parse($today)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
                 @endif

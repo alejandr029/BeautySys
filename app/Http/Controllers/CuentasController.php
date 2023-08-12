@@ -279,8 +279,8 @@ class CuentasController extends Controller
             ->first();
 
             
-            dump($paciente);
-            dump($personal);
+            // dump($paciente);
+            // dump($personal);
             
             
             

@@ -159,7 +159,7 @@
                                           <select id="rol_id" name="rol_id" required>
                                             @foreach ($roles as $rol)
                                             <option value="{{ $rol->id }}"
-                                              {{ $user->hasRole($rol->id) ? 'selected' : '' }} >
+                                              {{ $user->hasRole($rol->id) ? 'selected' : '' }} {{ $user->hasRole($rol->id) ? '' : 'disabled' }}>
                                               {{ $rol->name }}</option>
                                               @endforeach
                                             </select>

@@ -6,6 +6,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -74,8 +75,8 @@
     <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
           @if(auth()->user()->hasRole(['admin', 'staff']))
-            <li class="nav-item">
-                <a class="nav-link text-white <?php echo session('activeTab') === 'Dashboard' ? 'active bg-gradient-primary' : ''; ?>" href="/dashboard">
+            <li class="nav-item" id="admin_dashboard">
+                <a class="nav-link text-white <?php echo session('activeTab') === 'Dashboard' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('dashboard') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">dashboard</i>
                     </div>
@@ -85,9 +86,9 @@
           @endif
 
           @if(auth()->user()->hasRole(['user']))
-            <li class="nav-item">
+            <li class="nav-item" id="user_dashboard">
                 <a class="nav-link text-white <?php echo session('activeTab') === 'Dashboard' ? 'active bg-gradient-primary' : ''; ?>"
-                  href="{{ route('dashboard_user', Auth::user()->id) }}">
+                  href="{{ route('dashboard_user', ['id' => Auth::user()->id]) }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">dashboard</i>
                     </div>
@@ -281,6 +282,23 @@
             function goBack() {
               window.history.back();
             }
+          </script>
+          
+          
+
+          <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            var userRoles = @json(auth()->user()->roles);
+            var tabAdminStaff = document.getElementById("admin_dashboard");
+            var tabUser = document.getElementById("user_dashboard");
+
+            if (userRoles.includes('admin') || userRoles.includes('staff')) {
+            tabAdminStaff.click();
+            } else {
+            tabUser.click();
+            }
+          });
+              
           </script>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar" style="flex-direction: row-reverse;">
