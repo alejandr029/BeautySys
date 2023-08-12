@@ -80,3 +80,119 @@ Para realizar la debida instalacion del repositorio. <br>
     3.1Si aparece el error 500, en el proyecto copiar en otra carpeta el archivo .env.example, y en el proyecto cambiar el nombre de este archivo a ".env"<br>
     
 4.-para teminar ejecutar el comando "php artisan key:generate" <br>
+
+5.- Para la autentificacion de usuarios y roles se utilizaron las librerias:
+- Laravel Jetstream
+- spatie/laravel-permission (composer require spatie/laravel-permission)
+
+6.- Una vez que inicies la app, el usuario administrador de prueba será:
+Correo: admin@gmail.com Contraseña: 12345678
+
+
+---------------USO DE LA SECCION DE BASE DE DATOS----------------------- //TODO SE DEBE INSTALAR EN BEAUTYSYS Y MASTER
+1.-activar la creacion de carpetas y ejecuta primero el sp[creador_carpetas] esto para que los demas se pueden ejecutar--
+
+EXEC sp_configure 'show advanced options', 1;
+RECONFIGURE;
+--en esta funcion se habilita el cmd de los comandos ES IMPORTANTE SI SE QUIERE CREAR LAS CARPETAS
+EXEC sp_configure 'xp_cmdshell', 1;
+RECONFIGURE;
+EXEC sp_configure 'xp_cmdshell';
+
+create procedure creador_carpetas
+as 
+begin
+	Declare @cmd Nvarchar(100);
+	declare @FilePath NVARCHAR(15) = 'C:\beautysys';
+	declare @first_folder NVARCHAR(50);
+	declare @resultado int = 0;
+
+
+	set @cmd = 'if exist "'+ @FilePath +'" ( PRINT ''La carpeta existe'' ) else (mkdir "'+@FilePath+'")';
+
+	exec xp_cmdshell @cmd;
+end;
+
+2.-ejecuta [backup_principal] y [backup_completo] esto para obtener el primer respaldo de la base de datos.
+create procedure backup_principal
+as
+begin
+	exec creador_carpetas;
+
+	backup database [beautysys] to disk='C:\beautysys\beautysys_principal.bak'
+	with noformat,
+	init, name = 'Beautysys Respaldo completo'
+
+end;
+go
+
+create procedure backup_completo 
+as
+begin
+	exec creador_carpetas;
+
+	backup database [beautysys] to disk='C:\beautysys\beautysys.bak'
+	with noformat,
+	init, name = 'Beautysys Respaldo completo'
+
+end;
+go
+
+2.- copilar este sp en beautysys y master(por si acaso)//su funcion principal es obtener todos los restorage picipales y que se muestre
+create procedure [dbo].[select_diff] 
+as
+begin
+SELECT
+    database_name AS NombreDeBaseDeDatos,
+    backup_start_date AS FechaDeCreacion,
+	position as files
+FROM
+(
+    SELECT
+        ROW_NUMBER() OVER (PARTITION BY database_name ORDER BY backup_start_date DESC) AS rn,
+        database_name,
+        backup_start_date,
+        type,
+		position
+    FROM msdb.dbo.backupset
+    WHERE type = 'I' -- Solo copias de seguridad diferenciales
+) AS backups
+WHERE backup_start_date >=
+	(SELECT max(backup_start_date)
+     FROM msdb.dbo.backupset
+     WHERE position = 1);
+end
+
+para que funcionen las 3 funcionalidades de la base de datos se ocupa ingresar los siguentes sp
+[backup_diff] //CREA LOS BACKUPS DIFERENCIALES
+create procedure backup_diff
+as
+begin
+	exec creador_carpetas;
+
+	backup database [beautysys] to disk='C:\beautysys\beautysys.bak'
+	with NOINIT,differential, NoFORMAT;
+
+end;
+go
+
+[Restorage_principal] //ESTO FUNCIONA PARA LA RESTAURACION PRINCIPAL
+create procedure [dbo].[Restorage_principal] 
+as
+begin
+	ALTER DATABASE [beautysys] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+	RESTORE DATABASE [beautysys] FROM  DISK = N'C:\beautysys\beautysys_principal.bak' WITH replace, FILE = 1,  NOUNLOAD
+	ALTER DATABASE [beautysys] SET MULTI_USER;
+end
+
+[Restorage_diferencial] //para que esto funcione tiene que estar en uso correcto [select_diff] 
+ALTER procedure [dbo].[Restorage_diferencial]
+	@file int
+as
+begin
+
+	ALTER DATABASE [beautysys] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+	restore database [beautysys] from disk='C:\beautysys\beautysys.bak'  with replace, file=1,norecovery,nounload
+	restore database [beautysys] from disk='C:\beautysys\beautysys.bak'  with file=@file,nounload
+	ALTER DATABASE [beautysys] SET MULTI_USER;
+end 
