@@ -41,10 +41,10 @@ Route::middleware(['auth'])->group(function () {
     // })->name('dashboard');
     // // Route::view('/tables','tables')->name('tables');
     
-    // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     
-    Route::get('/dashboard/id={id}', [DashboardController::class, 'index_user'])->name('dashboard_user');
+    // Route::get('/dashboard/id={id}', [DashboardController::class, 'index_user'])->name('dashboard_user');
 
     Route::get('/profile', function () {
         session(['activeTab' => 'Profile']);
@@ -64,7 +64,7 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     // CUENTAS
     
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/cuentas', [CuentasController::class, 'index'])->name('Cuentas.index');
     Route::get('/crear/cuenta', [CuentasController::class, 'create'])->name('Cuentas.crear');

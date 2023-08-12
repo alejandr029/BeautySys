@@ -11,7 +11,6 @@ Carbon::setLocale('es');
     <!-- Navbar -->
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-      @if(auth()->user()->hasRole(['admin', 'staff']))
         <div class="row mt-4">
           <div class="col-lg-4 col-md-6 mt-4 mb-4">
             <div class="card z-index-2 ">
@@ -170,11 +169,11 @@ Carbon::setLocale('es');
             </div>
           </div>
         </div>
-      @endif
 
 
       @include('layout.footer')
     </div>
+
   </main>
 
 @endsection
