@@ -1,7 +1,10 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\resources",
+    "\\resources\\views",
+    "\\resources\\views\\Cirugia"
   ],
-  "SelectedNode": "\\C:\\laragon\\www\\beautysys",
+  "SelectedNode": "\\resources\\markdown",
   "PreviewInSolutionExplorer": false
 }
