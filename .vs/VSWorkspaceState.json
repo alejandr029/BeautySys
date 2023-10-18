@@ -3,8 +3,9 @@
     "",
     "\\resources",
     "\\resources\\views",
-    "\\resources\\views\\Cirugia"
+    "\\resources\\views\\Cuentas",
+    "\\resources\\views\\layout"
   ],
-  "SelectedNode": "\\resources\\markdown",
+  "SelectedNode": "\\resources\\views\\layout\\template.blade.php",
   "PreviewInSolutionExplorer": false
 }

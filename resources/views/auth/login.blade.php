@@ -152,3 +152,27 @@
 </body>
 
 </html>
+
+<style>
+
+    .input-group.input-group-outline.is-focused .form-label,
+.input-group.input-group-outline.is-filled .form-label {
+  width: 100%;
+  height: 100%;
+  font-size: 0.6875rem !important;
+  color: #000000 !important;
+  display: flex;
+  line-height: 1.25 !important;
+  visibility: visible!important;
+}
+
+.input-group.input-group-outline.is-focused .form-label+.form-control, .input-group.input-group-outline.is-filled .form-label+.form-control {
+    border-color: #000000 !important;
+    border-top-color: transparent !important;
+    box-shadow: inset 1px 0 #000000, inset -1px 0 #000000, inset 0 -1px #000000;
+}
+.input-group.input-group-outline.is-focused .form-label:before, .input-group.input-group-outline.is-focused .form-label:after, .input-group.input-group-outline.is-filled .form-label:before, .input-group.input-group-outline.is-filled .form-label:after {
+    border-top-color: #000000 !important;
+    box-shadow: inset 0 1px #000000 !important;
+}
+</style>
