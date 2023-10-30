@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\PasswordResetLinkController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\AlergiasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,10 +17,6 @@ use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 $verificationLimiter = config('fortify.limiters.verification', '6,1');
 
@@ -43,6 +40,12 @@ Route::group(
 //        Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
 //            ->middleware(['guest:'.config('fortify.guard')])
 //            ->name('password.email');
+
+        Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+            return $request->user();
+        });
+
+        Route::middleware('auth:sanctum')->get('/paciente/{id}/alergias', [AlergiasController::class, 'getAlergias']);
 
     }
 );

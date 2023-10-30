@@ -9,12 +9,14 @@ use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Contracts\LoginResponse;
 use Laravel\Fortify\Contracts\RegisterResponse;
 use Laravel\Fortify\Fortify;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -28,10 +30,18 @@ class FortifyServiceProvider extends ServiceProvider
             {
                 if ($request->wantsJson()) {
                     $user = User::where('email', $request->email)->first();
+                    $token = $user->createToken($request->email)->plainTextToken;
+
                     return response()->json([
                         "message" => "Login Successful",
-                        "token" => $user->createToken($request->email)->plainTextToken,
+                        "user" => [
+                            "id" => $user->id,
+                            "name" => $user->name,
+                            "email" => $user->email
+                        ],
+                        "token" =>  $token,
                     ], 200);
+
                 }
                 return redirect()->intended(Fortify::redirects('login'));
             }
@@ -43,6 +53,11 @@ class FortifyServiceProvider extends ServiceProvider
                 $user = User::where('email', $request->email)->first();
                 return $request->wantsJson() ? response()->json([
                     "message" => "Registration Successful",
+                    "user" => [
+                        "id" => $user->id,
+                        "name" => $user->name,
+                        "email" => $user->email
+                    ],
                     "token" => $user->createToken($request->email)->plainTextToken,
                 ], 200)
                     : redirect()->intended(Fortify::redirects('register'));
