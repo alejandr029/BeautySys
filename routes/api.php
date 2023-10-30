@@ -45,7 +45,7 @@ Route::group(
             return $request->user();
         });
 
-        Route::middleware('auth:sanctum')->get('/paciente/{id}/alergias', [AlergiasController::class, 'getAlergias']);
+        Route::middleware('auth:sanctum')->get('/consulta/alergias/id={id}', [AlergiasController::class, 'getAlergias']);
 
     }
 );

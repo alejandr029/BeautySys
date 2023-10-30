@@ -35,7 +35,7 @@ class FortifyServiceProvider extends ServiceProvider
                     return response()->json([
                         "message" => "Login Successful",
                         "user" => [
-                            "id" => $user->id,
+                            "id_cuenta" => $user->id,
                             "name" => $user->name,
                             "email" => $user->email
                         ],
@@ -54,7 +54,7 @@ class FortifyServiceProvider extends ServiceProvider
                 return $request->wantsJson() ? response()->json([
                     "message" => "Registration Successful",
                     "user" => [
-                        "id" => $user->id,
+                        "id_cuenta" => $user->id,
                         "name" => $user->name,
                         "email" => $user->email
                     ],
