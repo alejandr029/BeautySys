@@ -62,5 +62,5 @@ jobs:
         with:
           app-name: 'beautysys'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E5AE607DFCAA45EB8662B3FE31BD5F29 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_873B4E79D30E49188A65D0D85B4875A5 }}
           package: .
