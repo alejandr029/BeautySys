@@ -24,6 +24,12 @@
     <!-- Nepcha Analytics (nepcha.com) -->
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+
+
+    <link rel="stylesheet" href="{{ asset('assets/css/loader.css') }}">
+
+    <script src="{{ asset('assets/js/loader.js') }}"></script>
+
 <style>
 .input-form {
   position: relative;
@@ -101,6 +107,8 @@
 </head>
 
 <body class="">
+    @include('loader')
+
     <main class="main-content  mt-0">
         <section>
             <div class="page-header min-vh-100">
@@ -121,7 +129,7 @@
                                 <div class="card-body">
                                     <x-validation-errors class="mb-4" />
 
-                                    <form method="POST" action="{{ route('register') }}">
+                                    <form method="POST" action="{{ route('register') }}" onsubmit="mostrarLoader()">
                                         @csrf
 
                                         <div class="input-group input-group-outline mb-3">
@@ -178,7 +186,7 @@
                                         <br>
                                         <div class="card-footer text-center pt-0 px-lg-2 px-1">
                                             <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                                href="{{ route('login') }}">
+                                                href="{{ route('login') }}" onclick="mostrarLoader()">
                                                 {{ __('Ya tienes una cuenta?') }}
                                             </a>
                                         </div>

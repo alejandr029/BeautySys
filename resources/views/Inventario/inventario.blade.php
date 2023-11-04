@@ -171,7 +171,7 @@
                             <h6 class="text-white text-capitalize ps-3">Inventario de insumos</h6>
                             @if(auth()->user()->hasRole(['admin']))
                             
-                            <button class="crear" style="margin-right: 15px;background-color: #F2F2F2; border-color:#F2F2F2;" onclick="window.location.href='{{ route('Inventario.crearInsumo') }}'">
+                            <button class="crear" style="margin-right: 15px;background-color: #F2F2F2; border-color:#F2F2F2;" onclick="window.location.href='{{ route('Inventario.crearInsumo') }}'; mostrarLoader();">
                                 <a>
                                     <span style="color: #0D0D0D;">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path fill="currentColor" d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"></path></svg> Create
@@ -209,11 +209,11 @@
                                         <td class="td-actions">
                                             <div role="group">
                                                 <button type="button" class="btn btn-info"
-                                               style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Inventario.vistaInsumo', ['id' => $insumo->id_insumos]) }}'"><i class="material-icons">visibility</i></button>
+                                               style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Inventario.vistaInsumo', ['id' => $insumo->id_insumos]) }}'; mostrarLoader();"><i class="material-icons">visibility</i></button>
                                                @if(auth()->user()->hasRole(['admin']))
                                                <button type="button" class="btn btn-warning"
-                                               style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Inventario.show', ['id' => $insumo->id_insumos]) }}'"><i class="material-icons">edit</i></button>
-                                               <form action="{{ route('insumos.delete', ['id' => $insumo->id_insumos]) }}" method="POST">
+                                               style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Inventario.show', ['id' => $insumo->id_insumos]) }}'; mostrarLoader();"><i class="material-icons">edit</i></button>
+                                               <form action="{{ route('insumos.delete', ['id' => $insumo->id_insumos]) }}" method="POST" onsubmit="mostrarLoader()">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">
@@ -235,7 +235,7 @@
                 <!-- Agrega aquí tus estilos personalizados para el paginador -->
                 <ul class="pagination">
                     <li class="page-item {{ $Insumos->currentPage() === 1 ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ $Insumos->url(1) }}" aria-label="First">
+                        <a class="page-link" href="{{ $Insumos->url(1) }}" aria-label="First" onclick="mostrarLoader()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
                                 <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
@@ -243,7 +243,7 @@
                         </a>
                     </li>
                     <li class="page-item {{ $Insumos->previousPageUrl() ? '' : 'disabled' }}">
-                        <a class="page-link" href="{{ $Insumos->previousPageUrl() }}" aria-label="Previous">
+                        <a class="page-link" href="{{ $Insumos->previousPageUrl() }}" aria-label="Previous" onclick="mostrarLoader()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
                             </svg>
@@ -265,14 +265,14 @@
                     @endfor
 
                     <li class="page-item {{ $Insumos->nextPageUrl() ? '' : 'disabled' }}">
-                        <a class="page-link" href="{{ $Insumos->nextPageUrl() }}" aria-label="Next">
+                        <a class="page-link" href="{{ $Insumos->nextPageUrl() }}" aria-label="Next" onclick="mostrarLoader()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
                             </svg>
                         </a>
                     </li>
                     <li class="page-item {{ $Insumos->currentPage() === $Insumos->lastPage() ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ $Insumos->url($Insumos->lastPage()) }}" aria-label="Last">
+                        <a class="page-link" href="{{ $Insumos->url($Insumos->lastPage()) }}" aria-label="Last" onclick="mostrarLoader()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
                                 <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
@@ -293,7 +293,7 @@
                             <h6 class="text-white text-capitalize ps-3">Inventario de equipo medico</h6>
                             @if(auth()->user()->hasRole(['admin']))
                             
-                            <button class="crear" style="margin-right: 15px;background-color: #F2F2F2; border-color:#F2F2F2;" onclick="window.location.href='{{ route('Inventario.crearEquipo') }}'">
+                            <button class="crear" style="margin-right: 15px;background-color: #F2F2F2; border-color:#F2F2F2;" onclick="window.location.href='{{ route('Inventario.crearEquipo') }}'; mostrarLoader();">
                                 <a>
                                     <span style="color: #0D0D0D;">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path fill="currentColor" d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"></path></svg> Create
@@ -327,13 +327,13 @@
                                         <td class="td-actions">
                                             <div role="group">
                                                 <button type="button" class="btn btn-info"
-                                               style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Inventario.vistaequipo', ['id' => $equipo->id_equipo_medico]) }}'"
+                                               style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Inventario.vistaequipo', ['id' => $equipo->id_equipo_medico]) }}'; mostrarLoader();"
                                                ><i class="material-icons">visibility</i></button>
                                                @if(auth()->user()->hasRole(['admin']))
                                                <button type="button" class="btn btn-warning"
-                                               style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;"  onclick="window.location.href='{{ route('Inventario.showEquipo', ['id' => $equipo->id_equipo_medico]) }}'"
+                                               style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;"  onclick="window.location.href='{{ route('Inventario.showEquipo', ['id' => $equipo->id_equipo_medico]) }}'; mostrarLoader();"
                                                ><i class="material-icons">edit</i></button>
-                                               <form  action="{{ route('equipo.delete', ['id' => $equipo->id_equipo_medico]) }}" method="POST">
+                                               <form  action="{{ route('equipo.delete', ['id' => $equipo->id_equipo_medico]) }}" method="POST" onsubmit="mostrarLoader()">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">
@@ -355,7 +355,7 @@
                 <!-- Agrega aquí tus estilos personalizados para el paginador -->
                 <ul class="pagination">
                     <li class="page-item {{ $equipoMedico->currentPage() === 1 ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ $equipoMedico->url(1) }}" aria-label="First">
+                        <a class="page-link" href="{{ $equipoMedico->url(1) }}" aria-label="First" onclick="mostrarLoader()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
                                 <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
@@ -363,7 +363,7 @@
                         </a>
                     </li>
                     <li class="page-item {{ $equipoMedico->previousPageUrl() ? '' : 'disabled' }}">
-                        <a class="page-link" href="{{ $equipoMedico->previousPageUrl() }}" aria-label="Previous">
+                        <a class="page-link" href="{{ $equipoMedico->previousPageUrl() }}" aria-label="Previous" onclick="mostrarLoader()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
                             </svg>
@@ -385,14 +385,14 @@
                     @endfor
 
                     <li class="page-item {{ $equipoMedico->nextPageUrl() ? '' : 'disabled' }}">
-                        <a class="page-link" href="{{ $equipoMedico->nextPageUrl() }}" aria-label="Next">
+                        <a class="page-link" href="{{ $equipoMedico->nextPageUrl() }}" aria-label="Next" onclick="mostrarLoader()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
                             </svg>
                         </a>
                     </li>
                     <li class="page-item {{ $equipoMedico->currentPage() === $equipoMedico->lastPage() ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ $equipoMedico->url($equipoMedico->lastPage()) }}" aria-label="Last">
+                        <a class="page-link" href="{{ $equipoMedico->url($equipoMedico->lastPage()) }}" aria-label="Last" onclick="mostrarLoader()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
                                 <path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>

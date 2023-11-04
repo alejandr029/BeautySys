@@ -97,7 +97,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <p>¿Estás seguro de que deseas eliminar la cita con ID <b>{{$cita->id_cita}}</b> para el usuario <b>{{ $cita->paciente->primer_nombre }} {{ $cita->paciente->primer_apellido }}</b>?</p>
-                <form action="{{ route('Citas.destroy', ['id' => $cita->id_cita]) }}" method="POST">
+                <form action="{{ route('Citas.destroy', ['id' => $cita->id_cita]) }}" method="POST" onsubmit="mostrarLoader()">
                     @csrf
                     @method('DELETE') {{-- Agregar este campo para indicar el método DELETE --}}
                     <button type="submit" class="btn btn-danger">Eliminar Cita</button>

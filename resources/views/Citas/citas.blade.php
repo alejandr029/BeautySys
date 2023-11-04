@@ -138,7 +138,7 @@
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
                             <h6 class="text-white text-capitalize ps-3">Lista de Citas</h6>
                             <button class="crear" style="margin-right: 15px;background-color: #F2F2F2; border-color:#F2F2F2; "
-                                onclick="window.location.href='{{ route('Citas.crear') }}'">
+                                onclick="window.location.href='{{ route('Citas.crear') }}'; mostrarLoader();">
                                 <a>
                                     <span style="color: #0D0D0D;">Crear <i class="material-icons">add</i></span>
                                 </a>
@@ -176,13 +176,13 @@
                                             <td class="text-center">{{ $cita->personal->primer_nombre }} {{ $cita->personal->primer_apellido }}</td>
                                             <td class="td-actions">
                                                 <div role="group">
-                                                    <button type="button" class="btn btn-info" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Citas.visualizar', $cita->id_cita ) }}'">
+                                                    <button type="button" class="btn btn-info" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Citas.visualizar', $cita->id_cita ) }}'; mostrarLoader();">
                                                         <i class="material-icons">visibility</i>
                                                     </button>
-                                                    <button type="button" class="btn btn-warning" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;backgroud-color:#B14558" onclick="window.location.href='{{ route('Citas.editar', $cita->id_cita ) }}'">
+                                                    <button type="button" class="btn btn-warning" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;backgroud-color:#B14558" onclick="window.location.href='{{ route('Citas.editar', $cita->id_cita ) }}'; mostrarLoader();">
                                                         <i class="material-icons">edit</i>
                                                     </button>
-                                                    <form action="{{ route('Citas.destroyForm', ['id' => $cita->id_cita]) }}" method="POST">
+                                                    <form action="{{ route('Citas.destroyForm', ['id' => $cita->id_cita]) }}" method="POST" onsubmit="mostrarLoader()">
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-danger" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">
@@ -203,7 +203,7 @@
                 <!-- Agrega aquí tus estilos personalizados para el paginador -->
                 <ul class="pagination">
                     <li class="page-item {{ $citas->currentPage() === 1 ? 'disabled' : '' }}">
-                        <a class="page-link" href="{{ $citas->url(1) }}" aria-label="First">
+                        <a class="page-link" href="{{ $citas->url(1) }}" aria-label="First" onclick="mostrarLoader()"> 
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
                                 <path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
@@ -211,7 +211,7 @@
                         </a>
                     </li>
                     <li class="page-item {{ $citas->previousPageUrl() ? '' : 'disabled' }}">
-                        <a class="page-link" href="{{ $citas->previousPageUrl() }}" aria-label="Previous">
+                        <a class="page-link" href="{{ $citas->previousPageUrl() }}" aria-label="Previous" onclick="mostrarLoader()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
                             </svg>
@@ -233,13 +233,13 @@
                     @endfor
 
                     <li class="page-item {{ $citas->nextPageUrl() ? '' : 'disabled' }}">
-                        <a class="page-link" href="{{ $citas->nextPageUrl() }}" aria-label="Next">
+                        <a class="page-link" href="{{ $citas->nextPageUrl() }}" aria-label="Next" onclick="mostrarLoader()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
                             </svg>
                         </a>
                     </li>
-                    <li class="page-item {{ $citas->currentPage() === $citas->lastPage() ? 'disabled' : '' }}">
+                    <li class="page-item {{ $citas->currentPage() === $citas->lastPage() ? 'disabled' : '' }}" onclick="mostrarLoader()">
                         <a class="page-link" href="{{ $citas->url($citas->lastPage()) }}" aria-label="Last">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>

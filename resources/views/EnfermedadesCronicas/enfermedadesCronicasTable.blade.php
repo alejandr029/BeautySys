@@ -183,7 +183,7 @@ use Carbon\Carbon;
             </button>
           </div>
           <div class="row">
-            <form action="{{ route('añadirEnfermedadCronica', Auth::user()->id) }}" method="post">
+            <form action="{{ route('añadirEnfermedadCronica', Auth::user()->id) }}" method="post" onsubmit="mostrarLoader()">
             @csrf 
             <div style="height: 30em;overflow-y: auto;">
                 <div class="modal-body table-responsive">

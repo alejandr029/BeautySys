@@ -182,7 +182,7 @@
 
 
                         <div class="text-center mt-4">
-                            <a href="{{ route('Citas.index') }}" class="btn btn-primary">Volver</a>
+                            <a href="{{ route('Citas.index') }}" class="btn btn-primary" onclick="mostrarLoader()">Volver</a>
                         </div>
                     </div>
                 </div>

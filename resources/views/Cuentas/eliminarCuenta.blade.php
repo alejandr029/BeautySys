@@ -97,7 +97,7 @@
         <div class="row">
             <div class="col-lg-6">
                 <p>¿Estás seguro de que deseas eliminar la cuenta con email <b>{{$user->email}}</b>?</p>
-                <form action="{{ route('Cuentas.destroy', ['id' => $user->id]) }}" method="POST">
+                <form action="{{ route('Cuentas.destroy', ['id' => $user->id]) }}" method="POST" onsubmit="mostrarLoader()">
                     @csrf
                     @method('post') {{-- Agregar este campo para indicar el método DELETE --}}
                     <button type="submit" class="btn btn-danger">Eliminar Cuenta</button>
