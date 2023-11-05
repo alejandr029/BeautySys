@@ -8,6 +8,8 @@ use Carbon\Carbon;
 
 class ConsultasController extends Controller
 {
+
+    
     /**
      * Display a listing of the resource.
      */
@@ -137,6 +139,7 @@ class ConsultasController extends Controller
      */
     public function show(string $id)
     {
+        
         $consultas = DB::table('estetico.consulta as ec')
         ->select(
             'id_consulta',
@@ -180,11 +183,40 @@ class ConsultasController extends Controller
         $status = DB::table('estetico.status_consulta')
         ->select('id_status_consulta', 'nombre')
         ->get();
-
-
         
+        // $data = $this->OneConsultData($id);
+        
+        // dump($data);
         session(['activeTab' => 'Consultas']);
         return view('consultas.consultavista',compact('consultas','SelectPersonal','sala','status','paciente'));
+    }
+
+    public function OneConsultData (string $id){
+        $consultas = DB::table('usuario.paciente as up')
+            ->select(
+                'ec.id_consulta',
+                'ec.fecha_visita',
+                'up.id_paciente',
+                'ec.id_personal',
+                'ec.datos_consulta',
+                'ec.aprovacion_cirugia',
+                'ec.id_status_consulta',
+                'ec.id_sala',
+                DB::raw("CONCAT(up.primer_apellido, ' ', up.primer_nombre, ' ', up.segundo_nombre) as nombrePaciente"),
+                'up.fecha_nacimiento',
+                'up.telefono',
+                'up.correo',
+                'pp.id_personal',
+                DB::raw("CONCAT(pp.primer_apellido, ' ', pp.primer_nombre, ' ', pp.segundo_nombre) as nombrePersonaAcargo"),
+                'pd.nombre as nombreDepartamento'
+            )
+            ->leftJoin('estetico.consulta as ec', 'up.id_paciente', '=', 'ec.id_paciente')
+            ->rightJoin('personal.personal as pp', 'ec.id_personal', '=', 'pp.id_personal')
+            ->rightJoin('personal.departamento as pd', 'pp.id_departamento', '=', 'pd.id_departamento')
+            ->where('ec.id_consulta', $id)
+            ->first();
+        //dump($consultas);
+        return $consultas;
     }
 
     public function showActualizar(string $id)
@@ -357,3 +389,4 @@ class ConsultasController extends Controller
     }
 
 }
+
