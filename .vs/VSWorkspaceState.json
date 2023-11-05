@@ -3,8 +3,8 @@
     "",
     "\\resources",
     "\\resources\\views",
-    "\\resources\\views\\Cirugia"
+    "\\resources\\views\\Cuentas",
+    "\\resources\\views\\layout"
   ],
-  "SelectedNode": "\\resources\\markdown",
   "PreviewInSolutionExplorer": false
 }

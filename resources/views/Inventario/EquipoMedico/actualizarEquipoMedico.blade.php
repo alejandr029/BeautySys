@@ -210,7 +210,7 @@
                 <h4 class="card-title">Actualizar el equipo medico con ID: {{ $equipoMedico->id_equipo_medico }} </h4>
               </div>
               <div class="card-body">
-                <form method="post" action="{{ route('Inventario.updateEquipo', $equipoMedico->id_equipo_medico) }}" enctype="multipart/form-data">
+                <form method="post" action="{{ route('Inventario.updateEquipo', $equipoMedico->id_equipo_medico) }}" enctype="multipart/form-data" onsubmit="mostrarLoader()">
                     @csrf
                     @method('PUT')
                   <div class="row mb-5">

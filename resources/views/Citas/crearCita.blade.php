@@ -184,7 +184,7 @@ use Carbon\Carbon;
           <div class="card-body">
             <div class="col-lg-11">
               <!-- Formulario para crear una nueva cita -->
-              <form action="{{ route('Citas.store') }}" method="post" class="role-form">
+              <form action="{{ route('Citas.store') }}" method="post" class="role-form" onsubmit="mostrarLoader()">
                 @csrf
 
                     <div class="mb-3 input-form">

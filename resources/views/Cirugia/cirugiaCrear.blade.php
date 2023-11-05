@@ -153,7 +153,7 @@
                 <h4 class="card-title">Crear Cirugia</h4>
               </div>
               <div class="card-body">
-                <form method="post" action="{{ route('crearCirugia') }}"  enctype="multipart/form-data">
+                <form method="post" action="{{ route('crearCirugia') }}"  enctype="multipart/form-data" onsubmit="mostrarLoader();"> 
                     @csrf
                   <div class="row mb-5">
                     <div class="col-md-6">

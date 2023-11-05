@@ -210,7 +210,7 @@
                 <h4 class="card-title">Actualizar insumo con ID: {{ $insumo->id_insumos }} </h4>
               </div>
               <div class="card-body">
-                <form method="post" action="{{ route('insumos.update', $insumo->id_insumos) }}" enctype="multipart/form-data">
+                <form method="post" action="{{ route('insumos.update', $insumo->id_insumos) }}" enctype="multipart/form-data" onsubmit="mostrarLoader()">
                     @csrf
                     @method('PUT')
                   <div class="row mb-5">

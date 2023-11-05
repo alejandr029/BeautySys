@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                  <button type="button" class="btn btn-primary" onclick="window.location.href='{{ route('restaurar.guardar') }}'">Aceptar</button>
+                                  <button type="button" class="btn btn-primary" onclick="window.location.href='{{ route('restaurar.guardar') }}'; mostrarLoader();">Aceptar</button>
                                 </div>
                               </div>
                             </div>
@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                  <button type="button" class="btn btn-primary" onclick="window.location.href='{{ route('restaurar.todo') }}'">Aceptar</button>
+                                  <button type="button" class="btn btn-primary" onclick="window.location.href='{{ route('restaurar.todo') }}'; mostrarLoader();">Aceptar</button>
                                 </div>
                               </div>
                             </div>

@@ -195,4 +195,4 @@ begin
 	restore database [beautysys] from disk='C:\beautysys\beautysys.bak'  with replace, file=1,norecovery,nounload
 	restore database [beautysys] from disk='C:\beautysys\beautysys.bak'  with file=@file,nounload
 	ALTER DATABASE [beautysys] SET MULTI_USER;
-end 
+end
