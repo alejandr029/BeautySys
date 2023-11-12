@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use mysql_xdevapi\Exception;
 use Spatie\Permission\Models\Role;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Laravel\Fortify\Contracts\LogoutResponse;
@@ -28,9 +29,14 @@ class RestauracionController extends Controller
 
     public function index()
     {
+        try{
+            $result = DB::select("exec select_diff");
+        }
+        catch (\Exception $e) {
+            session(['activeTab' => 'Restauracion']);
+            return view('restauracion.mantenimiento-restauracion');
+        }
 
-        $result = DB::select("exec select_diff");
-        
         session(['activeTab' => 'Restauracion']);
         return view('restauracion.restauracion', compact('result'));
 
@@ -39,7 +45,7 @@ class RestauracionController extends Controller
     public function guardar_datos()
     {
         $result = DB::select("exec backup_diferrencial");
-        
+
         session(['activeTab' => 'Restauracion']);
     }
 
@@ -54,18 +60,18 @@ class RestauracionController extends Controller
         $sql = "EXEC backup_diff";
 
         $query = DB::connection('sqlsrv2')->getPdo()->prepare($sql);
-        
+
         // // Obtenemos el query completo con los parámetros
         // $fullQuery = vsprintf(str_replace(['%', '?'], ['%%', "'%s'"], $sql), $bindings);
 
         try {
-            
+
             $query->execute();
-            
+
             sleep(15);
-            
+
             // DB::unprepared($fullQuery);
-            
+
 
         } catch (\Exception $e)
         {
@@ -73,7 +79,7 @@ class RestauracionController extends Controller
 
         } finally {
             DB::setDefaultConnection('sqlsrv');
-            
+
             session(['activeTab' => 'Restauracion']);
             return redirect()->route('restauracion.index')->with('succesfull', 'esta perron uwu');
         }
@@ -85,16 +91,16 @@ class RestauracionController extends Controller
      * \Laravel\Fortify\Contracts\LogoutResponse
      */
     public function Restorage_principal()
-    {   
+    {
 
         DB::disconnect('sqlsrv');
         DB::setDefaultConnection('sqlsrv2');
         try{
-            
+
             $sql = "exec Restorage_principal";
             $query = DB::connection('sqlsrv2')->getPdo()->prepare($sql);
             $query->execute();
-            
+
             sleep(60);
             Log::info('Job ejecutado correctamente.');
 
@@ -105,7 +111,7 @@ class RestauracionController extends Controller
             DB::setDefaultConnection('sqlsrv');
         }
         finally {
-            
+
             DB::setDefaultConnection('sqlsrv');
             session(['activeTab' => 'Restauracion']);
             return redirect()->route('restauracion.index')->with('succesfull', 'esta perron uwu');
@@ -116,14 +122,14 @@ class RestauracionController extends Controller
     {
         DB::disconnect('sqlsrv');
         DB::setDefaultConnection('sqlsrv2');
-        
+
         $sql = "exec Restorage_diferencial @file = ?";
         $bindings = [$file];
         try{
-            
+
             $query = DB::connection('sqlsrv2')->getPdo()->prepare($sql);
             $query->execute($bindings);
-            
+
             sleep(60);
             Log::info('Job ejecutado correctamente.');
 
@@ -134,7 +140,7 @@ class RestauracionController extends Controller
             DB::setDefaultConnection('sqlsrv');
         }
         finally {
-            
+
             DB::setDefaultConnection('sqlsrv');
             session(['activeTab' => 'Restauracion']);
             return redirect()->route('restauracion.index')->with('succesfull', 'esta perron uwu');
@@ -149,7 +155,7 @@ class RestauracionController extends Controller
     //         $request->session()->invalidate();
     //         $request->session()->regenerateToken();
 
-            
+
 
     //     } catch (\Exception $e)
     //     {
@@ -169,9 +175,9 @@ class RestauracionController extends Controller
     //         } catch (\Exception $e)
     //         {
     //             log::error('error en el sistema');
-    
+
     //         } finally {
-                
+
     //             DB::setDefaultConnection('sqlsrv');
     //             return app(LogoutResponse::class);
     //             // return app(LogoutResponse::class);
