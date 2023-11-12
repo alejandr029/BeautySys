@@ -7,9 +7,6 @@ Carbon::setLocale('es');
 @extends('layout.template')
 
 @section('content')
-
-    <!-- Navbar -->
-    <!-- End Navbar -->
     <div class="container-fluid py-4">
         <div class="row mt-4">
           <div class="col-lg-4 col-md-6 mt-4 mb-4">
@@ -18,7 +15,7 @@ Carbon::setLocale('es');
                 <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
                   <div class="chart">
                     <div class="px-0 pb-2 m-2">
-                      <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff; border-radius: ">
+                      <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff;">
                         <table class="table align-items-center mb-0">
                           <thead >
                             <tr>
@@ -70,7 +67,7 @@ Carbon::setLocale('es');
                 <div class="bg-gradient-success shadow-success border-radius-lg py-3 pe-1">
                   <div class="chart">
                     <div class="px-0 pb-2 m-2">
-                      <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff; border-radius: ">
+                      <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff;">
                         <table class="table align-items-center mb-0">
                           <thead >
                             <tr>
@@ -122,7 +119,7 @@ Carbon::setLocale('es');
                 <div class="bg-gradient-dark shadow-dark border-radius-lg py-3 pe-1">
                   <div class="chart">
                     <div class="px-0 pb-2 m-2">
-                      <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff; border-radius: ">
+                      <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff;">
                         <table class="table align-items-center mb-0">
                           <thead >
                             <tr>
@@ -171,6 +168,4 @@ Carbon::setLocale('es');
         </div>
     </div>
     @include('layout.footer')
-  </main>
-
 @endsection
