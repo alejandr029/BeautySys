@@ -6,7 +6,7 @@
 /storage/*.key
 /vendor
 /config/database.php
-.env
+../asd/beautysys/.env
 .env.backup
 .env.production
 .phpunit.result.cache
