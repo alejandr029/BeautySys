@@ -169,11 +169,8 @@ Carbon::setLocale('es');
             </div>
           </div>
         </div>
-
-
-      @include('layout.footer')
     </div>
-
+    @include('layout.footer')
   </main>
 
 @endsection

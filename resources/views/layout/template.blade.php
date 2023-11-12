@@ -15,11 +15,7 @@
   <title>
       BeautySys
   </title>
-  <!--     Fonts and icons     -->
-  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-  <!-- Nucleo Icons -->
-  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
-  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -27,10 +23,6 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
   <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
-
-  <!-- Nepcha Analytics (nepcha.com) -->
-  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <!-- <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script> -->
 
     <!-- Scripts -->
     @vite(['resources/js/app.js'])
@@ -56,7 +48,7 @@
   }
 
   body{
-    background-image: url('../assets/img/logos/fondo.avif'); background-size: cover
+    background-image: url('../assets/img/logos/background-image.jpg'); background-size: cover;
   }
 
 </style>
@@ -197,7 +189,7 @@
             @if(auth()->user()->hasRole(['user']))
               <li class="nav-item">
                 <a class="nav-link text-white <?php echo session('activeTab') === 'Alergias' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('alergiasTabla', Auth::user()->id) }}">
-                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">   
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
                         <img src="../assets/img/icons/alergias.png" style="width: 20px">
                     </div>
@@ -211,7 +203,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-pulse-fill" viewBox="0 0 16 16">
                           <path d="M1.475 9C2.702 10.84 4.779 12.871 8 15c3.221-2.129 5.298-4.16 6.525-6H12a.5.5 0 0 1-.464-.314l-1.457-3.642-1.598 5.593a.5.5 0 0 1-.945.049L5.889 6.568l-1.473 2.21A.5.5 0 0 1 4 9H1.475Z"/>
                           <path d="M.88 8C-2.427 1.68 4.41-2 7.823 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C11.59-2 18.426 1.68 15.12 8h-2.783l-1.874-4.686a.5.5 0 0 0-.945.049L7.921 8.956 6.464 5.314a.5.5 0 0 0-.88-.091L3.732 8H.88Z"/>
-                        </svg>                    
+                        </svg>
                       </div>
                     <span class="nav-link-text ms-1">Enfermedades Cronicas</span>
                 </a>
@@ -269,8 +261,8 @@
               window.history.back();
             }
           </script>
-          
-          
+
+
 
           <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -284,7 +276,7 @@
             tabUser.click();
             }
           });
-              
+
           </script>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar" style="flex-direction: row-reverse;">
