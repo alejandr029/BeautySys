@@ -40,27 +40,8 @@
                 BeautySys
             </a>
         </div>
-        <div class="collapse navbar-collapse">
+        <div class="">
             <ul class="nav navbar-nav navbar-right navbar-uppercase">
-                {{-- <li>
-                    <a href="http://www.creative-tim.com/product/gaia-bootstrap-template-pro" target="_blank">Get PRO Version</a>
-                </li> --}}
-                {{-- <li class="dropdown">
-                    <a href="#gaia" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-share-alt"></i> Share
-                    </a>
-                    <ul class="dropdown-menu dropdown-danger">
-                        <li>
-                            <a href="#"><i class="fa fa-facebook-square"></i> Facebook</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-twitter"></i> Twitter</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-instagram"></i> Instagram</a>
-                        </li>
-                    </ul>
-                </li> --}}
                 <li>
                     <a href="/IniciarSesion" class="btn btn-danger btn-fill" style="border: 2px solid #ffafb4;">Iniciar sesion</a>
                 </li>
@@ -146,8 +127,6 @@
 
 <div class="section section-our-team-freebie">
     <div class="parallax filter filter-color-black">
-        <div class="image" style="background-image:url('assets/img/header-2.jpeg')">
-        </div>
         <div class="container">
             <div class="content">
                 <div class="row">
