@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use function PHPUnit\Framework\isEmpty;
 
 class AlergiasController extends Controller
 {
@@ -63,7 +64,7 @@ class AlergiasController extends Controller
                 // dump($seleccionado);
                 if($seleccionado == "1"){
                     DB::table('usuario.alergia')->insert([
-                        'id_paciente' => $idPaciente->id_paciente, 
+                        'id_paciente' => $idPaciente->id_paciente,
                         'id_tipo_alergia' => $idAlergia,
                     ]);
                 }
@@ -74,11 +75,29 @@ class AlergiasController extends Controller
                     DB::table('usuario.alergia')->where('id_paciente', $idPaciente->id_paciente)->where('id_tipo_alergia', $idAlergia)->delete();
                 }
             }
-            
+
         }
         session(['activeTab' => 'Alergias']);
 
         return redirect()->route('alergiasTabla', ['id' => $id]);
+    }
+
+    public function getAlergias($id)
+    {
+        $alergiasDelPaciente = DB::table('usuario.paciente as UP')
+            ->select('UTA.id_tipo_alergia', 'UTA.descripcion', 'UTA.nombre')
+            ->join('usuario.alergia as UA', 'UP.id_paciente', '=', 'UA.id_paciente')
+            ->join('usuario.tipo_alergia as UTA', 'UTA.id_tipo_alergia', '=', 'UA.id_tipo_alergia')
+            ->where('UP.id_paciente', $id)
+            ->orderByDesc('UTA.id_tipo_alergia')
+            ->get();
+
+        if ($alergiasDelPaciente->isEmpty()) $alergiasDelPaciente = "El paciente no ha registrado alergias.";
+
+        return response()->json([
+            'id_paciente' => $id,
+            'alergias' => $alergiasDelPaciente,
+        ], 200);
     }
 
     /**
