@@ -151,7 +151,7 @@
                     <h4 class="card-title">Creación de Cuentas</h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('user.store') }}" method="post" class="role-form">
+                    <form action="{{ route('user.store') }}" method="post" class="role-form" onsubmit="mostrarLoader()">
                         @csrf
                         <div class="row mb-5">
                           <div class="col-md-4">

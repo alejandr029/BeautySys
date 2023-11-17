@@ -148,7 +148,7 @@
                             <div class="col-lg-11">
                                 <!-- Formulario para actualizar la cuenta de usuario -->
                                 <form action="{{ route('Cuentas.update', ['id' => $user->id]) }}" method="POST"
-                                    class="role-form">
+                                    class="role-form" onsubmit="mostrarLoader()">
                                     @csrf
                                     @method('PUT')
 

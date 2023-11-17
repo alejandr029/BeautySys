@@ -5,9 +5,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>BeautySys</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         <link id="pagestyle" href="../assets/css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
 
+        <link rel="stylesheet" href="{{ asset('assets/css/loader.css') }}">
+
+        <script src="{{ asset('assets/js/loader.js') }}"></script>
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -18,6 +25,8 @@
         }
     </style>
     <body>
+        @include('loader')
+
         <div class="font-sans text-gray-900 antialiased">
             {{ $slot }}
         </div>

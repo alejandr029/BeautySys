@@ -26,6 +26,10 @@
     <!-- Scripts -->
     @vite(['resources/js/app.js'])
 
+    <link rel="stylesheet" href="{{ asset('assets/css/loader.css') }}">
+
+    <script src="{{ asset('assets/js/loader.js') }}"></script>
+
 </head>
 
 <style>
@@ -53,6 +57,8 @@
 </style>
 
 <body class="g-sidenav-show  bg-gray-200">
+  @include('loader')
+
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -65,7 +71,7 @@
     <div class="collapse navbar-collapse w-auto" id="sidenav-collapse-main">
         <ul class="navbar-nav">
             <li class="nav-item" id="admin_dashboard">
-                <a class="nav-link text-white <?php echo session('activeTab') === 'Dashboard' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('dashboard') }}">
+                <a class="nav-link text-white <?php echo session('activeTab') === 'Dashboard' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('dashboard') }}" onclick="mostrarLoader()">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">dashboard</i>
                     </div>
@@ -76,7 +82,7 @@
                 <!-- Solo se muestra el tab "Inventario" para los roles admin y staff -->
 
                 <li class="nav-item">
-                    <a class="nav-link text-white <?php echo session('activeTab') === 'Citas' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('Citas.index') }}">
+                    <a class="nav-link text-white <?php echo session('activeTab') === 'Citas' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('Citas.index') }}" onclick="mostrarLoader()">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                             <!-- Icono de calendario -->
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
@@ -88,7 +94,7 @@
                 </li>
 
                 <li class="nav-item">
-                  <a class="nav-link text-white <?php echo session('activeTab') === 'Consultas' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('consultas.index') }}">
+                  <a class="nav-link text-white <?php echo session('activeTab') === 'Consultas' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('consultas.index') }}" onclick="mostrarLoader()">
                       <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-check-fill" viewBox="0 0 16 16">
                           <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4V.5zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2zm-5.146-5.146-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708z"/>
@@ -99,7 +105,7 @@
                 </li>
 
                 <li class="nav-item">
-                  <a class="nav-link text-white <?php echo session('activeTab') === 'Cirugias' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('tablaCirugia') }}">
+                  <a class="nav-link text-white <?php echo session('activeTab') === 'Cirugias' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('tablaCirugia') }}" onclick="mostrarLoader()">
                       <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <img src="../assets/img/icons/Cirugia.png" style="width: 20px">
                       </div>
@@ -109,7 +115,7 @@
 
 
                 <li class="nav-item">
-                    <a class="nav-link text-white <?php echo session('activeTab') === 'Inventario' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('Inventario.index') }}">
+                    <a class="nav-link text-white <?php echo session('activeTab') === 'Inventario' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('Inventario.index') }}" onclick="mostrarLoader()">
                         <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-box-seam-fill" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M15.528 2.973a.75.75 0 0 1 .472.696v8.662a.75.75 0 0 1-.472.696l-7.25 2.9a.75.75 0 0 1-.557 0l-7.25-2.9A.75.75 0 0 1 0 12.331V3.669a.75.75 0 0 1 .471-.696L7.443.184l.01-.003.268-.108a.75.75 0 0 1 .558 0l.269.108.01.003 6.97 2.789ZM10.404 2 4.25 4.461 1.846 3.5 1 3.839v.4l6.5 2.6v7.922l.5.2.5-.2V6.84l6.5-2.6v-.4l-.846-.339L8 5.961 5.596 5l6.154-2.461L10.404 2Z"/>
@@ -126,7 +132,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-white <?php echo session('activeTab') === 'Proveedor' ? 'active bg-gradient-primary' : ''; ?>"  href="{{ route('tablaProvedor') }}">
+                <a class="nav-link text-white <?php echo session('activeTab') === 'Proveedor' ? 'active bg-gradient-primary' : ''; ?>"  href="{{ route('tablaProvedor') }}" onclick="mostrarLoader()">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                       <i class="material-icons">local_shipping</i>
                     </div>
@@ -135,7 +141,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link text-white <?php echo session('activeTab') === 'Cuentas' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('Cuentas.index') }}" >
+                <a class="nav-link text-white <?php echo session('activeTab') === 'Cuentas' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('Cuentas.index') }}" onclick="mostrarLoader()">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
                         <i class="material-icons">person_add</i>
@@ -145,7 +151,7 @@
             </li>
 
             <li class="nav-item">
-              <a class="nav-link text-white <?php echo session('activeTab') === 'Restauracion' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('restauracion.index') }}">
+              <a class="nav-link text-white <?php echo session('activeTab') === 'Restauracion' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('restauracion.index') }}" onclick="mostrarLoader()">
                   <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                       <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
                       <i class="fas fa-database"></i>
@@ -157,7 +163,7 @@
 
             @if(auth()->user()->hasRole(['user']))
               <li class="nav-item">
-                <a class="nav-link text-white <?php echo session('activeTab') === 'Alergias' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('alergiasTabla', Auth::user()->id) }}">
+                <a class="nav-link text-white <?php echo session('activeTab') === 'Alergias' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('alergiasTabla', Auth::user()->id) }}" onclick="mostrarLoader()">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
                         <img src="../assets/img/icons/alergias.png" style="width: 20px">
@@ -166,7 +172,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link text-white <?php echo session('activeTab') === 'Enfermedad Cronicas' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('enfermedadesCronicasTabla', Auth::user()->id) }}">
+                <a class="nav-link text-white <?php echo session('activeTab') === 'Enfermedad Cronicas' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('enfermedadesCronicasTabla', Auth::user()->id) }}" onclick="mostrarLoader()">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-pulse-fill" viewBox="0 0 16 16">
@@ -187,7 +193,7 @@
       <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
           <h3 class="font-weight-bolder mb-0"><?php echo session('activeTab')?></h3>
-          <button id="backButton" class="backbutton" onclick="goBack()" style="">
+          <button id="backButton" class="backbutton" onclick="goBack(); mostrarLoader();" style="">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
             <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
             </svg>

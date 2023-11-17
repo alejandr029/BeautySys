@@ -165,7 +165,7 @@
                             <div class="col-lg-11">
                                 <!-- Formulario para actualizar la cita -->
                                 <form action="{{ route('Citas.update', ['id' => $cita->id_cita]) }}" method="post"
-                                    class="role-form">
+                                    class="role-form" onsubmit="mostrarLoader()">
                                     @csrf
                                     @method('PUT')
 

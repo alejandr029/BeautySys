@@ -153,7 +153,7 @@
                 <h4 class="card-title">Editar Cirugia con id: {{$DatosCirugia->id_cirugia}}</h4>
               </div>
               <div class="card-body">   
-                <form method="post" action="{{ route('ActualizarCirugia', $DatosCirugia->id_cirugia) }}" enctype="multipart/form-data">
+                <form method="post" action="{{ route('ActualizarCirugia', $DatosCirugia->id_cirugia) }}" enctype="multipart/form-data" onsubmit="mostrarLoader();">
                   @csrf
                   @method('PUT')
                   <div class="row mb-5">
@@ -528,7 +528,7 @@
             </div>
             <div class="row">
               <div style="height: 30em;overflow-y: auto;">
-                <form action="{{ route('añadirInsumoEquipo') }}" method="post">
+                <form action="{{ route('añadirInsumoEquipo') }}" method="post" onsubmit="mostrarLoader();">
                   @csrf 
                 <input type="hidden" name="IdCirugia" value="{{ $DatosCirugia->id_cirugia }}">
                 <div class="col-md-12">

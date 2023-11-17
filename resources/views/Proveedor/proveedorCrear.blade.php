@@ -141,7 +141,7 @@
                 <h4 class="card-title">Crear proveedor</h4>
               </div>
               <div class="card-body">   
-                <form method="post" action="{{ route('crearProveedor') }}" enctype="multipart/form-data">
+                <form method="post" action="{{ route('crearProveedor') }}" enctype="multipart/form-data" onsubmit="mostrarLoader()">
                     @csrf
                   <div class="row mb-5">
                     <div class="col-md-4">

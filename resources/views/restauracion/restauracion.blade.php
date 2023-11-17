@@ -48,7 +48,7 @@
                                 </button>
                                 <ul class="dropdown-menu">
                                     @foreach ($result as $results)
-                                        <li><a class="dropdown-item" href='{{ route('restaurar_file', ['file' => $results->files]) }}'><b>{{ $results->files }} </b> {{ $results->FechaDeCreacion}}</a></li>
+                                        <li><button class="dropdown-item" onclick="window.location.href='{{  route('restaurar_file', ['file' => $results->files]) }}'; mostrarLoader();"><b>{{ $results->files }} </b> {{ $results->FechaDeCreacion}}</button></li>
                                     @endforeach
                                 </ul>
                             </div>
@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                  <button type="button" class="btn btn-primary" onclick="window.location.href='{{ route('restaurar.guardar') }}'">Aceptar</button>
+                                  <button type="button" class="btn btn-primary" onclick="window.location.href='{{ route('restaurar.guardar') }}'; mostrarLoader();">Aceptar</button>
                                 </div>
                               </div>
                             </div>
@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="modal-footer">
                                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                  <button type="button" class="btn btn-primary" onclick="window.location.href='{{ route('restaurar.todo') }}'">Aceptar</button>
+                                  <button type="button" class="btn btn-primary" onclick="window.location.href='{{ route('restaurar.todo') }}'; mostrarLoader();">Aceptar</button>
                                 </div>
                               </div>
                             </div>

@@ -141,7 +141,7 @@
                 <h4 class="card-title">Vista del proveedor con ID: {{ $Proveedor->id_proveedor }} </h4>
               </div>
               <div class="card-body">   
-                <form method="post" action="{{ route('actualizarProveedor', $Proveedor->id_proveedor) }}" enctype="multipart/form-data">
+                <form method="post" action="{{ route('actualizarProveedor', $Proveedor->id_proveedor) }}" enctype="multipart/form-data" onsubmit="mostrarLoader()">
                     @csrf
                     @method('PUT')          
                   <div class="row mb-5">

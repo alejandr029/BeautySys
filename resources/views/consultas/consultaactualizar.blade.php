@@ -237,7 +237,7 @@
               </div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('ConsultaActualizar', $consultas->id_consulta) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('ConsultaActualizar', $consultas->id_consulta) }}" enctype="multipart/form-data" onsubmit="mostrarLoader()">
                       @csrf
                       @method('PUT')
 
@@ -414,7 +414,7 @@
 
                   <button type="button" id="btnNuevo" class="btn btn-primary">Nuevo</button>
 
-                  <form id="formularioAnalisis" class="d-none" action="{{ route('analisis_paciente', ['id'=> $consultas->id_consulta])}}" method="post">
+                  <form id="formularioAnalisis" class="d-none" action="{{ route('analisis_paciente', ['id'=> $consultas->id_consulta])}}" method="post" onsubmit="mostrarLoader()">
                       @csrf
 
                       <div class="row mb-5" style="margin-top: 10px">
@@ -466,7 +466,7 @@
 
                   @if(count($analisis) > 0)
                       @foreach ($analisis as $item)
-                        <form method="post" action="{{ route('analisis_paciente_actualizar', $item->id_analisis) }}"  enctype="multipart/form-data">
+                        <form method="post" action="{{ route('analisis_paciente_actualizar', $item->id_analisis) }}"  enctype="multipart/form-data" onsubmit="mostrarLoader()">
                           @csrf
                           @method('PUT')
 

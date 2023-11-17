@@ -154,7 +154,7 @@
               </div>
 
                 <div class="card-body">
-                    <form method="post" action="{{ route('crearConsulta.crear') }}" enctype="multipart/form-data">
+                    <form method="post" action="{{ route('crearConsulta.crear') }}" enctype="multipart/form-data" onsubmit="mostrarLoader()">
                       @csrf
 
                         <div class="row mb-5">

@@ -26,10 +26,20 @@
     <!-- Nepcha Analytics (nepcha.com) -->
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+
+
+    <link rel="stylesheet" href="{{ asset('assets/css/loader.css') }}">
+
+    <script src="{{ asset('assets/js/loader.js') }}"></script>
+
 </head>
 
 <body class="bg-gray-200">
+    
+    
+    
     <main class="main-content mt-0">
+        @include('loader')
         <div class="page-header align-items-start min-vh-100"
             style="background-image: url('../assets/img/logos/sig-up.png'); background-size: cover; background-position-y: bottom; background-position-x: center">
             <span class="mask bg-gradient-dark opacity-6"></span>
@@ -69,7 +79,7 @@
                                     </div>
                                 @endif
 
-                                <form method="POST" action="{{ route('login') }}" class="text-start">
+                                <form method="POST" action="{{ route('login') }}" class="text-start" onsubmit="mostrarLoader()">
                                     @csrf
                                     <div class="input-group input-group-outline my-4">
                                         <label class="form-label" for="email">Correo</label>
@@ -97,7 +107,7 @@
 
                                         <p class="mt-4 text-sm text-center">
                                             No tienes una cuenta?
-                                            <a href="/Registro" class="text-primary text-gradient font-weight-bold">Registrate!</a>
+                                            <a href="/Registro" class="text-primary text-gradient font-weight-bold" onclick="mostrarLoader()">Registrate!</a>
                                         </p>
 
                                     </div>
@@ -117,14 +127,14 @@
                                 <script>
                                     document.write(new Date().getFullYear())
                                 </script> by
-                                <a href="" class="font-weight-bold text-white" target="_blank">BeautySys</a>
+                                <a href="/" class="font-weight-bold text-white" onclick="mostrarLoader()">BeautySys</a>
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
                             <ul class="nav nav-footer justify-content-center justify-content-lg-end">
                                 <li class="nav-item">
-                                    <a href="" class="nav-link text-white"
-                                        target="_blank">Acerca de Nosotros</a>
+                                    <a href="/" class="nav-link text-white"
+                                        onclick="mostrarLoader()">Acerca de Nosotros</a>
                                 </li>
                             </ul>
                         </div>
@@ -154,3 +164,27 @@
 </body>
 
 </html>
+
+<style>
+
+    .input-group.input-group-outline.is-focused .form-label,
+.input-group.input-group-outline.is-filled .form-label {
+  width: 100%;
+  height: 100%;
+  font-size: 0.6875rem !important;
+  color: #000000 !important;
+  display: flex;
+  line-height: 1.25 !important;
+  visibility: visible!important;
+}
+
+.input-group.input-group-outline.is-focused .form-label+.form-control, .input-group.input-group-outline.is-filled .form-label+.form-control {
+    border-color: #000000 !important;
+    border-top-color: transparent !important;
+    box-shadow: inset 1px 0 #000000, inset -1px 0 #000000, inset 0 -1px #000000;
+}
+.input-group.input-group-outline.is-focused .form-label:before, .input-group.input-group-outline.is-focused .form-label:after, .input-group.input-group-outline.is-filled .form-label:before, .input-group.input-group-outline.is-filled .form-label:after {
+    border-top-color: #000000 !important;
+    box-shadow: inset 0 1px #000000 !important;
+}
+</style>

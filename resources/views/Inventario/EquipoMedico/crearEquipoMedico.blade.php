@@ -209,7 +209,7 @@
                 <h4 class="card-title">Crear equipo medico</h4>
               </div>
               <div class="card-body">
-                <form action="{{ route('Inventario.crear') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('Inventario.crear') }}" method="post" enctype="multipart/form-data" onsubmit="mostrarLoader()">
                     @csrf
                   <div class="row mb-5">
                     <div class="col-md-4">

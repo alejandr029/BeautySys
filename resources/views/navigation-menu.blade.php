@@ -105,12 +105,12 @@
                                 {{ __('Cuenta') }}
                             </div>
 
-                            <x-dropdown-link href="{{ route('profile.show') }}">
+                            <x-dropdown-link href="{{ route('profile.show') }}" onclick="mostrarLoader();">
                                 {{ __('Perfil') }}
                             </x-dropdown-link>
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                                <x-dropdown-link href="{{ route('api-tokens.index') }}">
+                                <x-dropdown-link href="{{ route('api-tokens.index') }}" onclick="mostrarLoader();">
                                     {{ __('API Tokens') }}
                                 </x-dropdown-link>
                             @endif
@@ -120,7 +120,7 @@
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}" x-data>
                                 @csrf
-                                <x-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
+                                <x-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();" onclick="mostrarLoader();">
                                     {{ __('Cerrar Sesión') }}
                                 </x-dropdown-link>
                             </form>
