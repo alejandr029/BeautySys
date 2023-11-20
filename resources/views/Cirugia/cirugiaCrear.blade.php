@@ -203,6 +203,25 @@
                           <label for="telefonoPaciente" class="textUser fixed-label">Telefono del paciente</label>
                         </div>
                       </div>
+
+                      <div class="col-md-12">
+                        <table class="table" id="tablaAnalisis">
+                            <thead>
+                                <tr>
+                                    <th class="center-cell">ID</th>
+                                    <th class="center-cell">PDF</th>
+                                    <th class="center-cell">Nombre del Documento</th>
+                                    <th class="center-cell">Descripción</th>
+                                    <th class="center-cell">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="RegistrosAnalisis">
+                              
+                            </tbody>
+                        </table>
+                    </div>
+
+
                       <div class="col-md-6">
                         <table class="table table-striped">
                           <thead>
@@ -359,6 +378,8 @@
 
                         const alergiasTableBody = document.getElementById("alergiasTableBody");
                         const enfermedadesTableBody = document.getElementById("enfermedadesTableBody");
+                        const analisisRegistro = document.getElementById("RegistrosAnalisis");
+                        
 
 
 
@@ -373,6 +394,7 @@
                                 nombrePacienteInput.value = data.nombrePaciente;
                                 correoPacienteInput.value = data.correoPaciente;
                                 telefonoPacienteInput.value = data.telefonoPaciente;
+                                var idConsulta = data.id_consulta
 
                                 // Ahora que tenemos el id del paciente, obtenemos las alergias y enfermedades
                                 fetch(`/CirugiaObtenerAlergiasEnfermedades/${data.id_paciente}`)
@@ -400,6 +422,64 @@
                                             enfermedadesTableBody.appendChild(newRow);
                                         });
                                     });
+
+                                    fetch(`/obtenerAnalisis/${idConsulta}`)
+                                    .then((response) => response.json())
+                                    .then((data) => {
+                                      const filas = analisisRegistro.querySelectorAll('tr');
+                                      console.log(filas.length)
+                                      if (data.length === 0 && filas.length > 0) {
+                                          filas.forEach((fila) => {
+                                            fila.remove(); // Remover cada fila existente
+                                          });
+                                          return;
+                                        }
+                                        // Limpiamos el contenido actual de la tabla
+                                        analisisRegistro.innerHTML = '';
+                                        
+                                        console.log(data)
+                                        data.forEach((documento) => {
+                                          const fila = `
+                                            <tr>
+                                              <td class="center-cell">${documento.id_analisis}</td>
+                                              <td class="center-cell"><i class="fas fa-file-pdf"></i></td>
+                                              <td class="center-cell">${documento.nombre}</td>
+                                              <td class="center-cell">${documento.notas}</td>
+                                              <td class="action-icons">
+                                                <a href="#" class="action-icon ver-pdf" data-id="${documento.id_analisis}">
+                                                 <i class="fas fa-eye"></i>
+                                                  <span class="tooltip">Ver</span>
+                                                </a>
+                                              </td>
+                                            </tr>
+                                          `;
+                                          analisisRegistro.insertAdjacentHTML('beforeend', fila);
+                                        });
+                                        document.querySelectorAll('.ver-pdf').forEach((enlace) => {
+                                        enlace.addEventListener('click', (event) => {
+                                          event.preventDefault();
+                                          const idAnalisis = enlace.dataset.id;
+
+                                          // Hacer una solicitud AJAX al controlador de Laravel
+                                          fetch(`/ver_pdf/${idAnalisis}`, {
+                                            method: 'GET', // O el método que necesites usar (GET, POST, etc.)
+                                          })
+                                          .then(response => {
+                                            if (response.ok) {
+                                              return response.blob();
+                                            }
+                                          })
+                                          .then(blob => {
+                                            const fileURL = URL.createObjectURL(blob);
+                                            window.open(fileURL, '_blank');
+                                          })
+                                        });
+                                      });
+
+                                    })
+                                    
+
+
                             });
                           } else {
                             idPacienteInput.value = "";
@@ -431,6 +511,12 @@
                             TablaTiempoRecuperacion.textContent  = "";
                           }
                         });
+
+
+
+                        
+
+                        
 
                       });
                     </script>

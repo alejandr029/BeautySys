@@ -129,6 +129,10 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/CirugiaActualizar/id={id}', [CirugiaController::class, 'update'])->name('ActualizarCirugia');
     Route::get('/CirugiaVista/id={id}', [CirugiaController::class, 'vistaCirugia'])->name('vistaCirugia');
     Route::put('/CirugiaCancelar/id={id}', [CirugiaController::class, 'cancelar'])->name('CancelarCirugia');
+    Route::get('/obtenerAnalisis/{id}', [CirugiaController::class, 'obtenerAnalisis'])->name('obtener.analisis');
+    Route::get('/ver_pdf/{id_analisis}', [CirugiaController::class, 'mostrarPDF'])->name('mostrar.pdf');
+
+
 
     // CONSULTAS
     Route::get('/consultas', [ConsultasController::class, 'index'])->name('consultas.index');
@@ -142,6 +146,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/ConsultaCancelar/{id}', [ConsultasController::class, 'cancelar'])->name('CancelarConsulta');
     Route::put('/Consultaanalisis/{id}', [ConsultasController::class, 'actualizarAnalisis'])->name('analisis_paciente_actualizar');
     Route::post('/analisiscrear/id={id}', [ConsultasController::class, 'crear_analisis'])->name('analisis_paciente');
+    Route::get('/ver_pdf/{id_analisis}', [ConsultasController::class, 'mostrarPDF'])->name('mostrar.pdf');
+    Route::get('/eliminar/{id_analisis}', [ConsultasController::class, 'eliminarPDF'])->name('eliminar.pdf');
+
 });
 
 // Ruta para mostrar el formulario de asignación de roles
