@@ -85,7 +85,12 @@
   font-weight: 600;
 }
 
-
+p {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #2d2d2d;
+    margin-bottom: 1rem;
+}
 </style>
 
 @extends('layout.template')
