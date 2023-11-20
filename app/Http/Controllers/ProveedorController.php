@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -12,9 +13,10 @@ class ProveedorController extends Controller
     public function index()
     {
         $Proveedor = DB::table('inventario.proveedor as P')
-        ->select('P.id_proveedor','P.logo','P.nombre_empresarial','P.telefono', DB::raw('P.[nombre de contacto] as contacto'),'P.direccion')
+        ->select('P.id_proveedor','P.logo','P.nombre_empresarial','P.telefono', DB::raw('P.[nombre de contacto] as contacto'),'P.direccion', 'E.estatus')
+            ->leftJoin('inventario.estatus_proveedor as E', 'P.id_estatus_proveedor', '=', 'E.id_estatus_proveedor')
         ->orderByDesc('P.id_proveedor')
-        ->Paginate(5); 
+        ->Paginate(5);
 
         //dump($Proveedor);
         session(['activeTab' => 'Proveedor']);
@@ -60,7 +62,7 @@ class ProveedorController extends Controller
                 'logo' => $request->imagen_url,
             ]);
 
-            session(['activeTab' => 'Proveedor']); 
+            session(['activeTab' => 'Proveedor']);
             // Guarda el mensaje en memoria para usarlo despues de redireccionamiento
             session()->flash('showModal', true);
             return redirect()->route('tablaProvedor')->with('success', 'Proveedor creado exitosamente.');
@@ -83,7 +85,7 @@ class ProveedorController extends Controller
 
         session(['activeTab' => 'Proveedor']);
 
-        
+
         return view('Proveedor.proveedorActualizar', compact('Proveedor'));
     }
 
@@ -119,16 +121,76 @@ class ProveedorController extends Controller
             session()->flash('showModal', true);
             return redirect()->route('actualizarProveedor')->with('error', 'Error al crear el proveedor.');
         }
-        
+
     }
 
-
-    public function destroy(string $id)
+    public function cambiarEstado($id)
     {
-        DB::table('inventario.proveedor')->where('id_proveedor', $id)->delete();
+        $proveedor = DB::table('inventario.proveedor')->where('id_proveedor', $id)->first();
 
         session(['activeTab' => 'Proveedor']);
 
-        return redirect()->route('tablaProvedor')->with('success', 'Proveedor eliminado correctamente.');
+        //dump($proveedor, $insumos);
+        return view('Proveedor.proveedorEstado', compact('proveedor'));
+    }
+
+    public function deshabilitarProveedor(string $id)
+    {
+        try{
+
+            $insumos = DB::table('inventario.insumos')->where('id_proveedor', $id)->first();
+            $equipo_medico = DB::table('inventario.equipo_medico')->where('id_proveedor', $id)->first();
+
+            //dump($insumosCount);
+
+            if ($insumos !== null) {
+                // Cambia el id_estado_insumos a "1" para los insumos relacionados al proveedor
+                DB::table('inventario.insumos')->where('id_proveedor', $id)->update(['id_estatus_insumos' => 2]);
+            }
+
+            if ($equipo_medico != null) {
+                DB::table('inventario.equipo_medico')->where('id_proveedor', $id)->update(['id_estatus_equipo' => 4]);
+            }
+
+            DB::table('inventario.proveedor')->where('id_proveedor', $id)->update(['id_estatus_proveedor' => 2]);
+
+            session(['activeTab' => 'Proveedor']);
+
+            return redirect()->route('tablaProvedor')->with('success', 'Proveedor deshabilitado correctamente.');
+        } catch (Exception $e) {
+            //return dump($e);
+            session()->flash('showModal', true);
+            return redirect()->route('tablaProvedor')->with('error', 'Error al crear el proveedor.');
+        }
+    }
+
+    public function habilitarProveedor(string $id)
+    {
+        try{
+
+            $insumos = DB::table('inventario.insumos')->where('id_proveedor', $id)->first();
+            $equipo_medico = DB::table('inventario.equipo_medico')->where('id_proveedor', $id)->first();
+
+            //dump($insumosCount);
+
+            if ($insumos !== null) {
+                // Cambia el id_estado_insumos a "1" para los insumos relacionados al proveedor
+                DB::table('inventario.insumos')->where('id_proveedor', $id)->update(['id_estatus_insumos' => 1]);
+            }
+
+            if ($equipo_medico != null) {
+                DB::table('inventario.equipo_medico')->where('id_proveedor', $id)->update(['id_estatus_equipo' => 1]);
+            }
+
+            DB::table('inventario.proveedor')->where('id_proveedor', $id)->update(['id_estatus_proveedor' => 1]);
+
+            session(['activeTab' => 'Proveedor']);
+
+            return redirect()->route('tablaProvedor')->with('success', 'Proveedor habilitado correctamente.');
+        } catch (Exception $e) {
+            //return dump($e);
+            session()->flash('showModal', true);
+            return redirect()->route('tablaProvedor')->with('error', 'Error al crear el proveedor.');
+        }
     }
 }

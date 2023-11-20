@@ -94,6 +94,52 @@ use Carbon\Carbon;
 @extends('layout.template')
 
 @section('content')
+    @if (session('success'))
+        <div id="succes" class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+            <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
+                <strong>{{ session('success') }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        <script>
+            setTimeout(function() {
+                var notification = document.getElementById('succes');
+                if (notification) {
+                    notification.classList.add('show');
+                    setTimeout(function() {
+                        notification.classList.remove('show');
+                        setTimeout(function() {
+                            notification.remove();
+                        }, 500);
+                    }, 2000);
+                }
+            }, 100);
+        </script>
+    @endif
+
+    @if (session('error'))
+        <div id="error" class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+            <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                <strong>{{ session('error') }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        <script>
+            setTimeout(function() {
+                var notification = document.getElementById('error');
+                if (notification) {
+                    notification.classList.add('show');
+                    setTimeout(function() {
+                        notification.classList.remove('show');
+                        setTimeout(function() {
+                            notification.remove();
+                        }, 500);
+                    }, 2000);
+                }
+            }, 100);
+        </script>
+    @endif
+
         <div id="ProveedoresTable" class="row">
             <div class="col-12">
                 <div class="card my-4">
@@ -120,6 +166,7 @@ use Carbon\Carbon;
                                         <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">Telefono</th>
                                         <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">Nombre del contacto</th>
                                         <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">Direccion</th>
+                                        <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">Estatus</th>
                                         <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">Acciones</th>
                                     </tr>
                                 </thead>
@@ -132,19 +179,25 @@ use Carbon\Carbon;
                                         <td style="text-align: center; width: 200px">{{ $proveedor->telefono }}</td>
                                         <td style="text-align: center; width: 200px">{{ $proveedor->contacto }}</td>
                                         <td style="text-align: center; width: 250px">{{ $proveedor->direccion }}</td>
+                                        <td style="text-align: center; width: 150px">{{ $proveedor->estatus }}</td>
                                         <td class="td-actions">
                                             <div role="group">
                                                 <button type="button" class="btn btn-info"
-                                               style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('vistaProveedor', ['id' => $proveedor->id_proveedor]) }}'; mostrarLoader();" ><i class="material-icons">visibility</i></button>
-                                              <button type="button" class="btn btn-warning"
-                                               style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('vistActualizarProveedor', ['id' => $proveedor->id_proveedor]) }}'; mostrarLoader();"><i class="material-icons">edit</i></button>
-                                               <form method="POST" action="{{ route('eliminarProveedor', ['id' => $proveedor->id_proveedor]) }}" onsubmit="mostrarLoader()">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">
-                                                    <i class="material-icons">delete_outline</i>
-                                                </button>
-                                            </form>
+                                                    style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('vistaProveedor', ['id' => $proveedor->id_proveedor]) }}'; mostrarLoader();" ><i class="material-icons">visibility</i></button>
+                                                <button type="button" class="btn btn-warning"
+                                                    style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('vistActualizarProveedor', ['id' => $proveedor->id_proveedor]) }}'; mostrarLoader();"><i class="material-icons">edit</i></button>
+
+                                                <form method="POST" action="{{ route('cambiarEstadoProveedor', ['id' => $proveedor->id_proveedor]) }}" onsubmit="mostrarLoader()">
+                                                   @csrf
+                                                    @method('get')
+                                                        <button type="submit" class="btn btn-danger" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">
+                                                            @if ($proveedor->estatus == 'Activo')
+                                                                <i class="fas fa-lock"></i>
+                                                            @else
+                                                                <i class="fas fa-lock-open"></i>
+                                                            @endif
+                                                        </button>
+                                                </form>
                                             </div>
                                           </td>
                                     </tr>
@@ -173,7 +226,7 @@ use Carbon\Carbon;
                             </svg>
                         </a>
                     </li>
-            
+
                     <!-- Aquí puedes iterar sobre las páginas disponibles -->
                     @php
                         // Calcular el rango de páginas a mostrar
@@ -181,13 +234,13 @@ use Carbon\Carbon;
                         $startPage = max($currentPage - 1, 1);
                         $endPage = min($currentPage + 1, $Proveedor->lastPage());
                     @endphp
-            
+
                     @for ($i = $startPage; $i <= $endPage; $i++)
                         <li class="page-item {{ $i == $Proveedor->currentPage() ? 'active' : '' }}">
                             <a class="page-link" href="{{ $Proveedor->url($i) }}">{{ $i }}</a>
                         </li>
                     @endfor
-            
+
                     <li class="page-item {{ $Proveedor->nextPageUrl() ? '' : 'disabled' }}">
                         <a class="page-link" href="{{ $Proveedor->nextPageUrl() }}" aria-label="Next" onclick="mostrarLoader()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
@@ -204,33 +257,31 @@ use Carbon\Carbon;
                         </a>
                     </li>
                 </ul>
-            </div>           
+            </div>
+        </div>
+    <!-- Modal -->
+    <div class="modal fade" id="success" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Message</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ session('success') }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
+    @if(session('showModal'))
+        <script>
+            $(document).ready(function() {
+                $('#success').modal('show');
+            });
+        </script>
+    @endif
     @include('layout.footer')
-</main>
-<!-- Modal -->
-<div class="modal fade" id="success" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Message</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        {{ session('success') }}
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-@if(session('showModal'))
-    <script>
-        $(document).ready(function() {
-            $('#success').modal('show');
-        });
-    </script>
-@endif
 @endsection

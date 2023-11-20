@@ -95,7 +95,9 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/ActualizarProveedor/id={id}', [ProveedorController::class, 'update'])->name('actualizarProveedor');
         Route::view('/crearProveedor', 'Proveedor.proveedorCrear')->name('vistaCrearProveedor');
         Route::post('/crearProveedor', [ProveedorController::class, 'store'])->name('crearProveedor');
-        Route::delete('/eliminarProveedor/id={id}', [ProveedorController::class, 'destroy'])->name('eliminarProveedor');
+        Route::get('/proveedor/cambiarEstado/{id}', [ProveedorController::class, 'cambiarEstado'])->name('cambiarEstadoProveedor');
+        Route::post('/proveedor/habilitar/id={id}', [ProveedorController::class, 'habilitarProveedor'])->name('habilitarProveedor');
+        Route::post('/proveedor/deshabilitar/id={id}', [ProveedorController::class, 'deshabilitarProveedor'])->name('deshabilitarProveedor');
 
         // BASE DE DATOS
         Route::get('/restauracion', [RestauracionController::class, 'index'])->name('restauracion.index');
