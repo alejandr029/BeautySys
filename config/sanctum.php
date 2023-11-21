@@ -41,12 +41,12 @@ return [
     |--------------------------------------------------------------------------
     |
     | This value controls the number of minutes until an issued token will be
-    | considered expired. If this value is null, personal access tokens do
-    | not expire. This won't tweak the lifetime of first-party sessions.
+    | considered expired. This will override any values set in the token's
+    | "expires_at" attribute, but first-party sessions are not affected.
     |
     */
 
-    'expiration' => null,
+    'expiration' => 60,
 
     /*
     |--------------------------------------------------------------------------
@@ -59,9 +59,12 @@ return [
     |
     */
 
-    'middleware' => [
-        'verify_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class,
-        'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
-    ],
+//    'middleware' => [
+//        'verify_csrf_token' => App\Http\Middleware\VerifyCsrfToken::class,
+//        'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
+//    ],
+    'middleware' => ['auth:sanctum'],
+
+    'prefix' => 'api',
 
 ];
