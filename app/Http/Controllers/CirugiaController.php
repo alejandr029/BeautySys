@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+
 
 
 class CirugiaController extends Controller
@@ -213,12 +215,22 @@ class CirugiaController extends Controller
         ->where('IC.id_cirugia', (int)$DatosCirugia->id_cirugia)
         ->get();
 
+        $analisis = DB::table('estetico.analisis')
+        ->select(
+            'id_analisis',
+            'nombre',
+            'ruta',
+            'notas',
+            'id_consulta',
+        )
+        ->where('id_consulta',(int)$DatosCirugia->id_consulta)
+        ->get(); 
 
         // dump($DatosCirugia);
         // dump($SelectSalas);
         session(['activeTab' => 'Cirugias']);
 
-        return view('Cirugia.cirugiaActualizar', compact('SelectConsultas','SelectPersonal','SelectSalas','SelectCirugias','SelectEstatusCirugia','DatosCirugia','insumos','equiposMedicos','EquipoUsado','InsumoUsado'));
+        return view('Cirugia.cirugiaActualizar', compact('SelectConsultas','SelectPersonal','SelectSalas','SelectCirugias','SelectEstatusCirugia','DatosCirugia','insumos','equiposMedicos','EquipoUsado','InsumoUsado','analisis'));
 
     }
 
@@ -459,12 +471,23 @@ class CirugiaController extends Controller
         ->where('IC.id_cirugia', (int)$DatosCirugia->id_cirugia)
         ->get();
 
+        $analisis = DB::table('estetico.analisis')
+        ->select(
+            'id_analisis',
+            'nombre',
+            'ruta',
+            'notas',
+            'id_consulta',
+        )
+        ->where('id_consulta',(int)$DatosCirugia->id_consulta)
+        ->get(); 
+
 
         // dump($DatosCirugia);
         // dump($SelectSalas);
         session(['activeTab' => 'Cirugias']);
 
-        return view('Cirugia.cirugiaVista', compact('SelectConsultas','SelectPersonal','SelectSalas','SelectCirugias','SelectEstatusCirugia','DatosCirugia','insumos','equiposMedicos','EquipoUsado','InsumoUsado'));
+        return view('Cirugia.cirugiaVista', compact('SelectConsultas','SelectPersonal','SelectSalas','SelectCirugias','SelectEstatusCirugia','DatosCirugia','insumos','equiposMedicos','EquipoUsado','InsumoUsado','analisis'));
 
     }
 
@@ -521,4 +544,34 @@ class CirugiaController extends Controller
 
         return redirect()->route('tablaCirugia');
     }
+
+    public function obtenerAnalisis($id) {
+        $analisis = DB::table('estetico.analisis')
+            ->select(
+                'id_analisis',
+                'nombre',
+                'ruta',
+                'notas',
+                'id_consulta',
+            )
+            ->where('id_consulta', $id)
+            ->get();
+    
+        return response()->json($analisis);
+    }
+    public function mostrarPDF($id) {
+        $analisis = DB::table('estetico.analisis')
+            ->where('id_analisis', $id)
+            ->value('ruta');
+    
+        $rutaCompleta = Storage::disk('archivosAnalisis')->path($analisis);
+    
+        $contenidoPDF = file_get_contents($rutaCompleta);
+    
+        return response($contenidoPDF)
+            ->header('Content-Type', 'application/pdf');
+    }
+
+
+    
 }

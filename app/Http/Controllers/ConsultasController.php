@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+
+
 
 class ConsultasController extends Controller
 {
@@ -181,10 +184,21 @@ class ConsultasController extends Controller
         ->select('id_status_consulta', 'nombre')
         ->get();
 
+        $analisis = DB::table('estetico.analisis')
+        ->select(
+            'id_analisis',
+            'nombre',
+            'ruta',
+            'notas',
+            'id_consulta',
+        )
+        ->where('id_consulta',(int)$consultas->id_consulta)
+        ->get(); 
+
 
         
         session(['activeTab' => 'Consultas']);
-        return view('consultas.consultavista',compact('consultas','SelectPersonal','sala','status','paciente'));
+        return view('consultas.consultavista',compact('consultas','SelectPersonal','sala','status','paciente', 'analisis'));
     }
 
     public function showActualizar(string $id)
@@ -236,9 +250,8 @@ class ConsultasController extends Controller
         ->select(
             'id_analisis',
             'nombre',
-            'resultados',
+            'ruta',
             'notas',
-            'diagnostico',
             'id_consulta',
         )
         ->where('id_consulta',(int)$consultas->id_consulta)
@@ -293,11 +306,39 @@ class ConsultasController extends Controller
 
     public function crear_analisis(Request $request, string $id){
 
+
+        // dump($request->all());
+        // dump($id);
+
+        $idPaciente = $request->input('id_paciente_modal');
+
+        // Obtener la fecha actual en formato 'Ymd'
+        $fechaActual = now()->format('Ymd');
+
+        // Crear la estructura de carpetas si no existe
+        $carpetaPaciente = "analisis/paciente_{$idPaciente}/{$fechaActual}";
+
+        if (!Storage::disk('archivosAnalisis')->exists($carpetaPaciente)) {
+            Storage::disk('archivosAnalisis')->makeDirectory($carpetaPaciente, 0755, true);
+        }
+
+        if ($request->hasFile('pdf_file')) {
+            $file = $request->file('pdf_file');
+
+            // Nombre del archivo basado en la fecha actual y el nombre original
+            $nombreArchivo =$file->getClientOriginalName();
+
+            // Guardar el archivo en la carpeta del paciente
+            $rutaArchivo = "{$carpetaPaciente}/{$nombreArchivo}";
+
+            // Usar Storage para almacenar el archivo en la carpeta del paciente
+            Storage::disk('archivosAnalisis')->put("{$carpetaPaciente}/{$nombreArchivo}", file_get_contents($file));
+        }
+
         DB::table('estetico.analisis')->insert([
             'nombre'=> $request->nombre_paciente_modal,
-            'resultados' => $request->estatus_analisis,
+            'ruta' => $rutaArchivo,
             'notas' => $request->paciente_nota,
-            'diagnostico' => $request->paceinte_diagnostico,
             'id_consulta' => $id,
         ]);
 
@@ -356,4 +397,39 @@ class ConsultasController extends Controller
         return redirect()->route('consultas.index')->with('success', 'consulta cancelada');
     }
 
+  public function mostrarPDF($id) {
+        $analisis = DB::table('estetico.analisis')
+            ->where('id_analisis', $id)
+            ->value('ruta');
+    
+        $rutaCompleta = Storage::disk('archivosAnalisis')->path($analisis);
+    
+        $contenidoPDF = file_get_contents($rutaCompleta);
+    
+        return response($contenidoPDF)
+            ->header('Content-Type', 'application/pdf');
+    }
+
+
+    public function eliminarPDF($id) {
+        // Obtener la ruta del archivo desde la base de datos
+        $analisis = DB::table('estetico.analisis')
+            ->where('id_analisis', $id)
+            ->value('ruta');
+    
+        // Ruta completa del archivo
+        $rutaCompleta = Storage::disk('archivosAnalisis')->path($analisis);
+    
+        // Verificar si el archivo existe antes de eliminarlo
+        if (Storage::disk('archivosAnalisis')->exists($analisis)) {
+            // Eliminar el archivo físico
+            Storage::disk('archivosAnalisis')->delete($analisis);
+        }
+    
+        // Eliminar la entrada en la base de datos
+        DB::table('estetico.analisis')->where('id_analisis', $id)->delete();
+    
+        // Redirigir de vuelta a la vista anterior
+        return redirect()->back();
+    }
 }
