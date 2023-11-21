@@ -145,7 +145,7 @@ class ProveedorController extends Controller
 
             if ($insumos !== null) {
                 // Cambia el id_estado_insumos a "1" para los insumos relacionados al proveedor
-                DB::table('inventario.insumos')->where('id_proveedor', $id)->update(['id_estatus_insumos' => 2]);
+                DB::table('inventario.insumos')->where('id_proveedor', $id)->update(['id_estatus_insumos' => 4]);
             }
 
             if ($equipo_medico != null) {
@@ -160,7 +160,7 @@ class ProveedorController extends Controller
         } catch (Exception $e) {
             //return dump($e);
             session()->flash('showModal', true);
-            return redirect()->route('tablaProvedor')->with('error', 'Error al crear el proveedor.');
+            return redirect()->route('tablaProvedor')->with('error', 'Error al deshabilitar el proveedor.');
         }
     }
 
@@ -190,7 +190,7 @@ class ProveedorController extends Controller
         } catch (Exception $e) {
             //return dump($e);
             session()->flash('showModal', true);
-            return redirect()->route('tablaProvedor')->with('error', 'Error al crear el proveedor.');
+            return redirect()->route('tablaProvedor')->with('error', 'Error al habilitar el proveedor.');
         }
     }
 }
