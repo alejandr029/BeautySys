@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 
+use App\Services\EmailService;
+
 class CitasController extends Controller
 {
     public function index()
@@ -71,7 +73,7 @@ class CitasController extends Controller
             'id_equipo' => 'nullable|integer'
         ]);
 
-        try {
+        // try {
             $cita = new Cita();
             $cita->hora_cita = $request->hora_cita;
             $cita->fecha_cita = $request->fecha_cita;
@@ -109,12 +111,39 @@ class CitasController extends Controller
             //         'id_estado_sala' => '1',
             //     ]);
             // }
-            session(['activeTab' => 'Citas']);
-            return redirect()->route('Citas.index')->with('success', 'Cita creada exitosamente.');
-        } catch (\Exception $e) {
-            // return $e;
-            return redirect()->route('Citas.index')->with('error', 'No se pudo crear la cita.');
-        }
+
+
+
+            dump($request -> all());
+
+
+            // $emailService = new EmailService();
+
+            // //$to = 'alexvelazquez2812@gmail.com';
+            // $to = '0320127751@ut-tijuana.edu.mx';
+            // $from = '0320127751@ut-tijuana.edu.mx';
+            // $subject = 'Primera prueba de envio de correo';
+            // $data = [
+            //     'first_name' => 'Jesus',
+            //     'last_name' => 'Velazquez',
+            //     'asunto' => 'Consulta médica',
+            //     'dia' => 'viernes 24 de noviembre del 2023',
+            //     'hora' => '10:00 am',
+            //     'whatsapp' => '664 359 9935',
+            //     'sala' => 'Sala 1'
+            // ];
+    
+            // $response = $emailService->sendEmail($to, $from, $subject, $data);
+
+
+
+
+        //     session(['activeTab' => 'Citas']);
+        //     return redirect()->route('Citas.index')->with('success', 'Cita creada exitosamente.');
+        // } catch (\Exception $e) {
+        //     // return $e;
+        //     return redirect()->route('Citas.index')->with('error', 'No se pudo crear la cita.');
+        // }
     }
 
     public function edit($id)
