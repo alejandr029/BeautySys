@@ -170,7 +170,7 @@
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
                             <h6 class="text-white text-capitalize ps-3">Inventario de insumos</h6>
                             @if(auth()->user()->hasRole(['admin']))
-                            
+
                             <button class="crear" style="margin-right: 15px;background-color: #F2F2F2; border-color:#F2F2F2;" onclick="window.location.href='{{ route('Inventario.crearInsumo') }}'; mostrarLoader();">
                                 <a>
                                     <span style="color: #0D0D0D;">
@@ -178,7 +178,7 @@
                                     </span>
                                 </a>
                             </button>
-                            @endif                           
+                            @endif
                         </div>
                     </div>
                     <div class="card-body px-0 pb-2">
@@ -213,11 +213,15 @@
                                                @if(auth()->user()->hasRole(['admin']))
                                                <button type="button" class="btn btn-warning"
                                                style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Inventario.show', ['id' => $insumo->id_insumos]) }}'; mostrarLoader();"><i class="material-icons">edit</i></button>
-                                               <form action="{{ route('insumos.delete', ['id' => $insumo->id_insumos]) }}" method="POST" onsubmit="mostrarLoader()">
+                                               <form action="{{ route('insumos.cambiarEstado', ['id' => $insumo->id_insumos]) }}" method="POST" onsubmit="mostrarLoader()">
                                                 @csrf
-                                                @method('DELETE')
+                                                @method('get')
                                                 <button type="submit" class="btn btn-danger" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">
-                                                    <i class="material-icons">delete_outline</i>
+                                                    @if ($insumo->nombre_estatus == 'Disponible')
+                                                        <i class="fas fa-lock"></i>
+                                                    @else
+                                                        <i class="fas fa-lock-open"></i>
+                                                    @endif
                                                 </button>
                                             </form>
                                             @endif
@@ -292,7 +296,7 @@
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
                             <h6 class="text-white text-capitalize ps-3">Inventario de equipo medico</h6>
                             @if(auth()->user()->hasRole(['admin']))
-                            
+
                             <button class="crear" style="margin-right: 15px;background-color: #F2F2F2; border-color:#F2F2F2;" onclick="window.location.href='{{ route('Inventario.crearEquipo') }}'; mostrarLoader();">
                                 <a>
                                     <span style="color: #0D0D0D;">
@@ -300,7 +304,7 @@
                                     </span>
                                 </a>
                             </button>
-                            @endif                           
+                            @endif
                         </div>
                     </div>
                     <div class="card-body px-0 pb-2">
@@ -333,14 +337,18 @@
                                                <button type="button" class="btn btn-warning"
                                                style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;"  onclick="window.location.href='{{ route('Inventario.showEquipo', ['id' => $equipo->id_equipo_medico]) }}'; mostrarLoader();"
                                                ><i class="material-icons">edit</i></button>
-                                               <form  action="{{ route('equipo.delete', ['id' => $equipo->id_equipo_medico]) }}" method="POST" onsubmit="mostrarLoader()">
+                                               <form  action="{{ route('equipo.cambiarEstado', ['id' => $equipo->id_equipo_medico]) }}" method="POST" onsubmit="mostrarLoader()">
                                                 @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">
-                                                    <i class="material-icons">delete_outline</i>
-                                                </button>
+                                                @method('get')
+                                                   <button type="submit" class="btn btn-danger" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">
+                                                       @if ($equipo->estatus == 'Disponible')
+                                                           <i class="fas fa-lock"></i>
+                                                       @else
+                                                           <i class="fas fa-lock-open"></i>
+                                                       @endif
+                                                   </button>
                                             </form>
-                                            @endif                                              
+                                            @endif
                                             </div>
                                           </td>
                                     </tr>
