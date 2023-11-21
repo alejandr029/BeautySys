@@ -5,11 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+
+use App\Services\EmailService;
+
+
 
 class ConsultasController extends Controller
 {
-
-    
     /**
      * Display a listing of the resource.
      */
@@ -90,7 +93,7 @@ class ConsultasController extends Controller
     {
         
         $datlospaciente = DB::table('usuario.paciente')
-        ->select('id_paciente', DB::raw("CONCAT(primer_nombre, ' ', primer_apellido, ' ', segundo_nombre) as nombrePaciente"), 'correo as correoPaciente', 'telefono as telefonoPaciente')
+        ->select('id_paciente', DB::raw("CONCAT(primer_nombre, ' ', primer_apellido, ' ', segundo_apellido) as nombrePaciente"), 'correo as correoPaciente', 'telefono as telefonoPaciente')
         ->where('id_paciente', $id)
         ->first();
 
@@ -110,6 +113,37 @@ class ConsultasController extends Controller
             'id_status_consulta' => $request->estatus_consultas,
             'id_sala' => $request->consulta_sala,
         ]);
+
+
+        if($request->estatus_consultas == 1){
+            $Usuario = DB::table('usuario.paciente')
+            ->select('primer_nombre', 'primer_apellido', 'correo')
+            ->where('id_paciente', (int)$request->id_Paciente)
+            ->first(); 
+            $sala = DB::table('locacion.sala')
+            ->select('nombre')
+            ->where('id_sala', (int)$request->consulta_sala)
+            ->first();
+            $fecha_carbon = Carbon::parse($request->fecha);
+            $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
+            $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
+            $hora_formateada = $hora_carbon->format('h:i A');
+            $emailService = new EmailService();
+            $to = $Usuario->correo;
+            $from = '0320127751@ut-tijuana.edu.mx';
+            $subject = 'Aprobacion de la consulta';
+            $data = [
+                'first_name' => $Usuario->primer_nombre,
+                'last_name' => $Usuario->primer_apellido,
+                'asunto' => 'Consulta',
+                'dia' => $fecha_formateada,
+                'hora' => $hora_formateada,
+                'whatsapp' => '664 359 9935',
+                'sala' => $sala->nombre
+            ];
+            $response = $emailService->sendEmail($to, $from, $subject, $data);
+        }
+
 
         if($request->estatus_consultas == 1 or 2){
             DB::table('locacion.sala')
@@ -139,7 +173,6 @@ class ConsultasController extends Controller
      */
     public function show(string $id)
     {
-        
         $consultas = DB::table('estetico.consulta as ec')
         ->select(
             'id_consulta',
@@ -159,7 +192,7 @@ class ConsultasController extends Controller
         $paciente = DB::table('usuario.paciente')
         ->select(
             'id_paciente',
-            DB::raw("CONCAT(primer_nombre, ' ', primer_apellido, ' ', segundo_nombre) as nombrePaciente"),
+            DB::raw("CONCAT(primer_nombre, ' ', primer_apellido, ' ', segundo_apellido) as nombrePaciente"),
             'fecha_nacimiento',
             'telefono',
             'correo'	
@@ -183,40 +216,22 @@ class ConsultasController extends Controller
         $status = DB::table('estetico.status_consulta')
         ->select('id_status_consulta', 'nombre')
         ->get();
-        
-        // $data = $this->OneConsultData($id);
-        
-        // dump($data);
-        session(['activeTab' => 'Consultas']);
-        return view('consultas.consultavista',compact('consultas','SelectPersonal','sala','status','paciente'));
-    }
 
-    public function OneConsultData (string $id){
-        $consultas = DB::table('usuario.paciente as up')
-            ->select(
-                'ec.id_consulta',
-                'ec.fecha_visita',
-                'up.id_paciente',
-                'ec.id_personal',
-                'ec.datos_consulta',
-                'ec.aprovacion_cirugia',
-                'ec.id_status_consulta',
-                'ec.id_sala',
-                DB::raw("CONCAT(up.primer_apellido, ' ', up.primer_nombre, ' ', up.segundo_nombre) as nombrePaciente"),
-                'up.fecha_nacimiento',
-                'up.telefono',
-                'up.correo',
-                'pp.id_personal',
-                DB::raw("CONCAT(pp.primer_apellido, ' ', pp.primer_nombre, ' ', pp.segundo_nombre) as nombrePersonaAcargo"),
-                'pd.nombre as nombreDepartamento'
-            )
-            ->leftJoin('estetico.consulta as ec', 'up.id_paciente', '=', 'ec.id_paciente')
-            ->rightJoin('personal.personal as pp', 'ec.id_personal', '=', 'pp.id_personal')
-            ->rightJoin('personal.departamento as pd', 'pp.id_departamento', '=', 'pd.id_departamento')
-            ->where('ec.id_consulta', $id)
-            ->first();
-        //dump($consultas);
-        return $consultas;
+        $analisis = DB::table('estetico.analisis')
+        ->select(
+            'id_analisis',
+            'nombre',
+            'ruta',
+            'notas',
+            'id_consulta',
+        )
+        ->where('id_consulta',(int)$consultas->id_consulta)
+        ->get(); 
+
+
+        
+        session(['activeTab' => 'Consultas']);
+        return view('consultas.consultavista',compact('consultas','SelectPersonal','sala','status','paciente', 'analisis'));
     }
 
     public function showActualizar(string $id)
@@ -240,7 +255,7 @@ class ConsultasController extends Controller
         $paciente = DB::table('usuario.paciente')
         ->select(
             'id_paciente',
-            DB::raw("CONCAT(primer_nombre, ' ', primer_apellido, ' ', segundo_nombre) as nombrePaciente"),
+            DB::raw("CONCAT(primer_nombre, ' ', primer_apellido, ' ', segundo_apellido) as nombrePaciente"),
             'fecha_nacimiento',
             'telefono',
             'correo'	
@@ -268,9 +283,8 @@ class ConsultasController extends Controller
         ->select(
             'id_analisis',
             'nombre',
-            'resultados',
+            'ruta',
             'notas',
-            'diagnostico',
             'id_consulta',
         )
         ->where('id_consulta',(int)$consultas->id_consulta)
@@ -300,6 +314,36 @@ class ConsultasController extends Controller
             'aprovacion_cirugia' =>$request->Aprovacion_cirugia,
         ]);
 
+        if($request->estatus_consultas == 1){
+            $Usuario = DB::table('usuario.paciente')
+            ->select('primer_nombre', 'primer_apellido', 'correo')
+            ->where('id_paciente', (int)$request->id_paciente)
+            ->first(); 
+            $sala = DB::table('locacion.sala')
+            ->select('nombre')
+            ->where('id_sala', (int)$request->consulta_sala)
+            ->first();
+            $fecha_carbon = Carbon::parse($request->fecha);
+            $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
+            $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
+            $hora_formateada = $hora_carbon->format('h:i A');
+            $emailService = new EmailService();
+            $to = $Usuario->correo;
+            $from = '0320127751@ut-tijuana.edu.mx';
+            $subject = 'Aprobacion de la consulta';
+            $data = [
+                'first_name' => $Usuario->primer_nombre,
+                'last_name' => $Usuario->primer_apellido,
+                'asunto' => 'Consulta',
+                'dia' => $fecha_formateada,
+                'hora' => $hora_formateada,
+                'whatsapp' => '664 359 9935',
+                'sala' => $sala->nombre
+            ];
+            $response = $emailService->sendEmail($to, $from, $subject, $data);
+        }
+
+
         if( $request->estatus_consultas == 2){
             DB::table('locacion.sala')
             ->where('id_sala', $request->consulta_sala)
@@ -325,11 +369,39 @@ class ConsultasController extends Controller
 
     public function crear_analisis(Request $request, string $id){
 
+
+        // dump($request->all());
+        // dump($id);
+
+        $idPaciente = $request->input('id_paciente_modal');
+
+        // Obtener la fecha actual en formato 'Ymd'
+        $fechaActual = now()->format('Ymd');
+
+        // Crear la estructura de carpetas si no existe
+        $carpetaPaciente = "analisis/paciente_{$idPaciente}/{$fechaActual}";
+
+        if (!Storage::disk('archivosAnalisis')->exists($carpetaPaciente)) {
+            Storage::disk('archivosAnalisis')->makeDirectory($carpetaPaciente, 0755, true);
+        }
+
+        if ($request->hasFile('pdf_file')) {
+            $file = $request->file('pdf_file');
+
+            // Nombre del archivo basado en la fecha actual y el nombre original
+            $nombreArchivo =$file->getClientOriginalName();
+
+            // Guardar el archivo en la carpeta del paciente
+            $rutaArchivo = "{$carpetaPaciente}/{$nombreArchivo}";
+
+            // Usar Storage para almacenar el archivo en la carpeta del paciente
+            Storage::disk('archivosAnalisis')->put("{$carpetaPaciente}/{$nombreArchivo}", file_get_contents($file));
+        }
+
         DB::table('estetico.analisis')->insert([
             'nombre'=> $request->nombre_paciente_modal,
-            'resultados' => $request->estatus_analisis,
+            'ruta' => $rutaArchivo,
             'notas' => $request->paciente_nota,
-            'diagnostico' => $request->paceinte_diagnostico,
             'id_consulta' => $id,
         ]);
 
@@ -388,5 +460,39 @@ class ConsultasController extends Controller
         return redirect()->route('consultas.index')->with('success', 'consulta cancelada');
     }
 
-}
+  public function mostrarPDF($id) {
+        $analisis = DB::table('estetico.analisis')
+            ->where('id_analisis', $id)
+            ->value('ruta');
+    
+        $rutaCompleta = Storage::disk('archivosAnalisis')->path($analisis);
+    
+        $contenidoPDF = file_get_contents($rutaCompleta);
+    
+        return response($contenidoPDF)
+            ->header('Content-Type', 'application/pdf');
+    }
 
+
+    public function eliminarPDF($id) {
+        // Obtener la ruta del archivo desde la base de datos
+        $analisis = DB::table('estetico.analisis')
+            ->where('id_analisis', $id)
+            ->value('ruta');
+    
+        // Ruta completa del archivo
+        $rutaCompleta = Storage::disk('archivosAnalisis')->path($analisis);
+    
+        // Verificar si el archivo existe antes de eliminarlo
+        if (Storage::disk('archivosAnalisis')->exists($analisis)) {
+            // Eliminar el archivo físico
+            Storage::disk('archivosAnalisis')->delete($analisis);
+        }
+    
+        // Eliminar la entrada en la base de datos
+        DB::table('estetico.analisis')->where('id_analisis', $id)->delete();
+    
+        // Redirigir de vuelta a la vista anterior
+        return redirect()->back();
+    }
+}
