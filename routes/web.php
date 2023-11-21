@@ -72,13 +72,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/cuentasVista/id={id}', [CuentasController::class, 'show'])->name('Cuentas.visualizar');
 
         // INVENTARIO INSUMOS
-        Route::get('/Inventario', [InventarioInsumoController::class, 'index'])->name('Inventario.index');
-        Route::get('/CrearInsumos', [InventarioInsumoController::class, 'crearInsumo'])->name('Inventario.crearInsumo');
-        Route::post('/CrearInsumos', [InventarioInsumoController::class, 'store'])->name('Inventario.store');
-        Route::get('/Insumo/id={id}', [InventarioInsumoController::class, 'vistaInsumo'])->name('Inventario.vistaInsumo');
-        Route::get('/ActualizarInsumo/id={id}', [InventarioInsumoController::class, 'show'])->name('Inventario.show');
-        Route::put('/ActualizarInsumo/id={id}', [InventarioInsumoController::class, 'update'])->name('insumos.update');
-        Route::delete('/insumosDelete/id={id}', [InventarioInsumoController::class, 'destroy'])->name('insumos.delete');
+        Route::get('/inventario', [InventarioInsumoController::class, 'index'])->name('Inventario.index');
+        Route::get('/crearInsumos', [InventarioInsumoController::class, 'crearInsumo'])->name('Inventario.crearInsumo');
+        Route::post('/crearInsumos', [InventarioInsumoController::class, 'store'])->name('Inventario.store');
+        Route::get('/insumo/id={id}', [InventarioInsumoController::class, 'vistaInsumo'])->name('Inventario.vistaInsumo');
+        Route::get('/actualizarInsumo/id={id}', [InventarioInsumoController::class, 'show'])->name('Inventario.show');
+        Route::put('/actualizarInsumo/id={id}', [InventarioInsumoController::class, 'update'])->name('insumos.update');
+        Route::get('/cambiarEstadoInsumo/id={id}', [InventarioInsumoController::class, 'cambiarEstado'])->name('insumos.cambiarEstado');
+        Route::post('/habilitarInsumo/id={id}', [InventarioInsumoController::class, 'habilitarInsumo'])->name('insumos.habilitar');
+        Route::post('/deshabilitarInsumo/id={id}', [InventarioInsumoController::class, 'deshabilitarInsumo'])->name('insumos.deshabilitar');
 
         // INVENTARIO EQUIPO MEDICO
         Route::get('/EquipoMedico/id={id}', [InventarioEquipoMedicoController::class, 'vistaEquipo'])->name('Inventario.vistaequipo');
@@ -86,7 +88,9 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/ActualizarEquipoMedico/id={id}', [InventarioEquipoMedicoController::class, 'update'])->name('Inventario.updateEquipo');
         Route::get('/CrearEquipoMedico', [InventarioEquipoMedicoController::class, 'crearEquipoMedico'])->name('Inventario.crearEquipo');
         Route::post('/CrearEquipoMedico', [InventarioEquipoMedicoController::class, 'store'])->name('Inventario.crear');
-        Route::delete('/equipoMedicoDelete/id={id}', [InventarioEquipoMedicoController::class, 'destroy'])->name('equipo.delete');
+        Route::get('/cambiarEstadoEquipo/id={id}', [InventarioEquipoMedicoController::class, 'cambiarEstado'])->name('equipo.cambiarEstado');
+        Route::post('/habilitarEquipo/id={id}', [InventarioEquipoMedicoController::class, 'habilitarEquipo'])->name('equipo.habilitar');
+        Route::post('/deshabilitarEquipo/id={id}', [InventarioEquipoMedicoController::class, 'deshabilitarEquipo'])->name('equipo.deshabilitar');
 
         // PROVEEDORES
         Route::get('/Proveedores', [ProveedorController::class, 'index'])->name('tablaProvedor');
