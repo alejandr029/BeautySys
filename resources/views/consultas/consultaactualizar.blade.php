@@ -333,6 +333,9 @@
                                     <h4 class="card-title">Datos del paciente</h4>
                                 </div>
 
+                                <input type="hidden" name="id_paciente" value="{{ $paciente->id_paciente }}">
+
+
                                 <div class="row" style="margin-top: 35px">
                                     <div class="col-md-4">
                                         <div class="input-form">

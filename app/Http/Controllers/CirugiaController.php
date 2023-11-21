@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-
+use App\Services\EmailService;
 
 class CirugiaController extends Controller
 {
@@ -22,7 +22,7 @@ class CirugiaController extends Controller
             'c.fecha_cirugia',
             's.nombre as nombresala',
             'tc.nombre as nombreCirugia',
-            DB::raw("CONCAT(p.primer_nombre,' ',p.primer_apellido,' ',p.segundo_nombre) as nombrePaciente"),
+            DB::raw("CONCAT(p.primer_nombre,' ',p.primer_apellido,' ',p.segundo_apellido) as nombrePaciente"),
             'ec.nombre as estatusCirugia','C.id_estatus_cirugia',
             DB::raw("CONCAT(pp.primer_nombre,' ',pp.primer_apellido,' ',pp.segundo_apellido) as nombrePersonalAcargo"),
             'c.id_consulta'
@@ -43,7 +43,7 @@ class CirugiaController extends Controller
     public function selectConsultas()
     {
         $SelectConsultas = DB::table('estetico.consulta AS C')
-        ->select('C.id_consulta','C.id_paciente',DB::raw("CONCAT(p.primer_nombre,' ',p.primer_apellido,' ',p.segundo_nombre) as nombrePaciente"))
+        ->select('C.id_consulta','C.id_paciente',DB::raw("CONCAT(p.primer_nombre,' ',p.primer_apellido,' ',p.segundo_apellido) as nombrePaciente"))
         ->join('usuario.paciente as P', 'P.id_paciente', '=', 'C.id_paciente')
         ->join('personal.personal as PP', 'PP.id_personal', '=', 'C.id_personal')
         ->leftJoin('estetico.cirugia AS CR', 'C.id_consulta', '=', 'CR.id_consulta')
@@ -79,7 +79,7 @@ class CirugiaController extends Controller
     {
         $datlospaciente = DB::table('estetico.consulta AS C')
         ->join('usuario.paciente AS P', 'P.id_paciente', '=', 'C.id_paciente')
-        ->select('C.id_consulta','C.id_paciente', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_nombre) as nombrePaciente"), 'P.correo as correoPaciente', 'P.telefono as telefonoPaciente')
+        ->select('C.id_consulta','C.id_paciente', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_apellido) as nombrePaciente"), 'P.correo as correoPaciente', 'P.telefono as telefonoPaciente')
         ->where('C.id_consulta', $id)
         ->first();
 
@@ -166,7 +166,7 @@ class CirugiaController extends Controller
             ->first();
             
         $SelectConsultas = DB::table('estetico.consulta AS C')
-        ->select('C.id_consulta','C.id_paciente',DB::raw("CONCAT(p.primer_nombre,' ',p.primer_apellido,' ',p.segundo_nombre) as nombrePaciente"))
+        ->select('C.id_consulta','C.id_paciente',DB::raw("CONCAT(p.primer_nombre,' ',p.primer_apellido,' ',p.segundo_apellido) as nombrePaciente"))
         ->join('usuario.paciente as P', 'P.id_paciente', '=', 'C.id_paciente')
         ->join('personal.personal as PP', 'PP.id_personal', '=', 'C.id_personal')
         ->leftJoin('estetico.cirugia AS CR', 'C.id_consulta', '=', 'CR.id_consulta')
@@ -319,6 +319,8 @@ class CirugiaController extends Controller
             'id_estatus_cirugia' => $request->estatusCirugia,
             'id_personal' => $request->personal,
         ]);
+
+
     if($request->estatusCirugia == 6  || $request->estatusCirugia == 7 || $request->estatusCirugia == 10){
         $equipoUsados = DB::table('estetico.equipo_cirugia')
         ->select('id_equipo_medico','cantidad')
@@ -351,7 +353,7 @@ class CirugiaController extends Controller
         }
 
         $salaAcambiar = DB::table('estetico.Cirugia')
-        ->select('id_sala')
+        ->select('id_sala','id_tipo_cirugia')
         ->where('id_cirugia', $id)
         ->first();
         
@@ -407,6 +409,51 @@ class CirugiaController extends Controller
         ->where('id_sala', $salaAcambiar->id_sala) 
         ->update(['id_estado_sala' => 1]);
     }
+
+
+    if($request->estatusCirugia == 2  || $request->estatusCirugia == 3 ){
+        $salaAcambiar = DB::table('estetico.Cirugia')
+        ->select('id_sala','id_tipo_cirugia')
+        ->where('id_cirugia', $id)
+        ->first();
+        $Usuario = DB::table('usuario.paciente')
+        ->select('primer_nombre', 'primer_apellido', 'correo')
+        ->where('id_paciente', (int)$request->idPaciente)
+        ->first(); 
+        $sala = DB::table('locacion.sala')
+        ->select('nombre')
+        ->where('id_sala', (int)$salaAcambiar->id_sala)
+        ->first();
+        $nombreCirugia = DB::table('estetico.tipo_cirugia')
+        ->select('nombre')
+        ->where('id_tipo_cirugia', (int)$salaAcambiar->id_tipo_cirugia)
+        ->first();
+
+
+        
+        $fecha_carbon = Carbon::parse($request->fecha);
+        $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
+        $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
+        $hora_formateada = $hora_carbon->format('h:i A');
+        $emailService = new EmailService();
+        $to = $Usuario->correo;
+        $from = '0320127751@ut-tijuana.edu.mx';
+        $subject = 'Aprobacion de la cirugia para: ' . $nombreCirugia->nombre;
+        $data = [
+            'first_name' => $Usuario->primer_nombre,
+            'last_name' => $Usuario->primer_apellido,
+            'asunto' => 'Consulta',
+            'dia' => $fecha_formateada,
+            'hora' => $hora_formateada,
+            'whatsapp' => '664 359 9935',
+            'sala' => $sala->nombre
+        ];
+        $response = $emailService->sendEmail($to, $from, $subject, $data);
+    }
+
+
+
+
     session(['activeTab' => 'Cirugias']);
 
     return redirect()->route('tablaCirugia');

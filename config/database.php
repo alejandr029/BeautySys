@@ -133,7 +133,7 @@ return [
             'port' => env('DB_PORT', '1433'),
             'database' => env('DB_DATABASE', 'beautysys'),
             'username' => env('DB_USERNAME', 'Cristian'),    // el usuario sa - superadmin
-            'password' => env('DB_PASSWORD', 'G4t0P_2002'),// El password
+            'password' => env('DB_PASSWORD', 'G4t0P_123'),// El password
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
