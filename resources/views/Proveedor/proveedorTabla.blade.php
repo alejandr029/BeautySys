@@ -190,13 +190,15 @@ use Carbon\Carbon;
                                                 <form method="POST" action="{{ route('cambiarEstadoProveedor', ['id' => $proveedor->id_proveedor]) }}" onsubmit="mostrarLoader()">
                                                    @csrf
                                                     @method('get')
-                                                        <button type="submit" class="btn btn-danger" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">
-                                                            @if ($proveedor->estatus == 'Activo')
-                                                                <i class="fas fa-lock"></i>
-                                                            @else
-                                                                <i class="fas fa-lock-open"></i>
-                                                            @endif
-                                                        </button>
+                                                        @if ($proveedor->estatus == 'Activo')
+                                                            <button type="submit" class="btn btn-danger" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">
+                                                            <i class="fas fa-lock"></i>
+                                                            </button>
+                                                        @else
+                                                                    <button type="submit" class="btn btn-success" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">
+                                                            <i class="fas fa-lock-open"></i>
+                                                                    </button>
+                                                        @endif
                                                 </form>
                                             </div>
                                           </td>

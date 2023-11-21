@@ -149,7 +149,7 @@ class ProveedorController extends Controller
             }
 
             if ($equipo_medico != null) {
-                DB::table('inventario.equipo_medico')->where('id_proveedor', $id)->update(['id_estatus_equipo' => 4]);
+                DB::table('inventario.equipo_medico')->where('id_proveedor', $id)->update(['id_estado_equipo' => 4]);
             }
 
             DB::table('inventario.proveedor')->where('id_proveedor', $id)->update(['id_estatus_proveedor' => 2]);
@@ -179,7 +179,7 @@ class ProveedorController extends Controller
             }
 
             if ($equipo_medico != null) {
-                DB::table('inventario.equipo_medico')->where('id_proveedor', $id)->update(['id_estatus_equipo' => 1]);
+                DB::table('inventario.equipo_medico')->where('id_proveedor', $id)->update(['id_estado_equipo' => 1]);
             }
 
             DB::table('inventario.proveedor')->where('id_proveedor', $id)->update(['id_estatus_proveedor' => 1]);
