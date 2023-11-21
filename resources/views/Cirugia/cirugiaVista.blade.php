@@ -200,6 +200,41 @@
                           <label for="telefonoPaciente" class="textUser fixed-label">Telefono del paciente</label>
                         </div>
                       </div>
+
+                      <div class="col-md-12">
+
+                      
+                        <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="center-cell">ID</th>
+                                <th class="center-cell">PDF</th>
+                                <th class="center-cell">Nombre del Documento</th>
+                                <th class="center-cell">Descripción</th>
+                                <th class="center-cell">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+  
+                          @foreach ($analisis as $documento)
+                          <tr>
+                              <td class="center-cell">{{ $documento->id_analisis }}</td>
+                              <td class="center-cell"><i class="fas fa-file-pdf"></i></td>
+                              <td class="center-cell">{{ $documento->nombre }}</td>
+                              <td class="center-cell">{{ $documento->notas }}</td>
+                              <td class="action-icons">
+                                <a href="{{ route('mostrar.pdf', ['id_analisis' => $documento ->id_analisis]) }}" target="_blank" class="action-icon">
+                                    <i class="fas fa-eye"></i>
+                                    <span class="tooltip">Ver</span>
+                                </a>
+                            </td>
+                          </tr>
+                          @endforeach
+                        </tbody>
+                    </table>
+                  </div>
+
+
                       <div class="col-md-6">
                         <table class="table table-striped">
                           <thead>

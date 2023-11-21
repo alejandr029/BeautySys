@@ -27,6 +27,9 @@
     @vite(['resources/js/app.js'])
 
     <link rel="stylesheet" href="{{ asset('assets/css/loader.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/tabla.css') }}">
+
+
 
     <script src="{{ asset('assets/js/loader.js') }}"></script>
 

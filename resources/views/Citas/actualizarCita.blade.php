@@ -176,6 +176,9 @@
                                             readonly>
                                     </div>
 
+                                    <input type="hidden" name="id_paciente" value="{{ $cita->id_paciente }}">
+
+
                                     <hr class="dark horizontal">
 
                                     <div class="row">
