@@ -111,35 +111,6 @@ class ConsultasController extends Controller
                 'id_sala' => $request->consulta_sala,
               ]);
 
-            if($request->estatus_consultas == 1){
-                $Usuario = DB::table('usuario.paciente')
-                ->select('primer_nombre', 'primer_apellido', 'correo')
-                ->where('id_paciente', (int)$request->id_Paciente)
-                ->first(); 
-                $sala = DB::table('locacion.sala')
-                ->select('nombre')
-                ->where('id_sala', (int)$request->consulta_sala)
-                ->first();
-                $fecha_carbon = Carbon::parse($request->fecha);
-                $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
-                $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
-                $hora_formateada = $hora_carbon->format('h:i A');
-                $emailService = new EmailService();
-                $to = $Usuario->correo;
-                $from = '0320127751@ut-tijuana.edu.mx';
-                $subject = 'Aprobacion de la consulta';
-                $data = [
-                    'first_name' => $Usuario->primer_nombre,
-                    'last_name' => $Usuario->primer_apellido,
-                    'asunto' => 'Consulta',
-                    'dia' => $fecha_formateada,
-                    'hora' => $hora_formateada,
-                    'whatsapp' => '664 359 9935',
-                    'sala' => $sala->nombre
-                ];
-                $response = $emailService->sendEmail($to, $from, $subject, $data);
-            }
-
             if($request->estatus_consultas == 1 or 2){
                 DB::table('locacion.sala')
                     ->where('nombre', $request->consulta_sala)
@@ -155,6 +126,43 @@ class ConsultasController extends Controller
                         'id_estado_sala' => 1
                     ]);
             }
+
+
+                $Usuario = DB::table('usuario.paciente')
+                ->select('primer_nombre', 'primer_apellido', 'correo')
+                ->where('id_paciente', (int)$request->id_Paciente)
+                ->first(); 
+                $sala = DB::table('locacion.sala')
+                ->select('nombre')
+                ->where('id_sala', (int)$request->consulta_sala)
+                ->first();
+
+                $estatus = DB::table('estetico.status_consulta')
+                ->select('nombre')
+                ->where('id_status_consulta', (int)$request->estatus_consultas)
+                ->first(); 
+
+                $fecha_carbon = Carbon::parse($request->fecha);
+                $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
+                $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
+                $hora_formateada = $hora_carbon->format('h:i A');
+                $emailService = new EmailService();
+                $to = $Usuario->correo;
+                $from = 'beautysys.2023@gmail.com';
+                $subject = 'Seguimiento de la consulta';
+                $data = [
+                    'first_name' => $Usuario->primer_nombre,
+                    'last_name' => $Usuario->primer_apellido,
+                    'asunto' => 'Consulta',
+                    'estatus' => $estatus->nombre,
+                    'dia' => $fecha_formateada,
+                    'hora' => $hora_formateada,
+                    'whatsapp' => '664 359 9935',
+                    'sala' => $sala->nombre
+                ];
+                $response = $emailService->sendEmail($to, $from, $subject, $data);
+
+
 
             session(['activeTab' => 'Consultas']);
             return redirect()->route('consultas.index')->with('success', 'Consulta creada correctamente.');
@@ -307,35 +315,6 @@ class ConsultasController extends Controller
               'aprovacion_cirugia' =>$request->Aprovacion_cirugia,
           ]);
 
-          if($request->estatus_consultas == 1){
-              $Usuario = DB::table('usuario.paciente')
-              ->select('primer_nombre', 'primer_apellido', 'correo')
-              ->where('id_paciente', (int)$request->id_paciente)
-              ->first(); 
-              $sala = DB::table('locacion.sala')
-              ->select('nombre')
-              ->where('id_sala', (int)$request->consulta_sala)
-              ->first();
-              $fecha_carbon = Carbon::parse($request->fecha);
-              $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
-              $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
-              $hora_formateada = $hora_carbon->format('h:i A');
-              $emailService = new EmailService();
-              $to = $Usuario->correo;
-              $from = '0320127751@ut-tijuana.edu.mx';
-              $subject = 'Aprobacion de la consulta';
-              $data = [
-                  'first_name' => $Usuario->primer_nombre,
-                  'last_name' => $Usuario->primer_apellido,
-                  'asunto' => 'Consulta',
-                  'dia' => $fecha_formateada,
-                  'hora' => $hora_formateada,
-                  'whatsapp' => '664 359 9935',
-                  'sala' => $sala->nombre
-              ];
-              $response = $emailService->sendEmail($to, $from, $subject, $data);
-          }   
-
             if ($request->estatus_consultas == 2) {
                 DB::table('locacion.sala')
                 ->where('id_sala', $request->consulta_sala)
@@ -349,6 +328,40 @@ class ConsultasController extends Controller
                     'id_estado_sala' => 1
                 ]);
             }
+
+
+            $Usuario = DB::table('usuario.paciente')
+              ->select('primer_nombre', 'primer_apellido', 'correo')
+              ->where('id_paciente', (int)$request->id_paciente)
+              ->first(); 
+              $sala = DB::table('locacion.sala')
+              ->select('nombre')
+              ->where('id_sala', (int)$request->consulta_sala)
+              ->first();
+              $estatus = DB::table('estetico.status_consulta')
+                ->select('nombre')
+                ->where('id_status_consulta', (int)$request->estatus_consultas)
+                ->first(); 
+
+              $fecha_carbon = Carbon::parse($request->fecha);
+              $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
+              $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
+              $hora_formateada = $hora_carbon->format('h:i A');
+              $emailService = new EmailService();
+              $to = $Usuario->correo;
+              $from = 'beautysys.2023@gmail.com';
+              $subject = 'Seguimiento de la consulta';
+              $data = [
+                  'first_name' => $Usuario->primer_nombre,
+                  'last_name' => $Usuario->primer_apellido,
+                  'asunto' => 'Consulta',
+                  'estatus' => $estatus->nombre,
+                  'dia' => $fecha_formateada,
+                  'hora' => $hora_formateada,
+                  'whatsapp' => '664 359 9935',
+                  'sala' => $sala->nombre
+              ];
+              $response = $emailService->sendEmail($to, $from, $subject, $data);
 
             session(['activeTab' => 'Consultas']);
             return redirect()->route('consultas.index')->with('success', 'Consulta actualizada correctamente.');
