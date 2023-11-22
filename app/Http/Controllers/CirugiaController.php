@@ -226,7 +226,7 @@ class CirugiaController extends Controller
             'id_consulta',
         )
         ->where('id_consulta',(int)$DatosCirugia->id_consulta)
-        ->get(); 
+        ->get();
 
         // dump($DatosCirugia);
         // dump($SelectSalas);
@@ -315,42 +315,6 @@ class CirugiaController extends Controller
             DB::table('estetico.Cirugia')
                 ->where('id_cirugia', $id)
                 ->update([
-                    'fecha_cirugia' => date('Y-m-d H:i:s', strtotime($request->fecha . ' ' . $request->hora)),
-                    'id_estatus_cirugia' => $request->estatusCirugia,
-                    'id_personal' => $request->personal,
-                ]);
-            if ($request->estatusCirugia == 6 || $request->estatusCirugia == 7 || $request->estatusCirugia == 10) {
-                $equipoUsados = DB::table('estetico.equipo_cirugia')
-                    ->select('id_equipo_medico', 'cantidad')
-                    ->where('id_cirugia', $id)
-                    ->get();
-
-                $insumosUsados = DB::table('estetico.insumos_cirugia')
-                    ->select('id_insumos', 'cantidad')
-                    ->where('id_cirugia', $id)
-                    ->get();
-
-                if (!$equipoUsados->isEmpty()) {
-                    foreach ($equipoUsados as $idElemento) {
-                        DB::table('inventario.equipo_medico')
-                            ->where('id_equipo_medico', $idElemento->id_equipo_medico)
-                            ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
-                    }
-
-                    DB::table('estetico.equipo_cirugia')->where('id_cirugia', $id)->delete();
-                }
-
-                if (!$insumosUsados->isEmpty()) {
-                    foreach ($insumosUsados as $idElemento) {
-                        DB::table('inventario.insumos')
-                            ->where('id_insumos', $idElemento->id_insumos)
-                            ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
-                    }
-                    DB::table('estetico.insumos_cirugia')->where('id_cirugia', $id)->delete();
-
-                DB::table('estetico.Cirugia')
-                ->where('id_cirugia', $id)
-                ->update([
                     'fecha_cirugia' =>date('Y-m-d H:i:s', strtotime($request->fecha . ' ' . $request->hora)),
                     'id_estatus_cirugia' => $request->estatusCirugia,
                     'id_personal' => $request->personal,
@@ -359,58 +323,79 @@ class CirugiaController extends Controller
 
             if($request->estatusCirugia == 6  || $request->estatusCirugia == 7 || $request->estatusCirugia == 10){
                 $equipoUsados = DB::table('estetico.equipo_cirugia')
-                ->select('id_equipo_medico','cantidad')
-                ->where('id_cirugia',$id)
-                ->get();
-        
-            $insumosUsados = DB::table('estetico.insumos_cirugia')
-            ->select('id_insumos','cantidad')
-            ->where('id_cirugia',$id)
-            ->get();
+                    ->select('id_equipo_medico','cantidad')
+                    ->where('id_cirugia',$id)
+                    ->get();
 
-            if(!$equipoUsados->isEmpty()){
-                foreach ($equipoUsados as $idElemento) {
-                    DB::table('inventario.equipo_medico')
-                    ->where('id_equipo_medico',$idElemento->id_equipo_medico)
-                    ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
+                $insumosUsados = DB::table('estetico.insumos_cirugia')
+                    ->select('id_insumos','cantidad')
+                    ->where('id_cirugia',$id)
+                    ->get();
+
+                if(!$equipoUsados->isEmpty()){
+                    foreach ($equipoUsados as $idElemento) {
+                        DB::table('inventario.equipo_medico')
+                            ->where('id_equipo_medico',$idElemento->id_equipo_medico)
+                            ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
+                    }
+
+                    DB::table('estetico.equipo_cirugia')->where('id_cirugia', $id)->delete();
                 }
 
-        $salaAcambiar = DB::table('estetico.Cirugia')
-        ->select('id_sala','id_tipo_cirugia')
-        ->where('id_cirugia', $id)
-        ->first();
-        
-        DB::table('locacion.sala')
-        ->where('id_sala', $salaAcambiar->id_sala) 
-        ->update(['id_estado_sala' => 1]);
-    }
-    if($request->estatusCirugia == 5){
-        $equipoUsados = DB::table('estetico.equipo_cirugia')
-        ->select('id_equipo_medico','cantidad')
-        ->where('id_cirugia',$id)
-        ->get();
-        
-        $insumosUsados = DB::table('estetico.insumos_cirugia')
-        ->select('id_insumos','cantidad')
-        ->where('id_cirugia',$id)
-        ->get();
-
-        if(!$equipoUsados->isEmpty()){
-            foreach ($equipoUsados as $idElemento) {
-                $devolver =  DB::table('inventario.equipo_medico')
-                ->select('id_equipo_medico','devolucion')
-                ->where('id_equipo_medico',$idElemento->id_equipo_medico)
-                ->first();
-
-                if (!$insumosUsados->isEmpty()) {
+                if(!$insumosUsados->isEmpty()){
                     foreach ($insumosUsados as $idElemento) {
-                        $devolver = DB::table('inventario.insumos')
-                            ->select('id_insumos', 'devolucion')
-                            ->where('id_insumos', $idElemento->id_insumos)
+                        DB::table('inventario.insumos')
+                            ->where('id_insumos',$idElemento->id_insumos)
+                            ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
+                    }
+                    DB::table('estetico.insumos_cirugia')->where('id_cirugia', $id)->delete();
+
+                }
+
+                $salaAcambiar = DB::table('estetico.Cirugia')
+                    ->select('id_sala','id_tipo_cirugia')
+                    ->where('id_cirugia', $id)
+                    ->first();
+
+                DB::table('locacion.sala')
+                    ->where('id_sala', $salaAcambiar->id_sala)
+                    ->update(['id_estado_sala' => 1]);
+            }
+            if($request->estatusCirugia == 5){
+                $equipoUsados = DB::table('estetico.equipo_cirugia')
+                    ->select('id_equipo_medico','cantidad')
+                    ->where('id_cirugia',$id)
+                    ->get();
+
+                $insumosUsados = DB::table('estetico.insumos_cirugia')
+                    ->select('id_insumos','cantidad')
+                    ->where('id_cirugia',$id)
+                    ->get();
+
+                if(!$equipoUsados->isEmpty()){
+                    foreach ($equipoUsados as $idElemento) {
+                        $devolver =  DB::table('inventario.equipo_medico')
+                            ->select('id_equipo_medico','devolucion')
+                            ->where('id_equipo_medico',$idElemento->id_equipo_medico)
                             ->first();
-                        if ($devolver->devolucion == true) {
+
+                        if($devolver->devolucion == true){
+                            DB::table('inventario.equipo_medico')
+                                ->where('id_equipo_medico',$idElemento->id_equipo_medico)
+                                ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
+                        }
+                    }
+                }
+
+                if(!$insumosUsados->isEmpty()){
+                    foreach ($insumosUsados as $idElemento) {
+                        $devolver =  DB::table('inventario.insumos')
+                            ->select('id_insumos','devolucion')
+                            ->where('id_insumos',$idElemento->id_insumos)
+                            ->first();
+                        if($devolver->devolucion == true){
                             DB::table('inventario.insumos')
-                                ->where('id_insumos', $idElemento->id_insumos)
+                                ->where('id_insumos',$idElemento->id_insumos)
                                 ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
                         }
                     }
@@ -425,81 +410,53 @@ class CirugiaController extends Controller
                     ->update(['id_estado_sala' => 1]);
             }
 
+
+            if($request->estatusCirugia == 2  || $request->estatusCirugia == 3 ){
+                $salaAcambiar = DB::table('estetico.Cirugia')
+                    ->select('id_sala','id_tipo_cirugia')
+                    ->where('id_cirugia', $id)
+                    ->first();
+                $Usuario = DB::table('usuario.paciente')
+                    ->select('primer_nombre', 'primer_apellido', 'correo')
+                    ->where('id_paciente', (int)$request->idPaciente)
+                    ->first();
+                $sala = DB::table('locacion.sala')
+                    ->select('nombre')
+                    ->where('id_sala', (int)$salaAcambiar->id_sala)
+                    ->first();
+                $nombreCirugia = DB::table('estetico.tipo_cirugia')
+                    ->select('nombre')
+                    ->where('id_tipo_cirugia', (int)$salaAcambiar->id_tipo_cirugia)
+                    ->first();
+
+
+
+                $fecha_carbon = Carbon::parse($request->fecha);
+                $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
+                $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
+                $hora_formateada = $hora_carbon->format('h:i A');
+                $emailService = new EmailService();
+                $to = $Usuario->correo;
+                $from = '0320127751@ut-tijuana.edu.mx';
+                $subject = 'Aprobacion de la cirugia para: ' . $nombreCirugia->nombre;
+                $data = [
+                    'first_name' => $Usuario->primer_nombre,
+                    'last_name' => $Usuario->primer_apellido,
+                    'asunto' => 'Consulta',
+                    'dia' => $fecha_formateada,
+                    'hora' => $hora_formateada,
+                    'whatsapp' => '664 359 9935',
+                    'sala' => $sala->nombre
+                ];
+                $response = $emailService->sendEmail($to, $from, $subject, $data);
+            }
+
             session(['activeTab' => 'Cirugias']);
             return redirect()->route('tablaCirugia')->with('success', 'Cirugía actualizada exitosamente');
         } catch (\Exception $e) {
             //dump($e);
             return redirect()->route('tablaCirugia')->with('error', 'Error al actualizar la cirugía');
         }
-        
-        if(!$insumosUsados->isEmpty()){
-            foreach ($insumosUsados as $idElemento) {
-                $devolver =  DB::table('inventario.insumos')
-                ->select('id_insumos','devolucion')
-                ->where('id_insumos',$idElemento->id_insumos)
-                ->first();
-                if($devolver->devolucion == true){
-                    DB::table('inventario.insumos')
-                    ->where('id_insumos',$idElemento->id_insumos)
-                    ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
-                }
-            }         
-        }
-        $salaAcambiar = DB::table('estetico.Cirugia')
-        ->select('id_sala')
-        ->where('id_cirugia', $id)
-        ->first();
-        
-        DB::table('locacion.sala')
-        ->where('id_sala', $salaAcambiar->id_sala) 
-        ->update(['id_estado_sala' => 1]);
-    }
-
-
-    if($request->estatusCirugia == 2  || $request->estatusCirugia == 3 ){
-        $salaAcambiar = DB::table('estetico.Cirugia')
-        ->select('id_sala','id_tipo_cirugia')
-        ->where('id_cirugia', $id)
-        ->first();
-        $Usuario = DB::table('usuario.paciente')
-        ->select('primer_nombre', 'primer_apellido', 'correo')
-        ->where('id_paciente', (int)$request->idPaciente)
-        ->first(); 
-        $sala = DB::table('locacion.sala')
-        ->select('nombre')
-        ->where('id_sala', (int)$salaAcambiar->id_sala)
-        ->first();
-        $nombreCirugia = DB::table('estetico.tipo_cirugia')
-        ->select('nombre')
-        ->where('id_tipo_cirugia', (int)$salaAcambiar->id_tipo_cirugia)
-        ->first();
-
-
-        
-        $fecha_carbon = Carbon::parse($request->fecha);
-        $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
-        $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
-        $hora_formateada = $hora_carbon->format('h:i A');
-        $emailService = new EmailService();
-        $to = $Usuario->correo;
-        $from = '0320127751@ut-tijuana.edu.mx';
-        $subject = 'Aprobacion de la cirugia para: ' . $nombreCirugia->nombre;
-        $data = [
-            'first_name' => $Usuario->primer_nombre,
-            'last_name' => $Usuario->primer_apellido,
-            'asunto' => 'Consulta',
-            'dia' => $fecha_formateada,
-            'hora' => $hora_formateada,
-            'whatsapp' => '664 359 9935',
-            'sala' => $sala->nombre
-        ];
-        $response = $emailService->sendEmail($to, $from, $subject, $data);
-    }
-
-
-
-
-    session(['activeTab' => 'Cirugias']);
     }
 
     public function vistaCirugia(string $id)
@@ -569,7 +526,7 @@ class CirugiaController extends Controller
             'id_consulta',
         )
         ->where('id_consulta',(int)$DatosCirugia->id_consulta)
-        ->get(); 
+        ->get();
 
 
         // dump($DatosCirugia);
@@ -676,19 +633,19 @@ class CirugiaController extends Controller
             )
             ->where('id_consulta', $id)
             ->get();
-    
+
         return response()->json($analisis);
     }
     public function mostrarPDF($id) {
         $analisis = DB::table('estetico.analisis')
             ->where('id_analisis', $id)
             ->value('ruta');
-    
+
         $rutaCompleta = Storage::disk('archivosAnalisis')->path($analisis);
-    
+
         $contenidoPDF = file_get_contents($rutaCompleta);
-    
+
         return response($contenidoPDF)
             ->header('Content-Type', 'application/pdf');
-    }    
+    }
 }
