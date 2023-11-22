@@ -373,13 +373,13 @@ class ConsultasController extends Controller
 
     public function crear_analisis(Request $request, string $id){
         try {
-            DB::table('estetico.analisis')->insert([
-                'nombre'=> $request->nombre_paciente_modal,
-                'resultados' => $request->estatus_analisis,
-                'notas' => $request->paciente_nota,
-                'diagnostico' => $request->paceinte_diagnostico,
-                'id_consulta' => $id,
-            ]);
+            // DB::table('estetico.analisis')->insert([
+            //     'nombre'=> $request->nombre_paciente_modal,
+            //     'resultados' => $request->estatus_analisis,
+            //     'notas' => $request->paciente_nota,
+            //     'diagnostico' => $request->paceinte_diagnostico,
+            //     'id_consulta' => $id,
+            // ]);
 
             // dump($request->all());
             // dump($id);
@@ -419,8 +419,9 @@ class ConsultasController extends Controller
             session(['activeTab' => 'Consultas']);
             return redirect()->route('ConsultaActualizarVista', ['id'=> $id])->with('success', 'Analisis creado correctamente.');
         } catch (\Exception $e) {
+            dump($e);
             // Mostrar mensaje de error
-            return redirect()->route('ConsultaActualizarVista')->with('error', 'No se pudo crear el analisis.');
+            //return redirect()->route('ConsultaActualizarVista', ['id'=> $id])->with('error', 'No se pudo crear el analisis.');
         }
     }
 
