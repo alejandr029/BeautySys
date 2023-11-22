@@ -64,6 +64,15 @@
     visibility: visible!important;
     }
 
+    input:read-only ~ label.fixed-label, textarea:read-only ~ label.fixed-label,  select:read-only ~ .fixed-label {
+    transform: translateY(-95%) scale(0.9);
+    padding: 0 .2em;
+    color: #000000be;
+    left: 10%;
+    font-size: 14pt;
+    visibility: visible!important;
+    }
+
 
     .container2 {
       height: 300px;
@@ -241,7 +250,6 @@
                       @csrf
                       @method('PUT')
 
-                        <div class="row mb-5">
                           <div class="row mb-5">
                             <div class="col-md-6">
                               <div class="input-form">
@@ -272,7 +280,7 @@
                           </div>
 
 
-                          <div class="col-md-3">
+                          <div class="col-md-4">
                               <div class="input-form">
                                   <select id="consulta_sala" name="consulta_sala" required >
                                   <option value="" disabled selected>sala en uso </option>
@@ -320,12 +328,15 @@
 
                         <div class="row mb-5" >
                           <hr class="dark horizontal">
-                            <div class="row mb-5">
+                            <div class="row">
                                 <div class="card-header" style="margin-bottom: 20px">
                                     <h4 class="card-title">Datos del paciente</h4>
                                 </div>
 
-                                <div class="row mb-6" style="margin-top: 35px">
+                                <input type="hidden" name="id_paciente" value="{{ $paciente->id_paciente }}">
+
+
+                                <div class="row" style="margin-top: 35px">
                                     <div class="col-md-4">
                                         <div class="input-form">
                                             <input type="text" id="Paciente_nombre" name="Paciente_nombre" disabled value="{{$paciente->nombrePaciente}}">
@@ -346,18 +357,70 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mt-4 text-center">
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-5">
+
+                          <hr class="dark horizontal">
+                            <div class="row">
+                                <div class="card-header">
+                                    <h4 class="card-title">Analisis del paciente</h4>
+                                </div>
+
+                                <div class="text-center">
                                   <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModal">
                                       Agregar analisis del paciente
                                   </button>
                                 </div>
-                            </div>
 
-                            <div class="text-center mt-2" >
-                              <button type="submit" class="btn btn-primary">Actualizar consulta</button>
+                          <div class="col-md-12 mt-4">
+                              
+                            <table class="table">
+                              <thead>
+                                  <tr>
+                                      <th class="center-cell">ID</th>
+                                      <th class="center-cell">PDF</th>
+                                      <th class="center-cell">Nombre del Documento</th>
+                                      <th class="center-cell">Descripción</th>
+                                      <th class="center-cell">Acciones</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+
+                                @foreach ($analisis as $documento)
+                                <tr>
+                                    <td class="center-cell">{{ $documento->id_analisis }}</td>
+                                    <td class="center-cell"><i class="fas fa-file-pdf"></i></td>
+                                    <td class="center-cell">{{ $documento->nombre }}</td>
+                                    <td class="center-cell">{{ $documento->notas }}</td>
+                                    <td class="action-icons">
+                                      <a href="{{ route('mostrar.pdf', ['id_analisis' => $documento ->id_analisis]) }}" target="_blank" class="action-icon">
+                                          <i class="fas fa-eye"></i>
+                                          <span class="tooltip">Ver</span>
+                                      </a>
+                                      <a class="action-icon" href="{{ route('eliminar.pdf', ['id_analisis' => $documento->id_analisis]) }}" onclick="return confirm('¿Estás seguro de que deseas eliminar este archivo PDF?');">
+                                        <i class="fas fa-trash-alt"></i>
+                                          <span class="tooltip">Eliminar</span>
+                                      </a>
+                                  </td>
+                                </tr>
+                                @endforeach
+                              </tbody>
+                          </table>
+
+
                           </div>
-
+                          <div class="text-center mt-5" >
+                            <button type="submit" class="btn btn-primary">Actualizar consulta</button>
                         </div>
+                        </div>
+                      </div>
+
+
+
+                        
 
 
 
@@ -414,121 +477,44 @@
 
                   <button type="button" id="btnNuevo" class="btn btn-primary">Nuevo</button>
 
-                  <form id="formularioAnalisis" class="d-none" action="{{ route('analisis_paciente', ['id'=> $consultas->id_consulta])}}" method="post" onsubmit="mostrarLoader()">
+                  <form id="formularioAnalisis" class="d-none" action="{{ route('analisis_paciente', ['id'=> $consultas->id_consulta])}}" method="post" enctype="multipart/form-data" onsubmit="mostrarLoader()">
                       @csrf
 
-                      <div class="row mb-5" style="margin-top: 10px">
-                          <div class="col-md-3">
+                      <div class="row mb-5 p-3">
+                          <div class="col-md-6">
                               <div class="input-form">
-                              <input type="number" id="id_paciente_modal" name="id_paciente_modal" required  value="{{ $paciente->id_paciente }}" disabled>
+                              <input type="number" id="id_paciente_modal" name="id_paciente_modal" required  value="{{ $paciente->id_paciente }}" readonly>
                               <label for="id_paciente_modal" class="textUser fixed-label" >Id Paciente</label>
                               </div>
                           </div>
 
-                          <div class="col-md-4">
+                          <div class="col-md-6 ">
                               <div class="input-form">
                               <input type="text" id="nombre_paciente_modal" name="nombre_paciente_modal" required  value="">
                               <label for="nombre_paciente_modal" class="textUser fixed-label" >Nombre del analisis</label>
                               </div>
                           </div>
-
-                          <div class="col-md-5" style="margin-inline: auto">
-                              <div class="input-form">
-                                  <select id="estatus_analisis" name="estatus_analisis" required  >
-                                      <option value="" disabled selected>Tipo estatus analisis </option>
-                                      <option value="aprobado">Aprobado</option>
-                                      <option value="cancelado">Cancelado</option>
-                                      <option value="analisando">Analizando</option>
-                                  </select>
-                                  <label for="estatus_analisis" class="textUser" style="visibility: hidden">Estatus del analisis</label>
-                              </div>
-                          </div>
                       </div>
-                      <div class="row mb-5">
-                          <div class="col-md-6">
+                      <div class="row mb-5 p-3">
+                        <div class="col-md-12">
+                            <label for="paciente_nota" class="form-label">Subir pdf</label>
+                            <input type="file" class="form-control" id="pdf_file" name="pdf_file" accept=".pdf">
+                        </div>
+
+                    </div>
+                      <div class="row mb-5 p-3">
+                          <div class="col-md-12">
                               <label for="paciente_nota" class="form-label">Nota del analisis</label>
                               <textarea class="form-control" id="paciente_nota" name="paciente_nota" rows="5" style="resize: none;
-                               border: 1px solid gray;"></textarea>
+                               border: 1px solid gray; padding: 10px"></textarea>
                           </div>
 
-                          <div class="col-md-6">
-                              <label for="paceinte_diagnostico" class="form-label">Diagnostico</label>
-                              <textarea class="form-control" id="paceinte_diagnostico"  name="paceinte_diagnostico" rows="5" style="resize: none;
-                               border: 1px solid gray;"></textarea>
-                          </div>
                       </div>
                       <div class="text-center mt-3">
                           <button type="submit" class="btn btn-primary">Generar analisis</button>
                       </div>
+                    </div>
                   </form>
-
-                  <hr class="dark horizontal">
-
-                  @if(count($analisis) > 0)
-                      @foreach ($analisis as $item)
-                        <form method="post" action="{{ route('analisis_paciente_actualizar', $item->id_analisis) }}"  enctype="multipart/form-data" onsubmit="mostrarLoader()">
-                          @csrf
-                          @method('PUT')
-
-                          <div class="row mb-5" style="margin-top: 40px">
-                              <div class="col-md-3">
-                                  <div class="input-form">
-                                    
-                                  <input type="hidden" id="consulta" name="consulta" value="{{ $item->id_consulta }}" >
-                                  <input type="number" id="id_paciente_modal" name="id_paciente_modal" required  value="{{ $paciente->id_paciente }}" disabled >
-                                  <label for="id_paciente_modal" class="textUser fixed-label" >Id Paciente</label>
-                                  </div>
-                              </div>
-
-                              <div class="col-md-4">
-                                  <div class="input-form">
-                                  <input type="text" id="nombre_paciente_modal" name="nombre_paciente_modal" required  value="{{ $item->nombre }}">
-                                  <label for="nombre_paciente_modal" class="textUser fixed-label" >Nombre del analisis</label>
-                                  </div>
-                              </div>
-
-                              <div class="col-md-5" style="margin-inline: auto">
-                                  <div class="input-form">
-                                      <select id="estatus_analisis" name="estatus_analisis" required >
-                                          <option value="{{ $item->resultados }}" selected>{{ $item->resultados }} </option>
-                                          <option value="aprobado">aprobado</option>
-                                          <option value="cancelado">cancelado</option>
-                                          <option value="analisando">analisando</option>
-                                      </select>
-                                      <label for="estatus_analisis" class="textUser" style="visibility: hidden">Estatus del analisis</label>
-                                  </div>
-                              </div>
-                          </div>
-                          <div class="row mb-5">
-                              <div class="col-md-6">
-                                  <label for="paciente_nota" class="form-label">Nota del analisis</label>
-                                  <textarea class="form-control" id="paciente_nota" rows="5"  name="nota_analisis" style="resize: none;
-                                  border: 1px solid gray;">{{ $item->notas }}</textarea>
-                              </div>
-
-                              <div class="col-md-6">
-                                  <label for="paceinte_diagnostico" class="form-label">Diagnostico</label>
-                                  <textarea class="form-control" id="paceinte_diagnostico" rows="5"  name="dianostico_analisis" style="resize: none;
-                                  border: 1px solid gray;">{{ $item->diagnostico }}</textarea>
-                              </div>
-                          </div>
-
-                          <button type="submit" class="btn btn-primary">Actualizar analisis</button>
-
-                        </form>
-
-                        <hr class="dark horizontal" style="margin-bottom: 50px">
-                      @endforeach
-                  @endif
-
-
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
-              </div>
-
-
         </div>
       </div>
 

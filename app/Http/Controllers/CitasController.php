@@ -17,6 +17,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 
+use App\Services\EmailService;
+
 class CitasController extends Controller
 {
     public function index()
@@ -92,6 +94,37 @@ class CitasController extends Controller
             if($request->id_estado_cita == 4){
                 $sala->id_estado_sala = '3';
                 $sala->save();
+                                
+            $Usuario = DB::table('usuario.paciente')
+            ->select('primer_nombre', 'primer_apellido', 'correo')
+            ->where('id_paciente', (int)$request->id_paciente)
+            ->first(); 
+            $sala = DB::table('locacion.sala')
+            ->select('nombre')
+            ->where('id_sala', (int)$request->id_sala)
+            ->first();
+            $cita = DB::table('estetico.tipo_cita')
+            ->select('nombre')
+            ->where('id_tipo_cita', (int)$request->id_tipo_cita)
+            ->first(); 
+            $fecha_carbon = Carbon::parse($request->fecha_cita);
+            $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
+            $hora_carbon = Carbon::createFromFormat('H:i', $request->hora_cita);
+            $hora_formateada = $hora_carbon->format('h:i A');
+            $emailService = new EmailService();
+            $to = $Usuario->correo;
+            $from = '0320127751@ut-tijuana.edu.mx';
+            $subject = 'Aprobacion de la cita para: ' . $cita->nombre;
+            $data = [
+                'first_name' => $Usuario->primer_nombre,
+                'last_name' => $Usuario->primer_apellido,
+                'asunto' => 'Cita',
+                'dia' => $fecha_formateada,
+                'hora' => $hora_formateada,
+                'whatsapp' => '664 359 9935',
+                'sala' => $sala->nombre
+            ];
+            $response = $emailService->sendEmail($to, $from, $subject, $data);
             }
 
             if($request->id_estado_cita == 9){
@@ -109,6 +142,14 @@ class CitasController extends Controller
             //         'id_estado_sala' => '1',
             //     ]);
             // }
+
+
+
+            //dump($request -> all());
+
+
+
+
             session(['activeTab' => 'Citas']);
             return redirect()->route('Citas.index')->with('success', 'Cita creada exitosamente.');
         } catch (\Exception $e) {
@@ -165,6 +206,43 @@ class CitasController extends Controller
                 'id_insumo' => $request->id_insumo,
                 'id_equipo' => $request->id_equipo,
             ]);
+
+            if($request->id_estado_cita == 4){
+
+                
+            $Usuario = DB::table('usuario.paciente')
+            ->select('primer_nombre', 'primer_apellido', 'correo')
+            ->where('id_paciente', (int)$request->id_paciente)
+            ->first(); 
+            $sala = DB::table('locacion.sala')
+            ->select('nombre')
+            ->where('id_sala', (int)$request->id_sala)
+            ->first(); 
+            $cita = DB::table('estetico.tipo_cita')
+            ->select('nombre')
+            ->where('id_tipo_cita', (int)$request->id_tipo_cita)
+            ->first(); 
+            $fecha_carbon = Carbon::parse($request->fecha);
+            $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
+            $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
+            $hora_formateada = $hora_carbon->format('h:i A');
+            $emailService = new EmailService();
+            $to = $Usuario->correo;
+            $from = '0320127751@ut-tijuana.edu.mx';
+            $subject = 'Aprobacion de la cita para: ' . $cita->nombre;
+            $data = [
+                'first_name' => $Usuario->primer_nombre,
+                'last_name' => $Usuario->primer_apellido,
+                'asunto' => 'Cita',
+                'dia' => $fecha_formateada,
+                'hora' => $hora_formateada,
+                'whatsapp' => '664 359 9935',
+                'sala' => $sala->nombre
+            ];
+            $response = $emailService->sendEmail($to, $from, $subject, $data);
+
+            }
+            
 
             //dump($request->all(),   $horaFormat, $fechaFormat);
 
