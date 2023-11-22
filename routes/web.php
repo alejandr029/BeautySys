@@ -63,7 +63,7 @@ Route::middleware(['auth'])->group(function () {
         // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::get('/cuentas', [CuentasController::class, 'index'])->name('Cuentas.index');
-        Route::get('/crear-cuenta', [CuentasController::class, 'create'])->name('Cuentas.crear');
+        Route::get('/crear-cuenta-form', [CuentasController::class, 'create'])->name('Cuentas.crear');
         Route::post('/crear-cuenta', [CuentasController::class, 'store'])->name('user.store');
         Route::get('/cuentas-editar/id={id}', [CuentasController::class, 'edit'])->name('Cuentas.edit');
         Route::put('/cuentas-actualizar/id={id}', [CuentasController::class, 'update'])->name('Cuentas.update');

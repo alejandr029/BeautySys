@@ -95,9 +95,8 @@
 @extends('layout.template')
 
 @section('content')
-
     @if (session('success'))
-        <div id="succes" class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+        <div id="success" class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
             <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
                 <strong>{{ session('success') }}</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -105,7 +104,7 @@
         </div>
         <script>
             setTimeout(function() {
-                var notification = document.getElementById('succes');
+                var notification = document.getElementById('success');
                 if (notification) {
                     notification.classList.add('show');
                     setTimeout(function() {
