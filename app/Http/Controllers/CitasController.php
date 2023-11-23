@@ -5,6 +5,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cita;
+use App\Models\CitaUsers;
 use App\Models\EquipoMedico;
 use App\Models\EstadoCita;
 use App\Models\Insumos;
@@ -24,6 +25,12 @@ class CitasController extends Controller
         $citas = Cita::orderByDesc('id_cita')->paginate(5);
         session(['activeTab' => 'Citas']);
         return view('Citas.citas', compact('citas'));
+    }
+
+    public function citasUsuarios()
+    {
+        // $citaU = CitaUsers::orderByDesc('id_cita');
+        return view('Citas.citaUser');
     }
 
     public function show($id)

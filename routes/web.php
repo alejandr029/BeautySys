@@ -40,10 +40,10 @@ Route::middleware(['auth'])->group(function () {
     //     return view('dashboard');
     // })->name('dashboard');
     // // Route::view('/tables','tables')->name('tables');
-    
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    
+
     // Route::get('/dashboard/id={id}', [DashboardController::class, 'index_user'])->name('dashboard_user');
 
     Route::get('/profile', function () {
@@ -53,7 +53,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/Alergias/{id}', [AlergiasController::class, 'index'])->name('alergiasTabla');
     Route::post('/Alergias/{id}', [AlergiasController::class, 'añadirAlergia'])->name('añadirAlergia');
-    
+
     Route::get('/EnfermedadesCronicas/{id}', [EnfermedadesCronicasController::class, 'index'])->name('enfermedadesCronicasTabla');
     Route::post('/EnfermedadesCronicas/{id}', [EnfermedadesCronicasController::class, 'añadirEnfermedadCronica'])->name('añadirEnfermedadCronica');
 
@@ -63,7 +63,7 @@ Route::middleware(['auth'])->group(function () {
 // todo: agregar autentificacion para rol staff y admin
 Route::middleware(['auth'])->group(function () {
     // CUENTAS
-    
+
     // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('/cuentas', [CuentasController::class, 'index'])->name('Cuentas.index');
@@ -109,6 +109,7 @@ Route::middleware(['auth'])->group(function () {
 
     // CITAS
     Route::get('/citas', [CitasController::class, 'index'])->name('Citas.index');
+    Route::get('/citasUsuarios',[CitasController::class,'citasUsuarios'])->name('citaUser');
     Route::get('/ver-cita/id={id}', [CitasController::class, 'show'])->name('Citas.visualizar');
     Route::get('/crear-cita', [CitasController::class, 'create'])->name('Citas.crear');
     Route::post('/crear-cita', [CitasController::class, 'store'])->name('Citas.store');
