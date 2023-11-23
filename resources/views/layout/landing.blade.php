@@ -163,8 +163,65 @@
                             <p class="description">TASKLAB se conforma de un equipo el cual se unio para salvaguardar diferentes sircurcustacion y sobrellevar las nececidades de los usuarios</p>
                         </div>
                     </div>
-
-                    <div class="team">
+                    {{-- team --}}
+                    <div class="col-8" style="display: flex;justify-content: center;flex-wrap: wrap;">
+                        <div class="col-8 col-sm-6 col-md-4">
+                            <div class="card card-member">
+                                <div class="content" style="height: 40rem;">
+                                    <div class="description">
+                                        <h3 class="title">De La Mora Vazquez Victor Manuel</h3>
+                                        <p class="small-text">Tester y reparacion de bugs</p>
+                                        <p class="description">En nuestro equipo de desarrollo, el rol de Tester y Reparación de Bugs es esencial. Esta función implica llevar a cabo pruebas exhaustivas en el sistema de monitoreo y gestión de registros de cirugías estéticas, identificando y reportando problemas y errores. Además, se encarga de analizar y solucionar estos problemas para asegurar que el sistema funcione sin contratiempos y brinde una experiencia confiable a nuestros usuarios.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8 col-sm-6 col-md-4">
+                            <div class="card card-member">
+                                <div class="content" style="height: 40rem;">
+                                    <div class="description">
+                                        <h3 class="title">Noyola Barradas Juan Diego</h3>
+                                        <p class="small-text">Tester y reparacion de bugs</p>
+                                        <p class="description">En nuestro equipo de desarrollo, En nuestro equipo de desarrollo, el rol de Desarrollador Móvil desempeña una función esencial. Este profesional se encarga de la creación y optimización de aplicaciones móviles para dispositivos iOS y Android. Su labor implica el desarrollo de soluciones innovadoras que mejoren la vida de los usuarios y proporcionen experiencias excepcionales.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8 col-sm-6 col-md-4">
+                            <div class="card card-member">
+                                <div class="content" style="height: 40rem;">
+                                    <div class="description">
+                                        <h3 class="title">Ruiz Alvarez Jose Eduardo</h3>
+                                        <p class="small-text">Project Manager y Desarrollador web</p>
+                                        <p class="description">En nuestro equipo, contamos con un miembro que desempeña los roles de Project Manager y Desarrollador Web. Esta doble función implica liderar la planificación, coordinación y ejecución de proyectos, asegurando que se cumplan los plazos y objetivos. Además, se encarga del desarrollo web, creando y manteniendo las interfaces que dan vida a nuestro sistema de monitoreo y gestión de registros de cirugías estéticas. Su trabajo garantiza una implementación exitosa y una experiencia fluida para nuestros usuarios.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8 col-sm-6 col-md-4">
+                            <div class="card card-member">
+                                <div class="content" style="height: 40rem;">
+                                    <div class="description">
+                                        <h3 class="title">Toledo Perez Cristian Alejandro</h3>
+                                        <p class="small-text">Lider de desarrollo</p>
+                                        <p class="description">En nuestro equipo, contamos con un Líder de Desarrollo clave. Este rol desempeña una función crucial al dirigir y supervisar el equipo de desarrollo en la creación y mejora constante de nuestro sistema de monitoreo y gestión de registros de cirugías estéticas. El Líder de Desarrollo coordina las tareas, establece directrices y garantiza que se sigan las mejores prácticas de programación, lo que resulta en un sistema confiable y eficiente que cumple con las necesidades de nuestros usuarios.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-8 col-sm-6 col-md-4">
+                            <div class="card card-member">
+                                <div class="content" style="height: 40rem;">
+                                    <div class="description">
+                                        <h3 class="title">Velazquez Gonzalez Jesus Alejandro</h3>
+                                        <p class="small-text">Desarrollador de base de datos</p>
+                                        <p class="description">Dentro de nuestro equipo, contamos con un Desarrollador de Base de Datos especializado. Este rol es esencial para diseñar, implementar y mantener la estructura de la base de datos que respalda nuestro sistema de monitoreo y gestión de registros de cirugías estéticas. El Desarrollador de Base de Datos trabaja en la optimización del rendimiento, la integridad de los datos y la seguridad de la información almacenada, asegurando que el sistema funcione de manera eficiente y confiable para satisfacer las necesidades de nuestros usuarios.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{-- <div class="team">
                         <div class="row">
                             <div class="col-md-12 ">
                                 <div class="row">
@@ -218,7 +275,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
