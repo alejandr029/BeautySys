@@ -9,11 +9,12 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens;
+    use HasApiTokens, Notifiable;
     use HasFactory;
     use HasProfilePhoto;
     use Notifiable;
@@ -82,4 +83,11 @@ class User extends Authenticatable
     {
         return $this->hasOne(Paciente::class, 'id_cuenta');
     }
+
+    public function tokens()
+    {
+        return $this->morphMany(PersonalAccessToken::class, 'tokenable');
+    }
+
+
 }

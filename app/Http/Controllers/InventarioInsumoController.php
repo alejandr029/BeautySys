@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -15,17 +16,17 @@ class InventarioInsumoController extends Controller
         ->join('inventario.estatus_insumos as EI', 'EI.id_estatus_insumos', '=', 'I.id_estatus_insumos')
         ->join('inventario.proveedor as P', 'P.id_proveedor', '=', 'I.id_proveedor')
         ->orderByDesc('I.id_insumos')
-        ->Paginate(5); 
+        ->Paginate(5);
 
         $equipoMedico = DB::table('inventario.equipo_medico as EM')
         ->select('EM.id_equipo_medico', 'EM.imagen', 'EM.nombre', 'EE.nombre as estatus', 'EM.cantidad')
         ->join('inventario.estatus_equipo as EE', 'EE.id_estatus_equipo', '=', 'EM.id_estado_equipo')
         ->join('inventario.proveedor as P', 'P.id_proveedor', '=', 'EM.id_proveedor')
         ->orderByDesc('EM.id_equipo_medico')
-        ->Paginate(5); 
+        ->Paginate(5);
 
          session(['activeTab' => 'Inventario']);
-    
+
         return view('Inventario.inventario', compact('Insumos', 'equipoMedico'));
 
     }
@@ -67,7 +68,7 @@ class InventarioInsumoController extends Controller
         ]);
 
          session(['activeTab' => 'Inventario']);
-    
+
         return redirect()->route('Inventario.index')->with('success', 'Insumo creado correctamente.');;
     }
 
@@ -83,12 +84,12 @@ class InventarioInsumoController extends Controller
 
             $insumo->fecha_adquisicion = Carbon::createFromFormat('Y-m-d H:i:s.u', $insumo->fecha_adquisicion)->format('Y-m-d');
             $insumo->fecha_vencimiento = Carbon::createFromFormat('Y-m-d H:i:s.u', $insumo->fecha_vencimiento)->format('Y-m-d');
-    
+
         $proveedores = DB::table('inventario.proveedor')
             ->select('id_proveedor', 'nombre_empresarial')
             ->orderBy('id_proveedor')
             ->get();
-    
+
         $estatus = DB::table('inventario.estatus_insumos')
             ->select('id_estatus_insumos', 'nombre')
             ->orderBy('id_estatus_insumos')
@@ -100,7 +101,7 @@ class InventarioInsumoController extends Controller
             // dump($estatus);
 
              session(['activeTab' => 'Inventario']);
-    
+
          return view('Inventario.vistaInsumo', compact('insumo', 'proveedores', 'estatus'));
     }
 
@@ -115,12 +116,12 @@ class InventarioInsumoController extends Controller
 
             $insumo->fecha_adquisicion = Carbon::createFromFormat('Y-m-d H:i:s.u', $insumo->fecha_adquisicion)->format('Y-m-d');
             $insumo->fecha_vencimiento = Carbon::createFromFormat('Y-m-d H:i:s.u', $insumo->fecha_vencimiento)->format('Y-m-d');
-    
+
         $proveedores = DB::table('inventario.proveedor')
             ->select('id_proveedor', 'nombre_empresarial')
             ->orderBy('id_proveedor')
             ->get();
-    
+
         $estatus = DB::table('inventario.estatus_insumos')
             ->select('id_estatus_insumos', 'nombre')
             ->orderBy('id_estatus_insumos')
@@ -129,7 +130,7 @@ class InventarioInsumoController extends Controller
             //dump($insumo);
 
              session(['activeTab' => 'Inventario']);
-    
+
         return view('Inventario.actualizarInsumo', compact('insumo', 'proveedores', 'estatus'));
     }
 
@@ -157,6 +158,59 @@ class InventarioInsumoController extends Controller
         return redirect()->route('Inventario.index')->with('success', 'Insumo actualizado correctamente.');
     }
 
+    public function cambiarEstado($id)
+    {
+        $insumo = DB::table('inventario.insumos')->where('id_insumos', $id)->first();
+
+        session(['activeTab' => 'Inventario']);
+
+        //dump($insumo);
+        return view('Inventario.estadoInsumo', compact('insumo'));
+    }
+
+    public function deshabilitarInsumo(string $id)
+    {
+        try{
+
+            $insumo = DB::table('inventario.insumos')->where('id_insumos', $id)->first();
+            //dump($insumosCount);
+
+            if ($insumo !== null) {
+                // Cambia el id_estado_insumos
+                DB::table('inventario.insumos')->where('id_insumos', $id)->update(['id_estatus_insumos' => 4]);
+            }
+
+            session(['activeTab' => 'Inventario']);
+
+            return redirect()->route('Inventario.index')->with('success', 'Insumo deshabilitado correctamente.');
+        } catch (Exception $e) {
+            //return dump($e);
+            session()->flash('showModal', true);
+            return redirect()->route('Inventario.index')->with('error', 'Error al deshabilitar el insumo.');
+        }
+    }
+
+    public function habilitarInsumo(string $id)
+    {
+        try{
+
+            $insumo = DB::table('inventario.insumos')->where('id_insumos', $id)->first();
+            //dump($insumosCount);
+
+            if ($insumo !== null) {
+                // Cambia el id_estado_insumos
+                DB::table('inventario.insumos')->where('id_insumos', $id)->update(['id_estatus_insumos' => 1]);
+            }
+
+            session(['activeTab' => 'Inventario']);
+
+            return redirect()->route('Inventario.index')->with('success', 'Insumo habilitado correctamente.');
+        } catch (Exception $e) {
+            //return dump($e);
+            session()->flash('showModal', true);
+            return redirect()->route('Inventario.index')->with('error', 'Error al habilitar el insumo.');
+        }
+    }
 
     public function destroy(string $id)
     {

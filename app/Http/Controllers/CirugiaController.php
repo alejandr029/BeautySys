@@ -17,71 +17,73 @@ class CirugiaController extends Controller
     public function index()
     {
         $Cirugias = DB::table('estetico.Cirugia AS C')
-        ->select(
-            'c.id_cirugia',
-            'c.fecha_cirugia',
-            's.nombre as nombresala',
-            'tc.nombre as nombreCirugia',
-            DB::raw("CONCAT(p.primer_nombre,' ',p.primer_apellido,' ',p.segundo_apellido) as nombrePaciente"),
-            'ec.nombre as estatusCirugia','C.id_estatus_cirugia',
-            DB::raw("CONCAT(pp.primer_nombre,' ',pp.primer_apellido,' ',pp.segundo_apellido) as nombrePersonalAcargo"),
-            'c.id_consulta'
-        )
-        ->join('estetico.Estatus_cirugia AS EC', 'EC.id_estatus_cirugia', '=', 'C.id_estatus_cirugia')
-        ->join('locacion.sala AS S', 'S.id_sala', '=', 'C.id_sala')
-        ->join('estetico.tipo_cirugia as TC', 'TC.id_tipo_cirugia', '=', 'C.id_tipo_cirugia')
-        ->join('usuario.paciente as P', 'p.id_paciente', '=', 'C.id_paciente')
-        ->join('personal.personal as PP', 'pp.id_personal', '=', 'C.id_personal')
-        ->orderByDesc('C.id_cirugia')
-        ->Paginate(5); 
+            ->select(
+                'c.id_cirugia',
+                'c.fecha_cirugia',
+                's.nombre as nombresala',
+                'tc.nombre as nombreCirugia',
+                DB::raw("CONCAT(p.primer_nombre,' ',p.primer_apellido,' ',p.segundo_nombre) as nombrePaciente"),
+                'ec.nombre as estatusCirugia', 'C.id_estatus_cirugia',
+                DB::raw("CONCAT(pp.primer_nombre,' ',pp.primer_apellido,' ',pp.segundo_apellido) as nombrePersonalAcargo"),
+                'c.id_consulta'
+            )
+            ->join('estetico.Estatus_cirugia AS EC', 'EC.id_estatus_cirugia', '=', 'C.id_estatus_cirugia')
+            ->join('locacion.sala AS S', 'S.id_sala', '=', 'C.id_sala')
+            ->join('estetico.tipo_cirugia as TC', 'TC.id_tipo_cirugia', '=', 'C.id_tipo_cirugia')
+            ->join('usuario.paciente as P', 'p.id_paciente', '=', 'C.id_paciente')
+            ->join('personal.personal as PP', 'pp.id_personal', '=', 'C.id_personal')
+            ->orderByDesc('C.id_cirugia')
+            ->Paginate(5);
 
         session(['activeTab' => 'Cirugias']);
 
         return view('Cirugia.cirugiaTabla', compact('Cirugias'));
 
     }
+
     public function selectConsultas()
     {
         $SelectConsultas = DB::table('estetico.consulta AS C')
-        ->select('C.id_consulta','C.id_paciente',DB::raw("CONCAT(p.primer_nombre,' ',p.primer_apellido,' ',p.segundo_apellido) as nombrePaciente"))
-        ->join('usuario.paciente as P', 'P.id_paciente', '=', 'C.id_paciente')
-        ->join('personal.personal as PP', 'PP.id_personal', '=', 'C.id_personal')
-        ->leftJoin('estetico.cirugia AS CR', 'C.id_consulta', '=', 'CR.id_consulta')
-        ->where('C.aprovacion_cirugia', 1)
-        ->where('C.id_status_consulta', 3)
-        ->whereNull('CR.id_consulta')
-        ->get();
+            ->select('C.id_consulta', 'C.id_paciente', DB::raw("CONCAT(p.primer_nombre,' ',p.primer_apellido,' ',p.segundo_nombre) as nombrePaciente"))
+            ->join('usuario.paciente as P', 'P.id_paciente', '=', 'C.id_paciente')
+            ->join('personal.personal as PP', 'PP.id_personal', '=', 'C.id_personal')
+            ->leftJoin('estetico.cirugia AS CR', 'C.id_consulta', '=', 'CR.id_consulta')
+            ->where('C.aprovacion_cirugia', 1)
+            ->where('C.id_status_consulta', 3)
+            ->whereNull('CR.id_consulta')
+            ->get();
 
         $SelectPersonal = DB::table('personal.personal as P')
-        ->join('personal.departamento as D', 'P.id_departamento', '=', 'D.id_departamento')
-        ->select('P.id_personal', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_apellido) as nombrePersonalAcargo"), 'D.nombre as nombreDepartamento')    
-        ->get();
+            ->join('personal.departamento as D', 'P.id_departamento', '=', 'D.id_departamento')
+            ->select('P.id_personal', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_apellido) as nombrePersonalAcargo"), 'D.nombre as nombreDepartamento')
+            ->get();
 
         $SelectSalas = DB::table('locacion.sala')
-        ->select('id_sala','nombre')
-        ->where('id_estado_sala', '=', 1)
-        ->get();
+            ->select('id_sala', 'nombre')
+            ->where('id_estado_sala', '=', 1)
+            ->get();
 
         $SelectCirugias = DB::table('estetico.tipo_cirugia')
-        ->select('id_tipo_cirugia','nombre')
-        ->get();
+            ->select('id_tipo_cirugia', 'nombre')
+            ->get();
 
         $SelectEstatusCirugia = DB::table('estetico.Estatus_cirugia')
-        ->select('id_estatus_cirugia','nombre')
-        ->get();
+            ->select('id_estatus_cirugia', 'nombre')
+            ->get();
 
         session(['activeTab' => 'Cirugias']);
 
-        return view('Cirugia.cirugiaCrear', compact('SelectConsultas','SelectPersonal','SelectSalas','SelectCirugias','SelectEstatusCirugia'));
+        return view('Cirugia.cirugiaCrear', compact('SelectConsultas', 'SelectPersonal', 'SelectSalas', 'SelectCirugias', 'SelectEstatusCirugia'));
 
     }
+
     public function pacienteCirugia(int $id)
     {
         $datlospaciente = DB::table('estetico.consulta AS C')
-        ->join('usuario.paciente AS P', 'P.id_paciente', '=', 'C.id_paciente')
-        ->select('C.id_consulta','C.id_paciente', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_apellido) as nombrePaciente"), 'P.correo as correoPaciente', 'P.telefono as telefonoPaciente')
-        ->where('C.id_consulta', $id)
-        ->first();
+            ->join('usuario.paciente AS P', 'P.id_paciente', '=', 'C.id_paciente')
+            ->select('C.id_consulta', 'C.id_paciente', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_nombre) as nombrePaciente"), 'P.correo as correoPaciente', 'P.telefono as telefonoPaciente')
+            ->where('C.id_consulta', $id)
+            ->first();
 
         session(['activeTab' => 'Cirugias']);
 
@@ -119,10 +121,10 @@ class CirugiaController extends Controller
             ->where('P.id_paciente', $id)
             ->get();
 
-            session(['activeTab' => 'Cirugias']);
+        session(['activeTab' => 'Cirugias']);
 
         return response()->json(['alergias' => $alergias, 'enfermedades' => $enfermedades]);
-            
+
     }
 
     /**
@@ -139,10 +141,10 @@ class CirugiaController extends Controller
             'id_personal' => $request->personal,
             'id_consulta' => $request->consultas,
         ]);
-        
+
         DB::table('locacion.sala')
-        ->where('id_sala', $request->sala) 
-        ->update(['id_estado_sala' => 2]);
+            ->where('id_sala', $request->sala)
+            ->update(['id_estado_sala' => 2]);
 
         //dump($request->all());
 
@@ -161,59 +163,59 @@ class CirugiaController extends Controller
     {
 
         $DatosCirugia = DB::table('estetico.Cirugia')
-            ->select('id_cirugia','fecha_cirugia','id_sala','id_tipo_cirugia','id_paciente','id_estatus_cirugia','id_personal','id_consulta')
-            ->where('id_cirugia',$id)
+            ->select('id_cirugia', 'fecha_cirugia', 'id_sala', 'id_tipo_cirugia', 'id_paciente', 'id_estatus_cirugia', 'id_personal', 'id_consulta')
+            ->where('id_cirugia', $id)
             ->first();
-            
+
         $SelectConsultas = DB::table('estetico.consulta AS C')
-        ->select('C.id_consulta','C.id_paciente',DB::raw("CONCAT(p.primer_nombre,' ',p.primer_apellido,' ',p.segundo_apellido) as nombrePaciente"))
-        ->join('usuario.paciente as P', 'P.id_paciente', '=', 'C.id_paciente')
-        ->join('personal.personal as PP', 'PP.id_personal', '=', 'C.id_personal')
-        ->leftJoin('estetico.cirugia AS CR', 'C.id_consulta', '=', 'CR.id_consulta')
-        ->where('C.aprovacion_cirugia', 1)
-        ->where('C.id_status_consulta', 3)
-        ->where('CR.id_consulta',(int)$DatosCirugia->id_consulta)
-        ->get();
+            ->select('C.id_consulta', 'C.id_paciente', DB::raw("CONCAT(p.primer_nombre,' ',p.primer_apellido,' ',p.segundo_nombre) as nombrePaciente"))
+            ->join('usuario.paciente as P', 'P.id_paciente', '=', 'C.id_paciente')
+            ->join('personal.personal as PP', 'PP.id_personal', '=', 'C.id_personal')
+            ->leftJoin('estetico.cirugia AS CR', 'C.id_consulta', '=', 'CR.id_consulta')
+            ->where('C.aprovacion_cirugia', 1)
+            ->where('C.id_status_consulta', 3)
+            ->where('CR.id_consulta', (int)$DatosCirugia->id_consulta)
+            ->get();
 
         $SelectPersonal = DB::table('personal.personal as P')
-        ->join('personal.departamento as D', 'P.id_departamento', '=', 'D.id_departamento')
-        ->select('P.id_personal', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_apellido) as nombrePersonalAcargo"), 'D.nombre as nombreDepartamento')    
-        ->get();
+            ->join('personal.departamento as D', 'P.id_departamento', '=', 'D.id_departamento')
+            ->select('P.id_personal', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_apellido) as nombrePersonalAcargo"), 'D.nombre as nombreDepartamento')
+            ->get();
 
         $SelectSalas = DB::table('locacion.sala')
-        ->select('id_sala','nombre')
-        ->where('id_sala', (int)$DatosCirugia->id_sala)
-        ->first(); 
+            ->select('id_sala', 'nombre')
+            ->where('id_sala', (int)$DatosCirugia->id_sala)
+            ->first();
 
         $SelectCirugias = DB::table('estetico.tipo_cirugia')
-        ->select('id_tipo_cirugia','nombre')
-        ->get();
+            ->select('id_tipo_cirugia', 'nombre')
+            ->get();
 
         $SelectEstatusCirugia = DB::table('estetico.Estatus_cirugia')
-        ->select('id_estatus_cirugia','nombre')
-        ->get();
+            ->select('id_estatus_cirugia', 'nombre')
+            ->get();
 
         $insumos = DB::table('inventario.insumos')
-        ->select('id_insumos','imagen' ,'nombre', 'cantidad')
-        ->where('id_estatus_insumos', 1)
-        ->get();
+            ->select('id_insumos', 'imagen', 'nombre', 'cantidad')
+            ->where('id_estatus_insumos', 1)
+            ->get();
 
         $equiposMedicos = DB::table('inventario.equipo_medico')
-        ->select('id_equipo_medico','imagen' ,'nombre', 'cantidad')
-        ->where('id_estado_equipo', 1)
-        ->get();
+            ->select('id_equipo_medico', 'imagen', 'nombre', 'cantidad')
+            ->where('id_estado_equipo', 1)
+            ->get();
 
         $EquipoUsado = DB::table('estetico.equipo_cirugia as EC')
-        ->select('EC.id_equipo_medico','EM.nombre','EC.cantidad')
-        ->join('inventario.equipo_medico as EM','EM.id_equipo_medico', '=', 'EC.id_equipo_medico')
-        ->where('EC.id_cirugia', (int)$DatosCirugia->id_cirugia)
-        ->get();
+            ->select('EC.id_equipo_medico', 'EM.nombre', 'EC.cantidad')
+            ->join('inventario.equipo_medico as EM', 'EM.id_equipo_medico', '=', 'EC.id_equipo_medico')
+            ->where('EC.id_cirugia', (int)$DatosCirugia->id_cirugia)
+            ->get();
 
         $InsumoUsado = DB::table('estetico.insumos_cirugia as IC')
-        ->select('IC.id_insumos_cirugia','I.nombre','IC.cantidad')
-        ->join('inventario.insumos as I', 'IC.id_insumos', '=', 'I.id_insumos')
-        ->where('IC.id_cirugia', (int)$DatosCirugia->id_cirugia)
-        ->get();
+            ->select('IC.id_insumos_cirugia', 'I.nombre', 'IC.cantidad')
+            ->join('inventario.insumos as I', 'IC.id_insumos', '=', 'I.id_insumos')
+            ->where('IC.id_cirugia', (int)$DatosCirugia->id_cirugia)
+            ->get();
 
         $analisis = DB::table('estetico.analisis')
         ->select(
@@ -224,14 +226,13 @@ class CirugiaController extends Controller
             'id_consulta',
         )
         ->where('id_consulta',(int)$DatosCirugia->id_consulta)
-        ->get(); 
+        ->get();
 
         // dump($DatosCirugia);
         // dump($SelectSalas);
         session(['activeTab' => 'Cirugias']);
 
         return view('Cirugia.cirugiaActualizar', compact('SelectConsultas','SelectPersonal','SelectSalas','SelectCirugias','SelectEstatusCirugia','DatosCirugia','insumos','equiposMedicos','EquipoUsado','InsumoUsado','analisis'));
-
     }
 
     public function añadirInsumoEquipo(Request $request)
@@ -242,67 +243,67 @@ class CirugiaController extends Controller
         // dump($datos);
         // dump($idCirugia);
 
-    // Recorre los datos para procesarlos
-    foreach ($datos as $idElemento => $elemento) {
-        // Identifica el tipo (insumo o equipo médico), el ID y la cantidad
-        $tipo = $elemento['Tipo'];
-        $id = $elemento['id'];
-        $cantidad = $elemento['cantidad'] ?? 0; 
-        if($tipo == 'insumo' && $cantidad >0){
+        // Recorre los datos para procesarlos
+        foreach ($datos as $idElemento => $elemento) {
+            // Identifica el tipo (insumo o equipo médico), el ID y la cantidad
+            $tipo = $elemento['Tipo'];
+            $id = $elemento['id'];
+            $cantidad = $elemento['cantidad'] ?? 0;
+            if ($tipo == 'insumo' && $cantidad > 0) {
 
-            $resultInsumos = DB::table('estetico.insumos_cirugia')
-            ->where('id_cirugia', $idCirugia)
-            ->where('id_insumos', $id)
-            ->get();
-            
-            DB::table('inventario.insumos')
-            ->where('id_insumos', $id)
-            ->decrement('cantidad', $cantidad);
+                $resultInsumos = DB::table('estetico.insumos_cirugia')
+                    ->where('id_cirugia', $idCirugia)
+                    ->where('id_insumos', $id)
+                    ->get();
 
-            if ($resultInsumos->isEmpty()) {
-                DB::table('estetico.insumos_cirugia')->insert([
-                    'id_cirugia'=>$idCirugia,
-                    'id_insumos'=>$id,
-                    'cantidad'=>$cantidad,
-                ]);
-            } else {
-                DB::table('estetico.insumos_cirugia')
-                ->where('id_cirugia', $idCirugia)
-                ->where('id_insumos', $id)
-                ->update(['cantidad' => DB::raw("cantidad + $cantidad")]);
+                DB::table('inventario.insumos')
+                    ->where('id_insumos', $id)
+                    ->decrement('cantidad', $cantidad);
+
+                if ($resultInsumos->isEmpty()) {
+                    DB::table('estetico.insumos_cirugia')->insert([
+                        'id_cirugia' => $idCirugia,
+                        'id_insumos' => $id,
+                        'cantidad' => $cantidad,
+                    ]);
+                } else {
+                    DB::table('estetico.insumos_cirugia')
+                        ->where('id_cirugia', $idCirugia)
+                        ->where('id_insumos', $id)
+                        ->update(['cantidad' => DB::raw("cantidad + $cantidad")]);
+                }
+            }
+            if ($tipo == 'equipomedico' && $cantidad > 0) {
+
+                $resultEquipo = DB::table('estetico.equipo_cirugia')
+                    ->where('id_cirugia', $idCirugia)
+                    ->where('id_equipo_medico', $id)
+                    ->get();
+
+
+                DB::table('inventario.equipo_medico')
+                    ->where('id_equipo_medico', $id)
+                    ->decrement('cantidad', $cantidad);
+
+                if ($resultEquipo->isEmpty()) {
+                    DB::table('estetico.equipo_cirugia')->insert([
+                        'id_cirugia' => $idCirugia,
+                        'id_equipo_medico' => $id,
+                        'cantidad' => $cantidad,
+                    ]);
+                } else {
+                    DB::table('estetico.equipo_cirugia')
+                        ->where('id_cirugia', $idCirugia)
+                        ->where('id_equipo_medico', $id)
+                        ->update(['cantidad' => DB::raw("cantidad + $cantidad")]);
+                }
+
+
             }
         }
-        if($tipo == 'equipomedico' && $cantidad >0){
+        session(['activeTab' => 'Cirugias']);
 
-            $resultEquipo = DB::table('estetico.equipo_cirugia')
-            ->where('id_cirugia', $idCirugia)
-            ->where('id_equipo_medico', $id)
-            ->get();
-            
-
-            DB::table('inventario.equipo_medico')
-            ->where('id_equipo_medico', $id)
-            ->decrement('cantidad', $cantidad);
-
-            if ($resultEquipo->isEmpty()) {
-                DB::table('estetico.equipo_cirugia')->insert([
-                    'id_cirugia'=>$idCirugia,
-                    'id_equipo_medico'=>$id,
-                    'cantidad'=>$cantidad,
-                ]);
-            } else {
-                DB::table('estetico.equipo_cirugia')
-                ->where('id_cirugia', $idCirugia)
-                ->where('id_equipo_medico', $id)
-                ->update(['cantidad' => DB::raw("cantidad + $cantidad")]);
-            }
-            
-           
-        }
-    }
-    session(['activeTab' => 'Cirugias']);
-
-    return redirect()->route('vistaActualizarCirugia', ['id' => $idCirugia]);
+        return redirect()->route('vistaActualizarCirugia', ['id' => $idCirugia]);
     }
 
     /**
@@ -310,213 +311,213 @@ class CirugiaController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        try {
+            DB::table('estetico.Cirugia')
+                ->where('id_cirugia', $id)
+                ->update([
+                    'fecha_cirugia' =>date('Y-m-d H:i:s', strtotime($request->fecha . ' ' . $request->hora)),
+                    'id_estatus_cirugia' => $request->estatusCirugia,
+                    'id_personal' => $request->personal,
+                ]);
 
 
-        DB::table('estetico.Cirugia')
-        ->where('id_cirugia', $id)
-        ->update([
-            'fecha_cirugia' =>date('Y-m-d H:i:s', strtotime($request->fecha . ' ' . $request->hora)),
-            'id_estatus_cirugia' => $request->estatusCirugia,
-            'id_personal' => $request->personal,
-        ]);
+            if($request->estatusCirugia == 6  || $request->estatusCirugia == 7 || $request->estatusCirugia == 10){
+                $equipoUsados = DB::table('estetico.equipo_cirugia')
+                    ->select('id_equipo_medico','cantidad')
+                    ->where('id_cirugia',$id)
+                    ->get();
 
+                $insumosUsados = DB::table('estetico.insumos_cirugia')
+                    ->select('id_insumos','cantidad')
+                    ->where('id_cirugia',$id)
+                    ->get();
 
-    if($request->estatusCirugia == 6  || $request->estatusCirugia == 7 || $request->estatusCirugia == 10){
-        $equipoUsados = DB::table('estetico.equipo_cirugia')
-        ->select('id_equipo_medico','cantidad')
-        ->where('id_cirugia',$id)
-        ->get();
-        
-        $insumosUsados = DB::table('estetico.insumos_cirugia')
-        ->select('id_insumos','cantidad')
-        ->where('id_cirugia',$id)
-        ->get();
+                if(!$equipoUsados->isEmpty()){
+                    foreach ($equipoUsados as $idElemento) {
+                        DB::table('inventario.equipo_medico')
+                            ->where('id_equipo_medico',$idElemento->id_equipo_medico)
+                            ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
+                    }
 
-        if(!$equipoUsados->isEmpty()){
-            foreach ($equipoUsados as $idElemento) {
-            DB::table('inventario.equipo_medico')
-            ->where('id_equipo_medico',$idElemento->id_equipo_medico)
-            ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
+                    DB::table('estetico.equipo_cirugia')->where('id_cirugia', $id)->delete();
+                }
+
+                if(!$insumosUsados->isEmpty()){
+                    foreach ($insumosUsados as $idElemento) {
+                        DB::table('inventario.insumos')
+                            ->where('id_insumos',$idElemento->id_insumos)
+                            ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
+                    }
+                    DB::table('estetico.insumos_cirugia')->where('id_cirugia', $id)->delete();
+
+                }
+
+                $salaAcambiar = DB::table('estetico.Cirugia')
+                    ->select('id_sala','id_tipo_cirugia')
+                    ->where('id_cirugia', $id)
+                    ->first();
+
+                DB::table('locacion.sala')
+                    ->where('id_sala', $salaAcambiar->id_sala)
+                    ->update(['id_estado_sala' => 1]);
+            }
+            if($request->estatusCirugia == 5){
+                $equipoUsados = DB::table('estetico.equipo_cirugia')
+                    ->select('id_equipo_medico','cantidad')
+                    ->where('id_cirugia',$id)
+                    ->get();
+
+                $insumosUsados = DB::table('estetico.insumos_cirugia')
+                    ->select('id_insumos','cantidad')
+                    ->where('id_cirugia',$id)
+                    ->get();
+
+                if(!$equipoUsados->isEmpty()){
+                    foreach ($equipoUsados as $idElemento) {
+                        $devolver =  DB::table('inventario.equipo_medico')
+                            ->select('id_equipo_medico','devolucion')
+                            ->where('id_equipo_medico',$idElemento->id_equipo_medico)
+                            ->first();
+
+                        if($devolver->devolucion == true){
+                            DB::table('inventario.equipo_medico')
+                                ->where('id_equipo_medico',$idElemento->id_equipo_medico)
+                                ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
+                        }
+                    }
+                }
+
+                if(!$insumosUsados->isEmpty()){
+                    foreach ($insumosUsados as $idElemento) {
+                        $devolver =  DB::table('inventario.insumos')
+                            ->select('id_insumos','devolucion')
+                            ->where('id_insumos',$idElemento->id_insumos)
+                            ->first();
+                        if($devolver->devolucion == true){
+                            DB::table('inventario.insumos')
+                                ->where('id_insumos',$idElemento->id_insumos)
+                                ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
+                        }
+                    }
+                }
+                $salaAcambiar = DB::table('estetico.Cirugia')
+                    ->select('id_sala')
+                    ->where('id_cirugia', $id)
+                    ->first();
+
+                DB::table('locacion.sala')
+                    ->where('id_sala', $salaAcambiar->id_sala)
+                    ->update(['id_estado_sala' => 1]);
             }
 
-            DB::table('estetico.equipo_cirugia')->where('id_cirugia', $id)->delete();
-        }
-        
-        if(!$insumosUsados->isEmpty()){
-            foreach ($insumosUsados as $idElemento) {
-                DB::table('inventario.insumos')
-                ->where('id_insumos',$idElemento->id_insumos)
-                ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
-            }
-            DB::table('estetico.insumos_cirugia')->where('id_cirugia', $id)->delete();
-    
-        }
-
-        $salaAcambiar = DB::table('estetico.Cirugia')
-        ->select('id_sala','id_tipo_cirugia')
-        ->where('id_cirugia', $id)
-        ->first();
-        
-        DB::table('locacion.sala')
-        ->where('id_sala', $salaAcambiar->id_sala) 
-        ->update(['id_estado_sala' => 1]);
-    }
-    if($request->estatusCirugia == 5){
-        $equipoUsados = DB::table('estetico.equipo_cirugia')
-        ->select('id_equipo_medico','cantidad')
-        ->where('id_cirugia',$id)
-        ->get();
-        
-        $insumosUsados = DB::table('estetico.insumos_cirugia')
-        ->select('id_insumos','cantidad')
-        ->where('id_cirugia',$id)
-        ->get();
-
-        if(!$equipoUsados->isEmpty()){
-            foreach ($equipoUsados as $idElemento) {
-                $devolver =  DB::table('inventario.equipo_medico')
-                ->select('id_equipo_medico','devolucion')
-                ->where('id_equipo_medico',$idElemento->id_equipo_medico)
+            $salaAcambiar = DB::table('estetico.Cirugia')
+            ->select('id_sala','id_tipo_cirugia')
+            ->where('id_cirugia', $id)
+            ->first();
+            $Usuario = DB::table('usuario.paciente')
+                ->select('primer_nombre', 'primer_apellido', 'correo')
+                ->where('id_paciente', (int)$request->idPaciente)
+                ->first();
+            $sala = DB::table('locacion.sala')
+                ->select('nombre')
+                ->where('id_sala', (int)$salaAcambiar->id_sala)
+                ->first();
+            $nombreCirugia = DB::table('estetico.tipo_cirugia')
+                ->select('nombre')
+                ->where('id_tipo_cirugia', (int)$salaAcambiar->id_tipo_cirugia)
+                ->first();
+            $estatus = DB::table('estetico.Estatus_cirugia')
+                ->select('nombre')
+                ->where('id_estatus_cirugia', (int)$request->estatusCirugia)
                 ->first();
 
-                if($devolver->devolucion == true){
-                    DB::table('inventario.equipo_medico')
-                    ->where('id_equipo_medico',$idElemento->id_equipo_medico)
-                    ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
-                }
-            }
+
+
+            $fecha_carbon = Carbon::parse($request->fecha);
+            $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
+            $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
+            $hora_formateada = $hora_carbon->format('h:i A');
+            $emailService = new EmailService();
+            $to = $Usuario->correo;
+            $from = 'beautysys.2023@gmail.com';
+            $subject = 'Seguimiento de la cirugia para: ' . $nombreCirugia->nombre;
+            $data = [
+                'first_name' => $Usuario->primer_nombre,
+                'last_name' => $Usuario->primer_apellido,
+                'asunto' => 'Consulta',
+                'estatus' => $estatus->nombre,
+                'dia' => $fecha_formateada,
+                'hora' => $hora_formateada,
+                'whatsapp' => '664 359 9935',
+                'sala' => $sala->nombre
+            ];
+            $response = $emailService->sendEmail($to, $from, $subject, $data);
+
+            session(['activeTab' => 'Cirugias']);
+            return redirect()->route('tablaCirugia')->with('success', 'Cirugía actualizada exitosamente');
+        } catch (\Exception $e) {
+            //dump($e);
+            return redirect()->route('tablaCirugia')->with('error', 'Error al actualizar la cirugía');
         }
-        
-        if(!$insumosUsados->isEmpty()){
-            foreach ($insumosUsados as $idElemento) {
-                $devolver =  DB::table('inventario.insumos')
-                ->select('id_insumos','devolucion')
-                ->where('id_insumos',$idElemento->id_insumos)
-                ->first();
-                if($devolver->devolucion == true){
-                    DB::table('inventario.insumos')
-                    ->where('id_insumos',$idElemento->id_insumos)
-                    ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
-                }
-            }         
-        }
-        $salaAcambiar = DB::table('estetico.Cirugia')
-        ->select('id_sala')
-        ->where('id_cirugia', $id)
-        ->first();
-        
-        DB::table('locacion.sala')
-        ->where('id_sala', $salaAcambiar->id_sala) 
-        ->update(['id_estado_sala' => 1]);
-    }
-
-
-    if($request->estatusCirugia == 2  || $request->estatusCirugia == 3 ){
-        $salaAcambiar = DB::table('estetico.Cirugia')
-        ->select('id_sala','id_tipo_cirugia')
-        ->where('id_cirugia', $id)
-        ->first();
-        $Usuario = DB::table('usuario.paciente')
-        ->select('primer_nombre', 'primer_apellido', 'correo')
-        ->where('id_paciente', (int)$request->idPaciente)
-        ->first(); 
-        $sala = DB::table('locacion.sala')
-        ->select('nombre')
-        ->where('id_sala', (int)$salaAcambiar->id_sala)
-        ->first();
-        $nombreCirugia = DB::table('estetico.tipo_cirugia')
-        ->select('nombre')
-        ->where('id_tipo_cirugia', (int)$salaAcambiar->id_tipo_cirugia)
-        ->first();
-
-
-        
-        $fecha_carbon = Carbon::parse($request->fecha);
-        $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
-        $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
-        $hora_formateada = $hora_carbon->format('h:i A');
-        $emailService = new EmailService();
-        $to = $Usuario->correo;
-        $from = '0320127751@ut-tijuana.edu.mx';
-        $subject = 'Aprobacion de la cirugia para: ' . $nombreCirugia->nombre;
-        $data = [
-            'first_name' => $Usuario->primer_nombre,
-            'last_name' => $Usuario->primer_apellido,
-            'asunto' => 'Consulta',
-            'dia' => $fecha_formateada,
-            'hora' => $hora_formateada,
-            'whatsapp' => '664 359 9935',
-            'sala' => $sala->nombre
-        ];
-        $response = $emailService->sendEmail($to, $from, $subject, $data);
-    }
-
-
-
-
-    session(['activeTab' => 'Cirugias']);
-
-    return redirect()->route('tablaCirugia');
-    
     }
 
     public function vistaCirugia(string $id)
     {
 
         $DatosCirugia = DB::table('estetico.Cirugia')
-            ->select('id_cirugia','fecha_cirugia','id_sala','id_tipo_cirugia','id_paciente','id_estatus_cirugia','id_personal','id_consulta')
-            ->where('id_cirugia',$id)
+            ->select('id_cirugia', 'fecha_cirugia', 'id_sala', 'id_tipo_cirugia', 'id_paciente', 'id_estatus_cirugia', 'id_personal', 'id_consulta')
+            ->where('id_cirugia', $id)
             ->first();
-            
+
         $SelectConsultas = DB::table('estetico.consulta AS C')
-        ->select('C.id_consulta','C.id_paciente',DB::raw("CONCAT(p.primer_nombre,' ',p.primer_apellido,' ',p.segundo_nombre) as nombrePaciente"))
-        ->join('usuario.paciente as P', 'P.id_paciente', '=', 'C.id_paciente')
-        ->join('personal.personal as PP', 'PP.id_personal', '=', 'C.id_personal')
-        ->leftJoin('estetico.cirugia AS CR', 'C.id_consulta', '=', 'CR.id_consulta')
-        ->where('C.aprovacion_cirugia', 1)
-        ->where('C.id_status_consulta', 3)
-        ->where('CR.id_consulta',(int)$DatosCirugia->id_consulta)
-        ->get();
+            ->select('C.id_consulta', 'C.id_paciente', DB::raw("CONCAT(p.primer_nombre,' ',p.primer_apellido,' ',p.segundo_nombre) as nombrePaciente"))
+            ->join('usuario.paciente as P', 'P.id_paciente', '=', 'C.id_paciente')
+            ->join('personal.personal as PP', 'PP.id_personal', '=', 'C.id_personal')
+            ->leftJoin('estetico.cirugia AS CR', 'C.id_consulta', '=', 'CR.id_consulta')
+            ->where('C.aprovacion_cirugia', 1)
+            ->where('C.id_status_consulta', 3)
+            ->where('CR.id_consulta', (int)$DatosCirugia->id_consulta)
+            ->get();
 
         $SelectPersonal = DB::table('personal.personal as P')
-        ->join('personal.departamento as D', 'P.id_departamento', '=', 'D.id_departamento')
-        ->select('P.id_personal', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_apellido) as nombrePersonalAcargo"), 'D.nombre as nombreDepartamento')    
-        ->get();
+            ->join('personal.departamento as D', 'P.id_departamento', '=', 'D.id_departamento')
+            ->select('P.id_personal', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_apellido) as nombrePersonalAcargo"), 'D.nombre as nombreDepartamento')
+            ->get();
 
         $SelectSalas = DB::table('locacion.sala')
-        ->select('id_sala','nombre')
-        ->where('id_sala', (int)$DatosCirugia->id_sala)
-        ->first(); 
+            ->select('id_sala', 'nombre')
+            ->where('id_sala', (int)$DatosCirugia->id_sala)
+            ->first();
 
         $SelectCirugias = DB::table('estetico.tipo_cirugia')
-        ->select('id_tipo_cirugia','nombre')
-        ->get();
+            ->select('id_tipo_cirugia', 'nombre')
+            ->get();
 
         $SelectEstatusCirugia = DB::table('estetico.Estatus_cirugia')
-        ->select('id_estatus_cirugia','nombre')
-        ->get();
+            ->select('id_estatus_cirugia', 'nombre')
+            ->get();
 
         $insumos = DB::table('inventario.insumos')
-        ->select('id_insumos','imagen' ,'nombre', 'cantidad')
-        ->where('id_estatus_insumos', 1)
-        ->get();
+            ->select('id_insumos', 'imagen', 'nombre', 'cantidad')
+            ->where('id_estatus_insumos', 1)
+            ->get();
 
         $equiposMedicos = DB::table('inventario.equipo_medico')
-        ->select('id_equipo_medico','imagen' ,'nombre', 'cantidad')
-        ->where('id_estado_equipo', 1)
-        ->get();
+            ->select('id_equipo_medico', 'imagen', 'nombre', 'cantidad')
+            ->where('id_estado_equipo', 1)
+            ->get();
 
         $EquipoUsado = DB::table('estetico.equipo_cirugia as EC')
-        ->select('EC.id_equipo_medico','EM.nombre','EC.cantidad')
-        ->join('inventario.equipo_medico as EM','EM.id_equipo_medico', '=', 'EC.id_equipo_medico')
-        ->where('EC.id_cirugia', (int)$DatosCirugia->id_cirugia)
-        ->get();
+            ->select('EC.id_equipo_medico', 'EM.nombre', 'EC.cantidad')
+            ->join('inventario.equipo_medico as EM', 'EM.id_equipo_medico', '=', 'EC.id_equipo_medico')
+            ->where('EC.id_cirugia', (int)$DatosCirugia->id_cirugia)
+            ->get();
 
         $InsumoUsado = DB::table('estetico.insumos_cirugia as IC')
-        ->select('IC.id_insumos_cirugia','I.nombre','IC.cantidad')
-        ->join('inventario.insumos as I', 'IC.id_insumos', '=', 'I.id_insumos')
-        ->where('IC.id_cirugia', (int)$DatosCirugia->id_cirugia)
-        ->get();
+            ->select('IC.id_insumos_cirugia', 'I.nombre', 'IC.cantidad')
+            ->join('inventario.insumos as I', 'IC.id_insumos', '=', 'I.id_insumos')
+            ->where('IC.id_cirugia', (int)$DatosCirugia->id_cirugia)
+            ->get();
 
         $analisis = DB::table('estetico.analisis')
         ->select(
@@ -527,7 +528,7 @@ class CirugiaController extends Controller
             'id_consulta',
         )
         ->where('id_consulta',(int)$DatosCirugia->id_consulta)
-        ->get(); 
+        ->get();
 
 
         // dump($DatosCirugia);
@@ -535,61 +536,92 @@ class CirugiaController extends Controller
         session(['activeTab' => 'Cirugias']);
 
         return view('Cirugia.cirugiaVista', compact('SelectConsultas','SelectPersonal','SelectSalas','SelectCirugias','SelectEstatusCirugia','DatosCirugia','insumos','equiposMedicos','EquipoUsado','InsumoUsado','analisis'));
-
     }
 
     /**
      * Remove the specified resource from storage.
      */
+
+    public function cancelarForm(string $id)
+    {
+        $cirugia = DB::table('estetico.Cirugia AS C')
+            ->select(
+                'c.id_cirugia',
+                'c.fecha_cirugia',
+                's.nombre as nombresala',
+                'tc.nombre as nombreCirugia',
+                DB::raw("CONCAT(p.primer_nombre,' ',p.primer_apellido,' ',p.segundo_nombre) as nombrePaciente"),
+                'ec.nombre as estatusCirugia', 'C.id_estatus_cirugia',
+                DB::raw("CONCAT(pp.primer_nombre,' ',pp.primer_apellido,' ',pp.segundo_apellido) as nombrePersonalAcargo"),
+                'c.id_consulta'
+            )
+            ->join('estetico.Estatus_cirugia AS EC', 'EC.id_estatus_cirugia', '=', 'C.id_estatus_cirugia')
+            ->join('locacion.sala AS S', 'S.id_sala', '=', 'C.id_sala')
+            ->join('estetico.tipo_cirugia as TC', 'TC.id_tipo_cirugia', '=', 'C.id_tipo_cirugia')
+            ->join('usuario.paciente as P', 'p.id_paciente', '=', 'C.id_paciente')
+            ->join('personal.personal as PP', 'pp.id_personal', '=', 'C.id_personal')
+            ->where('id_cirugia', $id)
+            ->first();
+
+        //dump($cirugia);
+        session(['activeTab' => 'Cirugias']);
+        return view('cirugia.cirugiaCancelar', compact('cirugia'));
+    }
+
     public function cancelar(string $id)
     {
-        DB::table('estetico.Cirugia')
-        ->where('id_cirugia', $id)
-        ->update([
-            'id_estatus_cirugia' => 7,
-        ]);
+        try {
+            DB::table('estetico.Cirugia')
+                ->where('id_cirugia', $id)
+                ->update([
+                    'id_estatus_cirugia' => 7,
+                ]);
 
-        $equipoUsados = DB::table('estetico.equipo_cirugia')
-        ->select('id_equipo_medico','cantidad')
-        ->where('id_cirugia',$id)
-        ->get();
-        
-        $insumosUsados = DB::table('estetico.insumos_cirugia')
-        ->select('id_insumos','cantidad')
-        ->where('id_cirugia',$id)
-        ->get();
+            $equipoUsados = DB::table('estetico.equipo_cirugia')
+                ->select('id_equipo_medico', 'cantidad')
+                ->where('id_cirugia', $id)
+                ->get();
 
-        if(!$equipoUsados->isEmpty()){
-            foreach ($equipoUsados as $idElemento) {
-            DB::table('inventario.equipo_medico')
-            ->where('id_equipo_medico',$idElemento->id_equipo_medico)
-            ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
+            $insumosUsados = DB::table('estetico.insumos_cirugia')
+                ->select('id_insumos', 'cantidad')
+                ->where('id_cirugia', $id)
+                ->get();
+
+            if (!$equipoUsados->isEmpty()) {
+                foreach ($equipoUsados as $idElemento) {
+                    DB::table('inventario.equipo_medico')
+                        ->where('id_equipo_medico', $idElemento->id_equipo_medico)
+                        ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
+                }
+
+                DB::table('estetico.equipo_cirugia')->where('id_cirugia', $id)->delete();
             }
 
-            DB::table('estetico.equipo_cirugia')->where('id_cirugia', $id)->delete();
-        }
-        
-        if(!$insumosUsados->isEmpty()){
-            foreach ($insumosUsados as $idElemento) {
-                DB::table('inventario.insumos')
-                ->where('id_insumos',$idElemento->id_insumos)
-                ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
+            if (!$insumosUsados->isEmpty()) {
+                foreach ($insumosUsados as $idElemento) {
+                    DB::table('inventario.insumos')
+                        ->where('id_insumos', $idElemento->id_insumos)
+                        ->update(['cantidad' => DB::raw("cantidad + $idElemento->cantidad")]);
+                }
+                DB::table('estetico.insumos_cirugia')->where('id_cirugia', $id)->delete();
+
             }
-            DB::table('estetico.insumos_cirugia')->where('id_cirugia', $id)->delete();
-    
+
+            $salaAcambiar = DB::table('estetico.Cirugia')
+                ->select('id_sala')
+                ->where('id_cirugia', $id)
+                ->first();
+
+            DB::table('locacion.sala')
+                ->where('id_sala', $salaAcambiar->id_sala)
+                ->update(['id_estado_sala' => 1]);
+
+            session(['activeTab' => 'Cirugias']);
+            return redirect()->route('tablaCirugia')->with('success', 'Cirugía cancelada exitosamente');
+        } catch (\Exception $e) {
+            //dump($e);
+            return redirect()->route('tablaCirugia')->with('error', 'Error al cancelar la cirugía');
         }
-
-        $salaAcambiar = DB::table('estetico.Cirugia')
-        ->select('id_sala')
-        ->where('id_cirugia', $id)
-        ->first();
-        
-        DB::table('locacion.sala')
-        ->where('id_sala', $salaAcambiar->id_sala) 
-        ->update(['id_estado_sala' => 1]);
-        session(['activeTab' => 'Cirugias']);
-
-        return redirect()->route('tablaCirugia');
     }
 
     public function obtenerAnalisis($id) {
@@ -603,22 +635,19 @@ class CirugiaController extends Controller
             )
             ->where('id_consulta', $id)
             ->get();
-    
+
         return response()->json($analisis);
     }
     public function mostrarPDF($id) {
         $analisis = DB::table('estetico.analisis')
             ->where('id_analisis', $id)
             ->value('ruta');
-    
+
         $rutaCompleta = Storage::disk('archivosAnalisis')->path($analisis);
-    
+
         $contenidoPDF = file_get_contents($rutaCompleta);
-    
+
         return response($contenidoPDF)
             ->header('Content-Type', 'application/pdf');
     }
-
-
-    
 }

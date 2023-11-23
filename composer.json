@@ -12,7 +12,7 @@
         "illuminate/database": "^10.15",
         "laravel/framework": "^10.10",
         "laravel/jetstream": "^3.2",
-        "laravel/sanctum": "^3.2",
+        "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^2.11",
         "nesbot/carbon": "^2.68",

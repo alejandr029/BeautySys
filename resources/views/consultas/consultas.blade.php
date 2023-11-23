@@ -96,7 +96,7 @@
 
 @section('content')
 
-@if (session('success'))
+    @if (session('success'))
         <div class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
             <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
                 <strong>{{ session('success') }}</strong>
@@ -182,11 +182,11 @@
                                                         <i class="material-icons">edit</i>
                                                     </button>
 
-                                                    <form method="POST" action="{{ route('CancelarConsulta', ['id' => $consulta->id]) }}" @if($consulta->id_status_consulta == '3'||  $consulta->id_status_consulta == '4') @style('display:none;') @endif onsubmit="mostrarLoader()">
+                                                    <form method="POST" action="{{ route('CancelarConsultaForm', ['id' => $consulta->id]) }}" @if($consulta->id_status_consulta == '3'||  $consulta->id_status_consulta == '4') @style('display:none;') @endif onsubmit="mostrarLoader()">
                                                         @csrf
-                                                        @method('PUT')
+                                                        @method('get')
                                                         <button type="submit" class="btn btn-danger" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">
-                                                            <i class="material-icons">delete_outline</i>
+                                                            <i class="material-icons">block</i>
                                                         </button>
                                                     </form>
                                                 </div>
