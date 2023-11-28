@@ -178,6 +178,20 @@
             @endif
 
             @if(auth()->user()->hasRole(['user']))
+
+
+            <li class="nav-item">
+                <a class="nav-link text-white <?php echo session('activeTab') === 'CitasUsuarios' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('CitasUsuarios.index') }}" onclick="mostrarLoader()">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <!-- Icono de calendario -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2V5H0V2zm14 2h1v1h-1V4zm-3 0h1v1h-1V4zM5 4h1v1H5V4zM2 4h1v1H2V4zM0 6h16v9H0V6zm2 1v2h3V7H2zm5 0v2h3V7H7zm5 0v2h3V7h-3z"/>
+                        </svg>
+                    </div>
+                    <span class="nav-link-text ms-1">Agendar Cita</span>
+                </a>
+            </li>
+
               <li class="nav-item">
                 <a class="nav-link text-white <?php echo session('activeTab') === 'Alergias' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('alergiasTabla', Auth::user()->id) }}" onclick="mostrarLoader()">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -187,6 +201,8 @@
                     <span class="nav-link-text ms-1">Alergias</span>
                 </a>
               </li>
+
+
               <li class="nav-item">
                 <a class="nav-link text-white <?php echo session('activeTab') === 'Enfermedad Cronicas' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('enfermedadesCronicasTabla', Auth::user()->id) }}" onclick="mostrarLoader()">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">

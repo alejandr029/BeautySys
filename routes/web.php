@@ -15,7 +15,9 @@ use App\Http\Controllers\CirugiaController;
 use App\Http\Controllers\ConsultasController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AlergiasController;
+use App\Http\Controllers\CitasUsuarios;
 use App\Http\Controllers\EnfermedadesCronicasController;
+use App\Models\CitasUsuario;
 
 Route::view('/','layout.landing');
 
@@ -118,7 +120,8 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/actualizar-cita/id={id}', [CitasController::class, 'update'])->name('Citas.update');
         Route::delete('/eliminar-cita/id={id}', [CitasController::class, 'destroyForm'])->name('Citas.destroyForm');
         Route::delete('/eliminar/id={id}', [CitasController::class, 'destroy'])->name('Citas.destroy');
-
+        //CITA USUARIOS
+        Route::get('/CitaUssuarios',[CitasUsuarios::class, 'index'])->name('CitasUsuarios.index');
         // CIRUGIA
         Route::get('/cirugia', [CirugiaController::class, 'index'])->name('tablaCirugia');
         Route::get('/cirugia-crear', [CirugiaController::class, 'selectConsultas'])->name('vistacrearCirugia');
