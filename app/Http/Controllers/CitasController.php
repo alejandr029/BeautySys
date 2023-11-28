@@ -23,9 +23,11 @@ class CitasController extends Controller
 {
     public function index()
     {
-        $citas = Cita::orderByDesc('id_cita')->paginate(5);
+        $citas = Cita::where('id_estado_cita', '!=', '8')->orderByDesc('id_cita')->paginate(5);
+        $citasConfirmar = Cita::where('id_estado_cita', '=', '8')->get();
+        $tiposCita = TipoCita::all();
         session(['activeTab' => 'Citas']);
-        return view('Citas.citas', compact('citas'));
+        return view('Citas.citas', compact('citas', 'citasConfirmar', 'tiposCita'));
     }
 
     public function show($id)
@@ -94,11 +96,11 @@ class CitasController extends Controller
             if($request->id_estado_cita == 4){
                 $sala->id_estado_sala = '3';
                 $sala->save();
-                                
+
             $Usuario = DB::table('usuario.paciente')
             ->select('primer_nombre', 'primer_apellido', 'correo')
             ->where('id_paciente', (int)$request->id_paciente)
-            ->first(); 
+            ->first();
             $sala = DB::table('locacion.sala')
             ->select('nombre')
             ->where('id_sala', (int)$request->id_sala)
@@ -106,7 +108,7 @@ class CitasController extends Controller
             $cita = DB::table('estetico.tipo_cita')
             ->select('nombre')
             ->where('id_tipo_cita', (int)$request->id_tipo_cita)
-            ->first(); 
+            ->first();
             $fecha_carbon = Carbon::parse($request->fecha_cita);
             $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
             $hora_carbon = Carbon::createFromFormat('H:i', $request->hora_cita);
@@ -209,19 +211,19 @@ class CitasController extends Controller
 
             if($request->id_estado_cita == 4){
 
-                
+
             $Usuario = DB::table('usuario.paciente')
             ->select('primer_nombre', 'primer_apellido', 'correo')
             ->where('id_paciente', (int)$request->id_paciente)
-            ->first(); 
+            ->first();
             $sala = DB::table('locacion.sala')
             ->select('nombre')
             ->where('id_sala', (int)$request->id_sala)
-            ->first(); 
+            ->first();
             $cita = DB::table('estetico.tipo_cita')
             ->select('nombre')
             ->where('id_tipo_cita', (int)$request->id_tipo_cita)
-            ->first(); 
+            ->first();
             $fecha_carbon = Carbon::parse($request->fecha);
             $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
             $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
@@ -242,7 +244,7 @@ class CitasController extends Controller
             $response = $emailService->sendEmail($to, $from, $subject, $data);
 
             }
-            
+
 
             //dump($request->all(),   $horaFormat, $fechaFormat);
 
