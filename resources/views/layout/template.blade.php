@@ -15,9 +15,14 @@
   <title>
       BeautySys
   </title>
-
+  <!--     Fonts and icons     -->
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+  <!-- Nucleo Icons -->
+  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
@@ -33,7 +38,29 @@
 
     <script src="{{ asset('assets/js/loader.js') }}"></script>
 
+
+    <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/core/bootstrap.min.js"></script>
+    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script src="../assets/js/plugins/chartjs.min.js"></script>
+
+
+
+  {{-- CALENDARIO LINKS --}}
+  {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/locale/es.js"></script>
+
+
 </head>
+
 
 <style>
   .backbutton{
@@ -165,6 +192,32 @@
             @endif
 
             @if(auth()->user()->hasRole(['user']))
+
+
+            <li class="nav-item">
+                <a class="nav-link text-white <?php echo session('activeTab') === 'CitasUsuarios' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('CitasUsuarios.index') }}" onclick="mostrarLoader()">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <!-- Icono de calendario -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2V5H0V2zm14 2h1v1h-1V4zm-3 0h1v1h-1V4zM5 4h1v1H5V4zM2 4h1v1H2V4zM0 6h16v9H0V6zm2 1v2h3V7H2zm5 0v2h3V7H7zm5 0v2h3V7h-3z"/>
+                        </svg>
+                    </div>
+                    <span class="nav-link-text ms-1">Agendar Cita</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link text-white <?php echo session('activeTab') === 'Calendario' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('Calendario', Auth::user()->id) }}" onclick="mostrarLoader()">
+                  <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                      <!-- Icono de calendario -->
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event-fill" viewBox="0 0 16 16">
+                        <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5"/>
+                      </svg>
+                  </div>
+                  <span class="nav-link-text ms-1">Calendario</span>
+              </a>
+          </li>
+
               <li class="nav-item">
                 <a class="nav-link text-white <?php echo session('activeTab') === 'Alergias' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('alergiasTabla', Auth::user()->id) }}" onclick="mostrarLoader()">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -174,6 +227,8 @@
                     <span class="nav-link-text ms-1">Alergias</span>
                 </a>
               </li>
+
+
               <li class="nav-item">
                 <a class="nav-link text-white <?php echo session('activeTab') === 'Enfermedad Cronicas' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('enfermedadesCronicasTabla', Auth::user()->id) }}" onclick="mostrarLoader()">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -236,4 +291,6 @@
     @yield('content')
   </main>
 </body>
+<script src="{{ asset('js/your-custom-js-file.js') }}"></script>
+
 </html>

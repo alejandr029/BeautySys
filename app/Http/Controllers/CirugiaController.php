@@ -410,46 +410,48 @@ class CirugiaController extends Controller
                     ->update(['id_estado_sala' => 1]);
             }
 
+            $salaAcambiar = DB::table('estetico.Cirugia')
+            ->select('id_sala','id_tipo_cirugia')
+            ->where('id_cirugia', $id)
+            ->first();
+            $Usuario = DB::table('usuario.paciente')
+                ->select('primer_nombre', 'primer_apellido', 'correo')
+                ->where('id_paciente', (int)$request->idPaciente)
+                ->first();
+            $sala = DB::table('locacion.sala')
+                ->select('nombre')
+                ->where('id_sala', (int)$salaAcambiar->id_sala)
+                ->first();
+            $nombreCirugia = DB::table('estetico.tipo_cirugia')
+                ->select('nombre')
+                ->where('id_tipo_cirugia', (int)$salaAcambiar->id_tipo_cirugia)
+                ->first();
+            $estatus = DB::table('estetico.Estatus_cirugia')
+                ->select('nombre')
+                ->where('id_estatus_cirugia', (int)$request->estatusCirugia)
+                ->first();
 
-            if($request->estatusCirugia == 2  || $request->estatusCirugia == 3 ){
-                $salaAcambiar = DB::table('estetico.Cirugia')
-                    ->select('id_sala','id_tipo_cirugia')
-                    ->where('id_cirugia', $id)
-                    ->first();
-                $Usuario = DB::table('usuario.paciente')
-                    ->select('primer_nombre', 'primer_apellido', 'correo')
-                    ->where('id_paciente', (int)$request->idPaciente)
-                    ->first();
-                $sala = DB::table('locacion.sala')
-                    ->select('nombre')
-                    ->where('id_sala', (int)$salaAcambiar->id_sala)
-                    ->first();
-                $nombreCirugia = DB::table('estetico.tipo_cirugia')
-                    ->select('nombre')
-                    ->where('id_tipo_cirugia', (int)$salaAcambiar->id_tipo_cirugia)
-                    ->first();
 
 
-
-                $fecha_carbon = Carbon::parse($request->fecha);
-                $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
-                $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
-                $hora_formateada = $hora_carbon->format('h:i A');
-                $emailService = new EmailService();
-                $to = $Usuario->correo;
-                $from = '0320127751@ut-tijuana.edu.mx';
-                $subject = 'Aprobacion de la cirugia para: ' . $nombreCirugia->nombre;
-                $data = [
-                    'first_name' => $Usuario->primer_nombre,
-                    'last_name' => $Usuario->primer_apellido,
-                    'asunto' => 'Consulta',
-                    'dia' => $fecha_formateada,
-                    'hora' => $hora_formateada,
-                    'whatsapp' => '664 359 9935',
-                    'sala' => $sala->nombre
-                ];
-                $response = $emailService->sendEmail($to, $from, $subject, $data);
-            }
+            $fecha_carbon = Carbon::parse($request->fecha);
+            $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
+            $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
+            $hora_formateada = $hora_carbon->format('h:i A');
+            $emailService = new EmailService();
+            $to = $Usuario->correo;
+            $from = 'beautysys.2023@gmail.com';
+            $subject = 'Seguimiento de la cirugia para: ' . $nombreCirugia->nombre;
+            $data = [
+                'first_name' => $Usuario->primer_nombre,
+                'last_name' => $Usuario->primer_apellido,
+                'asunto' => 'Consulta',
+                'estatus' => $estatus->nombre,
+                'dia' => $fecha_formateada,
+                'hora' => $hora_formateada,
+                'whatsapp' => '664 359 9935',
+                'sala' => $sala->nombre
+            ];
+            $response = $emailService->sendEmail($to, $from, $subject, $data);
 
             session(['activeTab' => 'Cirugias']);
             return redirect()->route('tablaCirugia')->with('success', 'Cirugía actualizada exitosamente');

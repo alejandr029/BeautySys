@@ -15,7 +15,10 @@ use App\Http\Controllers\CirugiaController;
 use App\Http\Controllers\ConsultasController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AlergiasController;
+use App\Http\Controllers\CitasUsuarios;
 use App\Http\Controllers\EnfermedadesCronicasController;
+use App\Models\CitasUsuario;
+use App\Http\Controllers\FullCalendarController;
 
 Route::view('/','layout.landing');
 
@@ -118,7 +121,8 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/actualizar-cita/id={id}', [CitasController::class, 'update'])->name('Citas.update');
         Route::delete('/eliminar-cita/id={id}', [CitasController::class, 'destroyForm'])->name('Citas.destroyForm');
         Route::delete('/eliminar/id={id}', [CitasController::class, 'destroy'])->name('Citas.destroy');
-
+        //CITA USUARIOS
+        Route::get('/CitaUssuarios',[CitasUsuarios::class, 'index'])->name('CitasUsuarios.index');
         // CIRUGIA
         Route::get('/cirugia', [CirugiaController::class, 'index'])->name('tablaCirugia');
         Route::get('/cirugia-crear', [CirugiaController::class, 'selectConsultas'])->name('vistacrearCirugia');
@@ -150,6 +154,11 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/ConsultaCancelar/{id}', [ConsultasController::class, 'cancelar'])->name('CancelarConsulta');
         Route::get('/ver_pdf/{id_analisis}', [ConsultasController::class, 'mostrarPDF'])->name('mostrar.pdf');
         Route::get('/eliminar/{id_analisis}', [ConsultasController::class, 'eliminarPDF'])->name('eliminar.pdf');
+
+        //Calendario
+        Route::get('/Calendario/{id}', [FullCalendarController::class, 'index'])->name('Calendario');
+        Route::get('/get-events/{id}', [FullCalendarController::class, 'getEvents']);
+
 //    });
 });
 
