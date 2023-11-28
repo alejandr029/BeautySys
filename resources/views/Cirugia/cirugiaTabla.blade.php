@@ -1,5 +1,5 @@
 @php
-use Carbon\Carbon;
+    use Carbon\Carbon;
 @endphp
 
 <style>
@@ -168,11 +168,11 @@ use Carbon\Carbon;
 
                                                <button type="button" class="btn btn-warning" @if( $Cirugia->id_estatus_cirugia == '6' ||  $Cirugia->id_estatus_cirugia == '7' ||  $Cirugia->id_estatus_cirugia == '5') @style('display:none;') @endif
                                                style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('vistaActualizarCirugia', ['id' => $Cirugia->id_cirugia ]) }}'; mostrarLoader();"><i class="material-icons">edit</i></button>
-                                               <form method="POST" action="{{ route('CancelarCirugia', ['id' => $Cirugia->id_cirugia]) }}" @if( $Cirugia->id_estatus_cirugia == '6' ||  $Cirugia->id_estatus_cirugia == '7'||  $Cirugia->id_estatus_cirugia == '5') @style('display:none;') @endif onsubmit="mostrarLoader();">
+                                               <form method="POST" action="{{ route('CancelarCirugiaForm', ['id' => $Cirugia->id_cirugia]) }}" @if( $Cirugia->id_estatus_cirugia == '6' ||  $Cirugia->id_estatus_cirugia == '7'||  $Cirugia->id_estatus_cirugia == '5') @style('display:none;') @endif onsubmit="mostrarLoader();">
                                                 @csrf
-                                                @method('PUT')
+                                                @method('get')
                                                 <button type="submit" class="btn btn-danger" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">
-                                                    <i class="material-icons">delete_outline</i>
+                                                    <i class="material-icons">block</i>
                                                 </button>
                                             </form>
                                             </div>

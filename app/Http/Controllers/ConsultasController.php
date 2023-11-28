@@ -13,9 +13,6 @@ use App\Services\EmailService;
 
 class ConsultasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $consultas = DB::table('estetico.consulta as ec')
@@ -38,8 +35,8 @@ class ConsultasController extends Controller
         // ->where('ec.id_status_consulta','!=',3)
         // ->where('ec.id_status_consulta','!=',4)
         ->orderByDesc('ec.id_consulta ')
-        ->Paginate(5); 
-        
+        ->Paginate(5);
+
         session(['activeTab' => 'Consultas']);
         return view('consultas.consultas',compact('consultas'));
     }
@@ -48,7 +45,7 @@ class ConsultasController extends Controller
 
         $SelectPersonal = DB::table('personal.personal as P')
         ->join('personal.departamento as D', 'P.id_departamento', '=', 'D.id_departamento')
-        ->select('P.id_personal', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_apellido) as nombrePersonalAcargo"), 'D.nombre as nombreDepartamento')    
+        ->select('P.id_personal', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_apellido) as nombrePersonalAcargo"), 'D.nombre as nombreDepartamento')
         ->get();
 
         $sala = DB::table('locacion.sala as ls')
@@ -73,7 +70,7 @@ class ConsultasController extends Controller
 
     public function pacientesConsulta($id)
     {
-        
+
         $datos_busqueda = json_decode(urldecode($id));
 
         $nombre = $datos_busqueda[0];
@@ -91,7 +88,7 @@ class ConsultasController extends Controller
     }
     public function pacienteConsulta($id)
     {
-        
+
         $datlospaciente = DB::table('usuario.paciente')
         ->select('id_paciente', DB::raw("CONCAT(primer_nombre, ' ', primer_apellido, ' ', segundo_apellido) as nombrePaciente"), 'correo as correoPaciente', 'telefono as telefonoPaciente')
         ->where('id_paciente', $id)
@@ -104,68 +101,75 @@ class ConsultasController extends Controller
     }
 
     public function crear(Request $request){
+        try{
+            DB::table('estetico.consulta')->insert([
+                'fecha_visita' => date('Y-m-d H:i:s', strtotime($request->fecha . ' ' . $request->hora)),
+                'id_paciente' => $request->id_Paciente,
+                'id_personal' => $request->personal,
+                'datos_consulta' => $request->datos_consultas,
+                'id_status_consulta' => $request->estatus_consultas,
+                'id_sala' => $request->consulta_sala,
+              ]);
 
-        DB::table('estetico.consulta')->insert([
-            'fecha_visita' => date('Y-m-d H:i:s', strtotime($request->fecha . ' ' . $request->hora)),
-            'id_paciente' => $request->id_Paciente,
-            'id_personal' => $request->personal,
-            'datos_consulta' => $request->datos_consultas,
-            'id_status_consulta' => $request->estatus_consultas,
-            'id_sala' => $request->consulta_sala,
-        ]);
+            if($request->estatus_consultas == 1 or 2){
+                DB::table('locacion.sala')
+                    ->where('nombre', $request->consulta_sala)
+                    ->update([
+                        'id_estado_sala' => 3
+                    ]);
+            }
+
+            if($request->estatus_consultas == 3 or 4 or 5){
+                DB::table('locacion.sala')
+                    ->where('nombre', $request->consulta_sala)
+                    ->update([
+                        'id_estado_sala' => 1
+                    ]);
+            }
 
 
-        if($request->estatus_consultas == 1){
-            $Usuario = DB::table('usuario.paciente')
-            ->select('primer_nombre', 'primer_apellido', 'correo')
-            ->where('id_paciente', (int)$request->id_Paciente)
-            ->first(); 
-            $sala = DB::table('locacion.sala')
-            ->select('nombre')
-            ->where('id_sala', (int)$request->consulta_sala)
-            ->first();
-            $fecha_carbon = Carbon::parse($request->fecha);
-            $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
-            $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
-            $hora_formateada = $hora_carbon->format('h:i A');
-            $emailService = new EmailService();
-            $to = $Usuario->correo;
-            $from = '0320127751@ut-tijuana.edu.mx';
-            $subject = 'Aprobacion de la consulta';
-            $data = [
-                'first_name' => $Usuario->primer_nombre,
-                'last_name' => $Usuario->primer_apellido,
-                'asunto' => 'Consulta',
-                'dia' => $fecha_formateada,
-                'hora' => $hora_formateada,
-                'whatsapp' => '664 359 9935',
-                'sala' => $sala->nombre
-            ];
-            $response = $emailService->sendEmail($to, $from, $subject, $data);
+                $Usuario = DB::table('usuario.paciente')
+                ->select('primer_nombre', 'primer_apellido', 'correo')
+                ->where('id_paciente', (int)$request->id_Paciente)
+                ->first(); 
+                $sala = DB::table('locacion.sala')
+                ->select('nombre')
+                ->where('id_sala', (int)$request->consulta_sala)
+                ->first();
+
+                $estatus = DB::table('estetico.status_consulta')
+                ->select('nombre')
+                ->where('id_status_consulta', (int)$request->estatus_consultas)
+                ->first(); 
+
+                $fecha_carbon = Carbon::parse($request->fecha);
+                $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
+                $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
+                $hora_formateada = $hora_carbon->format('h:i A');
+                $emailService = new EmailService();
+                $to = $Usuario->correo;
+                $from = 'beautysys.2023@gmail.com';
+                $subject = 'Seguimiento de la consulta';
+                $data = [
+                    'first_name' => $Usuario->primer_nombre,
+                    'last_name' => $Usuario->primer_apellido,
+                    'asunto' => 'Consulta',
+                    'estatus' => $estatus->nombre,
+                    'dia' => $fecha_formateada,
+                    'hora' => $hora_formateada,
+                    'whatsapp' => '664 359 9935',
+                    'sala' => $sala->nombre
+                ];
+                $response = $emailService->sendEmail($to, $from, $subject, $data);
+
+
+
+            session(['activeTab' => 'Consultas']);
+            return redirect()->route('consultas.index')->with('success', 'Consulta creada correctamente.');
+        } catch (\Exception $e) {
+            // Mostrar mensaje de error
+            return redirect()->route('consultas.index')->with('error', 'No se pudo crear la consulta.');
         }
-
-
-        if($request->estatus_consultas == 1 or 2){
-            DB::table('locacion.sala')
-            ->where('nombre', $request->consulta_sala)
-            ->update([
-                'id_estado_sala' => 3 
-            ]);
-        } 
-
-        if($request->estatus_consultas == 3 or 4 or 5){
-            DB::table('locacion.sala')
-            ->where('nombre', $request->consulta_sala)
-            ->update([
-                'id_estado_sala' => 1
-            ]);
-        } 
-
-        session(['activeTab' => 'Consultas']);
-
-    
-        return redirect()->route('consultas.index')->with('success', 'consulta creado correctamente.');
-
     }
 
     /**
@@ -183,11 +187,11 @@ class ConsultasController extends Controller
             'aprovacion_cirugia',
             'id_status_consulta',
             'id_sala'
-            
+
         )
         ->where('ec.id_consulta' , $id )
-        ->first(); 
-        
+        ->first();
+
 
         $paciente = DB::table('usuario.paciente')
         ->select(
@@ -195,15 +199,15 @@ class ConsultasController extends Controller
             DB::raw("CONCAT(primer_nombre, ' ', primer_apellido, ' ', segundo_apellido) as nombrePaciente"),
             'fecha_nacimiento',
             'telefono',
-            'correo'	
+            'correo'
         )
         ->where('id_paciente',(int)$consultas->id_paciente)
-        ->first(); 
-        
+        ->first();
+
         $SelectPersonal = DB::table('personal.personal as P')
         ->join('personal.departamento as D', 'P.id_departamento', '=', 'D.id_departamento')
-        ->select('P.id_personal', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_apellido) as nombrePersonalAcargo"), 'D.nombre as nombreDepartamento') 
-        ->where('P.id_personal', (int)$consultas->id_personal)   
+        ->select('P.id_personal', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_apellido) as nombrePersonalAcargo"), 'D.nombre as nombreDepartamento')
+        ->where('P.id_personal', (int)$consultas->id_personal)
         ->get();
 
         $sala = DB::table('locacion.sala as ls')
@@ -228,8 +232,6 @@ class ConsultasController extends Controller
         ->where('id_consulta',(int)$consultas->id_consulta)
         ->get(); 
 
-
-        
         session(['activeTab' => 'Consultas']);
         return view('consultas.consultavista',compact('consultas','SelectPersonal','sala','status','paciente', 'analisis'));
     }
@@ -246,11 +248,11 @@ class ConsultasController extends Controller
             'aprovacion_cirugia',
             'id_status_consulta',
             'id_sala'
-            
+
         )
         ->where('ec.id_consulta' , $id )
-        ->first(); 
-        
+        ->first();
+
 
         $paciente = DB::table('usuario.paciente')
         ->select(
@@ -258,15 +260,15 @@ class ConsultasController extends Controller
             DB::raw("CONCAT(primer_nombre, ' ', primer_apellido, ' ', segundo_apellido) as nombrePaciente"),
             'fecha_nacimiento',
             'telefono',
-            'correo'	
+            'correo'
         )
         ->where('id_paciente',$consultas->id_paciente)
-        ->first(); 
-        
+        ->first();
+
         $SelectPersonal = DB::table('personal.personal as P')
         ->join('personal.departamento as D', 'P.id_departamento', '=', 'D.id_departamento')
-        ->select('P.id_personal', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_apellido) as nombrePersonalAcargo"), 'D.nombre as nombreDepartamento') 
-        ->where('P.id_personal', (int)$consultas->id_personal)   
+        ->select('P.id_personal', DB::raw("CONCAT(P.primer_nombre, ' ', P.primer_apellido, ' ', P.segundo_apellido) as nombrePersonalAcargo"), 'D.nombre as nombreDepartamento')
+        ->where('P.id_personal', (int)$consultas->id_personal)
         ->get();
 
         $sala = DB::table('locacion.sala as ls')
@@ -288,10 +290,10 @@ class ConsultasController extends Controller
             'id_consulta',
         )
         ->where('id_consulta',(int)$consultas->id_consulta)
-        ->get(); 
-            
+        ->get();
 
-        
+
+
         session(['activeTab' => 'Consultas']);
         return view('consultas.consultaactualizar',compact('consultas','SelectPersonal','sala','status','paciente','analisis'));
     }
@@ -301,115 +303,126 @@ class ConsultasController extends Controller
      */
     public function actualizarConsulta(Request $request, string $id)
     {
-        
-        
-        DB::table('estetico.consulta')
-        ->where('id_consulta', $id)
-        ->update([
-            'fecha_visita' => date('Y-m-d H:i:s', strtotime($request->fecha . ' ' . $request->hora)),
-            'id_personal' => $request->personal,
-            'datos_consulta' => $request->datos_consultas,
-            'id_status_consulta' => $request->estatus_consultas,
-            'id_sala' => $request->consulta_sala,
-            'aprovacion_cirugia' =>$request->Aprovacion_cirugia,
-        ]);
+        try {
+          DB::table('estetico.consulta')
+          ->where('id_consulta', $id)
+          ->update([
+              'fecha_visita' => date('Y-m-d H:i:s', strtotime($request->fecha . ' ' . $request->hora)),
+              'id_personal' => $request->personal,
+              'datos_consulta' => $request->datos_consultas,
+              'id_status_consulta' => $request->estatus_consultas,
+              'id_sala' => $request->consulta_sala,
+              'aprovacion_cirugia' =>$request->Aprovacion_cirugia,
+          ]);
 
-        if($request->estatus_consultas == 1){
+            if ($request->estatus_consultas == 2) {
+                DB::table('locacion.sala')
+                ->where('id_sala', $request->consulta_sala)
+                ->update([
+                    'id_estado_sala' => 3
+                ]);
+            } else {
+                DB::table('locacion.sala')
+                ->where('id_sala', $request->consulta_sala)
+                ->update([
+                    'id_estado_sala' => 1
+                ]);
+            }
+
+
             $Usuario = DB::table('usuario.paciente')
-            ->select('primer_nombre', 'primer_apellido', 'correo')
-            ->where('id_paciente', (int)$request->id_paciente)
-            ->first(); 
-            $sala = DB::table('locacion.sala')
-            ->select('nombre')
-            ->where('id_sala', (int)$request->consulta_sala)
-            ->first();
-            $fecha_carbon = Carbon::parse($request->fecha);
-            $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
-            $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
-            $hora_formateada = $hora_carbon->format('h:i A');
-            $emailService = new EmailService();
-            $to = $Usuario->correo;
-            $from = '0320127751@ut-tijuana.edu.mx';
-            $subject = 'Aprobacion de la consulta';
-            $data = [
-                'first_name' => $Usuario->primer_nombre,
-                'last_name' => $Usuario->primer_apellido,
-                'asunto' => 'Consulta',
-                'dia' => $fecha_formateada,
-                'hora' => $hora_formateada,
-                'whatsapp' => '664 359 9935',
-                'sala' => $sala->nombre
-            ];
-            $response = $emailService->sendEmail($to, $from, $subject, $data);
+              ->select('primer_nombre', 'primer_apellido', 'correo')
+              ->where('id_paciente', (int)$request->id_paciente)
+              ->first(); 
+              $sala = DB::table('locacion.sala')
+              ->select('nombre')
+              ->where('id_sala', (int)$request->consulta_sala)
+              ->first();
+              $estatus = DB::table('estetico.status_consulta')
+                ->select('nombre')
+                ->where('id_status_consulta', (int)$request->estatus_consultas)
+                ->first(); 
+
+              $fecha_carbon = Carbon::parse($request->fecha);
+              $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
+              $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
+              $hora_formateada = $hora_carbon->format('h:i A');
+              $emailService = new EmailService();
+              $to = $Usuario->correo;
+              $from = 'beautysys.2023@gmail.com';
+              $subject = 'Seguimiento de la consulta';
+              $data = [
+                  'first_name' => $Usuario->primer_nombre,
+                  'last_name' => $Usuario->primer_apellido,
+                  'asunto' => 'Consulta',
+                  'estatus' => $estatus->nombre,
+                  'dia' => $fecha_formateada,
+                  'hora' => $hora_formateada,
+                  'whatsapp' => '664 359 9935',
+                  'sala' => $sala->nombre
+              ];
+              $response = $emailService->sendEmail($to, $from, $subject, $data);
+
+            session(['activeTab' => 'Consultas']);
+            return redirect()->route('consultas.index')->with('success', 'Consulta actualizada correctamente.');
+        } catch (\Exception $e) {
+            // Mostrar mensaje de error
+            return redirect()->route('consultas.index')->with('error', 'No se pudo actualizar la consulta.');
         }
-
-
-        if( $request->estatus_consultas == 2){
-            DB::table('locacion.sala')
-            ->where('id_sala', $request->consulta_sala)
-            ->update([
-                'id_estado_sala' => 3 
-            ]);
-        }
-        else{
-            
-            DB::table('locacion.sala')
-            ->where('id_sala', $request->consulta_sala)
-            ->update([
-                'id_estado_sala' => 1
-            ]);
-
-        }
-
-
-        
-        session(['activeTab' => 'Consultas']);
-        return redirect()->route('consultas.index')->with('success', 'consulta Actualizada correctamente.');
     }
 
     public function crear_analisis(Request $request, string $id){
+        try {
+            // DB::table('estetico.analisis')->insert([
+            //     'nombre'=> $request->nombre_paciente_modal,
+            //     'resultados' => $request->estatus_analisis,
+            //     'notas' => $request->paciente_nota,
+            //     'diagnostico' => $request->paceinte_diagnostico,
+            //     'id_consulta' => $id,
+            // ]);
 
+            // dump($request->all());
+            // dump($id);
 
-        // dump($request->all());
-        // dump($id);
+            $idPaciente = $request->input('id_paciente_modal');
 
-        $idPaciente = $request->input('id_paciente_modal');
+            // Obtener la fecha actual en formato 'Ymd'
+            $fechaActual = now()->format('Ymd');
 
-        // Obtener la fecha actual en formato 'Ymd'
-        $fechaActual = now()->format('Ymd');
+            // Crear la estructura de carpetas si no existe
+            $carpetaPaciente = "analisis/paciente_{$idPaciente}/{$fechaActual}";
 
-        // Crear la estructura de carpetas si no existe
-        $carpetaPaciente = "analisis/paciente_{$idPaciente}/{$fechaActual}";
+            if (!Storage::disk('archivosAnalisis')->exists($carpetaPaciente)) {
+                Storage::disk('archivosAnalisis')->makeDirectory($carpetaPaciente, 0755, true);
+            }
 
-        if (!Storage::disk('archivosAnalisis')->exists($carpetaPaciente)) {
-            Storage::disk('archivosAnalisis')->makeDirectory($carpetaPaciente, 0755, true);
+            if ($request->hasFile('pdf_file')) {
+                $file = $request->file('pdf_file');
+
+                // Nombre del archivo basado en la fecha actual y el nombre original
+                $nombreArchivo =$file->getClientOriginalName();
+
+                // Guardar el archivo en la carpeta del paciente
+                $rutaArchivo = "{$carpetaPaciente}/{$nombreArchivo}";
+
+                // Usar Storage para almacenar el archivo en la carpeta del paciente
+                Storage::disk('archivosAnalisis')->put("{$carpetaPaciente}/{$nombreArchivo}", file_get_contents($file));
+            }
+
+            DB::table('estetico.analisis')->insert([
+                'nombre'=> $request->nombre_paciente_modal,
+                'ruta' => $rutaArchivo,
+                'notas' => $request->paciente_nota,
+                'id_consulta' => $id,
+            ]);            
+
+            session(['activeTab' => 'Consultas']);
+            return redirect()->route('ConsultaActualizarVista', ['id'=> $id])->with('success', 'Analisis creado correctamente.');
+        } catch (\Exception $e) {
+            dump($e);
+            // Mostrar mensaje de error
+            //return redirect()->route('ConsultaActualizarVista', ['id'=> $id])->with('error', 'No se pudo crear el analisis.');
         }
-
-        if ($request->hasFile('pdf_file')) {
-            $file = $request->file('pdf_file');
-
-            // Nombre del archivo basado en la fecha actual y el nombre original
-            $nombreArchivo =$file->getClientOriginalName();
-
-            // Guardar el archivo en la carpeta del paciente
-            $rutaArchivo = "{$carpetaPaciente}/{$nombreArchivo}";
-
-            // Usar Storage para almacenar el archivo en la carpeta del paciente
-            Storage::disk('archivosAnalisis')->put("{$carpetaPaciente}/{$nombreArchivo}", file_get_contents($file));
-        }
-
-        DB::table('estetico.analisis')->insert([
-            'nombre'=> $request->nombre_paciente_modal,
-            'ruta' => $rutaArchivo,
-            'notas' => $request->paciente_nota,
-            'id_consulta' => $id,
-        ]);
-
-        
-        session(['activeTab' => 'Consultas']);
-        return redirect()->route('ConsultaActualizarVista', ['id'=> $id])->with('success', 'analisis creado correctamente.');
-            
-
     }
 
     public function actualizarAnalisis(Request $request ,string $id){
@@ -430,6 +443,34 @@ class ConsultasController extends Controller
 
     }
 
+    public function cancelarForm(string $id)
+    {
+        $consulta = DB::table('estetico.consulta as ec')
+            ->select(
+                'ec.id_consulta as id',
+                'ec.fecha_visita as fecha',
+                DB::raw("concat(up.primer_apellido,' ', up.primer_nombre) as nombre_ps"),
+                DB::raw("concat(pp.primer_apellido,' ', pp.primer_nombre) as nombre_pp"),
+                'ec.aprovacion_cirugia as aprovacion',
+                'esc.nombre as estatus',
+                'ls.nombre as nombre_sala',
+                'les.nombre as estado_sala',
+                'ec.id_status_consulta'
+            )
+            ->join('usuario.paciente as up', 'up.id_paciente', '=', 'ec.id_paciente')
+            ->join('personal.personal as pp', 'pp.id_personal', '=', 'ec.id_personal')
+            ->join('estetico.status_consulta as esc', 'esc.id_status_consulta', '=', 'ec.id_status_consulta')
+            ->join('locacion.sala as ls', 'ls.id_sala', '=', 'ec.id_sala')
+            ->join('locacion.estado_sala as les', 'les.id_estado_sala', '=', 'ls.id_estado_sala')
+            ->where('id_consulta' , $id )
+            ->first();
+
+        session(['activeTab' => 'Consultas']);
+
+        //dump($consulta);
+        return view('consultas.consultasCancelar', compact('consulta'));
+    }
+
     public function cancelar(string $id)
     {
         $consultas = DB::table('estetico.consulta')
@@ -439,25 +480,30 @@ class ConsultasController extends Controller
             'id_sala'
         )
         ->where('id_consulta' , $id )
-        ->first(); 
+        ->first();
 
-        if( $consultas->id_status_consulta == 2){
-            DB::table('locacion.sala')
-            ->where('id_sala', $consultas->id_sala)
-            ->update([
-                'id_estado_sala' => 1 
-            ]);
-        } 
+        try{
+            if( $consultas->id_status_consulta == 2){
+                DB::table('locacion.sala')
+                    ->where('id_sala', $consultas->id_sala)
+                    ->update([
+                        'id_estado_sala' => 1
+                    ]);
+            }
 
-        DB::table('estetico.consulta')
-        ->where('id_consulta', $id)
-        ->update([
-            'id_status_consulta' => 4,
-        ]);
+            DB::table('estetico.consulta')
+                ->where('id_consulta', $id)
+                ->update([
+                    'id_status_consulta' => 4,
+                ]);
 
-        session(['activeTab' => 'Consultas']);
-        
-        return redirect()->route('consultas.index')->with('success', 'consulta cancelada');
+            session(['activeTab' => 'Consultas']);
+
+            return redirect()->route('consultas.index')->with('success', 'Consulta cancelada');
+        } catch (\Exception $e) {
+            // Mostrar mensaje de error
+            return redirect()->route('consultas.index')->with('error', 'No se pudo cancelar la consulta.');
+        }
     }
 
   public function mostrarPDF($id) {

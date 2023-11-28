@@ -95,9 +95,8 @@
 @extends('layout.template')
 
 @section('content')
-
-@if (session('success'))
-        <div id="succes" class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+    @if (session('success'))
+        <div id="success" class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
             <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
                 <strong>{{ session('success') }}</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -105,7 +104,7 @@
         </div>
         <script>
             setTimeout(function() {
-                var notification = document.getElementById('succes');
+                var notification = document.getElementById('success');
                 if (notification) {
                     notification.classList.add('show');
                     setTimeout(function() {
@@ -120,7 +119,7 @@
     @endif
 
     @if (session('error'))
-        <div id="erro" class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+        <div id="error" class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
             <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
                 <strong>{{ session('error') }}</strong>
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -128,7 +127,7 @@
         </div>
         <script>
             setTimeout(function() {
-                var notification = document.getElementById('erro');
+                var notification = document.getElementById('error');
                 if (notification) {
                     notification.classList.add('show');
                     setTimeout(function() {
@@ -141,7 +140,7 @@
             }, 100);
         </script>
     @endif
-    
+
     <div class="container-fluid py-4">
         <div id="cuentasTable" class="row">
             <div class="col-12">
@@ -149,7 +148,7 @@
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3 d-flex justify-content-between align-items-center">
                             <h6 class="text-white text-capitalize ps-3">Lista de usuarios</h6>
-                            
+
                             <button class="crear" style="margin-right: 15px;background-color: #F2F2F2; border-color:#F2F2F2; " onclick="window.location.href='{{ route('Cuentas.crear') }}'; mostrarLoader();">
                                 <a>
                                     <span style="color: #0D0D0D;">
@@ -190,7 +189,7 @@
                                                 <button type="button" class="btn btn-warning" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Cuentas.edit', ['id' => $user->id]) }}'; mostrarLoader();">
                                                     <i class="material-icons">edit</i>
                                                 </button>
-                                                <form action="{{ route('Cuentas.eliminar', ['id' => $user->id]) }}" method="POST" onsubmit="mostrarLoader()">
+                                                <form action="{{ route('Cuentas.eliminar' , ['id' => $user->id]) }}" method="POST" onsubmit="mostrarLoader()">
                                                     @csrf
                                                     @method('get')
                                                     <button type="submit" class="btn btn-danger" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;">

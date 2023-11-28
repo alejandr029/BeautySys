@@ -95,6 +95,13 @@ class CitasController extends Controller
                 $sala->id_estado_sala = '3';
                 $sala->save();
                                 
+            }
+
+            if($request->id_estado_cita == 9){
+                $sala->id_estado_sala = '2';
+                $sala->save();
+            }
+
             $Usuario = DB::table('usuario.paciente')
             ->select('primer_nombre', 'primer_apellido', 'correo')
             ->where('id_paciente', (int)$request->id_paciente)
@@ -107,45 +114,29 @@ class CitasController extends Controller
             ->select('nombre')
             ->where('id_tipo_cita', (int)$request->id_tipo_cita)
             ->first(); 
+            $estatus = DB::table('estetico.estado_cita')
+            ->select('nombre')
+            ->where('id_estado_cita', (int)$request->id_estado_cita)
+            ->first(); 
             $fecha_carbon = Carbon::parse($request->fecha_cita);
             $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
             $hora_carbon = Carbon::createFromFormat('H:i', $request->hora_cita);
             $hora_formateada = $hora_carbon->format('h:i A');
             $emailService = new EmailService();
             $to = $Usuario->correo;
-            $from = '0320127751@ut-tijuana.edu.mx';
-            $subject = 'Aprobacion de la cita para: ' . $cita->nombre;
+            $from = 'beautysys.2023@gmail.com';
+            $subject = 'Seguimiento de la cita para: ' . $cita->nombre;
             $data = [
                 'first_name' => $Usuario->primer_nombre,
                 'last_name' => $Usuario->primer_apellido,
                 'asunto' => 'Cita',
+                'estatus' => $estatus->nombre,
                 'dia' => $fecha_formateada,
                 'hora' => $hora_formateada,
                 'whatsapp' => '664 359 9935',
                 'sala' => $sala->nombre
             ];
             $response = $emailService->sendEmail($to, $from, $subject, $data);
-            }
-
-            if($request->id_estado_cita == 9){
-                $sala->id_estado_sala = '2';
-                $sala->save();
-            }
-
-            // if($request->id_estado_cita == 1 or 3 or 5 or 8){
-            //     $sala->id_estado_sala = '10';
-            //     $sala->save();
-            // }
-
-            // if($request->id_estado_cita == 2 or 6 or 7 or 10){
-            //     $sala->update([
-            //         'id_estado_sala' => '1',
-            //     ]);
-            // }
-
-
-
-            //dump($request -> all());
 
 
 
@@ -153,6 +144,7 @@ class CitasController extends Controller
             session(['activeTab' => 'Citas']);
             return redirect()->route('Citas.index')->with('success', 'Cita creada exitosamente.');
         } catch (\Exception $e) {
+            //dump($e);
             // return $e;
             return redirect()->route('Citas.index')->with('error', 'No se pudo crear la cita.');
         }
@@ -207,9 +199,7 @@ class CitasController extends Controller
                 'id_equipo' => $request->id_equipo,
             ]);
 
-            if($request->id_estado_cita == 4){
 
-                
             $Usuario = DB::table('usuario.paciente')
             ->select('primer_nombre', 'primer_apellido', 'correo')
             ->where('id_paciente', (int)$request->id_paciente)
@@ -222,18 +212,23 @@ class CitasController extends Controller
             ->select('nombre')
             ->where('id_tipo_cita', (int)$request->id_tipo_cita)
             ->first(); 
+            $estatus = DB::table('estetico.estado_cita')
+            ->select('nombre')
+            ->where('id_estado_cita', (int)$request->id_estado_cita)
+            ->first(); 
             $fecha_carbon = Carbon::parse($request->fecha);
             $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
             $hora_carbon = Carbon::createFromFormat('H:i', $request->hora);
             $hora_formateada = $hora_carbon->format('h:i A');
             $emailService = new EmailService();
             $to = $Usuario->correo;
-            $from = '0320127751@ut-tijuana.edu.mx';
-            $subject = 'Aprobacion de la cita para: ' . $cita->nombre;
+            $from = 'beautysys.2023@gmail.com';
+            $subject = 'Seguimiento de la cita para: ' . $cita->nombre;
             $data = [
                 'first_name' => $Usuario->primer_nombre,
                 'last_name' => $Usuario->primer_apellido,
                 'asunto' => 'Cita',
+                'estatus' => $estatus->nombre,
                 'dia' => $fecha_formateada,
                 'hora' => $hora_formateada,
                 'whatsapp' => '664 359 9935',
@@ -241,7 +236,7 @@ class CitasController extends Controller
             ];
             $response = $emailService->sendEmail($to, $from, $subject, $data);
 
-            }
+
             
 
             //dump($request->all(),   $horaFormat, $fechaFormat);
