@@ -60,26 +60,24 @@ class DashboardController extends Controller
             ->orderBy('C.fecha_cirugia')
             ->paginate(5);
 
-            $usuarios = DB::table('usuario.paciente as P')
-            ->select(
-                DB::raw("CONCAT(P.primer_nombre, P.segundo_nombre) AS Nombre"),
-                DB::raw("CONCAT(P.primer_apellido, P.segundo_apellido) AS Apellido"),
-                DB::raw("DATEDIFF(YEAR, CONVERT(DATE, P.fecha_nacimiento, 120), GETDATE()) AS Edad"),
-                'P.genero AS Genero',
-                DB::raw("STUFF((SELECT '_' + TEC.nombre
-                    FROM usuario.enfermedad_cronica AS EC
-                    INNER JOIN usuario.tipo_enfermedad_cronica AS TEC ON EC.id_enfermedad_cronica = TEC.id_tipo_enfermedad_cronica
-                    WHERE EC.id_paciente = P.id_paciente
-                    FOR XML PATH('')), 1, 2, '') AS Enfermedades"),
-                DB::raw("STUFF((SELECT '_' + TA.nombre
-                        FROM usuario.alergia AS UA
-                        INNER JOIN usuario.tipo_alergia AS TA ON UA.id_tipo_alergia = TA.id_tipo_alergia
-                        WHERE UA.id_paciente = P.id_paciente
-                        FOR XML PATH('')), 1, 2, '') AS Alergias")
-            )
+            $userArray = DB::select('EXEC GetPacientes');
+
+            // dd($usuarios);
+
+            $labelAlergias = DB::table('usuario.tipo_alergia')
+            ->select ( 'nombre')
             ->get();
 
-            $userArray = $usuarios->toArray();
+            $labelEnfermedad= DB::table('usuario.tipo_enfermedad_cronica')
+            ->select('nombre')
+            ->get();
+
+
+            $labelEnfermedaFinal = array_column($labelEnfermedad->toArray(), 'nombre');
+            $labelAlergiFinal = array_column($labelAlergias->toArray(), 'nombre');
+
+
+            // $userArray = $usuarios->toArray();
             $arrkey = array_keys($userArray);
             // $dataset = new ArrayDataset($userArray, $arrkey);
 
@@ -99,14 +97,22 @@ class DashboardController extends Controller
                 true
             );
 
+            
+            
+        
+
             $samples = $dataset->getSamples();
             $CountUser = count($samples);
 
             $enfermedadCount = $this->DataEnfermedad($samples);
             $alergiaCount = $this->DataAlergia($samples);
             $generoCounter = $this->DataGender($samples);
+            $edadCounter = $this->DataEdad($samples);
 
             // dd($generoCounter);
+
+
+            
             
 
             // $tiempoFin = microtime(true);
@@ -117,7 +123,7 @@ class DashboardController extends Controller
 
             session(['activeTab' => 'Dashboard']);
 
-            return view('dashboard',compact('Citas','today','Consultas','Cirugias','alergiaCount','CountUser','enfermedadCount','generoCounter'));
+            return view('dashboard',compact('Citas','today','Consultas','Cirugias','alergiaCount','CountUser','enfermedadCount','generoCounter','labelEnfermedaFinal','labelAlergiFinal','edadCounter'));
         }
         if(auth()->user()->hasRole(['user'])){
             
@@ -178,14 +184,17 @@ class DashboardController extends Controller
         $dataEnfermedadFiltrado = array_filter($DataEnfermedades, function ($Enfermedades) {
         return $Enfermedades !== null;
         });
+        $PersonasEnfermedad = array_merge(...$dataEnfermedadFiltrado);
 
-        $PersonasEnfermedad =[];
+        // dd(array_count_values($PersonasEnfermedad[0]));
 
-        foreach ($dataEnfermedadFiltrado as $subArray) {
-        foreach ($subArray as $element) {
-            $PersonasEnfermedad[] = $element;
-        }
-        };
+        // $PersonasEnfermedad =[];
+
+        // foreach ($dataEnfermedadFiltrado as $subArray) {
+        // foreach ($subArray as $element) {
+        //     $PersonasEnfermedad[] = $element;
+        // }
+        // };
         return array_count_values($PersonasEnfermedad);
     }
 
@@ -199,12 +208,8 @@ class DashboardController extends Controller
     return $alergias !== null;
     });
 
-    $PersonasAlergia =[];
-    foreach ($dataAlergiasFiltrado as $subArray) {
-    foreach ($subArray as $element) {
-        $PersonasAlergia[] = $element;
-    }
-    };
+    $PersonasAlergia = array_merge(...$dataAlergiasFiltrado);
+
     return array_count_values($PersonasAlergia);
 
     }
@@ -221,6 +226,11 @@ class DashboardController extends Controller
 
     public function DataEdad (array $samples)
     {
+        $DataEdad = array_map(function ($sample) {
+            return  $sample->Edad; 
+            }, $samples);
+
+        return array_count_values($DataEdad);
 
     }
 
