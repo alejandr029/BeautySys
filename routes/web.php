@@ -18,6 +18,7 @@ use App\Http\Controllers\AlergiasController;
 use App\Http\Controllers\CitasUsuarios;
 use App\Http\Controllers\EnfermedadesCronicasController;
 use App\Models\CitasUsuario;
+use App\Http\Controllers\FullCalendarController;
 
 Route::view('/','layout.landing');
 
@@ -153,6 +154,11 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/ConsultaCancelar/{id}', [ConsultasController::class, 'cancelar'])->name('CancelarConsulta');
         Route::get('/ver_pdf/{id_analisis}', [ConsultasController::class, 'mostrarPDF'])->name('mostrar.pdf');
         Route::get('/eliminar/{id_analisis}', [ConsultasController::class, 'eliminarPDF'])->name('eliminar.pdf');
+
+        //Calendario
+        Route::get('/Calendario/{id}', [FullCalendarController::class, 'index'])->name('Calendario');
+        Route::get('/get-events/{id}', [FullCalendarController::class, 'getEvents']);
+
 //    });
 });
 
