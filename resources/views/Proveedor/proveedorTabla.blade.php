@@ -94,21 +94,21 @@ use Carbon\Carbon;
 @extends('layout.template')
 
 @section('content')
-    @if (session('success'))
-        <div id="succes" class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
-            <div class="alert alert-success alert-dismissible fade show mb-0" role="alert">
+    {{-- NOTIFICAICON --}}
+    @if(session('success'))
+        <div id="notification" class="position-fixed top-0 end-0 p-3" style="z-index: 5">
+            <div class="alert alert-success text-white" role="alert">
                 <strong>{{ session('success') }}</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         </div>
         <script>
-            setTimeout(function() {
-                var notification = document.getElementById('succes');
+            setTimeout(function () {
+                var notification = document.getElementById('notification');
                 if (notification) {
                     notification.classList.add('show');
-                    setTimeout(function() {
+                    setTimeout(function () {
                         notification.classList.remove('show');
-                        setTimeout(function() {
+                        setTimeout(function () {
                             notification.remove();
                         }, 500);
                     }, 2000);
@@ -125,13 +125,13 @@ use Carbon\Carbon;
             </div>
         </div>
         <script>
-            setTimeout(function() {
+            setTimeout(function () {
                 var notification = document.getElementById('error');
                 if (notification) {
                     notification.classList.add('show');
-                    setTimeout(function() {
+                    setTimeout(function () {
                         notification.classList.remove('show');
-                        setTimeout(function() {
+                        setTimeout(function () {
                             notification.remove();
                         }, 500);
                     }, 2000);
