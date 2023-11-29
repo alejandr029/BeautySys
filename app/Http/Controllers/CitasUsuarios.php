@@ -37,15 +37,40 @@ class CitasUsuarios extends Controller
 
     public function crear(Request $request){
 
-        //Obtener id del paciente
+        $request->validate([
+            'fecha_cita' => 'required|date',
+            'hora' => 'required',
+            'tipo'=> 'required',
+        ]);
+
+
+        //consulta de citas por usuario
+        $citas = DB::table('estetico.cita')
+        ->select('id_cita','hora_cita','fecha_cita','id_personal','id_estado_cita','id_sala')
+        //->where('id_paciente' = $id_cliente )
+        ->get();
+
         $user = Auth::id();
+
         $usuarios = DB::table('usuario.paciente')
         ->select('id_paciente','primer_nombre','primer_apellido','correo')
         ->where('id_cuenta', $user)
         ->get();
 
+        $tipos = DB::table('estetico.tipo_cita')
+        ->select('id_tipo_cita','nombre','precio_unitario')
+        ->get();
+
+        //Obtener id del paciente
+        $user = Auth::id();
+        $usuariosP = DB::table('usuario.paciente')
+        ->select('id_paciente','primer_nombre','primer_apellido','correo')
+        ->where('id_cuenta', $user)
+        ->get();
+
         // Obtener los datos del formulario
-        $idPaciente = $usuarios[0]->id_paciente;
+        $id_estCi = "8";
+        $idPaciente = $usuariosP[0]->id_paciente;
         $nombre = $request->input('nombre');
         $correo = $request->input('correo');
         $fechaCita = $request->input('fecha_cita');
@@ -53,33 +78,40 @@ class CitasUsuarios extends Controller
         $tipo_cita = $request->input('tipo');
 
         try {
+
+            if($tipo_cita == 0 || $tipo_cita == "0"){
+                return view('CitasUsuarios.CitasUsuarios', compact('citas','usuarios','tipos'));
+            }
+
             DB::table('estetico.cita')->insert([
                 'hora_cita'=>$hora,
                 'fecha_cita'=>$fechaCita,
                 'id_paciente'=>$idPaciente,
                'id_personal' => null,
-               'id_estado_cita' => 8,
+               'id_estado_cita' => $id_estCi,
                'id_sala' => null,
                'id_tipo_cita' => $tipo_cita,
                'id_insumos' => null,
                'id_equipo' => null,
             ]);
 
+            // echo "<script>
+            //             alert(La cita se aagendado correctamente');
+            //             window.location='/CitaUssuarios';
+            //             </script>";
 
-            session(['activeTab' => 'CitasUsuarios']);
-            // return view('CitasUsuarios.CitasUsuarios');
-            echo "<script>
-            alert(La cita se aagendado correctamente');
-            window.location='/CitaUssuarios';
-            </script>";
+            session(['activeTab' => 'Calendario']);
+            return view('Calendario.calendario');
+
         } catch (\Throwable $th) {
             //throw $th;
             session(['activeTab' => 'CitasUsuarios']);
-            return view('CitasUsuarios.CitasUsuarios');
-            echo "<script>
-            alert(El sistema se encuentra temporalmente fuera de servicio');
-            window.location='/CitaUssuarios';
-            </script>";
+            // dd($th);
+            return view('CitasUsuarios.CitasUsuarios', compact('citas','usuarios','tipos'));
+            // echo "<script>
+            // alert(El sistema se encuentra temporalmente fuera de servicio');
+            // window.location='/CitaUssuarios';
+            // </script>";
         }
 
         // dd('Aqui ando UwU');

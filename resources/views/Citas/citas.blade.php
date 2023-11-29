@@ -352,9 +352,9 @@
 
                                         <td class="td-actions">
                                             <div role="group">
-                                                <button type="button" class="btn btn-info" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Citas.visualizar', $cita->id_cita ) }}'; mostrarLoader();">
+                                                {{-- <button type="button" class="btn btn-info" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;" onclick="window.location.href='{{ route('Citas.visualizar', $cita->id_cita ) }}'; mostrarLoader();">
                                                     <i class="material-icons">visibility</i>
-                                                </button>
+                                                </button> --}}
                                                 <button type="button" class="btn btn-warning" style="margin:0rem 0.5rem 0.5rem 0rem; flex:none;backgroud-color:#B14558" onclick="window.location.href='{{ route('Citas.editar', $cita->id_cita ) }}'; mostrarLoader();">
                                                     <i class="material-icons">edit</i>
                                                 </button>
