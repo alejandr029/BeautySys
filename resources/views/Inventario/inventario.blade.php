@@ -525,5 +525,4 @@
         {{-- FINAL DE VISTA --}}
     </div>
     @include('layout.footer')
-    </main>
 @endsection
