@@ -1,245 +1,295 @@
 @php
-    use Carbon\Carbon;
+use Carbon\Carbon;
 @endphp
 
 <style>
-    .mainContent {
-        background-color: rgb(55, 55, 60);
-        width: 40%;
-        height: 70%;
-        padding-block: 1%;
-        align-content: center;
-        align-items: center;
-        margin: auto;
-        flex-direction: column;
-        text-align: center;
-        align-self: center;
-        border-radius: 15px;
-        padding-left: 1%;
-        padding-right: 1%;
-    }
+  .input-form {
+    position: relative;
+    font-family: Arial, Helvetica, sans-serif;
+  }
 
-    #izqSev {
-        width: 99%;
-        height: 100%;
-        background-color: #FFF;
-        float: left;
-        border-radius: 5px;
-    }
+  .input-form input,
+  .input-form textarea,
+  .input-form select {
+    border: solid 1.9px #9e9e9e;
+    border-radius: 1.3rem;
+    background: none;
+    padding: 1rem;
+    font-size: 1rem;
+    color: #000000;
+    transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    width: 100%;
+  }
 
-    #derSev {
-        width: 65%;
-        height: 100%;
-        background-color: rgb(173, 173, 173,0.5);
-        float: right;
-    }
+  .textUser {
+    position: absolute;
+    left: 15px;
+    color: #666666;
+    pointer-events: none;
+    transform: translateY(1rem);
+    transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-    .FormBill {
-        width: 100%;
-        height: auto;
-        flex-direction: row;
-        font-size: 15px;
-    }
+  .input-form input:focus,
+  .input-form input:valid,
+  .input-form textarea:focus,
+  .input-form textarea:valid,
+  .input-form select:focus,
+  .input-form select:valid {
+    outline: none;
+    box-shadow: 1px 2px 5px rgba(133, 133, 133, 0.523);
+    background-image: linear-gradient(to top, rgba(182, 182, 182, 0.199), rgba(252, 252, 252, 0));
+    transition: background 4s ease-in-out;
+  }
 
-    form input {
-        border-radius: 15px;
-        width: 60%;
-        height: 8%;
-        margin-top: 4.5%;
-        border-color: rgb(228,48,111);
-        border-width: 3px;
-        color: rgb(123,128,154);
-        font-size: 1.08em;
-    }
-    form select {
-        border-radius: 15px;
-        width: 60%;
-        height: 8%;
-        margin-top: 4.5%;
-        border-color: rgb(228,48,111);
-        border-width: 3px;
-        color: rgb(123,128,154);
-        font-size: 1.08em;
-    }
+  .input-form input:focus~label,
+  .input-form input:valid~label,
+  .input-form textarea:focus~label,
+  .input-form textarea:valid~label,
+  .input-form select:focus~label,
+  .input-form select:valid~label {
+    transform: translateY(-95%) scale(0.9);
+    padding: 0 .2em;
+    color: #000000be;
+    left: 10%;
+    font-size: 14pt;
+    visibility: visible !important;
+  }
 
-    form select option{
-        border-radius: 15px;
-        width: 70%;
-        height: 8%;
-    }
+  .input-form input:hover,
+  .input-form textarea:hover,
+  .input-form select:hover {
+    border: solid 1.9px #000002;
+    transform: scale(1.03);
+    box-shadow: 1px 1px 5px rgba(133, 133, 133, 0.523);
+    transition: border-color 1s ease-in-out;
+  }
 
-    form label {
-        font-size: 18px;
-        margin-top: 5.%;
-    }
+  .container2 {
+    height: 300px;
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 30px rgba(0, 0, 0, .2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    gap: 5px;
+    background-color: rgba(0, 110, 255, 0.041);
+  }
 
-    form button {
-        width: 38%;
-        height: 10%;
-        border-radius: 15px;
-        background-color: rgb(55, 55, 60);
-        color: aliceblue;
-        border-color: rgb(55, 55, 60);
-        margin-top: -95%;
-    }
+  .header {
+    flex: 1;
+    width: 100%;
+    border: 2px dashed royalblue;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 
-    form button:hover {
-        background-color: rgb(90, 90, 90);
-        border-color: rgb(90, 90, 90);
-        transition: background-color 0.3s ease;
-    }
+  .header svg {
+    height: 100px;
+  }
 
-    form input:hover {
-        background-color: #EAEAEA;
-        transition: background-color 0.3s ease;
-        border-color: rrgb(228,48,111,0.5);
-    }
+  .header p {
+    text-align: center;
+    color: black;
+  }
 
-    form select:hover {
-        background-color: #EAEAEA;
-        transition: background-color 0.3s ease;
-        border-color: rgb(228,48,111,0.5);
-    }
+  .footer {
+    background-color: rgba(0, 110, 255, 0.075);
+    width: 100%;
+    height: 40px;
+    padding: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    color: black;
+    border: none;
+  }
 
-    .encuad1 {
-        background-color: rgb(228,48,111);
-        height: 10%;
-        width: 25%;
-        margin-left: 7%;
-        margin-top:-5%;
-        position: absolute;
-        border-radius: 5px;
-        align-items: center;
-        align-self: center;
-        text-align: center;
-    }
+  .footer svg {
+    height: 130%;
+    fill: royalblue;
+    background-color: rgba(70, 66, 66, 0.103);
+    border-radius: 50%;
+    padding: 2px;
+    cursor: pointer;
+    box-shadow: 0 2px 30px rgba(0, 0, 0, 0.205);
+  }
 
-    .encuad2 {
-        align-self: center;
-        width: 90%;
-        height: 50%;
-        background-color: #fff;
-        margin-top: 7%;
-        margin-left: 5%;
-        border-radius: 5px;
-    }
+  .footer p {
+    flex: 1;
+    text-align: center;
+  }
 
-    .encuad2 p {
+  #file {
+    display: none;
+  }
 
-        color:rgb(123,128,154);
-        font-size: 23px;
-        font-weight: bold;
-        text-align:inherit;
-        margin-top: 0%;
-    }
+  .label-container {
+    display: inline-block;
+    width: 150px;
+    /* Ajusta el ancho según lo que necesites */
+    height: 150px;
+    /* Ajusta la altura según lo que necesites */
+    border: 1px solid #ccc;
+    /* Agrega un borde para que sea visible */
 
-    .labdis {
-        background-color: #EAEAEA;
-    }
-
-    #hora {
-            display:none;
-            margin-left: 3%;
-            margin-top: -1%;
-            float: right;
-        }
-
-    #horal {
-            display:none;
-            margin-left: 7%;
-            /* margin-top: 0%; */
-    }
-
-    #horas {
-        display: flex;
-        /* justify-content: center; */
-        text-align:justify;
-        flex-direction: row;
-        /* background-color: aqua; */
-        height: 100%;
-    }
-
-
+  }
 </style>
 
 @extends('layout.template')
 
 @section('content')
+@if(session('success'))
+        <div id="notification" class="position-fixed top-0 end-0 p-3" style="z-index: 5">
+            <div class="alert alert-success text-white" role="alert">
+                <strong>{{ session('success') }}</strong>
+            </div>
+        </div>
+        <script>
+            setTimeout(function () {
+                var notification = document.getElementById('notification');
+                if (notification) {
+                    notification.classList.add('show');
+                    setTimeout(function () {
+                        notification.classList.remove('show');
+                        setTimeout(function () {
+                            notification.remove();
+                        }, 500);
+                    }, 2000);
+                }
+            }, 100);
+        </script>
+    @endif
 
-    <div class="mainContent">
-        {{-- <section id="derSev">
+    @if (session('error'))
+        <div id="error" class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+            <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                <strong>{{ session('error') }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        <script>
+            setTimeout(function () {
+                var notification = document.getElementById('error');
+                if (notification) {
+                    notification.classList.add('show');
+                    setTimeout(function () {
+                        notification.classList.remove('show');
+                        setTimeout(function () {
+                            notification.remove();
+                        }, 500);
+                    }, 2000);
+                }
+            }, 100);
+        </script>
+    @endif
 
-            <h1>Calendario de Citas</h1>
 
-            <div id="calendar"></div>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-11">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Agendar Nueva Cita</h2>
+        </div>
 
-        </section> --}}
+        <div class="card-body">
+          <div class="col-lg-11">
+            <!-- Formulario para crear una nueva cita -->
 
+            <form action="{{ route('crearUsCita.crear') }}" method="post" class="role-form" onsubmit="mostrarLoader()">
+              @csrf
+              <div class="mb-3 input-form">
+                <label for="nombre" class="form-label">Paciente:</label>
+                <input disabled value="{{ $usuarios[0]->primer_nombre}} {{$usuarios[0]->primer_apellido}}" type="text"
+                  name="nombre">
+              </div>
 
-        <section id="izqSev">
-            <section class="encuad1">
-                <section class="encuad2">
-                    <p>Agendar nueva cita</p>
-                </section>
-            </section>
+              <hr class="dark horizontal">
 
-            <form action="{{ route('crearUsCita.crear') }}" method="post" class="FormBill">
-                <br><br>
-                @csrf
-                    <label for="nombre">Nombre:</label>
-                    <input disabled value="{{ $usuarios[0]->primer_nombre}} {{$usuarios[0]->primer_apellido}}" type="text" name="nombre" class="labdis">
-                    <br>
-                    <label for="correo">Correo:</label>
-                    <input disabled value="{{$usuarios[0]->correo}}" type="email" name="correo" class="labdis" required>
-                    <br>
-                    <label for="tipoCita">Tipo de cita:</label>
-                    <select id="tipo" name="tipo" required>
-                        <option value="0">Selecciona el tipo de cita</option>
-                        @foreach($tipos as $tip)
-                            <option value="{{$tip->id_tipo_cita}}">{{$tip->nombre}}-{{$tip->precio_unitario}}$ </option>
-                        @endforeach
-                    </select>
-                    <br>
-                    <label for="hora">Fecha cita:</label>
-                    <input type="date" id="fecha_cita" name="fecha_cita" min="{{ date('Y-m-d') }}" onchange="validarHora()" required>
-                    <br><br>
-                    <section id="horas" >
-                        <label id="horal" for="hora">Hora cita:</label>
-                        <input type="time" id="hora" name="hora" required>
-                    </section>
+              <div class="mb-3 input-form">
+                <label for="correo" class="form-label">Correo:</label>
+                <input disabled value="{{$usuarios[0]->correo}}" type="email" name="correo" required>
+              </div>
 
-                    <script>
-                        function validarHora() {
-                            var fechaSeleccionada = new Date(document.getElementById('fecha_cita').value);
-                            var fechaHoy = new Date();
+              <hr class="dark horizontal">
 
-                            // Establecer la hora actual con al menos una hora de diferencia
-                            fechaHoy.setHours(fechaHoy.getHours() + 1);
+              <div class="mb-3 input-form">
+                <label for="tipo" class="form-label">Tipo de cita:</label>
+                <select class="form-control" id="tipo" name="tipo" required>
+                  <option value="" disabled selected>Seleccione el tipo de cita</option>
+                  @foreach($tipos as $tip)
+                  <option value="{{$tip->id_tipo_cita}}">{{$tip->nombre}}-{{$tip->precio_unitario}}$ </option>
+                  @endforeach
+                </select>
+              </div>
 
-                            var horaInput = document.getElementById('hora');
+              <hr class="dark horizontal">
 
-                            if (fechaSeleccionada.toDateString() === fechaHoy.toDateString()) {
-                                // La fecha seleccionada es hoy, aplicar restricción de hora
-                                if (horaInput.value < fechaHoy.toTimeString().substring(0, 5)) {
-                                    // Restringir la hora si es anterior a la hora actual
-                                    alert("No puedes seleccionar una hora anterior a la actual del día de hoy.");
-                                    horaInput.value = ''; // Limpiar el campo de hora
-                                }
-                            }
+              <div class="row">
+                <div class="col-md-6 mb-3 input-form">
+                  <label for="fecha_cita" class="form-label">Fecha de la cita:</label>
+                  <input type="date" class="form-control" id="fecha_cita" name="fecha_cita" min="{{ date('Y-m-d') }}"
+                    onchange="()" required>
+                </div>
 
-                            // Muestra el campo de hora cuando se selecciona una fecha
-                            document.getElementById('hora').style.display = 'block';
-                            document.getElementById('horal').style.display = 'block';
-                            document.getElementById('hora').style.textAling='center';
-                        }
-                    </script>
-                    <br>
-                    <button type="submit">Agendar Cita</button>
+                <div class="col-md-6 mb-3 input-form">
+                  <section id="horas">
+                    <label id="horal" for="hora" class="form-label">Hora de la cita:</label>
+                    <input type="time" class="form-control input-form" id="hora" name="hora" required>
+                </div>
+              </div>
+
+              <script>
+                function validarHora() {
+                  var fechaSeleccionada = new Date(document.getElementById('fecha_cita').value);
+                  var fechaHoy = new Date();
+
+                  // Establecer la hora actual con al menos una hora de diferencia
+                  fechaHoy.setHours(fechaHoy.getHours() + 1);
+
+                  var horaInput = document.getElementById('hora');
+
+                  if (fechaSeleccionada.toDateString() === fechaHoy.toDateString()) {
+                    // La fecha seleccionada es hoy, aplicar restricción de hora
+                    if (horaInput.value < fechaHoy.toTimeString().substring(0, 5)) {
+                      // Restringir la hora si es anterior a la hora actual
+                      alert("No puedes seleccionar una hora anterior a la actual del día de hoy.");
+                      horaInput.value = ''; // Limpiar el campo de hora
+                    }
+                  }
+
+                  // Muestra el campo de hora cuando se selecciona una fecha
+                  document.getElementById('hora').style.display = 'block';
+                  document.getElementById('horal').style.display = 'block';
+                  document.getElementById('hora').style.textAling = 'center';
+                }
+              </script>
+              <br>
+
+              <div class="row justify-content-center">
+                <div class="col-md-6 text-center">
+                  <button type="submit" class="btn btn-primary">Crear Cita</button>
+                </div>
+              </div>
             </form>
-        </section>
+          </div>
+        </div>
+      </div>
     </div>
-
+  </div>
+</div>
+<br>
 @include('layout.footer')
 @endsection
-
-

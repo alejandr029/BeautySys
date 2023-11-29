@@ -121,9 +121,10 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/actualizar-cita/id={id}', [CitasController::class, 'update'])->name('Citas.update');
         Route::delete('/eliminar-cita/id={id}', [CitasController::class, 'destroyForm'])->name('Citas.destroyForm');
         Route::delete('/eliminar/id={id}', [CitasController::class, 'destroy'])->name('Citas.destroy');
+
         //CITA USUARIOS
-        Route::get('/CitaUsuarios',[CitasUsuarios::class, 'index'])->name('CitasUsuarios.index');
-        Route::post('/crearUsCita', [CitasUsuarios::class, 'crear'])->name('crearUsCita.crear');
+        Route::get('/agendar-cita',[CitasUsuarios::class, 'index'])->name('CitasUsuarios.index');
+        Route::post('/agendando-cita', [CitasUsuarios::class, 'crear'])->name('crearUsCita.crear');
         // CIRUGIA
         Route::get('/cirugia', [CirugiaController::class, 'index'])->name('tablaCirugia');
         Route::get('/cirugia-crear', [CirugiaController::class, 'selectConsultas'])->name('vistacrearCirugia');

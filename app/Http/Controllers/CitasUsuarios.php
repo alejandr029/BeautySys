@@ -100,14 +100,13 @@ class CitasUsuarios extends Controller
             //             window.location='/CitaUssuarios';
             //             </script>";
 
-            session(['activeTab' => 'Calendario']);
-            return view('Calendario.calendario');
+            session(['activeTab' => 'CitasUsuarios']);
+            return redirect()->route('CitasUsuarios.index')->with('success', 'Cita creada exitosamente.');;
 
         } catch (\Throwable $th) {
             //throw $th;
-            session(['activeTab' => 'CitasUsuarios']);
-            // dd($th);
-            return view('CitasUsuarios.CitasUsuarios', compact('citas','usuarios','tipos'));
+            //dd($th);
+            return redirect()->route('CitasUsuarios.index')->with('error', 'No se pudo crear la cita.');;
             // echo "<script>
             // alert(El sistema se encuentra temporalmente fuera de servicio');
             // window.location='/CitaUssuarios';

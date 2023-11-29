@@ -155,7 +155,7 @@ class CitasController extends Controller
     public function edit($id)
     {
         $cita = Cita::findOrFail($id);
-        $cita->fecha_cita = Carbon::createFromFormat('Y-m-d H:i:s.u', $cita->fecha_cita)->format('Y-m-d');
+        $cita->fecha_cita = Carbon::createFromFormat('Y-m-d H:i:s', $cita->fecha_cita)->format('Y-m-d');
         $cita->hora_cita = Carbon::parse($cita->hora_cita)->format('H:i');
         $estadoCita = EstadoCita::all();
         $sala = Sala::all();
