@@ -11,11 +11,13 @@ $user = Auth::user();
   :root{
     --color-gray : rgba(229,229,229,255);
   }
+
   .cardUsers {
   width: 400px;
   border-radius: 20px;
   background: #ffffff;
   padding: 5px;
+  margin: auto;
   overflow: hidden;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 20px 0px;
   transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -166,38 +168,43 @@ $user = Auth::user();
               </div>
 
               <div class="card-body">
-                <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff;">
-                  <table class="table table-bordered align-items-center mb-0">
-                    <thead >
-                      <tr>
-                        <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
-                          Paciente
-                        </th>
-                        <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
-                          Sala
-                        </th>
-                        <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
-                          Hora
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @if(count($Citas) > 0)
-                      @forEach($Citas as $cita)
-                      <tr>
-                        <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ $cita->primer_apellido }}</td>
-                        <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ str_replace('_', ' ', $cita->nombre) }}</td>
-                        <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ Carbon::parse($cita->hora_cita)->format('h:i A') }}</td>
-                      </tr>
-                      @endforeach
-                      @else
-                      <tr>
-                          <td colspan="3" style="text-align: center;">No hay citas disponibles</td>
-                      </tr>
-                      @endif
-                    </tbody>
-                  </table>
+                <div class="chart">
+                  <div class="px-0 pb-2 m-2">
+                    <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff;">
+                      <table class="table table-bordered align-items-center mb-0">
+                        <thead >
+                          <tr>
+                            <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
+                              Paciente
+                            </th>
+                            <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
+                              Sala
+                            </th>
+                            <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
+                              Hora
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @if(count($Citas) > 0)
+                          @forEach($Citas as $cita)
+                          <tr>
+                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ $cita->primer_apellido }}</td>
+                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ str_replace('_', ' ', $cita->nombre) }}</td>
+                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ Carbon::parse($cita->hora_cita)->format('h:i A') }}</td>
+                          </tr>
+                          @endforeach
+                          @else
+                          <tr>
+                              <td colspan="3" style="text-align: center;">No hay citas disponibles</td>
+                          </tr>
+                          @endif
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
+
                 <h6 class="mb-0 ">Citas</h6>
                 @if(count($Citas) > 0)
                 <p class="text-sm ">Ultimas 5 citas del dia: {{ Carbon::parse($cita->fecha_cita)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
@@ -225,37 +232,42 @@ $user = Auth::user();
                 </div>
               </div>
               <div class="card-body">
-                <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff;">
-                  <table class="table table-bordered align-items-center mb-0">
-                    <thead >
-                      <tr>
-                        <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
-                          Paciente
-                        </th>
-                        <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
-                          Sala
-                        </th>
-                        <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
-                          Fecha
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @if(count($Consultas) > 0)
-                      @forEach($Consultas as $Consulta)
-                      <tr>
-                        <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ $Consulta->primer_apellido }}</td>
-                        <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ str_replace('_', ' ', $Consulta->nombre) }}</td>
-                        <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ Carbon::parse($Consulta->fecha_visita)->format('h:i A') }}</td>
-                      </tr>
-                      @endforeach
-                      @else
-                      <tr>
-                          <td colspan="3" style="text-align: center;">No hay Consltas disponibles</td>
-                      </tr>
-                      @endif
-                    </tbody>
-                  </table>
+                
+                <div class="chart">
+                  <div class="px-0 pb-2 m-2">
+                    <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff;">
+                      <table class="table table-bordered align-items-center mb-0">
+                        <thead >
+                          <tr>
+                            <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
+                              Paciente
+                            </th>
+                            <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
+                              Sala
+                            </th>
+                            <th class="text-uppercase text-secondary text-s font-weight-bolder" style="text-align: center;">
+                              Fecha
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @if(count($Consultas) > 0)
+                          @forEach($Consultas as $Consulta)
+                          <tr>
+                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ $Consulta->primer_apellido }}</td>
+                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ str_replace('_', ' ', $Consulta->nombre) }}</td>
+                            <td class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7" style="text-align: center;">{{ Carbon::parse($Consulta->fecha_visita)->format('h:i A') }}</td>
+                          </tr>
+                          @endforeach
+                          @else
+                          <tr>
+                              <td colspan="3" style="text-align: center;">No hay Consltas disponibles</td>
+                          </tr>
+                          @endif
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
                 <h6 class="mb-0 "> Consultas </h6>
                 @if(count($Consultas) > 0)
@@ -336,7 +348,7 @@ $user = Auth::user();
         @if(auth()->user()->hasRole(['admin','staff']))
         <div class="row mt-4">
           <div class="col-lg-4 col-md-6 mt-4 mb-4">
-            <div class="card z-index-2 ">
+            <div class="card z-index-2 " style="height: 100%">
   
               <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                 <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
@@ -345,9 +357,9 @@ $user = Auth::user();
                         <div class="d-flex aling-items-center text-center mb-0">
                           <b class="text-capitalize  font-weight-bolder"  style="text-align: center; color: #ffffff;">
                             <span class="material-icons" style="font-size: 30p;">
-                              coronavirus
-                            </span>
-                            grafico de usuarios por tipo de alergia
+                              bar_chart
+                              </span>
+                            Probabilidad de tener alguna alergia o enfermedad según tu edad
                           </b>
                         </div>
                     </div>
@@ -355,12 +367,10 @@ $user = Auth::user();
                 </div>
               </div>
   
-  
-              
-              <div class="chart">
+              <div class="chart" style="height: 100%" >
                 <div class="px-0 pb-2 m-2">
-                  <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff;">
-                    
+                  <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;">
+                    <canvas id="datasienschart" style="height: 90%"></canvas>
                   </div>
                 </div>
               </div>
@@ -383,6 +393,7 @@ $user = Auth::user();
                       <div class="bottom-section">
                         <span class="title"> Usuarios: {{ $CountUser}}</span>
                         <div class="row row1">
+                          @if($generoCounter > 0)
                           <div class="item">
                             <span class="big-text">
                               @if($generoCounter['masculino'] > 0)
@@ -407,15 +418,36 @@ $user = Auth::user();
                           </div>
                           <div class="item">
                             <span class="big-text">
-                              @if($generoCounter['otros'] > 0)
-                                {{ $generoCounter['otros']}}
+                              @if($generoCounter['Neutro'] > 0)
+                                {{ $generoCounter['Neutro']}}
 
                               @else
                                 0
                               @endif 
                             </span>
-                            <span class="regular-text">Otros</span>
+                            <span class="regular-text">Neutro</span>
                           </div>
+                          @else
+                          <div class="item">
+                            <span class="big-text">
+                              0
+                            </span>
+                            <span class="regular-text">Masculino</span>
+                          </div>
+                          <div class="item">
+                            <span class="big-text">
+                              0
+                            </span>
+                            <span class="regular-text">Femenino</span>
+                          </div>
+                          <div class="item">
+                            <span class="big-text">
+                                0
+                            </span>
+                            <span class="regular-text">Neutro</span>
+                          </div>
+                          @endif
+                          
                         </div>
                       </div>
                     </div>
@@ -429,7 +461,7 @@ $user = Auth::user();
           </div>
   
           <div class="col-lg-4 col-md-6 mt-4 mb-4">
-            <div class="card z-index-2 ">
+            <div class="card z-index-2 " style="height: 100%">
   
               <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                 <div class="bg-gradient-dark  shadow-primary border-radius-lg py-3 pe-1">
@@ -438,7 +470,8 @@ $user = Auth::user();
                         <div class="d-flex aling-items-center text-center mb-0">
                           <b class="text-capitalize  font-weight-bolder"  style="text-align: center; color: #ffffff;">
                             <span class="material-icons" style="font-size: 30p;">
-                              coronavirus
+                              
+                                female
                             </span>
                             graficoo de usuarios por genero
                           </b>
@@ -451,7 +484,7 @@ $user = Auth::user();
               <div class="chart">
                 <div class="pb-2 m-2">
                   <div class=" border-radius-lg" style="overflow-x: hidden;background: #ffffff;">
-                    <canvas id="GeneroChart" ></canvas>  
+                    <canvas id="GeneroChart" style="height: 288px" ></canvas>  
                   </div>
                 </div>
               </div>
@@ -463,7 +496,7 @@ $user = Auth::user();
         
       <div class="row mt-4">
         <div class="col-lg-4 col-md-6 mt-4 mb-4">
-          <div class="card z-index-2 ">
+          <div class="card z-index-2">
 
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
               <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
@@ -483,11 +516,10 @@ $user = Auth::user();
             </div>
 
 
-            
-            <div class="chart">
+            <div class="chart" style="height: 100%">
               <div class="px-0 pb-2 m-2">
                 <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff;">
-                  <canvas id="AlergiaChart" width="300"></canvas>  
+                  <canvas id="AlergiaChart" style="height: 288px"></canvas>  
                 </div>
               </div>
             </div>
@@ -505,7 +537,7 @@ $user = Auth::user();
                       <div class="d-flex aling-items-center text-center mb-0">
                         <b class="text-capitalize  font-weight-bolder"  style="text-align: center; color: #ffffff;">
                           <span class="material-icons" style="font-size: 30p;">
-                            coronavirus
+                              sick
                           </span>
                           grafico de usuarios por tipo de enfermedad
                         </b>
@@ -518,7 +550,7 @@ $user = Auth::user();
             <div class="chart">
               <div class="px-0 pb-2 m-2">
                 <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff;">
-                  <canvas id="EnfermedadChart" width="300" ></canvas>  
+                  <canvas id="EnfermedadChart" style="height: 288px"></canvas>  
                 </div>
               </div>
             </div>
@@ -536,7 +568,7 @@ $user = Auth::user();
                       <div class="d-flex aling-items-center text-center mb-0">
                         <b class="text-capitalize  font-weight-bolder"  style="text-align: center; color: #ffffff;">
                           <span class="material-icons" style="font-size: 30p;">
-                            coronavirus
+                            group
                           </span>
                           graficoo de usuarios por Edad
                         </b>
@@ -549,7 +581,7 @@ $user = Auth::user();
             <div class="chart">
               <div class="px-0 pb-2 m-2">
                 <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff;">
-                  <canvas id="EdadChart" ></canvas>
+                  <canvas id="EdadChart" style="height: 288px" ></canvas>
                 </div>
               </div>
             </div>
@@ -574,28 +606,48 @@ $user = Auth::user();
             var ctxEnfermedad = document.getElementById('EnfermedadChart').getContext('2d');
             var ctxGenero = document.getElementById('GeneroChart').getContext('2d');
             var ctxEdad = document.getElementById('EdadChart').getContext('2d');
-            
-            
+            var ctxdata = document.getElementById('datasienschart').getContext('2d');
 
 
             var alergias = @json($alergiaCount);
             var enfermedad = @json($enfermedadCount);
             var UserCounter = @json($CountUser);
             var Genero = @json($generoCounter);
+            var porcentajeAlergia = @json($porcentajeAlergia);
+            var porcentajeEnfermedad = @json($porcentajeEnfermedad);
             var Edad = @json($edadCounter);
             var labelEnfermeda =  @json($labelEnfermedaFinal);
             var labelAlergia =  @json($labelAlergiFinal);
 
+
+            const dataChart ={
+                datasets: [{
+                    type: 'bar',
+                    label: 'Enfermedad',
+                    data: porcentajeEnfermedad,
+                    backgroundColor: [
+                      'rgb(255, 170, 207)'
+
+                    ],
+                }, {
+                    type: 'bar',
+                    label: 'Alergia',
+                    data: porcentajeAlergia,
+                    backgroundColor: [
+                      'rgb(234, 143, 234)'
+                    ],
+                }],
+            };
             
             const dataGenero = {
               labels: Object.keys(Genero),
               datasets: [{
-                label: 'My First Dataset',
+                label: 'data',
                 data: Object.values(Genero),
                 backgroundColor: [
                   'rgb(255, 199, 199)',
                   'rgb(237, 158, 214)',
-                  'rgb(198, 131, 215)'
+                  'rgb(234, 143, 234)'
                 ],
                 hoverOffset: 4
               }]
@@ -604,7 +656,7 @@ $user = Auth::user();
             const dataAlergia = {
             labels: labelAlergia,
             datasets: [{
-                label : 'datos',
+                label : 'usuarios',
                 data: alergias,
                 backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -615,23 +667,23 @@ $user = Auth::user();
                 'rgba(153, 102, 255, 0.2)',
                 'rgba(201, 203, 207, 0.2)'
                 ]
-                // ,borderColor: [
-                // 'rgb(255, 99, 132)',
-                // 'rgb(255, 159, 64)',
-                // 'rgb(255, 205, 86)',
-                // 'rgb(75, 192, 192)',
-                // 'rgb(54, 162, 235)',
-                // 'rgb(153, 102, 255)',
-                // 'rgb(201, 203, 207)'
-                // ],
-                // borderWidth: 1
+                ,borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)',
+                'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1
             }]
             };
 
             const dataEnfermedad ={
               labels: labelEnfermeda,
               datasets: [{
-                label : 'data',
+                label : 'usuarios',
                 data: enfermedad,
                 backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -642,22 +694,22 @@ $user = Auth::user();
                 'rgba(153, 102, 255, 0.2)',
                 'rgba(201, 203, 207, 0.2)'
                 ]
-                //,borderColor: [
-                // 'rgb(255, 99, 132)',
-                // 'rgb(255, 159, 64)',
-                // 'rgb(255, 205, 86)',
-                // 'rgb(75, 192, 192)',
-                // 'rgb(54, 162, 235)',
-                // 'rgb(153, 102, 255)',
-                // 'rgb(201, 203, 207)'
-                // ],
-                // borderWidth: 1
+                ,borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)',
+                'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1
             }]
             };
 
             const dataEdad ={
               datasets: [{
-                label : 'data',
+                label : 'usuarios',
                 data: Edad,
                 backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -668,29 +720,52 @@ $user = Auth::user();
                 'rgba(153, 102, 255, 0.2)',
                 'rgba(201, 203, 207, 0.2)'
                 ]
-                // ,borderColor: [
-                // 'rgb(255, 99, 132)',
-                // 'rgb(255, 159, 64)',
-                // 'rgb(255, 205, 86)',
-                // 'rgb(75, 192, 192)',
-                // 'rgb(54, 162, 235)',
-                // 'rgb(153, 102, 255)',
-                // 'rgb(201, 203, 207)'
-                // ],
-                // borderWidth: 1
+                ,borderColor: [
+                'rgb(255, 99, 132)',
+                'rgb(255, 159, 64)',
+                'rgb(255, 205, 86)',
+                'rgb(75, 192, 192)',
+                'rgb(54, 162, 235)',
+                'rgb(153, 102, 255)',
+                'rgb(201, 203, 207)'
+                ],
+                borderWidth: 1
             }]
             };
+
+            var datasienc = new Chart(ctxdata, {
+            data: dataChart,
+            options: {
+              
+              maintainAspectRatio: false,
+                scales: {
+                  x: {
+                    title: {
+                        display: true,
+                        text: 'Edad'
+                    }
+                },
+                y: {
+                  beginAtZero: true, // Establece el valor máximo del eje y al 100%
+                  ticks: {
+                      callback: function(value) {
+                          return value + '%'; // Agrega el símbolo de porcentaje a las etiquetas del eje y
+                      }
+                  },
+                  title: {
+                        display: true,
+                        text: 'porcentaje'
+                    }
+                }
+              }
+            }
+            });
 
             var doughnutGenero = new Chart(ctxGenero,{
               type: 'doughnut',
               data: dataGenero,
               options: {
                       maintainAspectRatio: false,
-                      scales: {
-                          y: {
-                              beginAtZero: true
-                          }
-                      }
                     },
             });
 
@@ -698,10 +773,20 @@ $user = Auth::user();
                     type: 'bar',
                     data: dataAlergia,
                     options: {
-                      // maintainAspectRatio: false,
+                      maintainAspectRatio: false,
                       scales: {
+                            x: {
+                              title: {
+                                  display: true,
+                                  text: 'Alergias'
+                              }
+                          },
                           y: {
-                              beginAtZero: true
+                              beginAtZero: true,
+                              title: {
+                                display: true,
+                                  text: 'Usuarios'
+                              }
                           }
                       }
                     },
@@ -711,10 +796,20 @@ $user = Auth::user();
                     type: 'bar',
                     data: dataEnfermedad,
                     options: {
-                      // maintainAspectRatio: false,
+                      maintainAspectRatio: false,
                       scales: {
+                            x: {
+                              title: {
+                                  display: true,
+                                  text: 'Enfermedades'
+                              }
+                          },
                           y: {
-                              beginAtZero: true
+                              beginAtZero: true,
+                              title: {
+                                display: true,
+                                  text: 'Usuarios'
+                              }
                           }
                       }
                     },
@@ -724,10 +819,20 @@ $user = Auth::user();
                     type: 'bar',
                     data: dataEdad,
                     options: {
-                      // maintainAspectRatio: false,
+                      maintainAspectRatio: false,
                       scales: {
+                            x: {
+                              title: {
+                                  display: true,
+                                  text: 'Edad'
+                              }
+                          },
                           y: {
-                              beginAtZero: true
+                              beginAtZero: true,
+                              title: {
+                                display: true,
+                                  text: 'Usuarios'
+                              }
                           }
                       }
                     },

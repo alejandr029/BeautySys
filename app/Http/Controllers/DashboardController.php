@@ -7,9 +7,15 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
-
+//datasciens imports
 use Phpml\Dataset\ArrayDataset;
+use Phpml\CrossValidation\RandomSplit;
 
+use Phpml\Classification\SVC;
+use Phpml\SupportVectorMachine\Kernel;
+
+
+use Illuminate\Support\Facades\Storage;
 
 
 class DashboardController extends Controller
@@ -60,10 +66,6 @@ class DashboardController extends Controller
             ->orderBy('C.fecha_cirugia')
             ->paginate(5);
 
-            $userArray = DB::select('EXEC GetPacientes');
-
-            // dd($usuarios);
-
             $labelAlergias = DB::table('usuario.tipo_alergia')
             ->select ( 'nombre')
             ->get();
@@ -77,18 +79,18 @@ class DashboardController extends Controller
             $labelAlergiFinal = array_column($labelAlergias->toArray(), 'nombre');
 
 
-            // $userArray = $usuarios->toArray();
+            $userArray = DB::select('EXEC GetPacientes');
+
             $arrkey = array_keys($userArray);
-            // $dataset = new ArrayDataset($userArray, $arrkey);
 
             $dataset = new ArrayDataset(
                 array_map(function($sample) {
                     if ($sample->Alergias !== null) {
-                        $sample->Alergias = explode('_', $sample->Alergias);
+                        $sample->Alergias = explode('__', $sample->Alergias);
                     }
 
                     if ($sample->Enfermedades !== null) {
-                        $sample->Enfermedades = explode('_', $sample->Enfermedades);
+                        $sample->Enfermedades = explode('__', $sample->Enfermedades);
                     }
 
                     return $sample;
@@ -98,32 +100,36 @@ class DashboardController extends Controller
             );
 
             
-            
-        
-
             $samples = $dataset->getSamples();
-            $CountUser = count($samples);
+            $labels =  $dataset->getTargets();
 
+            $CountUser = count($samples);
+            
+            
             $enfermedadCount = $this->DataEnfermedad($samples);
             $alergiaCount = $this->DataAlergia($samples);
             $generoCounter = $this->DataGender($samples);
             $edadCounter = $this->DataEdad($samples);
+            
+            $DataSciens = $this->DataSciens($samples,$labelEnfermedaFinal,$labelAlergiFinal);
+            // dd($DataSciens);
 
-            // dd($generoCounter);
+            function calcularPorcentajes($array) {
+                $sumaTotal = array_sum($array);
+            
+                return array_map(
+                    fn($value) => ($value / $sumaTotal) * 100,
+                    $array
+                );
+            }
 
-
+            $porcentajeAlergia = calcularPorcentajes($DataSciens[1][0]);
+            $porcentajeEnfermedad = calcularPorcentajes($DataSciens[0][0]);
             
             
-
-            // $tiempoFin = microtime(true);
-            // $tiempoEjecucion = $tiempoFin - $tiempoInicio;
-
-            // dd($tiempoEjecucion);
-
-
             session(['activeTab' => 'Dashboard']);
 
-            return view('dashboard',compact('Citas','today','Consultas','Cirugias','alergiaCount','CountUser','enfermedadCount','generoCounter','labelEnfermedaFinal','labelAlergiFinal','edadCounter'));
+            return view('dashboard',compact('Citas','today','Consultas','Cirugias','alergiaCount','CountUser','enfermedadCount','generoCounter','labelEnfermedaFinal','labelAlergiFinal','edadCounter','porcentajeAlergia','porcentajeEnfermedad'));
         }
         if(auth()->user()->hasRole(['user'])){
             
@@ -174,50 +180,111 @@ class DashboardController extends Controller
         
     }
 
+    public function DataSciens (array $samples, array $labelEnfermedaFinal, array $labelAlergiFinal ){
+        // $tiempoInicio = microtime(true);
+
+        $DiccionarioEnfermedad = array_flip($labelEnfermedaFinal);
+        $DiccionarioAlergia = array_flip($labelAlergiFinal);
+
+        $transformedSamplesEnfermedades = array_map(function ($sample)use ($DiccionarioEnfermedad,$DiccionarioAlergia) {
+            return [
+                // Agregar otras características aquí
+                // Agregar características para enfermedades y alergias numéricas
+                is_array($sample->Enfermedades)
+                ?array_map(function ($enfermedad) use ($DiccionarioEnfermedad) {
+                    return $DiccionarioEnfermedad[$enfermedad]  ?? [];
+                }, $sample->Enfermedades) : []
+            ];
+        }, $samples);
+
+        $transformedSamplesAlergias = array_map(function ($sample)use ($DiccionarioEnfermedad,$DiccionarioAlergia) {
+            return [
+                // Agregar otras características aquí
+                // Agregar características para enfermedades y alergias numéricas
+                is_array($sample->Alergias)
+                ?array_map(function ($alergia) use($DiccionarioAlergia){
+                    return $DiccionarioAlergia[$alergia]  ?? [];
+                },$sample->Alergias) : [],
+
+            ];
+        }, $samples);
+
+        // dd(array_merge(...$transformedSamplesEnfermedades),array_merge(...$transformedSamplesAlergias));
+
+        $arrkey = array_map( function($sample){
+            return intval($sample->Edad);
+        }, $samples);
+
+        //creacion del dataset
+        function predict ($transformedSamples,$arrkey){
+            $dataset = new ArrayDataset($transformedSamples,$arrkey,true);
+            //division del dataset en train y test
+            $datatest = new RandomSplit($dataset, 0.2,156);
+    
+            $classifier = new SVC(
+                Kernel::LINEAR, // $kernel
+                1.0,            // $cost
+                3,              // $degree
+                null,           // $gamma
+                0.0,            // $coef0
+                0.001,          // $tolerance
+                100,            // $cacheSize
+                true,           // $shrinking
+                true            // $probabilityEstimates, set to true
+            );
+    
+            $classifier->train($datatest->getTrainSamples(), $datatest->getTrainLabels());
+    
+            // Realizar predicciones en el conjunto de prueba
+            $predictions = $classifier->predictProbability($datatest->getTestSamples());
+    
+            return $predictions;
+        }
+
+        $EnfermedadProbavilidad = predict(array_merge(...$transformedSamplesEnfermedades),$arrkey);
+        
+        $AlergiaProbavilidad = predict(array_merge(...$transformedSamplesAlergias),$arrkey);
+        
+
+        // dd($EnfermedadProbavilidad, $AlergiaProbavilidad);
+        
+        // $tiempoFin = microtime(true);
+        // $tiempoEjecucion = $tiempoFin - $tiempoInicio;
+        // dd($tiempoEjecucion);
+        
+        return [$EnfermedadProbavilidad , $AlergiaProbavilidad];
+    }
     
     public function DataEnfermedad (array $samples)
     {
-        $DataEnfermedades = array_map(function ($sample) {
-        return  $sample->Enfermedades; 
-        }, $samples);
-
-        $dataEnfermedadFiltrado = array_filter($DataEnfermedades, function ($Enfermedades) {
-        return $Enfermedades !== null;
+        $dataEnfermedadFiltrado = array_filter(array_map(function ($sample) {
+            return $sample->Enfermedades;
+        }, $samples), function ($Enfermedades) {
+            return $Enfermedades !== null;
         });
+        
         $PersonasEnfermedad = array_merge(...$dataEnfermedadFiltrado);
-
-        // dd(array_count_values($PersonasEnfermedad[0]));
-
-        // $PersonasEnfermedad =[];
-
-        // foreach ($dataEnfermedadFiltrado as $subArray) {
-        // foreach ($subArray as $element) {
-        //     $PersonasEnfermedad[] = $element;
-        // }
-        // };
+        
+        
         return array_count_values($PersonasEnfermedad);
     }
 
     public function DataAlergia (array $samples)
     {
-    $DataAlergias = array_map(function ($sample) {
-    return  $sample->Alergias; 
-    }, $samples);
+        $dataAlergiasFiltrado = array_filter(array_map(function ($sample) {
+            return $sample->Alergias;
+        }, $samples), function ($alergias) {
+            return $alergias !== null;
+        });
 
-    $dataAlergiasFiltrado = array_filter($DataAlergias, function ($alergias) {
-    return $alergias !== null;
-    });
-
-    $PersonasAlergia = array_merge(...$dataAlergiasFiltrado);
-
-    return array_count_values($PersonasAlergia);
-
+        $PersonasAlergia = array_merge(...$dataAlergiasFiltrado);
+        return array_count_values($PersonasAlergia);
     }
 
-    public Function DataGender (array $samples)
+    public function DataGender (array $samples)
     {
         $Genero = array_map(function ($sample) {
-            return  $sample->Genero == null ? "otros" : $sample->Genero ; 
+            return  $sample->Genero == null ? "Neutro" : $sample->Genero ; 
             }, $samples);
 
         return array_count_values($Genero);
@@ -233,8 +300,6 @@ class DashboardController extends Controller
         return array_count_values($DataEdad);
 
     }
-
-
 
     public function index_user (string $id)
     {
