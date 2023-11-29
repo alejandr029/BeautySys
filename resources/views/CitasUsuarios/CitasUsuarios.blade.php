@@ -19,7 +19,7 @@
 
     #izqSev {
         width: 35%;
-        height: 60%;
+        height: 100%;
         background-color: #FFF;
         float: left;
         border-top-left-radius: 15px;
@@ -43,7 +43,7 @@
     form input {
         border-radius: 15px;
         width: 60%;
-        height: 12%;
+        height: 8%;
         margin-top: 4.5%;
         border-color: rgb(228,48,111);
         border-width: 3px;
@@ -53,7 +53,7 @@
     form select {
         border-radius: 15px;
         width: 60%;
-        height: 12%;
+        height: 8%;
         margin-top: 4.5%;
         border-color: rgb(228,48,111);
         border-width: 3px;
@@ -74,7 +74,7 @@
 
     form button {
         width: 38%;
-        height: 15%;
+        height: 10%;
         border-radius: 15px;
         background-color: rgb(55, 55, 60);
         color: aliceblue;
@@ -132,6 +132,10 @@
         margin-top: 0%;
     }
 
+    .labdis {
+        background-color: #EAEAEA;
+    }
+
 
 </style>
 
@@ -156,21 +160,30 @@
                 </section>
             </section>
 
-            <form action="" method="post" class="FormBill">
+            <form action="{{ route('crearUsCita.crear') }}" method="post" class="FormBill">
+                <br><br>
                 @csrf
                     <label for="nombre">Nombre:</label>
-                    <input type="text" name="nombre" required>
-                    <br>
-                    <label for="apellidos">Apellidos:</label>
-                    <input type="text" name="apellidos" required>
+                    <input disabled value="{{ $usuarios[0]->primer_nombre}} {{$usuarios[0]->primer_apellido}}" type="text" name="nombre" class="labdis">
                     <br>
                     <label for="correo">Correo:</label>
-                    <input type="email" name="correo" required>
+                    <input disabled value="{{$usuarios[0]->correo}}" type="email" name="correo" class="labdis" required>
+                    <br>
+                    <label for="tipoCita">Tipo de cita:</label>
+                    <select required>
+                        <option value="0">Selecciona el tipo de cita</option>
+                        @foreach($tipos as $tip)
+                            <option value="{{$tip->id_tipo_cita}}">{{$tip->nombre}}-{{$tip->precio_unitario}}$ </option>
+                        @endforeach
+                    </select>
                     <br>
                     <label for="fecha_cita">Fecha:</label>
                     <input type="date" name="fecha_cita" min="{{ date('Y-m-d') }}" required>
                     <br>
-                    <button type="submit">Guardar Cita</button>
+                    <label for="hora">Hora:</label>
+                    <input type="time" id="hora" name="hora" min="{{ date('H:i') }}" required>
+                    <br>
+                    <button type="submit">Agendar Cita</button>
             </form>
         </section>
     </div>
