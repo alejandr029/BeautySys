@@ -173,6 +173,7 @@ class CitasController extends Controller
     {
         // dump($request->all());
 
+
         $cita = Cita::findOrFail($id);
 
         $request->validate([
@@ -191,15 +192,16 @@ class CitasController extends Controller
             $horaFormat = Carbon::parse($request->hora)->format('H:i');
 
             $cita->update([
-                'hora' => $horaFormat,
-                'fecha' => $request->fecha,
+                'hora_cita' => $horaFormat,
+                'fecha_cita' => $request->fecha,
                 'id_estado_cita' => $request->id_estado_cita,
                 'id_sala' => $request->id_sala,
                 'id_tipo_cita' => $request->id_tipo_cita,
                 'id_personal' => $request->id_personal,
-                'id_insumo' => $request->id_insumo,
+                'id_insumos' => $request->id_insumo,
                 'id_equipo' => $request->id_equipo,
             ]);
+
 
             $Usuario = DB::table('usuario.paciente')
             ->select('primer_nombre', 'primer_apellido', 'correo')
