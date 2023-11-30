@@ -300,7 +300,7 @@ $user = Auth::user();
 
                 <div class="chart">
                   <div class="px-0 pb-2 m-2">
-                    <div class="table-responsive" >
+                    <div class="table-responsive" style="overflow-x: hidden;" >
                       <table class="table table-bordered align-items-center mb-0">
                         <thead >
                           <tr>
