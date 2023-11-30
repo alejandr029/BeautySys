@@ -95,7 +95,7 @@ class CitasController extends Controller
 
             if($request->id_estado_cita == 4){
                 $sala->id_estado_sala = '3';
-                $sala->save();             
+                $sala->save();
             }
 
             if($request->id_estado_cita == 9){
@@ -114,11 +114,11 @@ class CitasController extends Controller
             $cita = DB::table('estetico.tipo_cita')
             ->select('nombre')
             ->where('id_tipo_cita', (int)$request->id_tipo_cita)
-            ->first(); 
+            ->first();
             $estatus = DB::table('estetico.estado_cita')
             ->select('nombre')
             ->where('id_estado_cita', (int)$request->id_estado_cita)
-            ->first(); 
+            ->first();
 
             $fecha_carbon = Carbon::parse($request->fecha_cita);
             $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
@@ -155,7 +155,7 @@ class CitasController extends Controller
     public function edit($id)
     {
         $cita = Cita::findOrFail($id);
-        $cita->fecha_cita = Carbon::createFromFormat('Y-m-d H:i:s', $cita->fecha_cita)->format('Y-m-d');
+        $cita->fecha_cita = Carbon::createFromFormat('Y-m-d H:i:s.u', $cita->fecha_cita)->format('Y-m-d');
         $cita->hora_cita = Carbon::parse($cita->hora_cita)->format('H:i');
         $estadoCita = EstadoCita::all();
         $sala = Sala::all();
@@ -212,11 +212,11 @@ class CitasController extends Controller
             $cita = DB::table('estetico.tipo_cita')
             ->select('nombre')
             ->where('id_tipo_cita', (int)$request->id_tipo_cita)
-            ->first(); 
+            ->first();
             $estatus = DB::table('estetico.estado_cita')
             ->select('nombre')
             ->where('id_estado_cita', (int)$request->id_estado_cita)
-            ->first(); 
+            ->first();
 
             $fecha_carbon = Carbon::parse($request->fecha);
             $fecha_formateada = $fecha_carbon->translatedFormat('l j \d\e F \d\e\l Y');
