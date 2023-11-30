@@ -400,7 +400,7 @@
                     function updateCirugiaData() {
                         const selectedCirugiaId = SelectCirugias.value;
                         if (selectedCirugiaId) {
-                            fetch(`/Cirugiadatoscirugia/${selectedCirugiaId}`)
+                            fetch(`/cirugia-datos-cirugia/${selectedCirugiaId}`)
                                 .then((response) => response.json())
                                 .then((data) => {
                                     console.log(data)
@@ -421,7 +421,7 @@
                     function updateConsultaData() {
                         const selectedConsultaId = selectConsultas.value;
                         if (selectedConsultaId) {
-                            fetch(`/CirugiadatosPaciente/${selectedConsultaId}`)
+                            fetch(`/cirugia-datos-paciente/${selectedConsultaId}`)
                             .then((response) => response.json())
                             .then((data) => {
                                 console.log(data);
@@ -431,7 +431,7 @@
                                 telefonoPacienteInput.value = data.telefonoPaciente;
             
                                 // Ahora que tenemos el id del paciente, obtenemos las alergias y enfermedades
-                                fetch(`/CirugiaObtenerAlergiasEnfermedades/${data.id_paciente}`)
+                                fetch(`/cirugia-obtener-alergias-enfermedades/${data.id_paciente}`)
                                     .then((response) => response.json())
                                     .then((data) => {
                                         // Limpiar las tablas antes de agregar nuevas filas
