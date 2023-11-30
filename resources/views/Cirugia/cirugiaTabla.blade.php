@@ -94,27 +94,52 @@
 @extends('layout.template')
 
 @section('content')
+    {{-- NOTIFICAICON --}}
     @if(session('success'))
-    <div id="notification" class="position-fixed top-0 end-0 p-3" style="z-index: 5">
-        <div class="alert alert-success text-white" role="alert">
-            <strong>{{ session('success') }}</strong>
+        <div id="notification" class="position-fixed top-0 end-0 p-3" style="z-index: 5">
+            <div class="alert alert-success text-white" role="alert">
+                <strong>{{ session('success') }}</strong>
+            </div>
         </div>
-    </div>
-    <script>
-        setTimeout(function() {
-            var notification = document.getElementById('notification');
-            if (notification) {
-                notification.classList.add('show');
-                setTimeout(function() {
-                    notification.classList.remove('show');
-                    setTimeout(function() {
-                        notification.remove();
-                    }, 500);
-                }, 2000);
-            }
-        }, 100);
-    </script>
+        <script>
+            setTimeout(function () {
+                var notification = document.getElementById('notification');
+                if (notification) {
+                    notification.classList.add('show');
+                    setTimeout(function () {
+                        notification.classList.remove('show');
+                        setTimeout(function () {
+                            notification.remove();
+                        }, 500);
+                    }, 2000);
+                }
+            }, 100);
+        </script>
     @endif
+
+    @if (session('error'))
+        <div id="error" class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+            <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                <strong>{{ session('error') }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        <script>
+            setTimeout(function () {
+                var notification = document.getElementById('error');
+                if (notification) {
+                    notification.classList.add('show');
+                    setTimeout(function () {
+                        notification.classList.remove('show');
+                        setTimeout(function () {
+                            notification.remove();
+                        }, 500);
+                    }, 2000);
+                }
+            }, 100);
+        </script>
+    @endif
+
     <div class="container-fluid py-4">
 
         <div id="CirugiaTable" class="row">
