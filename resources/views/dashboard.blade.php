@@ -142,6 +142,13 @@ $user = Auth::user();
   border-left: 1px solid rgba(255, 255, 255, 0.126);
   border-right: 1px solid rgba(255, 255, 255, 0.126);
 }
+
+#imgPer{
+    font-size: 10.2em;
+    color: #FFF;
+    margin-left: 28%;
+    margin-top: 8%;
+}
 </style>
 
 @extends('layout.template')
@@ -387,7 +394,7 @@ $user = Auth::user();
                       <div class="top-section">
                         <div class="border"></div>
                         <div class="icons">
-
+                            <i class="material-icons" id="imgPer" >person</i>
                         </div>
                       </div>
                       <div class="bottom-section">
