@@ -180,7 +180,7 @@
                 </a>
             </li>
 
-            <li class="nav-item">
+            {{-- <li class="nav-item">
               <a class="nav-link text-white <?php echo session('activeTab') === 'Restauracion' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('restauracion.index') }}" onclick="mostrarLoader()">
                   <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                       <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
@@ -188,7 +188,7 @@
                   </div>
                   <span class="nav-link-text ms-1">Base de Datos</span>
               </a>
-          </li>
+          </li> --}}
             @endif
 
             @if(auth()->user()->hasRole(['user']))
