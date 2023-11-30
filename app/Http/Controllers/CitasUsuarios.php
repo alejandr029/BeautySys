@@ -101,7 +101,7 @@ class CitasUsuarios extends Controller
             //             </script>";
 
             session(['activeTab' => 'CitasUsuarios']);
-            return redirect()->route('CitasUsuarios.index')->with('success', 'Cita creada exitosamente.');;
+            return redirect()->route('Calendario.Calendario')->with('success', 'Cita creada exitosamente.');;
 
         } catch (\Throwable $th) {
             //throw $th;

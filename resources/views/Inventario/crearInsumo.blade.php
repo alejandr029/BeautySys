@@ -270,7 +270,7 @@
                         <strong id="subir">Sube una foto por URL!</strong>
                         <img id="image_preview" src="{{ old('imagen_url') ? old('imagen_url') : '' }}" >
                     </label>
-                    <input id="url" class="footer" type="text" placeholder="Coloca una URL" name="imagen_url" value="{{ old('imagen_url') }}">
+                    <input id="url" class="footer" type="text" placeholder="Coloca una URL" maxlength="200" name="imagen_url" value="{{ old('imagen_url') }}">
                 </div>
 
 
@@ -289,7 +289,7 @@
 
                     <div class="col-md-4">
                         <div class="input-form" style="height: 70%;">
-                        <textarea id="descripcion" name="descripcion" required></textarea>
+                        <textarea id="descripcion" maxlength="100" name="descripcion" required></textarea>
                         <label for="descripcion" class="textUser">Descripción</label>
                         </div>
                     </div>
