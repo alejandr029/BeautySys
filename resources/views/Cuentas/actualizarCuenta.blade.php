@@ -196,7 +196,7 @@
                                         <div class="input-form">
                                           <input type="text" id="secondname" name="secondname" class="others-fields" 
                                           value="{{  $paciente != null ? $paciente->segundo_nombre : ($personal != null ? $personal->segundo_nombre : '') }}"
-                                          required="true">
+                                          >
                                             <label for="name" class="textUser">Segundo Nombre</label>
                                         </div>
                                     </div>
@@ -212,7 +212,7 @@
                                       <div class="input-form"> 
                                         <input type="text" id="secondlastname" name="secondlastname" class="others-fields"
                                         value="{{  $paciente != null ? $paciente->segundo_apellido : ($personal != null ? $personal->segundo_apellido : '') }}"
-                                        required="true">
+                                        >
                                         
                                           <label for="name" class="textUser">Apellido materno</label>
                                       </div>
