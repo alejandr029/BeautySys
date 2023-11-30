@@ -157,11 +157,11 @@ $user = Auth::user();
                     <div class="px-0 pb-2 m-2">
                       <div class="d-flex aling-items-center text-center mb-0">
                         <b class="text-capitalize  font-weight-bolder"  style="text-align: center; color: #ffffff;">
-                          
-                          Ultimas 5 citas del DIa de Hoy
+
+                          Ultimas 5 citas de hoy
                         </b>
                       </div>
-                      
+
                     </div>
                   </div>
                 </div>
@@ -223,8 +223,8 @@ $user = Auth::user();
                     <div class="px-0 pb-2 m-2">
                       <div class="d-flex aling-items-center text-center mb-0">
                         <b class="text-capitalize  font-weight-bolder"  style="text-align: center; color: #ffffff;">
-                          
-                          Ultimas 5 Consltas del DIa de Hoy
+
+                          Ultimas 5 consultas de hoy
                         </b>
                       </div>
                     </div>
@@ -232,7 +232,7 @@ $user = Auth::user();
                 </div>
               </div>
               <div class="card-body">
-                
+
                 <div class="chart">
                   <div class="px-0 pb-2 m-2">
                     <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff;">
@@ -261,7 +261,7 @@ $user = Auth::user();
                           @endforeach
                           @else
                           <tr>
-                              <td colspan="3" style="text-align: center;">No hay Consltas disponibles</td>
+                              <td colspan="3" style="text-align: center;">No hay consultas disponibles</td>
                           </tr>
                           @endif
                         </tbody>
@@ -271,9 +271,9 @@ $user = Auth::user();
                 </div>
                 <h6 class="mb-0 "> Consultas </h6>
                 @if(count($Consultas) > 0)
-                <p class="text-sm ">Ultimas 5 Consultas del dia: {{ Carbon::parse($Consulta->fecha_visita)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
+                <p class="text-sm ">Ultimas 5 consultas del dia: {{ Carbon::parse($Consulta->fecha_visita)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
                 @else
-                <p class="text-sm ">Ultimas 5 Consultas del dia: {{ Carbon::parse($today)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
+                <p class="text-sm ">Ultimas 5 consultas del dia: {{ Carbon::parse($today)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
                 @endif
               </div>
             </div>
@@ -287,13 +287,13 @@ $user = Auth::user();
                     <div class="px-0 pb-2 m-2">
                         <div class="d-flex aling-items-center text-center mb-0">
                           <b class="text-capitalize  font-weight-bolder"  style="text-align: center; color: #ffffff;">
-                            
-                            Ultimas 5 Cirugias del DIa de Hoy
+
+                            Ultimas 5 cirugias de hoy
                           </b>
                         </div>
                     </div>
                   </div>
-                  
+
                 </div>
               </div>
               <div class="card-body">
@@ -326,7 +326,7 @@ $user = Auth::user();
                           @endforeach
                           @else
                           <tr>
-                              <td colspan="3" style="text-align: center; border: 1px #c9cbcf ">No hay Cirugias disponibles</td>
+                              <td colspan="3" style="text-align: center; border: 1px #c9cbcf ">No hay cirugias disponibles</td>
                           </tr>
                           @endif
                         </tbody>
@@ -336,9 +336,9 @@ $user = Auth::user();
                 </div>
                 <h6 class="mb-0 ">Cirugias</h6>
                 @if(count($Cirugias) > 0)
-                <p class="text-sm ">Ultimas 5 Cirugias del dia: {{ Carbon::parse($Cirugia->fecha_cirugia)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
+                <p class="text-sm ">Ultimas 5 cirugias del dia: {{ Carbon::parse($Cirugia->fecha_cirugia)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
                 @else
-                <p class="text-sm ">Ultimas 5 Cirugias del dia: {{ Carbon::parse($today)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
+                <p class="text-sm ">Ultimas 5 cirugias del dia: {{ Carbon::parse($today)->isoFormat('dddd D [de] MMMM [de] YYYY') }}</p>
                 @endif
               </div>
             </div>
@@ -349,7 +349,7 @@ $user = Auth::user();
         <div class="row mt-4">
           <div class="col-lg-4 col-md-6 mt-4 mb-4">
             <div class="card z-index-2 " style="height: 100%">
-  
+
               <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                 <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
                   <div class="chart">
@@ -366,7 +366,7 @@ $user = Auth::user();
                   </div>
                 </div>
               </div>
-  
+
               <div class="chart" style="height: 100%" >
                 <div class="px-0 pb-2 m-2">
                   <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;">
@@ -374,10 +374,10 @@ $user = Auth::user();
                   </div>
                 </div>
               </div>
-            
+
             </div>
           </div>
-  
+
           <div class="col-lg-4 col-md-6 mt-4 mb-4">
             <div class="card z-index-2 ">
               <div class="chart">
@@ -401,8 +401,8 @@ $user = Auth::user();
 
                               @else
                                 0
-                              @endif 
-                              
+                              @endif
+
                             </span>
                             <span class="regular-text">Masculino</span>
                           </div>
@@ -411,8 +411,8 @@ $user = Auth::user();
                               @if($generoCounter['femenino'] > 0)
                                 {{ $generoCounter['femenino']}}
 
-                              @else 
-                              @endif 
+                              @else
+                              @endif
                             </span>
                             <span class="regular-text">Femenino</span>
                           </div>
@@ -423,7 +423,7 @@ $user = Auth::user();
 
                               @else
                                 0
-                              @endif 
+                              @endif
                             </span>
                             <span class="regular-text">Neutro</span>
                           </div>
@@ -447,22 +447,22 @@ $user = Auth::user();
                             <span class="regular-text">Neutro</span>
                           </div>
                           @endif
-                          
+
                         </div>
                       </div>
                     </div>
-                        
+
                     <p class="text-uppercase text-secondary text-xxl font-weight-bolder" style="text-align: center;"></p>
                   </div>
                 </div>
               </div>
-            
+
             </div>
           </div>
-  
+
           <div class="col-lg-4 col-md-6 mt-4 mb-4">
             <div class="card z-index-2 " style="height: 100%">
-  
+
               <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                 <div class="bg-gradient-dark  shadow-primary border-radius-lg py-3 pe-1">
                   <div class="chart">
@@ -470,30 +470,30 @@ $user = Auth::user();
                         <div class="d-flex aling-items-center text-center mb-0">
                           <b class="text-capitalize  font-weight-bolder"  style="text-align: center; color: #ffffff;">
                             <span class="material-icons" style="font-size: 30p;">
-                              
+
                                 female
                             </span>
-                            graficoo de usuarios por genero
+                            usuarios por g&eacute;nero
                           </b>
                         </div>
                     </div>
                   </div>
                 </div>
               </div>
-              
+
               <div class="chart">
                 <div class="pb-2 m-2">
                   <div class=" border-radius-lg" style="overflow-x: hidden;background: #ffffff;">
-                    <canvas id="GeneroChart" style="height: 288px" ></canvas>  
+                    <canvas id="GeneroChart" style="height: 288px" ></canvas>
                   </div>
                 </div>
               </div>
-            
+
             </div>
           </div>
-  
+
         </div>
-        
+
       <div class="row mt-4">
         <div class="col-lg-4 col-md-6 mt-4 mb-4">
           <div class="card z-index-2">
@@ -507,7 +507,7 @@ $user = Auth::user();
                           <span class="material-icons" style="font-size: 30p;">
                             coronavirus
                           </span>
-                          grafico de usuarios por tipo de alergia
+                          usuarios por tipo de alergia
                         </b>
                       </div>
                   </div>
@@ -519,11 +519,11 @@ $user = Auth::user();
             <div class="chart" style="height: 100%">
               <div class="px-0 pb-2 m-2">
                 <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff;">
-                  <canvas id="AlergiaChart" style="height: 288px"></canvas>  
+                  <canvas id="AlergiaChart" style="height: 288px"></canvas>
                 </div>
               </div>
             </div>
-          
+
           </div>
         </div>
 
@@ -539,22 +539,22 @@ $user = Auth::user();
                           <span class="material-icons" style="font-size: 30p;">
                               sick
                           </span>
-                          grafico de usuarios por tipo de enfermedad
+                          usuarios por tipo de enfermedad
                         </b>
                       </div>
                   </div>
                 </div>
               </div>
             </div>
-            
+
             <div class="chart">
               <div class="px-0 pb-2 m-2">
                 <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff;">
-                  <canvas id="EnfermedadChart" style="height: 288px"></canvas>  
+                  <canvas id="EnfermedadChart" style="height: 288px"></canvas>
                 </div>
               </div>
             </div>
-          
+
           </div>
         </div>
 
@@ -570,14 +570,14 @@ $user = Auth::user();
                           <span class="material-icons" style="font-size: 30p;">
                             group
                           </span>
-                          graficoo de usuarios por Edad
+                          usuarios por Edad
                         </b>
                       </div>
                   </div>
                 </div>
               </div>
             </div>
-            
+
             <div class="chart">
               <div class="px-0 pb-2 m-2">
                 <div class="table-responsive p-0 border-radius-lg" style="overflow-x: hidden;background: #ffffff;">
@@ -585,7 +585,7 @@ $user = Auth::user();
                 </div>
               </div>
             </div>
-          
+
           </div>
         </div>
 
@@ -595,7 +595,7 @@ $user = Auth::user();
     </div>
     @include('layout.footer')
 
-    
+
   @if(auth()->user()->hasRole(['admin','staff']))
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -638,7 +638,7 @@ $user = Auth::user();
                     ],
                 }],
             };
-            
+
             const dataGenero = {
               labels: Object.keys(Genero),
               datasets: [{
@@ -736,7 +736,7 @@ $user = Auth::user();
             var datasienc = new Chart(ctxdata, {
             data: dataChart,
             options: {
-              
+
               maintainAspectRatio: false,
                 scales: {
                   x: {
@@ -838,7 +838,7 @@ $user = Auth::user();
                     },
             });
 
-          
+
 
 
         });
