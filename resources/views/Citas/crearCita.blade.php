@@ -54,7 +54,6 @@ use Carbon\Carbon;
   transition: border-color 1s ease-in-out;
 }
 
-
 .container2 {
   height: 300px;
   width: 300px;
@@ -211,7 +210,7 @@ use Carbon\Carbon;
                         <input type="time" class="form-control input-form" id="hora_cita" name="hora_cita"
                             required>
                     </div>
-                  
+
                   </div>
 
 
@@ -321,7 +320,7 @@ use Carbon\Carbon;
     document.addEventListener("DOMContentLoaded", function (){
       const fechaInput = document.getElementById('fecha_cita');
       const horaInput = document.getElementById('hora_cita');
-      
+
 
       const fechaHoraActual = new Date();
       const año = fechaHoraActual.getFullYear();
@@ -332,11 +331,11 @@ use Carbon\Carbon;
       fechaInput.min = fecha_actual.toISOString().split('T')[0];
 
       const fecha = fechaInput.min;
-       
+
       fechaInput.addEventListener('input', function() {
           horaInput.min = this.value === fechaInput.min ? '{{ now()->format("H:i") }}' : '00:00';
       });
-      
+
     });
   </script>
 

@@ -152,7 +152,7 @@
 
     @section('content')
 
-    
+
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-11">
@@ -192,7 +192,7 @@
                                             <label for="hora" class="form-label">Hora de la cita:</label>
                                             <input type="time" id="hora" name="hora" required  value="{{ $cita->hora_cita }}">
                                         </div>
-                                        
+
                                     </div>
 
                                     <hr class="dark horizontal">
@@ -242,6 +242,7 @@
                                     <div class="mb-3 input-form">
                                         <label for="id_personal" class="form-label">Doctor que atenderá:</label>
                                         <select class="form-control" id="id_personal" name="id_personal">
+                                            <option value="0">Selecciona un doctor</option>
                                             @foreach ($personal as $person)
                                                 <option value="{{ $person->id_personal }}"
                                                     {{ $person->id_personal == $cita->id_personal ? 'selected' : '' }}>
@@ -293,20 +294,20 @@
                                         document.addEventListener("DOMContentLoaded", function (){
                                           const fechaInput = document.getElementById('fecha');
                                           const horaInput = document.getElementById('hora');
-                                          
+
                                           const fechaHoraActual = new Date();
                                           const año = fechaHoraActual.getFullYear();
                                           const mes = fechaHoraActual.getMonth() + 1;
                                           const dia = fechaHoraActual.getDate();
-                            
+
                                           const fecha_actual = new Date(año, mes - 1, dia); // Creamos un objeto Date con la fecha actual
                                           console.log(fecha_actual);
                                           fechaInput.min = fecha_actual.toISOString().split('T')[0];
-                            
+
                                           const fecha = fechaInput.min;
-                                           
+
                                           fechaInput.addEventListener('input', function() {
-                                            
+
                                               horaInput.min = this.value === fechaInput.min ? '{{ now()->format("H:i") }}' : '00:00';
                                           });
                                         });

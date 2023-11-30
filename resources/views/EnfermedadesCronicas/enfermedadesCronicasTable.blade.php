@@ -94,29 +94,54 @@ use Carbon\Carbon;
 @extends('layout.template')
 
 @section('content')
+    {{-- NOTIFICAICON --}}
     @if(session('success'))
-    <div id="notification" class="position-fixed top-0 end-0 p-3" style="z-index: 5">
-        <div class="alert alert-success text-white" role="alert">
-            <strong>{{ session('success') }}</strong> 
+        <div id="notification" class="position-fixed top-0 end-0 p-3" style="z-index: 5">
+            <div class="alert alert-success text-white" role="alert">
+                <strong>{{ session('success') }}</strong>
+            </div>
         </div>
-    </div>
-    <script>
-        setTimeout(function() {
-            var notification = document.getElementById('notification');
-            if (notification) {
-                notification.classList.add('show');
-                setTimeout(function() {
-                    notification.classList.remove('show');
-                    setTimeout(function() {
-                        notification.remove();
-                    }, 500);
-                }, 2000);
-            }
-        }, 100);
-    </script>
+        <script>
+            setTimeout(function () {
+                var notification = document.getElementById('notification');
+                if (notification) {
+                    notification.classList.add('show');
+                    setTimeout(function () {
+                        notification.classList.remove('show');
+                        setTimeout(function () {
+                            notification.remove();
+                        }, 500);
+                    }, 2000);
+                }
+            }, 100);
+        </script>
     @endif
-    <div class="container-fluid py-4">      
-        
+
+    @if (session('error'))
+        <div id="error" class="position-fixed top-0 end-0 p-3" style="z-index: 1051;">
+            <div class="alert alert-danger alert-dismissible fade show mb-0" role="alert">
+                <strong>{{ session('error') }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        <script>
+            setTimeout(function () {
+                var notification = document.getElementById('error');
+                if (notification) {
+                    notification.classList.add('show');
+                    setTimeout(function () {
+                        notification.classList.remove('show');
+                        setTimeout(function () {
+                            notification.remove();
+                        }, 500);
+                    }, 2000);
+                }
+            }, 100);
+        </script>
+    @endif
+
+    <div class="container-fluid py-4">
+
         <div id="ProveedoresTable" class="row">
             <div class="col-12">
                 <div class="card my-4">
@@ -126,7 +151,7 @@ use Carbon\Carbon;
                             <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#miModal" style="margin-right: 15px; background: #F2F2F2; color: #0D0D0D;">
                                 <a>
                                     <span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path fill="currentColor" d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"></path></svg> 
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path fill="none" d="M0 0h24v24H0z"></path><path fill="currentColor" d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"></path></svg>
                                     Agregar enfermedades cronicas
                                     </span>
                                 </a>
@@ -184,7 +209,7 @@ use Carbon\Carbon;
           </div>
           <div class="row">
             <form action="{{ route('añadirEnfermedadCronica', Auth::user()->id) }}" method="post" onsubmit="mostrarLoader()">
-            @csrf 
+            @csrf
             <div style="height: 30em;overflow-y: auto;">
                 <div class="modal-body table-responsive">
                     <table class="table table-striped">
@@ -219,8 +244,8 @@ use Carbon\Carbon;
                   </div>
                 </form>
                 </div>
-          </div> 
-    </div> 
+          </div>
+    </div>
 </div>
 
 @endsection
