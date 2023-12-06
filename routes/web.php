@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
+use Laravel\Fortify\Http\Controllers\TwoFactorAuthenticatedSessionController;
+
 // use App\Http\Controllers\AsignarRolController;
 use App\Http\Controllers\CuentasController;
 use App\Http\Controllers\InventarioInsumoController;
@@ -20,10 +22,14 @@ use App\Http\Controllers\EnfermedadesCronicasController;
 use App\Models\CitasUsuario;
 use App\Http\Controllers\FullCalendarController;
 
+
 Route::view('/','layout.landing');
 
 Route::get('/IniciarSesion', [AuthenticatedSessionController::class, 'create'])->middleware('guest')->name('login');
 Route::post('/IniciarSesion', [AuthenticatedSessionController::class, 'store'])->middleware('web', 'guest');
+
+Route::get('/two-factor', [TwoFactorAuthenticatedSessionController::class, 'create'])->middleware('guest')->name('two-factor.login');
+Route::post('/two-factor', [TwoFactorAuthenticatedSessionController::class, 'store'])->middleware('guest');
 
 Route::get('/Registro', [RegisteredUserController::class, 'create'])->middleware('guest')->name('register');
 Route::post('/Registro', [RegisteredUserController::class, 'store'])->middleware('guest');

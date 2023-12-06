@@ -29,6 +29,7 @@ class EmailService
 
 
         $response = $this->sendGrid->send($email);
+        // dd($response);
         return $response;
     }
 }
