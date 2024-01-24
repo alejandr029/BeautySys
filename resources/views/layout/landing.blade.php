@@ -27,6 +27,8 @@
 
     <script src="{{ asset('assets/js/loader.js') }}"></script>
 
+    {{--  PWA  --}}
+    @laravelPWA
 </head>
 
 <body>
@@ -49,27 +51,8 @@
             </div>
             <div class="">
                 <ul class="nav navbar-nav navbar-right navbar-uppercase">
-                    {{-- <li>
-                        <a href="http://www.creative-tim.com/product/gaia-bootstrap-template-pro" target="_blank">Get PRO Version</a>
-                    </li> --}}
-                    {{-- <li class="dropdown">
-                        <a href="#gaia" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-share-alt"></i> Share
-                        </a>
-                        <ul class="dropdown-menu dropdown-danger">
-                            <li>
-                                <a href="#"><i class="fa fa-facebook-square"></i> Facebook</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-twitter"></i> Twitter</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-instagram"></i> Instagram</a>
-                            </li>
-                        </ul>
-                    </li> --}}
                     <li>
-                            <a href="/IniciarSesion" target="_blank" class="btn btn-danger btn-fill" style="border: 2px solid #ffafb4;">Iniciar sesion</a>
+                            <a href="/IniciarSesion" class="btn btn-danger btn-fill" style="border: 2px solid #ffafb4;">Iniciar sesion</a>
                     </li>
                     <li>
                         <a href="/Registro" target="_blank" class="btn btn-danger btn-fill" style="border: 2px solid #ffafb4;" >Registrar</a>
