@@ -3,28 +3,28 @@
 return [
     'name' => 'BeautySys Progressive Web App',
     'manifest' => [
-        'name' => env('APP_NAME', 'BeautySys'),
-        'short_name' => 'Beautysys',
+        'name' => env('APP_NAME', 'BeautySys Progressive Web App'),
+        'short_name' => 'Beautysys App',
         'start_url' => '/',
         'background_color' => '#ffffff',
         'theme_color' => '#00000000',
         'display' => 'standalone',
         'orientation'=> 'any',
         'status_bar'=> '#00ffffff',
-        "screenshots" => [
+        'screenshots' => [
             [
-                "src" => "/images/screenshots/landingPage.png",
-                "type" => "image/png",
-                "form_factor" => "wide",
-                "label" => "Landing Page"
+                'src' => '/images/screenshots/landingPage.png',
+                'type' => 'image/png',
+                'form_factor' => 'wide',
+                'label' => 'Landing Page'
             ],
             [
-                "src" => "/images/screenshots/landingPage.png",
-                "type" => "image/png",
-                "label" => "Landing Page"
+                'src' => '/images/screenshots/landingPage.png',
+                'type' => 'image/png',
+                'label' => 'Landing Page'
             ]
         ],
-        "description" => "BeautySys: Sistema de Gestion y Administracion para clinica de cirugias esteticas.",
+        'description' => 'BeautySys: Sistema de Gestion y Administracion para clinica de cirugias esteticas.',
         'icons' => [
             '72x72' => [
                 'path' => '/images/icons/icon-72x72.png',
@@ -77,8 +77,8 @@ return [
                 'description' => 'Ir al Dashboard',
                 'url' => '/dashboard',
                 'icons' => [
-                    "src" => "/images/icons/icon-96x96.png",
-                    "purpose" => "any"
+                    'src' => '/images/icons/icon-96x96.png',
+                    'purpose' => 'any'
                 ]
             ]
         ],
