@@ -9,8 +9,8 @@
 
 <head>
     <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="assets/assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="assets/img/logos/logoproyecto8b.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/icons/icon.ico">
+    <link rel="icon" type="ico" sizes="96x96" href="images/icons/icon.ico">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>Beautysys</title>
@@ -55,7 +55,7 @@
                             <a href="/IniciarSesion" class="btn btn-danger btn-fill" style="border: 2px solid #ffafb4;">Iniciar sesion</a>
                     </li>
                     <li>
-                        <a href="/Registro" target="_blank" class="btn btn-danger btn-fill" style="border: 2px solid #ffafb4;" >Registrar</a>
+                        <a href="/Registro" class="btn btn-danger btn-fill" style="border: 2px solid #ffafb4;" >Registrar</a>
                     </li>
                 </ul>
             </div>

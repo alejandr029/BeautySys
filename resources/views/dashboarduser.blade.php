@@ -4,6 +4,13 @@ Carbon::setLocale('es');
 
 @endphp
 
+<head>
+    <title>Beautysys</title>
+
+    {{--  PWA  --}}
+    @laravelPWA
+</head>
+
 @extends('layout.template')
 
 @section('content')
@@ -13,11 +20,10 @@ Carbon::setLocale('es');
     <div class="container-fluid py-4">
 
 
-     
+
 
 
       @include('layout.footer')
     </div>
-  </main>
 
 @endsection

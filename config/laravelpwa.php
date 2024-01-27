@@ -4,7 +4,7 @@ return [
     'name' => 'BeautySys',
     'manifest' => [
         'name' => env('APP_NAME', 'BeautySys'),
-        'short_name' => 'PWA',
+        'short_name' => 'BeautySys PWA',
         'start_url' => '/',
         'background_color' => '#ffffff',
         'theme_color' => '#000000',
@@ -13,19 +13,19 @@ return [
         'status_bar'=> 'black',
         'icons' => [
             '72x72' => [
-                'path' => '/images/icons/icon.png',
+                'path' => '/images/icons/icon.ico',
                 'purpose' => 'any'
             ],
             '96x96' => [
-                'path' => '/images/icons/icon.png',
+                'path' => '/images/icons/icon.ico',
                 'purpose' => 'any'
             ],
             '128x128' => [
-                'path' => '/images/icons/icon.png',
+                'path' => '/images/icons/icon.ico',
                 'purpose' => 'any'
             ],
             '144x144' => [
-                'path' => '/images/icons/icon.png',
+                'path' => '/images/icons/icon.ico',
                 'purpose' => 'any'
             ],
             '152x152' => [
@@ -59,18 +59,13 @@ return [
         ],
         'shortcuts' => [
             [
-                'name' => 'Shortcut Link 1',
-                'description' => 'Shortcut Link 1 Description',
-                'url' => '/shortcutlink1',
+                'name' => 'Dashboard',
+                'description' => 'Ir al Dashboard',
+                'url' => '/dashboard',
                 'icons' => [
-                    "src" => "/images/icons/icon-72x72.png",
+                    "src" => "/images/icons/icon.ico",
                     "purpose" => "any"
                 ]
-            ],
-            [
-                'name' => 'Shortcut Link 2',
-                'description' => 'Shortcut Link 2 Description',
-                'url' => '/shortcutlink2'
             ]
         ],
         'custom' => []
