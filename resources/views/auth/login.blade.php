@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     {{-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> --}}
 
-    <link rel="shortcut icon" sizes="76x76" href="../assets/img/logos/logoproyecto8b.png">
-    <link rel="icon" type="image/png" href="../assets/img/logos/logoproyecto8b">
+    <link rel="shortcut icon" sizes="128x128" href="../images/icons/icon-128x128.png">
+    <link rel="icon" type="image/png" href="../images/icons/icon.png">
     <title>
         BeautySys Inicio de Sesion
     </title>
@@ -35,9 +35,9 @@
 </head>
 
 <body class="bg-gray-200">
-    
-    
-    
+
+
+
     <main class="main-content mt-0">
         @include('loader')
         <div class="page-header align-items-start min-vh-100"
