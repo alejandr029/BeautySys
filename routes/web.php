@@ -23,7 +23,7 @@ use App\Http\Controllers\FullCalendarController;
 Route::view('/','layout.landing');
 
 Route::get('/offline', function () {
-    return view('vendor/laravelpwa/offline');
+    return view('vendor.laravelpwa.offline');
 });
 
 Route::get('/IniciarSesion', [AuthenticatedSessionController::class, 'create'])->middleware('guest')->name('login');
