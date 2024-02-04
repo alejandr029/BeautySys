@@ -409,7 +409,7 @@
   </aside>
 
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-    <nav class="navbar navbar-main px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+    <nav class="navbar navbar-main px-0 mx-2 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
       <div class="container-fluid py-1" style="display: inline-flex; justify-content: space-between">
             <div style="display: inline-flex; gap: 8px; align-items: center">
                 <button id="backButton" class="backbutton aside-menu" onclick="goBack(); mostrarLoader();" style="">
@@ -450,7 +450,7 @@
             </div>
       </div>
 
-        <h3 class="font-weight-bolder mb-0 px-4 d-lg-none"><?php echo session('activeTab')?></h3>
+        <h3 class="font-weight-bolder mb-0 px-3 d-lg-none"><?php echo session('activeTab')?></h3>
     </nav>
     @yield('content')
   </main>

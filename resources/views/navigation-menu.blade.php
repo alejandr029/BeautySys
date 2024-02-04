@@ -72,7 +72,7 @@
                 @endif -->
 
                 <!-- Settings Dropdown -->
-                <div class="navbar navbar-main navbar-expand-md px-0 mx-4 shadow-none">
+                <div class="navbar navbar-main navbar-expand-md px-0 shadow-none">
                     <x-dropdown width="auto">
                         <x-slot name="trigger">
 {{--                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())--}}
@@ -81,7 +81,7 @@
 {{--                                </button>--}}
 {{--                            @else --}}
                                 <span class="inline-flex rounded-md">
-                                    <button type="button" style="width: 200px; justify-content: space-evenly" class="d-flex align-items-baseline inline-flex items-center px-1 py-2 border border-transparent text-sm leading-7 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                                    <button type="button" style="width: 160px; justify-content: space-evenly" class="d-flex align-items-baseline inline-flex items-center px-1 py-2 border border-transparent text-sm leading-7 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                                         <div>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                                                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
