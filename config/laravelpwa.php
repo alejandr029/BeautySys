@@ -6,11 +6,11 @@ return [
         'name' => env('APP_NAME', 'BeautySys Progressive Web App'),
         'short_name' => 'Beautysys App',
         'start_url' => '/',
-        'background_color' => '#ffffff',
+        'background_color' => '#fff',
         'theme_color' => '#00000000',
         'display' => 'standalone',
         'orientation'=> 'any',
-        'status_bar'=> '#00ffffff',
+        'status_bar'=> '#fff',
         'screenshots' => [
             [
                 'src' => '/images/screenshots/landingPage.png',

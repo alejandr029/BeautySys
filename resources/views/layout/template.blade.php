@@ -409,21 +409,20 @@
   </aside>
 
   <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
-      <div class="container-fluid py-1 px-3">
-        <nav aria-label="breadcrumb">
+    <nav class="navbar navbar-main px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
+      <div class="container-fluid py-1" style="display: inline-flex; justify-content: space-between">
             <div style="display: inline-flex; gap: 8px; align-items: center">
-                <button id="backButton" class="backbutton" onclick="goBack(); mostrarLoader();" style="">
+                <button id="backButton" class="backbutton aside-menu" onclick="goBack(); mostrarLoader();" style="">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
                     </svg>
                 </button>
 
                 <a class="border-0 d-lg-none aside-menu backbutton" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidenav-main" aria-controls="sidenav-main">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 18px;"><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" style="width: 16px;"><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg>
                 </a>
 
-                <h3 class="font-weight-bolder mb-0"><?php echo session('activeTab')?></h3>
+                <h3 class="font-weight-bolder mb-0 px-2 d-none d-lg-block"><?php echo session('activeTab')?></h3>
             </div>
 
           <script>
@@ -446,9 +445,12 @@
           });
           </script>
 
-            @livewire('navigation-menu')
-        </nav>
+            <div>
+                @livewire('navigation-menu')
+            </div>
       </div>
+
+        <h3 class="font-weight-bolder mb-0 px-4 d-lg-none"><?php echo session('activeTab')?></h3>
     </nav>
     @yield('content')
   </main>
