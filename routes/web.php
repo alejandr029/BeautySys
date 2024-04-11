@@ -21,6 +21,7 @@ use App\Http\Controllers\CitasUsuarios;
 use App\Http\Controllers\EnfermedadesCronicasController;
 use App\Models\CitasUsuario;
 use App\Http\Controllers\FullCalendarController;
+use App\Http\Controllers\userInfo;
 
 
 Route::view('/','layout.landing');
@@ -64,6 +65,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/EnfermedadesCronicas/{id}', [EnfermedadesCronicasController::class, 'index'])->name('enfermedadesCronicasTabla');
         Route::post('/EnfermedadesCronicas/{id}', [EnfermedadesCronicasController::class, 'añadirEnfermedadCronica'])->name('añadirEnfermedadCronica');
+
+        Route::get('/Perfil/{id}', [userInfo::class, 'show'])->name('userInfo');
+        Route::put('/PerfilUpdate/{id}', [userInfo::class, 'update'])->name('userInfoUpdate');
 
         // Route::view('/Alergias','Alergia.alergiaTable')->name('Alergias');
 //    });

@@ -246,6 +246,7 @@
                     <span class="nav-link-text ms-1">Enfermedades Cronicas</span>
                 </a>
               </li>
+              
             @endif
         </ul>
     </div>
@@ -360,7 +361,7 @@
                   <a class="nav-link text-white <?php echo session('activeTab') === 'CitasUsuarios' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('CitasUsuarios.index') }}" onclick="mostrarLoader()">
                       <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                           <!-- Icono de calendario -->
-                          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
                               <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2V5H0V2zm14 2h1v1h-1V4zm-3 0h1v1h-1V4zM5 4h1v1H5V4zM2 4h1v1H2V4zM0 6h16v9H0V6zm2 1v2h3V7H2zm5 0v2h3V7H7zm5 0v2h3V7h-3z"/>
                           </svg>
                       </div>
@@ -372,7 +373,7 @@
                   <a class="nav-link text-white <?php echo session('activeTab') === 'Calendario' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('Calendario', Auth::user()->id) }}" onclick="mostrarLoader()">
                       <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                           <!-- Icono de calendario -->
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event-fill" viewBox="0 0 16 16">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-calendar-event-fill" viewBox="0 0 16 16">
                               <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v1h16V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM16 14V5H0v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2m-3.5-7h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5"/>
                           </svg>
                       </div>
@@ -395,7 +396,7 @@
                   <a class="nav-link text-white <?php echo session('activeTab') === 'Enfermedad Cronicas' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('enfermedadesCronicasTabla', Auth::user()->id) }}" onclick="mostrarLoader()">
                       <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                           <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-pulse-fill" viewBox="0 0 16 16">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-heart-pulse-fill" viewBox="0 0 16 16">
                               <path d="M1.475 9C2.702 10.84 4.779 12.871 8 15c3.221-2.129 5.298-4.16 6.525-6H12a.5.5 0 0 1-.464-.314l-1.457-3.642-1.598 5.593a.5.5 0 0 1-.945.049L5.889 6.568l-1.473 2.21A.5.5 0 0 1 4 9H1.475Z"/>
                               <path d="M.88 8C-2.427 1.68 4.41-2 7.823 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C11.59-2 18.426 1.68 15.12 8h-2.783l-1.874-4.686a.5.5 0 0 0-.945.049L7.921 8.956 6.464 5.314a.5.5 0 0 0-.88-.091L3.732 8H.88Z"/>
                           </svg>
@@ -403,6 +404,20 @@
                       <span class="nav-link-text ms-1">Enfermedades Cronicas</span>
                   </a>
               </li>
+
+              <li class="nav-item">
+                <a class="nav-link text-white <?php echo session('activeTab') === 'Perfil' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('userInfo', Auth::user()->id) }}" onclick="mostrarLoader()">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                          </svg>
+                      </div>
+                    <span class="nav-link-text ms-1">Perfil</span>
+                </a>
+              </li>
+
+
           @endif
       </ul>
   </div>

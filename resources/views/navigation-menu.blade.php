@@ -108,7 +108,7 @@
 
                                 <li class="list-group-item border-0" style="padding: 4px 16px">
                                     <x-dropdown-link href="{{ route('profile.show') }}" onclick="mostrarLoader();">
-                                        {{ __('Perfil') }}
+                                        {{ __('Configuración') }}
                                     </x-dropdown-link>
                                 </li>
 
