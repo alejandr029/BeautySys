@@ -127,7 +127,7 @@
 
     <div class="section section-our-team-freebie">
         <div class="parallax filter filter-color-black">
-            <div class="image" style="background-image:url('assets/img/header-2.jpeg')">
+{{--            <div class="image" style="background-image:url('assets/img/header-2.jpeg')">--}}
             </div>
             <div class="container">
                 <div class="content">
