@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+{{-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -22,8 +22,9 @@
 {{--    <script src="{{ asset('assets/js/loader.js') }}"></script>--}}
 
     {{--  PWA  --}}
-    @laravelPWA
-</head>
+    {{-- @laravelPWA
+</head> --}}
+@extends('layout.landing')
 
 <nav class="navbar navbar-default navbar-transparent navbar-fixed-top" style="background-color:#e78b90 " color-on-scroll="200">
     <!-- if you want to keep the navbar hidden you can add this class to the navbar "navbar-burger"-->
@@ -45,7 +46,7 @@
 {{--        </div>--}}
         <!-- /.navbar-collapse -->
     </div>
-</nav>
+</nav> --}}
 
 <div class="section section-header">
     <div class="parallax filter filter-color-red">
