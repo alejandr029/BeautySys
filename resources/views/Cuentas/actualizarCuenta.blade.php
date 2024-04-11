@@ -129,6 +129,10 @@
           border: 1px solid #ccc; /* Agrega un borde para que sea visible */
 
       }
+      .header img {
+    max-width: 100%;
+    max-height: 100%;
+}
 
   </style>
 
@@ -147,7 +151,7 @@
                         <div class="row">
                             <div class="col-lg-11">
                                 <!-- Formulario para actualizar la cuenta de usuario -->
-                                <form action="{{ route('Cuentas.update', ['id' => $user->id]) }}" method="POST"
+                                <form action="{{ route('Cuentas.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data"
                                     class="role-form" onsubmit="mostrarLoader()">
                                     @csrf
                                     @method('PUT')
@@ -261,7 +265,7 @@
                                     <div class="row mb-5">
                                       <div class="col-md-4">
                                         <div class="input-form">
-                                            <input type="text" id="seguroMedico" name="seguroMedico" class="user-fields" value="{{ $paciente != null ? $paciente->seguro_medico : '' }}" required="true">
+                                            <input type="text" id="seguroMedico" name="seguroMedico" class="user-fields" value="{{ $paciente != null ? $paciente->seguro_medico : '' }}" alt="Foto usuario" required="true">
                                             <label for="seguroMedico" class="textUser">Seguro medico</label>
                                         </div>
                                       </div>
@@ -274,7 +278,7 @@
                                             <select id="departamento" name="departamento" class="staff-fields" required="true">
                                               <option value=""  selected>Seleccionar departamento</option>
                                                 @foreach ($departamento as $depart)
-                                                    <option value="{{ $depart->id_departamento }}" {{ $personal != null && $personal->id_departamento == $depart->id_departamento ? 'selected' : '' }} >{{ $depart->nombre}}</option>
+                                                    <option value="{{ $depart->id_departamento  }}" {{ $personal != null && $personal->id_departamento == $depart->id_departamento ? 'selected' : '' }} >{{ $depart->nombre}}</option>
                                                 @endforeach
                                             </select>
                                             <label for="departamento" class="textUser" style="visibility: hidden">Seleccionar departamento</label>
@@ -293,9 +297,25 @@
                                     </div>
                                     </div>
                                   </div>
+
+
+                                  <div class="row mb-5">
+                                    <div class="container2 col-md-4">
+                                        <label for="file" class="header" id="image_label" style="height: 100%">
+                                            <svg id="svg" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                                <g id="SVGRepo_iconCarrier"> 
+                                                    <path d="M7 10V9C7 6.23858 9.23858 4 12 4C14.7614 4 17 6.23858 17 9V10C19.2091 10 21 11.7909 21 14C21 15.4806 20.1956 16.8084 19 17.5M7 10C4.79086 10 3 11.7909 3 14C3 15.4806 3.8044 16.8084 5 17.5M7 10C7.43285 10 7.84965 10.0688 8.24006 10.1959M12 12V21M12 12L15 15M12 12L9 15" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                </g>
+                                            </svg> 
+                                            <strong id="subir">Selecciona una imagen desde tu computadora</strong>
+                                            <img id="image_preview" src="{{ $user->profile_photo_path != null ? asset('storage/' . $user->profile_photo_path) : '' }}" alt="Foto vacia">
+                                            <input type="file" name="profile_image" id="file" style="display:none;" accept="image/*">
+                                        </label>
+                                    </div>
+                                </div>
             
-
-
                                     <button type="submit" class="btn btn-primary">Actualizar Cuenta</button>
                                 </form>
                             </div>
@@ -428,5 +448,45 @@ document.addEventListener('DOMContentLoaded', function() {
         updateFieldsVisibility(this.value);
     });
 });
+
+
+
+document.addEventListener("DOMContentLoaded", function() {
+        // Obtener referencia a los elementos
+        var fileInput = document.getElementById('file');
+        var imagePreview = document.getElementById('image_preview');
+        var subirLabel = document.getElementById('subir');
+        var svg = document.getElementById('svg');
+
+        // Manejar cambios en el input de archivo
+        fileInput.addEventListener('change', function() {
+            var file = this.files[0];
+            if (file) {
+                // Mostrar la imagen seleccionada
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+                
+                // Ocultar el strong y el SVG
+                subirLabel.style.display = 'none';
+                svg.style.display = 'none';
+            } else {
+                // Si no se selecciona ningún archivo, restaurar la vista predeterminada
+                imagePreview.src = '';
+                imagePreview.style.display = 'none';
+                subirLabel.style.display = 'block';
+                svg.style.display = 'block';
+            }
+        });
+
+        // Verificar si ya hay una imagen presente
+        if (imagePreview.src !== '' && imagePreview.src !== 'data:') {
+            subirLabel.style.display = 'none';
+            svg.style.display = 'none';
+        }
+    });
 
 </script>

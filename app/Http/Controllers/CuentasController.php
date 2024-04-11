@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 // use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Storage;
+
 
 class CuentasController extends Controller
 {
@@ -46,7 +48,12 @@ class CuentasController extends Controller
 //            'rol_id' => 'required'
 //        ]);
 
+
+
         try {
+
+            if ($request->hasFile('profile_image')) {
+
             if ($request->rol_id == "1"){
                 $user = User::create([
                     'name' => $request->nameadmin,
@@ -65,6 +72,28 @@ class CuentasController extends Controller
 
             $user->assignRole($request->rol_id);
 
+                    // Obtener el id del paciente
+                    $idPaciente = $user->id;
+                
+                    // Crear la ruta de la carpeta del paciente
+                    $carpetaPaciente = "fotosPerfiles/paciente_{$idPaciente}";
+                        
+                    // Verificar si la carpeta del paciente existe
+                    if (!Storage::disk('public')->exists($carpetaPaciente)) {
+                    // Si no existe, crearla recursivamente
+                        Storage::disk('public')->makeDirectory($carpetaPaciente, 0755, true);
+                    }
+
+
+            // Obtener el archivo de imagen
+            $imagen = $request->file('profile_image');
+        
+            // Generar un nombre único para la imagen
+            $nombreImagen = uniqid() . '_' . $imagen->getClientOriginalName();
+    
+            // Guardar la imagen en la carpeta del paciente
+            $rutaImagen = $imagen->storeAs($carpetaPaciente, $nombreImagen, 'public');
+
             if($request->rol_id == "3"){
                 DB::table('usuario.paciente')->insert([
                     'primer_nombre' => $request->name,
@@ -78,6 +107,7 @@ class CuentasController extends Controller
                     'dirreccion' => $request->direccion,
                     'correo' => $request->email,
                     'id_cuenta' => $idUser,
+                    'foto' => $rutaImagen
                 ]);
             }
             if($request->rol_id == "2"){
@@ -94,8 +124,15 @@ class CuentasController extends Controller
                     'id_departamento' => $request->departamento,
                     'id_horario' => $request->horario,
                     'id_cuenta' => $idUser,
+                    'foto' => $rutaImagen
                 ]);
             }
+            DB::table('users')
+            ->where('id', $idPaciente)
+            ->update([
+                'profile_photo_path' => $rutaImagen,
+            ]);
+    }
 
 
             session(['activeTab' => 'Cuentas']);
@@ -148,13 +185,13 @@ class CuentasController extends Controller
 
 
         $paciente = DB::table('users as U')
-        ->select('UP.primer_nombre','UP.segundo_nombre','UP.primer_apellido','UP.segundo_apellido','UP.fecha_nacimiento','UP.genero','UP.telefono','UP.dirreccion','UP.seguro_medico')
+        ->select('UP.primer_nombre','UP.segundo_nombre','UP.primer_apellido','UP.segundo_apellido','UP.fecha_nacimiento','UP.genero','UP.telefono','UP.dirreccion','UP.seguro_medico','UP.foto')
         ->join('usuario.paciente as UP', 'UP.id_cuenta', '=', 'U.id')
         ->where('U.id',$id)
         ->first();
 
         $personal = DB::table('users as U')
-        ->select('PP.primer_nombre','PP.segundo_nombre','PP.primer_apellido','PP.segundo_apellido','PP.fecha_nacmiento','PP.genero','PP.telefono','PP.dirreccion','PP.id_departamento','PP.id_horario')
+        ->select('PP.primer_nombre','PP.segundo_nombre','PP.primer_apellido','PP.segundo_apellido','PP.fecha_nacmiento','PP.genero','PP.telefono','PP.dirreccion','PP.id_departamento','PP.id_horario','PP.foto')
         ->join('personal.personal as PP','PP.id_cuenta', '=','U.id')
         ->where('U.id',$id)
         ->first();
@@ -189,60 +226,94 @@ class CuentasController extends Controller
             'rol_id' => 'required|exists:roles,id'
         ]);
 
+        // Obtener el id del paciente
+        $idPaciente = $user->id;
+    
+        // Crear la ruta de la carpeta del paciente
+        $carpetaPaciente = "fotosPerfiles/paciente_{$idPaciente}";
+             
+        // Verificar si la carpeta del paciente existe
+        if (!Storage::disk('public')->exists($carpetaPaciente)) {
+        // Si no existe, crearla recursivamente
+            Storage::disk('public')->makeDirectory($carpetaPaciente, 0755, true);
+        }
+
         try {
-            $user->update([
-                'name' => $request->name,
-                'email' => $request->email,
-            ]);
+            if ($request->hasFile('profile_image')) {
+                $user->update([
+                    'name' => $request->name,
+                    'email' => $request->email,
+                ]);
 
-            $user->syncRoles([$request->rol_id]);
+                $user->syncRoles([$request->rol_id]);
 
-        $paciente = DB::table('users as U')
-        ->select('UP.primer_nombre','UP.segundo_nombre','UP.primer_apellido','UP.segundo_apellido','UP.fecha_nacimiento','UP.genero','UP.telefono','UP.dirreccion','UP.seguro_medico')
-        ->join('usuario.paciente as UP', 'UP.id_cuenta', '=', 'U.id')
-        ->where('U.id',$id)
-        ->first();
+            $paciente = DB::table('users as U')
+            ->select('UP.primer_nombre','UP.segundo_nombre','UP.primer_apellido','UP.segundo_apellido','UP.fecha_nacimiento','UP.genero','UP.telefono','UP.dirreccion','UP.seguro_medico')
+            ->join('usuario.paciente as UP', 'UP.id_cuenta', '=', 'U.id')
+            ->where('U.id',$id)
+            ->first();
 
-        $personal = DB::table('users as U')
-        ->select('PP.primer_nombre','PP.segundo_nombre','PP.primer_apellido','PP.segundo_apellido','PP.fecha_nacmiento','PP.genero','PP.telefono','PP.dirreccion','PP.id_departamento','PP.id_horario')
-        ->join('personal.personal as PP','PP.id_cuenta', '=','U.id')
-        ->where('U.id',$id)
-        ->first();
+            $personal = DB::table('users as U')
+            ->select('PP.primer_nombre','PP.segundo_nombre','PP.primer_apellido','PP.segundo_apellido','PP.fecha_nacmiento','PP.genero','PP.telefono','PP.dirreccion','PP.id_departamento','PP.id_horario')
+            ->join('personal.personal as PP','PP.id_cuenta', '=','U.id')
+            ->where('U.id',$id)
+            ->first();
 
-        if($paciente != null){
-            DB::table('usuario.paciente')
-            ->where('id_cuenta',$id)
-            ->update([
-                'primer_nombre' => $request->name,
-                'segundo_nombre' => $request->secondname,
-                'primer_apellido' => $request->lastname,
-                'segundo_apellido' => $request->secondlastname,
-                'fecha_nacimiento' => $request->fecha,
-                'genero' => $request->genero,
-                'telefono' => $request->numeroTelefono,
-                'seguro_medico' => $request->seguroMedico,
-                'dirreccion' => $request->direccion,
-                'correo' => $request->email,
-            ]);
-        }
-        if($personal != null){
-            DB::table('personal.personal')
-            ->where('id_cuenta',$id)
-            ->update([
-                'primer_nombre' => $request->name,
-                'segundo_nombre' => $request->secondname,
-                'primer_apellido' => $request->lastname,
-                'segundo_apellido' => $request->secondlastname,
-                'genero' => $request->genero,
-                'fecha_nacmiento' => $request->fecha,
-                'telefono' => $request->numeroTelefono,
-                'correo' => $request->email,
-                'dirreccion' => $request->direccion,
-                'id_departamento' => $request->departamento,
-                'id_horario' => $request->horario,
-            ]);
-        }
 
+
+        
+                // Obtener el archivo de imagen
+                $imagen = $request->file('profile_image');
+        
+                // Generar un nombre único para la imagen
+                $nombreImagen = uniqid() . '_' . $imagen->getClientOriginalName();
+        
+                // Guardar la imagen en la carpeta del paciente
+                $rutaImagen = $imagen->storeAs($carpetaPaciente, $nombreImagen, 'public');
+        
+                if($paciente != null){
+                    DB::table('usuario.paciente')
+                    ->where('id_cuenta',$id)
+                    ->update([
+                        'primer_nombre' => $request->name,
+                        'segundo_nombre' => $request->secondname,
+                        'primer_apellido' => $request->lastname,
+                        'segundo_apellido' => $request->secondlastname,
+                        'fecha_nacimiento' => $request->fecha,
+                        'genero' => $request->genero,
+                        'telefono' => $request->numeroTelefono,
+                        'seguro_medico' => $request->seguroMedico,
+                        'dirreccion' => $request->direccion,
+                        'correo' => $request->email,
+                        'foto' => $rutaImagen
+                    ]);
+                }
+                if($personal != null){
+                    DB::table('personal.personal')
+                    ->where('id_cuenta',$id)
+                    ->update([
+                        'primer_nombre' => $request->name,
+                        'segundo_nombre' => $request->secondname,
+                        'primer_apellido' => $request->lastname,
+                        'segundo_apellido' => $request->secondlastname,
+                        'genero' => $request->genero,
+                        'fecha_nacmiento' => $request->fecha,
+                        'telefono' => $request->numeroTelefono,
+                        'correo' => $request->email,
+                        'dirreccion' => $request->direccion,
+                        'id_departamento' => $request->departamento,
+                        'id_horario' => $request->horario,
+                        'foto' => $rutaImagen
+                    ]);
+                }
+        
+    
+                    DB::table('users')
+                    ->where('id', $id)
+                    ->update([
+                        'profile_photo_path' => $rutaImagen,
+                    ]);
+            }
 
             session(['activeTab' => 'Cuentas']);
             // Mostrar mensaje de éxito

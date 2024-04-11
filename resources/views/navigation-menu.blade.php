@@ -83,10 +83,14 @@
                                 <span class="inline-flex rounded-md">
                                     <button type="button" style="width: 160px; justify-content: space-evenly" class="d-flex align-items-baseline inline-flex items-center px-1 py-2 border border-transparent text-sm leading-7 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                                         <div>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-                                                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-                                              </svg>
+                                            @if(Auth::user()->profile_photo_path)
+                                                <img src="{{ asset('storage/' . Auth::user()->profile_photo_path) }}" alt="Foto de perfil" style="width: 18px; height: 18px;border-radius: 100px">
+                                            @else
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                                                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+                                                </svg>
+                                            @endif
                                         </div>
                                             <h6>{{ Auth::user()->name }}</h6>
                                             <div>

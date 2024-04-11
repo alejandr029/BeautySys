@@ -246,7 +246,19 @@
                     <span class="nav-link-text ms-1">Enfermedades Cronicas</span>
                 </a>
               </li>
-              
+
+              <li class="nav-item">
+                <a class="nav-link text-white <?php echo session('activeTab') === 'Perfil' ? 'active bg-gradient-primary' : ''; ?>" href="{{ route('userInfo', Auth::user()->id) }}" onclick="mostrarLoader()">
+                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <!-- Aquí puedes agregar un icono o cualquier otro elemento que desees -->
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                          </svg>
+                      </div>
+                    <span class="nav-link-text ms-1">Perfil</span>
+                </a>
+              </li>
+
             @endif
         </ul>
     </div>

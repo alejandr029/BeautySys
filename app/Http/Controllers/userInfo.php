@@ -57,46 +57,59 @@ class userInfo extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // dump($request->all());
-        // dump($id);
-
-
-        //     Validar y almacenar la imagen
-        // if ($request->hasFile('file')) {
-        //     Crear la carpeta si no existe
-        //     $carpetaUsuario = 'fotosPerfiles/' . $id;
-        //     Storage::disk('fotosPerfiles')->makeDirectory($carpetaUsuario);
-
-        //     Guardar la imagen
-        //     $imagen = $request->file('file');
-        //     $rutaImagen = $imagen->store($carpetaUsuario);
-
-        //     dump($rutaImagen);
-        // }
-
         $user = User::findOrFail($id);
-
-
-        $user->update([
-            'name' => $request->name,
-            'email' => $request->email,
-        ]);
-
-        DB::table('usuario.paciente')
-            ->where('id_cuenta',$id)
-            ->update([
-                'primer_nombre' => $request->name,
-                'segundo_nombre' => $request->secondname,
-                'primer_apellido' => $request->lastname,
-                'segundo_apellido' => $request->secondlastname,
-                'fecha_nacimiento' => $request->fecha,
-                'genero' => $request->genero,
-                'telefono' => $request->numeroTelefono,
-                'seguro_medico' => $request->seguroMedico,
-                'dirreccion' => $request->direccion,
-                'correo' => $request->email,
+    
+        // Obtener el id del paciente
+        $idPaciente = $user->id;
+    
+        // Crear la ruta de la carpeta del paciente
+        $carpetaPaciente = "fotosPerfiles/paciente_{$idPaciente}";
+    
+        // Verificar si la carpeta del paciente existe
+        if (!Storage::disk('public')->exists($carpetaPaciente)) {
+            // Si no existe, crearla recursivamente
+            Storage::disk('public')->makeDirectory($carpetaPaciente, 0755, true);
+        }
+    
+        if ($request->hasFile('profile_image')) {
+            // Obtener el archivo de imagen
+            $imagen = $request->file('profile_image');
+    
+            // Generar un nombre único para la imagen
+            $nombreImagen = uniqid() . '_' . $imagen->getClientOriginalName();
+    
+            // Guardar la imagen en la carpeta del paciente
+            $rutaImagen = $imagen->storeAs($carpetaPaciente, $nombreImagen, 'public');
+    
+            // Actualizar los datos del usuario y la foto en la base de datos
+            $user->update([
+                'name' => $request->name,
+                'email' => $request->email,
             ]);
+    
+            DB::table('usuario.paciente')
+                ->where('id_cuenta', $id)
+                ->update([
+                    'primer_nombre' => $request->name,
+                    'segundo_nombre' => $request->secondname,
+                    'primer_apellido' => $request->lastname,
+                    'segundo_apellido' => $request->secondlastname,
+                    'fecha_nacimiento' => $request->fecha,
+                    'genero' => $request->genero,
+                    'telefono' => $request->numeroTelefono,
+                    'seguro_medico' => $request->seguroMedico,
+                    'dirreccion' => $request->direccion,
+                    'correo' => $request->email,
+                    'foto' => $rutaImagen
+                ]);
 
+                DB::table('users')
+                ->where('id', $id)
+                ->update([
+                    'profile_photo_path' => $rutaImagen,
+                ]);
+        }
+    
         return redirect()->route('userInfo', ['id' => $id]);
     }
 
