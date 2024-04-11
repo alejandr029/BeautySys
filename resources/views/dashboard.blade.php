@@ -6,7 +6,12 @@ Carbon::setLocale('es');
 $user = Auth::user();
 
 @endphp
+<head>
+    <title>Beautysys</title>
 
+    {{--  PWA  --}}
+    @laravelPWA
+</head>
 <style>
   :root{
     --color-gray : rgba(229,229,229,255);

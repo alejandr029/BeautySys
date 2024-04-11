@@ -9,8 +9,8 @@
 
 <head>
     <meta charset="utf-8" />
-    <link rel="apple-touch-icon" sizes="76x76" href="assets/assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="assets/img/logos/logoproyecto8b.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/icons/icon.ico">
+    <link rel="icon" type="ico" sizes="96x96" href="images/icons/icon.ico">
 
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <title>Beautysys</title>
@@ -27,6 +27,8 @@
 
     <script src="{{ asset('assets/js/loader.js') }}"></script>
 
+    {{--  PWA  --}}
+    @laravelPWA
 </head>
 
 <body>
@@ -49,30 +51,11 @@
             </div>
             <div class="">
                 <ul class="nav navbar-nav navbar-right navbar-uppercase">
-                    {{-- <li>
-                        <a href="http://www.creative-tim.com/product/gaia-bootstrap-template-pro" target="_blank">Get PRO Version</a>
-                    </li> --}}
-                    {{-- <li class="dropdown">
-                        <a href="#gaia" class="dropdown-toggle" data-toggle="dropdown">
-                            <i class="fa fa-share-alt"></i> Share
-                        </a>
-                        <ul class="dropdown-menu dropdown-danger">
-                            <li>
-                                <a href="#"><i class="fa fa-facebook-square"></i> Facebook</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-twitter"></i> Twitter</a>
-                            </li>
-                            <li>
-                                <a href="#"><i class="fa fa-instagram"></i> Instagram</a>
-                            </li>
-                        </ul>
-                    </li> --}}
                     <li>
-                            <a href="/IniciarSesion" target="_blank" class="btn btn-danger btn-fill" style="border: 2px solid #ffafb4;">Iniciar sesion</a>
+                            <a href="/IniciarSesion" class="btn btn-danger btn-fill" style="border: 2px solid #ffafb4;">Iniciar sesion</a>
                     </li>
                     <li>
-                        <a href="/Registro" target="_blank" class="btn btn-danger btn-fill" style="border: 2px solid #ffafb4;" >Registrar</a>
+                        <a href="/Registro" class="btn btn-danger btn-fill" style="border: 2px solid #ffafb4;" >Registrar</a>
                     </li>
                 </ul>
             </div>
@@ -91,68 +74,60 @@
                         <h1 class="title-modern">BeautySys</h1>
                         <h3>Un proyecto creado por <b>TASKLAB</b> </h2>
                         <div class="separator line-separator">♦</div>
-                </div>
-
-                {{-- <div class="button-get-started">
-                    <a href="http://www.creative-tim.com/product/gaia-bootstrap-template" target="_blank" class="btn btn-white btn-fill btn-lg ">
-                        Download Demo
-                    </a>
-                </div> --}}
-            </div>
-
-        </div>
-    </div>
-</div>
-
-
-<div class="section">
-    <div class="container">
-        <div class="row">
-            <div class="title-area">
-                <h2>Acerca del servicio</h2>
-                <div class="separator separator-danger">✻</div>
-                <p class="description">La empresa TASKLAB se tomo como principal enfoque y objetivo el de
-                    desarrollar un sistema integral para el monitoreo y gestión de registros de cirugías estéticas. Este sistema se
-                    generara con el fin de obtener una mejor eficiencia de registros como también tener una mayor seguridad de datos
-                    y obtener así una mejor calidad de atención hacia el cliente</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="info-icon">
-                    <div class="icon text-danger">
-                        <i class="pe-7s-display1"></i>
                     </div>
-                    <h3>Transformando la Gestión de Cirugías Estéticas </h3>
-                    <p class="description">En TASKLAB, nos enorgullece presentar nuestro compromiso con la excelencia en el ámbito de la cirugía estética. Nuestro objetivo primordial es desarrollar un sistema integral de monitoreo y gestión de registros de cirugías estéticas. Este sistema está diseñado para optimizar la eficiencia en la documentación, fortalecer la seguridad de los datos y elevar la calidad de atención al cliente.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="info-icon">
-                    <div class="icon text-danger">
-                        <i class="pe-7s-look"></i>
-                    </div>
-                    <h3>Vision <br><br> </h3>
-                    <p class="description">Nuestra visión abarca mucho más que solo registros precisos. Buscamos facilitar la gestión y seguimiento de los procedimientos quirúrgicos estéticos para clínicas y sucursales. Al emplear nuestro sistema, las instituciones podrán mantener registros exhaustivos y detallados de cada paciente, asegurando un historial completo y seguro.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="info-icon">
-                    <div class="icon text-danger">
-                        <i class="pe-7s-medal"></i>
-                    </div>
-                    <h3>Alcance <br><br></h3>
-                    <p class="description">Un futuro de atención al paciente más eficiente y personalizado está a tu alcance con TASKLAB. Únete a nosotros en este viaje hacia una gestión de cirugías estéticas más innovadora y confiable.</p>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
+
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="title-area">
+                    <h2>Acerca del servicio</h2>
+                    <div class="separator separator-danger">✻</div>
+                    <p class="description">La empresa TASKLAB se tomo como principal enfoque y objetivo el de
+                        desarrollar un sistema integral para el monitoreo y gestión de registros de cirugías estéticas. Este sistema se
+                        generara con el fin de obtener una mejor eficiencia de registros como también tener una mayor seguridad de datos
+                        y obtener así una mejor calidad de atención hacia el cliente</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="info-icon">
+                        <div class="icon text-danger">
+                            <i class="pe-7s-display1"></i>
+                        </div>
+                        <h3>Transformando la Gestión de Cirugías Estéticas </h3>
+                        <p class="description">En TASKLAB, nos enorgullece presentar nuestro compromiso con la excelencia en el ámbito de la cirugía estética. Nuestro objetivo primordial es desarrollar un sistema integral de monitoreo y gestión de registros de cirugías estéticas. Este sistema está diseñado para optimizar la eficiencia en la documentación, fortalecer la seguridad de los datos y elevar la calidad de atención al cliente.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-icon">
+                        <div class="icon text-danger">
+                            <i class="pe-7s-look"></i>
+                        </div>
+                        <h3>Vision <br><br> </h3>
+                        <p class="description">Nuestra visión abarca mucho más que solo registros precisos. Buscamos facilitar la gestión y seguimiento de los procedimientos quirúrgicos estéticos para clínicas y sucursales. Al emplear nuestro sistema, las instituciones podrán mantener registros exhaustivos y detallados de cada paciente, asegurando un historial completo y seguro.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-icon">
+                        <div class="icon text-danger">
+                            <i class="pe-7s-medal"></i>
+                        </div>
+                        <h3>Alcance <br><br></h3>
+                        <p class="description">Un futuro de atención al paciente más eficiente y personalizado está a tu alcance con TASKLAB. Únete a nosotros en este viaje hacia una gestión de cirugías estéticas más innovadora y confiable.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="section section-our-team-freebie">
         <div class="parallax filter filter-color-black">
-            <div class="image" style="background-image:url('assets/img/header-2.jpeg')">
+{{--            <div class="image" style="background-image:url('assets/img/header-2.jpeg')">--}}
             </div>
             <div class="container">
                 <div class="content">

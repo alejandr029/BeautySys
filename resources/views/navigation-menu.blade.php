@@ -72,16 +72,16 @@
                 @endif -->
 
                 <!-- Settings Dropdown -->
-                <div class="navbar navbar-main navbar-expand-md px-0 mx-4 shadow-none border-radius-xl" style="position: absolute; top: 3%;right: 0; z-index: 3;">
-                    <x-dropdown width="48">
+                <div class="navbar navbar-main navbar-expand-md px-0 shadow-none">
+                    <x-dropdown width="auto">
                         <x-slot name="trigger">
-                            <!-- @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                                <button class="flex text-sm  focus:outline-none focus:border-gray-300 transition">
-                                    <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                                </button>
-                            @else -->
+{{--                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())--}}
+{{--                                <button class="flex text-sm  focus:outline-none focus:border-gray-300 transition">--}}
+{{--                                    <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />--}}
+{{--                                </button>--}}
+{{--                            @else --}}
                                 <span class="inline-flex rounded-md">
-                                    <button type="button" style="width: 200px; justify-content: space-evenly" class="d-flex align-items-baseline inline-flex items-center px-1 py-2 border border-transparent text-sm leading-7 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
+                                    <button type="button" style="width: 160px; justify-content: space-evenly" class="d-flex align-items-baseline inline-flex items-center px-1 py-2 border border-transparent text-sm leading-7 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
                                         <div>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
                                                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
@@ -96,35 +96,42 @@
                                             </div>
                                     </button>
                                 </span>
-                            <!-- @endif -->
+{{--                             @endif --}}
                         </x-slot>
 
                         <x-slot name="content">
-                            <!-- Account Management -->
-                            <div class="block px-4 py-2 text-xs text-gray-400">
-                                {{ __('Cuenta') }}
-                            </div>
+                            <ul class="list-group">
+                                <!-- Account Management -->
+                                <div class="block px-4 py-2 text-xs">
+                                    {{ __('Cuenta') }}
+                                </div>
 
-                            <x-dropdown-link href="{{ route('profile.show') }}" onclick="mostrarLoader();">
-                                {{ __('Perfil') }}
-                            </x-dropdown-link>
+                                <li class="list-group-item border-0" style="padding: 4px 16px">
+                                    <x-dropdown-link href="{{ route('profile.show') }}" onclick="mostrarLoader();">
+                                        {{ __('Perfil') }}
+                                    </x-dropdown-link>
+                                </li>
 
-                            {{-- @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                                <x-dropdown-link href="{{ route('api-tokens.index') }}" onclick="mostrarLoader();">
-                                    {{ __('API Tokens') }}
-                                </x-dropdown-link>
-                            @endif --}}
+                                @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
+                                    <li class="list-group-item border-0" style="padding: 4px 16px">
+                                        <x-dropdown-link href="{{ route('api-tokens.index') }}" onclick="mostrarLoader();">
+                                            {{ __('API Tokens') }}
+                                        </x-dropdown-link>
+                                    </li>
+                                @endif
 
-                            <div class="border-t border-gray-200"></div>
-
-                            <!-- Authentication -->
-                            <form method="POST" action="{{ route('logout') }}" x-data>
-                                @csrf
-                                <x-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();" onclick="mostrarLoader();">
-                                    {{ __('Cerrar Sesión') }}
-                                </x-dropdown-link>
-                            </form>
+                                <!-- Authentication -->
+                                <li class="list-group-item border-0" style="padding: 4px 16px">
+                                    <form method="POST" action="{{ route('logout') }}" x-data>
+                                        @csrf
+                                        <x-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();" onclick="mostrarLoader();">
+                                            {{ __('Cerrar Sesión') }}
+                                        </x-dropdown-link>
+                                    </form>
+                                </li>
+                            </ul>
                         </x-slot>
+
                     </x-dropdown>
                 </div>
 
