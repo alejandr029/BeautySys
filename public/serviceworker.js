@@ -63,8 +63,10 @@ self.addEventListener('fetch', event => {
         caches.match(event.request)
             .then(response => {
                 // If request is found in cache, return it
-                if (response) {
-                    return response;
+                if(!navigator.onLine){
+                    if (response) {
+                        return response;
+                    }
                 }
                 
                 // If the request is for the dashboard page, handle it separately
@@ -87,21 +89,6 @@ self.addEventListener('fetch', event => {
                                 });
                             return response;
                         })
-                                    .catch(() => {
-                                    // If fetch fails (e.g., when offline), return offline view
-                            console.log("ERROR AL OBTENER RECURSO DE LA RED");
-                            return caches.match('/offline').then(function(response) {
-                                if (response) {
-                                    return response;
-                                } else {
-                                    // If offline view is not found in cache, return a default response
-                                    console.log("MOSTRANDO RESPUESTA POR DEFECTO");
-                                    return new Response("Estamos teniendo dificultades, por favor inténtalo de nuevo más tarde!", {
-                                        headers: { 'Content-Type': 'text/plain' }
-                                    });
-                                }
-                            });
-                        });
                 }
                 // If the request is not in cache and not for a dynamic route, fetch from network
                 return fetch(event.request);
