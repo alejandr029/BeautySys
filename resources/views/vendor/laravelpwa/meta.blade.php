@@ -31,6 +31,7 @@
 <meta name="msapplication-TileImage" content="{{ data_get(end($config['icons']), 'src') }}">
 
 <script type="text/javascript">
+    console.log("AQUI DEBERIA APARECE EL SERVICE WORKER CON EL MANIFIESTO");
     // Initialize the service worker
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/serviceworker.js', {

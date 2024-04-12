@@ -32,6 +32,7 @@
 
     <script src="{{ asset('assets/js/loader.js') }}"></script>
 
+    @laravelPWA
 </head>
 
 <body class="bg-gray-200">

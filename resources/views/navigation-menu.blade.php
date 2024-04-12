@@ -128,7 +128,7 @@
                                 <li class="list-group-item border-0" style="padding: 4px 16px">
                                     <form method="POST" action="{{ route('logout') }}" x-data>
                                         @csrf
-                                        <x-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();" onclick="mostrarLoader();">
+                                        <x-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit(); logout()" onclick="mostrarLoader();">
                                             {{ __('Cerrar Sesión') }}
                                         </x-dropdown-link>
                                     </form>
@@ -232,3 +232,20 @@
         </div>
     </div>
 </nav> -->
+
+
+<script>
+    function logout() {
+        // Limpiar la caché del navegador
+        if (caches) {
+            caches.keys().then(function(names) {
+                for (let name of names)
+                    caches.delete(name);
+            });
+        }
+        localStorage.clear();
+        sessionStorage.clear();
+        // Enviar el formulario de cierre de sesión
+        document.getElementById('logout-form').submit();
+    }
+</script>

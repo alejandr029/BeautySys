@@ -27,7 +27,7 @@ use App\Http\Controllers\userInfo;
 Route::view('/','layout.landing');
 
 Route::get('/offline', function () {
-    return view('vendor.laravelpwa.offline');
+    return view('layout.landing');
 });
 
 Route::get('/IniciarSesion', [AuthenticatedSessionController::class, 'create'])->middleware('guest')->name('login');

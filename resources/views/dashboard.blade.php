@@ -9,8 +9,6 @@ $user = Auth::user();
 <head>
     <title>Beautysys</title>
 
-    {{--  PWA  --}}
-    @laravelPWA
 </head>
 <style>
   :root{

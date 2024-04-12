@@ -7,8 +7,7 @@ Carbon::setLocale('es');
 <head>
     <title>Beautysys</title>
 
-    {{--  PWA  --}}
-    @laravelPWA
+ 
 </head>
 
 @extends('layout.template')
